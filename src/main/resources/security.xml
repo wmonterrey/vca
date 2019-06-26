@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+	
+	<http auto-config="true" request-matcher="regex">
+	    <intercept-url pattern="/login" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+	    <intercept-url pattern="/resetPassword" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+	    <intercept-url pattern="/processToken.*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/loginfailed" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/logout" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/resources/.*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/admin/.*" access="ROLE_ADMIN"/>
+		<intercept-url pattern="/census/.*" access="ROLE_CENSUS"/>
+		<intercept-url pattern="/superv/.*" access="ROLE_SUPER"/>
+		<intercept-url pattern="/spray/.*" access="ROLE_SPRAY"/>
+		
+        <intercept-url pattern="/users/chgpass" access="ROLE_PASSWORD"/>
+        <intercept-url pattern="/users/resetpass" access="ROLE_PASSWORD"/>
+        <intercept-url pattern="/users/chgPass" access="ROLE_PASSWORD"/>
+        <intercept-url pattern="/.*" access="ROLE_ADMIN,ROLE_SUPER,ROLE_SPRAY,ROLE_REVIEW,ROLE_CENSUS"/>
+		<form-login login-page="/login" default-target-url="/"
+			authentication-failure-url="/loginfailed" />
+		<logout logout-url="/logout" 
+		    success-handler-ref="customLogoutSuccessHandler"
+		    delete-cookies="JSESSIONID"/>
+		<access-denied-handler error-page="/403"/>
+		<session-management invalid-session-url="/login">
+    	</session-management>
+	</http>
+	
+	<beans:bean id="customLogoutSuccessHandler" 
+	    class="org.clintonhealthaccess.vca.web.handler.CustomLogoutSuccessHandler">
+	    <beans:property name="userDetailsDao" ref="userDetailsDao" />
+	</beans:bean>
+	
+	<beans:bean id="encoder"
+		class="org.springframework.security.crypto.password.StandardPasswordEncoder" />
+	
+	<beans:bean id="userAuthenticationEventListener"
+		class="org.clintonhealthaccess.vca.web.listener.AuthenticationListener" />
+	
+	<beans:bean id="userSessionDestroyEventListener"
+		class="org.clintonhealthaccess.vca.web.listener.SessionDestroyListener">
+	    <beans:property name="userDetailsDao" ref="userDetailsDao" />
+	</beans:bean>
+	
+	<beans:bean id="customUserDetailsService" class="org.clintonhealthaccess.vca.users.service.CustomUserDetailsService" >
+	    <beans:property name="sessionFactory" ref="sessionFactory"/>
+	</beans:bean>
+	
+	<beans:bean id="userDetailsDao" class="org.clintonhealthaccess.vca.users.dao.UserDetailsDaoImpl" >
+		<beans:property name="sessionFactory" ref="sessionFactory" />
+	</beans:bean>
+	
+	<beans:bean id="authenticationProvider"
+		class="org.clintonhealthaccess.vca.web.handler.LoginAuthenticationProvider">
+		<beans:property name="userDetailsService" ref="customUserDetailsService" />
+		<beans:property name="userDetailsDao" ref="userDetailsDao" />
+		<beans:property name="passwordEncoder" ref="encoder" />
+	</beans:bean>
+	
+	<authentication-manager>
+		<authentication-provider ref="authenticationProvider" />
+	</authentication-manager>
+
+</beans:beans>
