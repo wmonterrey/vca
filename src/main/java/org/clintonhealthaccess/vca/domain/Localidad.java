@@ -36,6 +36,7 @@ public class Localidad extends BaseMetaData implements Auditable{
 	private Float longitude;
 	private Integer zoom;
 	private Integer population;
+	private String pattern;
 	private String obs;
 	
 	public Localidad() {
@@ -140,6 +141,17 @@ public class Localidad extends BaseMetaData implements Auditable{
 
 	public void setPopulation(Integer population) {
 		this.population = population;
+	}
+
+	@Column(name = "pattern", nullable = false, length = 500)
+	public String getPattern() {
+		return pattern;
+	}
+
+
+
+	public void setPattern(String pattern) {
+		this.pattern = pattern;
 	}
 
 

@@ -76,7 +76,7 @@ public class UsuariosMovilController {
     @RequestMapping(value = "localidades/{username}", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody List<Localidad> descargarLocalidadesUsuario(@PathVariable String username) {
         logger.info("Descargando toda la informacion de los datos de las localidades para el usuario "+username);
-        List<Localidad> localidades = localidadService.getActiveLocalities();
+        List<Localidad> localidades = usuarioService.getLocalidadesUsuario(username);
         if (localidades == null){
         	logger.debug(new Date() + " - Nulo");
         }

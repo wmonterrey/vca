@@ -33,6 +33,7 @@ public class Household extends BaseMetaData implements Auditable{
 	private String ident;
 	private String code;
 	private Localidad local;
+	private String censusTaker;
 	private Date censusDate;
 	private String inhabited;
 	private String ownerName;
@@ -85,6 +86,19 @@ public class Household extends BaseMetaData implements Auditable{
 	public void setLocal(Localidad local) {
 		this.local = local;
 	}
+
+	
+	@Column(name = "censusTaker", nullable = false, length = 50)
+	public String getCensusTaker() {
+		return censusTaker;
+	}
+
+
+
+	public void setCensusTaker(String censusTaker) {
+		this.censusTaker = censusTaker;
+	}
+
 
 
 	@Column(name = "censusDate", nullable = false)

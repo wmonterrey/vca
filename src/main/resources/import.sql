@@ -139,7 +139,7 @@ INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('session.expiring.time', NULL, NULL, 'your session will close in…', '0', 0, '0', 'Su sesión se cerrará en');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('session.keep', NULL, NULL, 'keep session', '0', 0, '0', 'Mantener sesión');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('spanish', NULL, NULL, 'spanish', '0', 0, '0', 'Español');
-INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('title', NULL, NULL, 'IRS', '0', 0, '0', 'RRI');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('title', NULL, NULL, 'VCA', '0', 0, '0', 'ACV');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('translation', NULL, NULL, 'translation', '0', 0, '0', 'Traducción');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('translations', NULL, NULL, 'translation of messages', '0', 0, '0', 'Traducción de mensajes');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('unlock', NULL, NULL, 'unlock', '0', 0, '0', 'Desbloquear');
@@ -186,7 +186,6 @@ INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden
 
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('orgunit', NULL, NULL, 'Org Units', '0', 0, '0', 'Unidades Organizativas');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('sysopts', NULL, NULL, 'System options', '0', 0, '0', 'Opciones sistema');
-INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('resources', NULL, NULL, 'Human resources', '0', 0, '0', 'Recursos humanos');
 
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('parameters', NULL, NULL, 'Parameters', '0', 0, '0', 'Parámetros');
 
@@ -199,10 +198,11 @@ INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden
 
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('class org.clintonhealthaccess.vca.domain.relationships.UsuarioLocalidad', NULL, NULL, 'Locality', '0', 0, '0', 'Localidad');
 
-INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('censustakers', NULL, NULL, 'Census takers', '0', 0, '0', 'Censadores');
-INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('sprayers', NULL, NULL, 'Sprayers', '0', 0, '0', 'Rociadores');
-INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('supervisors', NULL, NULL, 'Supervisors', '0', 0, '0', 'Supervisores');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('censustaker', NULL, NULL, 'Census taker', '0', 0, '0', 'Censador');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('sprayer', NULL, NULL, 'Sprayer', '0', 0, '0', 'Rociador');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('supervisor', NULL, NULL, 'Supervisor', '0', 0, '0', 'Supervisor');
 
 
 
-
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('map', NULL, NULL, 'Map', '0', 0, '0', 'Mapa');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('list', NULL, NULL, 'List', '0', 0, '0', 'Lista');

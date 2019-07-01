@@ -63,8 +63,14 @@
               </div>
             </div>
             <div class="card-body">
-              <spring:url value="/admin/localities/newEntity/"	var="newEntity"/>	
-              <button id="lista_localities_new" onclick="location.href='${fn:escapeXml(newEntity)}'" type="button" class="btn btn-outline-primary"><i class="fa fa-plus"></i>&nbsp; <spring:message code="add" /></button><br><br>	
+              <spring:url value="/admin/localities/newEntity/"	var="newEntity"/>
+              <spring:url value="/admin/localities/map/"	var="viewMap"/>
+              <button id="lista_localities_new" onclick="location.href='${fn:escapeXml(newEntity)}'" type="button" class="btn btn-outline-primary"><i class="fa fa-plus"></i>&nbsp; <spring:message code="add" /></button>
+              <div class="row float-right mr-4" >
+              	<button id="localities_map" onclick="location.href='${fn:escapeXml(viewMap)}'" type="button" class="btn btn-outline-primary"><i class="icon-globe"></i>&nbsp; <spring:message code="map" /></button>
+              </div>
+              
+              <br><br><br><br>	
               <table id="lista_localities" class="table table-striped table-bordered datatable" width="100%">
                 <thead>
                 	<tr>

@@ -62,6 +62,31 @@ public class AdminLocalidadesController {
     	return "admin/localidades/list";
 	}
 	
+	@RequestMapping(value = "/map/", method = RequestMethod.GET)
+    public String getEntitiesForMap(Model model) throws ParseException { 	
+    	logger.debug("Mostrando Localidades en JSP para mapear");
+    	try {
+    		Integer zoom = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
+        	Float latitud = Float.parseFloat(parametroService.getParametroByCode("lat").getValue());
+        	Float longitud = Float.parseFloat(parametroService.getParametroByCode("long").getValue());
+    		List<Localidad> localidades = localidadService.getLocalities();
+    		for(Localidad loc: localidades) {
+    			if (loc.getLatitude()== null || loc.getLatitude()==null) {
+    				localidades.remove(loc);
+    			}
+    		}
+        	model.addAttribute("localidades", localidades);
+        	model.addAttribute("latitude",latitud);
+        	model.addAttribute("longitude",longitud);
+        	model.addAttribute("zoom",zoom);
+        	return "admin/localidades/mapa";
+    	}
+    	catch (Exception e) {
+    		model.addAttribute("errormsg",e.getLocalizedMessage());
+    		return "505";
+    	}
+	}
+	
 	/**
      * Custom handler for adding.
      * @param model Modelo enlazado a la vista

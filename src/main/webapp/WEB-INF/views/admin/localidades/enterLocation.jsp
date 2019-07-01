@@ -7,8 +7,6 @@
 <head>
 <jsp:include page="../../fragments/headTag.jsp" />
 <!-- Styles required by this views -->
-<spring:url value="/resources/vendors/css/dataTables.bootstrap4.min.css" var="dataTablesCSS" />
-<link href="${dataTablesCSS}" rel="stylesheet" type="text/css"/>
 
 <spring:url value="/resources/vendors/css/leaflet.css" var="leafletCSS" />
 <link href="${leafletCSS}" rel="stylesheet" type="text/css"/>
