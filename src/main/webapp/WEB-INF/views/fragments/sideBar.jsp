@@ -52,13 +52,16 @@
 					  <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-user-following"></i></i><spring:message code="resources" /></a>
 					  <ul class="nav-dropdown-items">
 					  	<li class="nav-item">
-		                    <a class="nav-link" href="<spring:url value="/admin/censustakers/" htmlEscape="true "/>"><i class="icon-notebook"></i><spring:message code="censustakers" /></a>
+		                    <a class="nav-link" href="<spring:url value="/admin/censustakers/" htmlEscape="true "/>"><i class="icon-notebook"></i><spring:message code="censustaker" /></a>
 		                </li>
 		                <li class="nav-item">
-		                    <a class="nav-link" href="<spring:url value="/admin/supervisors/" htmlEscape="true "/>"><i class="icon-check"></i><spring:message code="supervisors" /></a>
+		                    <a class="nav-link" href="<spring:url value="/admin/supervisors/" htmlEscape="true "/>"><i class="icon-check"></i><spring:message code="supervisor" /></a>
 		                </li>
 		                <li class="nav-item">
-		                    <a class="nav-link" href="<spring:url value="/admin/sprayers/" htmlEscape="true "/>"><i class="fa fa-shower"></i><spring:message code="sprayers" /></a>
+		                    <a class="nav-link" href="<spring:url value="/admin/sprayers/" htmlEscape="true "/>"><i class="fa fa-fire-extinguisher"></i><spring:message code="sprayer" /></a>
+		                </li>
+		                <li class="nav-item">
+		                    <a class="nav-link" href="<spring:url value="/admin/brigades/" htmlEscape="true "/>"><i class="fa fa-truck"></i><spring:message code="brigades" /></a>
 		                </li>
 					  </ul>
 					</li>

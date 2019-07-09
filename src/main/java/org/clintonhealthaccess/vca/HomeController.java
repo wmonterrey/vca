@@ -5,6 +5,7 @@ import java.util.UUID;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.clintonhealthaccess.vca.service.DashboardCensoService;
 import org.clintonhealthaccess.vca.service.EmailServiceImpl;
 import org.clintonhealthaccess.vca.service.MessageResourceService;
 import org.clintonhealthaccess.vca.service.UsuarioService;
@@ -58,13 +59,14 @@ public class HomeController {
 	private EmailServiceImpl emailServiceImpl;
 	@Resource(name="messageResourceService")
 	private MessageResourceService messageResourceService;
+	@Resource(name="dashboardCensoService")
+	private DashboardCensoService dashboardCensoService;
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(Model model) {
     	try {
 	    	logger.info("vca Iniciado...");
-	    	
     	}
     	catch(Exception e) {
     		logger.error(e.getLocalizedMessage());

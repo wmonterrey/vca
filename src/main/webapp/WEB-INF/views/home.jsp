@@ -4,6 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 <head>
 <jsp:include page="fragments/headTag.jsp" />
@@ -56,8 +57,38 @@
 	  <!-- Container -->
       <div class="container-fluid">
         <div class="animated fadeIn">
-        
-          
+        	<div class="row">
+	            <div class="col-6 col-lg-3">
+		            <div class="card">
+			            <div class="card-body p-3 clearfix">
+				            <i class="fa fa-home bg-primary p-3 font-2xl mr-3 float-left"></i>
+				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="vivtot" /></div>
+				            <div class="h5 text-right"><c:out value="${totalEncuestas}" /></div>
+				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="vivact" /></div>
+				            <div class="h5 text-right"><c:out value="${totalEncuestasActivas}" /> (<c:out value="${pEncuestasActivas}" />%)</div>
+			            </div>
+			            <div class="card-footer px-3 py-2">
+			            	<a class="font-weight-bold font-xs btn-block text-muted" href="<spring:url value="/census/" htmlEscape="true "/>"><spring:message code="viewcensus" /> <i class="fa fa-angle-right float-right font-lg"></i></a>
+			            </div>
+		            </div>
+	            </div>
+            </div>
+            
+            <div class="row">
+            	<div class="col-12 col-lg-12">
+            	<div class="card">
+            		<div class="card-header">
+            			<b><spring:message code="vivday" /></b>
+
+            		</div>
+					<div class="card-body">
+						<div class="chart-wrapper daychart" style="height:300px;margin-top:20px;">
+                  			<canvas id="dates-chart" height="300"></canvas>
+              			</div>
+            		</div>
+          		</div>
+          		</div>
+            </div>
           
           
           
@@ -90,8 +121,19 @@
 	</c:otherwise>
   </c:choose>
   
+  <!-- Custom scripts required by this view -->
+  <spring:url value="/resources/js/views/home.js" var="ProcessDashboardCenso" />
+  <script src="${ProcessDashboardCenso}"></script>
+  
+  <spring:url value="/view/censo/pordia/" var="vivPorDiaUrl"/>
+  
 
 <script>
+
+jQuery(document).ready(function() {
+	var parametros = {vivPorDiaUrl: "${vivPorDiaUrl}"};
+	ProcessDashboardCenso.init(parametros);
+});
 
 </script>
 

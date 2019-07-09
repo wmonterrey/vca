@@ -11,6 +11,57 @@
 <spring:url value="/resources/vendors/css/leaflet.css" var="leafletCSS" />
 <link href="${leafletCSS}" rel="stylesheet" type="text/css"/>
 
+<style>
+
+/*Legend specific*/
+.legend {
+  padding: 6px 8px;
+  font: 14px Arial, Helvetica, sans-serif;
+  background: white;
+  background: rgba(255, 255, 255, 0.8);
+  /*box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);*/
+  /*border-radius: 5px;*/
+  line-height: 24px;
+  color: #555;
+}
+.legend h4 {
+  text-align: center;
+  font-size: 16px;
+  margin: 2px 12px 8px;
+  color: #777;
+}
+
+.legend span {
+  position: relative;
+  bottom: 3px;
+}
+
+.legend i {
+  width: 18px;
+  height: 18px;
+  float: left;
+  margin: 0 8px 0 0;
+  opacity: 0.7;
+}
+
+.legend i.icon {
+  background-size: 18px;
+  background-color: rgba(255, 255, 255, 1);
+}
+.info {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+.info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
+</style>
+
 </head>
 <!-- BODY options, add following classes to body to change options
 
@@ -47,6 +98,9 @@
   	<jsp:include page="../../fragments/sideBar.jsp" />
     <!-- Main content -->
     <main class="main">
+    	<spring:url value="/resources/img/icons-maps/blue.png" var="iconBlue" />
+  		<spring:url value="/resources/img/icons-maps/green.png" var="iconGreen" />
+  		<spring:url value="/resources/img/icons-maps/red.png" var="iconRed" />
 
       <!-- Breadcrumb -->
       <ol class="breadcrumb">
@@ -103,7 +157,7 @@
   </c:choose>
   
   <spring:url value="/resources/vendors/js/leaflet.js" var="leafletJS" />
-  <spring:url value="/resources/img//icons-maps/blue.png" var="iconBlue" />
+
   <script src="${leafletJS}" type="text/javascript"></script>
   
   <!-- Custom scripts required by this view -->
@@ -133,13 +187,19 @@
 		});
 		
 		var blueIcon = new PointIcon({iconUrl: '${iconBlue}'});
+		var redIcon = new PointIcon({iconUrl: '${iconRed}'});
 		
 		<c:forEach var="localidad" items="${localidades}">
 			var miLat = "${localidad.latitude}";
 			var miLong = "${localidad.longitude}";
 			
 			if(!(miLat == "" || miLong == "")){
-				theMarker = L.marker([${localidad.latitude}, ${localidad.longitude}],{title: "${viewList}"+"/"+"${localidad.ident}"+"/"}).addTo(mymap).setIcon(blueIcon).on('click', onClick);
+				if(${localidad.pasive}=='1'.charAt(0)){
+					theMarker = L.marker([${localidad.latitude}, ${localidad.longitude}],{url: "${viewList}"+"/"+"${localidad.ident}"+"/"}).addTo(mymap).setIcon(redIcon).on('click', onClick);
+				}
+				else{
+					theMarker = L.marker([${localidad.latitude}, ${localidad.longitude}],{url: "${viewList}"+"/"+"${localidad.ident}"+"/"}).addTo(mymap).setIcon(blueIcon).on('click', onClick);
+				}
 				theMarker.addTo(locMarkers);
 				theMarker.bindTooltip("${localidad.name}");
 			}
@@ -148,8 +208,22 @@
 		var popup = L.popup();
 		
 		function onClick(e) {
-			window.location.href = this.options.title;
+			window.location.href = this.options.url;
 		}
+		
+		/*Legend specific*/
+		var legend = L.control({ position: "bottomleft" });
+
+		legend.onAdd = function(map) {
+		  var div = L.DomUtil.create("div", "legend");
+		  div.innerHTML += "<h4>Localidad</h4>";
+		  div.innerHTML += '<i class="icon" style="background-image: url(${iconBlue});background-repeat: no-repeat;"></i><span>Activa</span><br>';
+		  div.innerHTML += '<i class="icon" style="background-image: url(${iconRed});background-repeat: no-repeat;"></i><span>Inactiva</span><br>';
+		  return div;
+		};
+
+		legend.addTo(mymap);
+		
 
   </script>
 </body>

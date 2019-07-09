@@ -60,12 +60,12 @@ return {
 				table1.row.add([data[row].messageKey, data[row].spanish, data[row].english, btnEdit]);
 			}
 		}
+		$.unblockUI();
 	})
 	.fail(function() {
 	    alert( "error" );
 	    $.unblockUI();
 	});
-	$.unblockUI();
   }
   }
  };
