@@ -117,12 +117,12 @@ return {
 	      }
 	    },
 	    highlight: function ( element, errorClass, validClass ) {
-	      $( element ).addClass( 'form-control-danger' ).removeClass( 'form-control-success' );
-	      $( element ).parents( '.form-group' ).addClass( 'has-danger' ).removeClass( 'has-success' );
+	      $( element ).addClass( 'form-control-danger alert-danger' ).removeClass( 'form-control-success' );
+	      $( element ).parents( '.form-group' ).addClass( 'alert-danger' ).removeClass( 'has-success' );
 	    },
 	    unhighlight: function (element, errorClass, validClass) {
-	      $( element ).addClass( 'form-control-success' ).removeClass( 'form-control-danger' );
-	      $( element ).parents( '.form-group' ).addClass( 'has-success' ).removeClass( 'has-danger' );
+	      $( element ).addClass( 'form-control-success' ).removeClass( 'form-control-danger alert-danger' );
+	      $( element ).parents( '.form-group' ).addClass( 'has-success' ).removeClass( 'alert-danger' );
 	    },
         submitHandler: function (form) {
             processReport();
@@ -142,6 +142,7 @@ return {
 	  $.blockUI({ message: parametros.waitmessage });
 	  $.getJSON(parametros.searchUrl, $('#viviendas-form').serialize(), function(data) {
 		  var table1 = $('#resultados').DataTable({
+			  dom: 'lBfrtip',
 	          "oLanguage": {
 	              "sUrl": parametros.dataTablesLang
 	          },
@@ -149,7 +150,17 @@ return {
 	          "bInfo": true, 
 	          "bPaginate": true, 
 	          "bDestroy": true,
-	          "responsive": true
+	          "responsive": true,
+	          "buttons": [
+	              {
+	                  extend: 'excel'
+	              },
+	              {
+	                  extend: 'pdfHtml5',
+	                  orientation: 'portrait',
+	                  pageSize: 'LETTER'
+	              }
+	          ]
 	      });
 		  table1.clear().draw();
 		if (data == ''){

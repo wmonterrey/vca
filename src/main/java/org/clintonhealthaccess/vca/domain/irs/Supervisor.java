@@ -1,4 +1,4 @@
-package org.clintonhealthaccess.vca.domain;
+package org.clintonhealthaccess.vca.domain.irs;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -6,13 +6,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.clintonhealthaccess.vca.domain.BaseMetaData;
 import org.clintonhealthaccess.vca.domain.audit.Auditable;
 
 
 
 /**
  * 
- * Brigada
+ * Supervisor
  * 
  *  
  * @author      William Avilés
@@ -20,8 +21,8 @@ import org.clintonhealthaccess.vca.domain.audit.Auditable;
  * @since       1.0
  */
 @Entity
-@Table(name = "brigades", catalog = "vca", uniqueConstraints={@UniqueConstraint(columnNames = {"code","pasive"})})
-public class Brigada extends BaseMetaData implements Auditable{
+@Table(name = "supervisors", catalog = "vca", uniqueConstraints={@UniqueConstraint(columnNames = {"code","pasive"})})
+public class Supervisor extends BaseMetaData implements Auditable{
 	/**
 	 * 
 	 */
@@ -31,7 +32,7 @@ public class Brigada extends BaseMetaData implements Auditable{
 	private String name;
 	
 	
-	public Brigada() {
+	public Supervisor() {
 		super();
 	}
 
@@ -90,10 +91,10 @@ public class Brigada extends BaseMetaData implements Auditable{
 			return true;
 		if ((other == null))
 			return false;
-		if (!(other instanceof Brigada))
+		if (!(other instanceof Supervisor))
 			return false;
 		
-		Brigada castOther = (Brigada) other;
+		Supervisor castOther = (Supervisor) other;
 
 		return (this.getIdent().equals(castOther.getIdent()));
 	}

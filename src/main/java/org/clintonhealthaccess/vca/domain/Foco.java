@@ -1,6 +1,4 @@
-package org.clintonhealthaccess.vca.domain.irs;
-
-import java.util.Date;
+package org.clintonhealthaccess.vca.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,14 +6,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import org.clintonhealthaccess.vca.domain.BaseMetaData;
 import org.clintonhealthaccess.vca.domain.audit.Auditable;
 
 
 
 /**
  * 
- * IrsSeason es la clase que representa la temporada de rociado.
+ * Foco
  * 
  *  
  * @author      William Avilés
@@ -23,8 +20,8 @@ import org.clintonhealthaccess.vca.domain.audit.Auditable;
  * @since       1.0
  */
 @Entity
-@Table(name = "irsSeasons", catalog = "vca", uniqueConstraints={@UniqueConstraint(columnNames = {"code","pasive"})})
-public class IrsSeason extends BaseMetaData implements Auditable{
+@Table(name = "foci", catalog = "vca", uniqueConstraints={@UniqueConstraint(columnNames = {"code","pasive"})})
+public class Foco extends BaseMetaData implements Auditable{
 	/**
 	 * 
 	 */
@@ -32,14 +29,9 @@ public class IrsSeason extends BaseMetaData implements Auditable{
 	private String ident;
 	private String code;
 	private String name;
-	private Date startDate;
-	private Date endDate;
-	private Integer numberDays;
 	
 	
-	
-	
-	public IrsSeason() {
+	public Foco() {
 		super();
 	}
 
@@ -78,42 +70,6 @@ public class IrsSeason extends BaseMetaData implements Auditable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
-
-	@Column(name = "startDate", nullable = false)
-	public Date getStartDate() {
-		return startDate;
-	}
-
-
-
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-
-
-	@Column(name = "endDate", nullable = false)
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
-
-	@Column(name = "numberDays", nullable = false)
-	public Integer getNumberDays() {
-		return numberDays;
-	}
-
-
-
-	public void setNumberDays(Integer numberDays) {
-		this.numberDays = numberDays;
-	}
-
 
 
 	@Override
@@ -134,10 +90,10 @@ public class IrsSeason extends BaseMetaData implements Auditable{
 			return true;
 		if ((other == null))
 			return false;
-		if (!(other instanceof IrsSeason))
+		if (!(other instanceof Foco))
 			return false;
 		
-		IrsSeason castOther = (IrsSeason) other;
+		Foco castOther = (Foco) other;
 
 		return (this.getIdent().equals(castOther.getIdent()));
 	}

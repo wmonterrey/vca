@@ -32,6 +32,9 @@
 					   <li class="nav-item">
 					       <a class="nav-link" href="<spring:url value="/admin/localities/" htmlEscape="true "/>"><i class="icon-compass"></i><spring:message code="localities" /></a>
 					   </li>
+					   <li class="nav-item">
+					       <a class="nav-link" href="<spring:url value="/admin/foci/" htmlEscape="true "/>"><i class="icon-graph"></i><spring:message code="foci" /></a>
+					   </li>
 					  </ul>
 					</li>
 					<li class="nav-item nav-dropdown">

@@ -1,4 +1,4 @@
-package org.clintonhealthaccess.vca.domain;
+package org.clintonhealthaccess.vca.domain.irs;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.clintonhealthaccess.vca.domain.BaseMetaData;
 import org.clintonhealthaccess.vca.domain.audit.Auditable;
 
 

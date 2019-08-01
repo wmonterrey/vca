@@ -222,8 +222,31 @@ INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden
 
 
 //Dashboard censo
-INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('vivday', NULL, NULL, '', '0', 0, '0', 'Viviendas por día');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('vivday', NULL, NULL, '', '0', 0, '0', 'Viviendas censadas por día');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('vivtot', NULL, NULL, '', '0', 0, '0', 'Viviendas totales');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('vivact', NULL, NULL, '', '0', 0, '0', 'Viviendas activas');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('vivnoact', NULL, NULL, '', '0', 0, '0', 'Viviendas inactivas');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('viewcensus', NULL, NULL, '', '0', 0, '0', 'Revisar el censo');
 
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('cuartostot', NULL, NULL, '', '0', 0, '0', 'Total cuartos');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('cuartosroc', NULL, NULL, '', '0', 0, '0', 'Cuartos rociables');
+
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('filters', NULL, NULL, 'Filters', '0', 0, '0', 'Filtros');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('settings', NULL, NULL, 'Settings', '0', 0, '0', 'Configuración');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('update', NULL, NULL, 'Update', '0', 0, '0', 'Actualizar');
+
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('foci', NULL, NULL, 'Foci', '0', 0, '0', 'Focos');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('class org.clintonhealthaccess.vca.domain.Foco', NULL, NULL, 'Foci', '0', 0, '0', 'Foco');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('class org.clintonhealthaccess.vca.domain.relationships.FocoLocalidad', NULL, NULL, 'Localidad', '0', 0, '0', 'Localidad en el Foco');
+
+
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('tipoou', NULL, NULL, 'Org unit', '0', 0, '0', 'Unidad Organizativa');
+
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('vivou', NULL, NULL, '', '0', 0, '0', 'Viviendas censadas por unidad organizativa');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('ou', NULL, NULL, '', '0', 0, '0', 'unidad organizativa');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('vivhab', NULL, NULL, '', '0', 0, '0', 'Viviendas habitadas');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('vivdeshab', NULL, NULL, '', '0', 0, '0', 'Viviendas no habitadas');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('vivcuartos', NULL, NULL, '', '0', 0, '0', 'Total de cuartos');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('vivcuartosroc', NULL, NULL, '', '0', 0, '0', 'Cuartos rociables');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('vivcuartosnoroc', NULL, NULL, '', '0', 0, '0', 'Cuartos no rociables');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('vivtothab', NULL, NULL, '', '0', 0, '0', 'Total habitantes');

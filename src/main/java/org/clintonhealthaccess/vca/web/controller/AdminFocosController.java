@@ -1,8 +1,12 @@
 package org.clintonhealthaccess.vca.web.controller;
 
+import org.clintonhealthaccess.vca.domain.Foco;
+import org.clintonhealthaccess.vca.domain.Localidad;
 import org.clintonhealthaccess.vca.domain.audit.AuditTrail;
-import org.clintonhealthaccess.vca.domain.irs.Rociador;
-import org.clintonhealthaccess.vca.service.RociadorService;
+import org.clintonhealthaccess.vca.domain.relationships.FocoLocalidad;
+import org.clintonhealthaccess.vca.domain.relationships.FocoLocalidadId;
+import org.clintonhealthaccess.vca.service.FocoService;
+import org.clintonhealthaccess.vca.service.LocalidadService;
 import org.clintonhealthaccess.vca.service.AuditTrailService;
 import org.clintonhealthaccess.vca.service.MessageResourceService;
 import org.slf4j.Logger;
@@ -12,6 +16,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,28 +35,30 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Controlador web de peticiones relacionadas a rociadores
+ * Controlador web de peticiones
  * 
  * @author William Aviles
  */
 @Controller
-@RequestMapping("/admin/sprayers/*")
-public class AdminRociadoresController {
-	private static final Logger logger = LoggerFactory.getLogger(AdminRociadoresController.class);
-	@Resource(name="rociadorService")
-	private RociadorService rociadorService;
+@RequestMapping("/admin/foci/*")
+public class AdminFocosController {
+	private static final Logger logger = LoggerFactory.getLogger(AdminFocosController.class);
+	@Resource(name="focoService")
+	private FocoService focoService;
 	@Resource(name="auditTrailService")
 	private AuditTrailService auditTrailService;
 	@Resource(name="messageResourceService")
 	private MessageResourceService messageResourceService;
+	@Resource(name="localidadService")
+	private LocalidadService localidadService;
     
     
 	@RequestMapping(value = "/", method = RequestMethod.GET)
     public String getEntities(Model model) throws ParseException { 	
-    	logger.debug("Mostrando Rociadores en JSP");
-    	List<Rociador> rociadores = rociadorService.getRociadores();
-    	model.addAttribute("rociadores", rociadores);
-    	return "admin/rociadores/list";
+    	logger.debug("Mostrando Focos en JSP");
+    	List<Foco> focos = focoService.getFocos();
+    	model.addAttribute("focos", focos);
+    	return "admin/focos/list";
 	}
 	
 	/**
@@ -61,7 +68,9 @@ public class AdminRociadoresController {
      */
     @RequestMapping(value = "/newEntity/", method = RequestMethod.GET)
 	public String addEntity(Model model) {
-    	return "admin/rociadores/enterForm";
+    	List<Localidad> localidades = localidadService.getActiveLocalities();
+    	model.addAttribute("localidades", localidades);
+    	return "admin/focos/enterForm";
 	}
     
     /**
@@ -73,15 +82,17 @@ public class AdminRociadoresController {
     @RequestMapping("/{ident}/")
     public ModelAndView showEntity(@PathVariable("ident") String ident) {
     	ModelAndView mav;
-    	Rociador rociador = this.rociadorService.getRociador(ident);
-        if(rociador==null){
+    	Foco foco = this.focoService.getFoco(ident);
+        if(foco==null){
         	mav = new ModelAndView("403");
         }
         else{
-        	mav = new ModelAndView("admin/rociadores/viewForm");
-        	mav.addObject("rociador",rociador);
+        	mav = new ModelAndView("admin/focos/viewForm");
+        	mav.addObject("foco",foco);
             List<AuditTrail> bitacora = auditTrailService.getBitacora(ident);
             mav.addObject("bitacora",bitacora);
+            List<Localidad> localidadesSeleccionadas = focoService.getLocalidadesFoco(ident);
+            mav.addObject("localidadesSeleccionadas",localidadesSeleccionadas);
         }
         return mav;
     }
@@ -94,10 +105,14 @@ public class AdminRociadoresController {
      */
     @RequestMapping(value = "/editEntity/{ident}/", method = RequestMethod.GET)
 	public String editEntity(@PathVariable("ident") String ident, Model model) {
-		Rociador rociador = this.rociadorService.getRociador(ident);
-		if(rociador!=null){
-			model.addAttribute("rociador",rociador);
-			return "admin/rociadores/enterForm";
+		Foco foco = this.focoService.getFoco(ident);
+		if(foco!=null){
+			model.addAttribute("foco",foco);
+			List<Localidad> localidades = localidadService.getActiveLocalities();
+	    	model.addAttribute("localidades", localidades);
+	    	List<Localidad> localidadesSeleccionadas = focoService.getLocalidadesFoco(ident);
+	    	model.addAttribute("localidadesSeleccionadas", localidadesSeleccionadas);
+			return "admin/focos/enterForm";
 		}
 		else{
 			return "403";
@@ -116,32 +131,55 @@ public class AdminRociadoresController {
 	public ResponseEntity<String> processEntity( @RequestParam(value="ident", required=false, defaultValue="" ) String ident
 	        , @RequestParam( value="code", required=true ) String code
 	        , @RequestParam( value="name", required=true ) String name
+	        , @RequestParam( value="localidades", required=false, defaultValue="") List<String> localidades
 	        )
 	{
     	try{
-			Rociador rociador = new Rociador();
+    		WebAuthenticationDetails wad  = (WebAuthenticationDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
+			Foco foco = new Foco();
 			//Si el ident viene en blanco es nuevo
 			if (ident.equals("")){
 				//Crear nuevo
 				ident = new UUID(SecurityContextHolder.getContext().getAuthentication().getName().hashCode(),new Date().hashCode()).toString();
-				rociador.setIdent(ident);
-				rociador.setCode(code);
-				rociador.setName(name);
-				rociador.setRecordUser(SecurityContextHolder.getContext().getAuthentication().getName());
-				rociador.setRecordDate(new Date());
+				foco.setIdent(ident);
+				foco.setCode(code);
+				foco.setName(name);
+				foco.setRecordUser(SecurityContextHolder.getContext().getAuthentication().getName());
+				foco.setRecordDate(new Date());
 				//Guardar nuevo
-				this.rociadorService.saveRociador(rociador);
+				this.focoService.saveFoco(foco);
 			}
 			//Si el ident no viene en blanco hay que editar
 			else{
 				//Recupera de la base de datos
-				rociador = rociadorService.getRociador(ident);
-				rociador.setCode(code);
-				rociador.setName(name);
+				foco = focoService.getFoco(ident);
+				foco.setCode(code);
+				foco.setName(name);
 				//Actualiza
-				this.rociadorService.saveRociador(rociador);
+				this.focoService.saveFoco(foco);
 			}
-			return createJsonResponse(rociador);
+			List<Localidad> localidadesSeleccionadas = focoService.getLocalidadesFoco(foco.getIdent());
+			for(Localidad l:localidadesSeleccionadas) {
+				if(!localidades.contains(l.getIdent())) {
+					FocoLocalidad floc = focoService.getFocoLocalidad(foco.getIdent(), l.getIdent());
+					floc.setPasive('1');
+					this.focoService.saveFocoLocalidad(floc);
+				}
+			}
+			for(String l:localidades){
+				FocoLocalidad floc = focoService.getFocoLocalidad(foco.getIdent(), l);
+				if(floc==null) {
+					floc = new FocoLocalidad();
+					floc.setFocoLocalidadId(new FocoLocalidadId(foco.getIdent(), l));
+					floc.setRecordUser(SecurityContextHolder.getContext().getAuthentication().getName());
+					floc.setRecordDate(new Date());
+					floc.setDeviceid(wad.getRemoteAddress());
+				}else {
+					floc.setPasive('0');
+				}
+				this.focoService.saveFocoLocalidad(floc);
+			}
+			return createJsonResponse(foco);
     	}
 		catch (DataIntegrityViolationException e){
 			String message = e.getMostSpecificCause().getMessage();
@@ -168,13 +206,13 @@ public class AdminRociadoresController {
     public String disableEntity(@PathVariable("ident") String ident, 
     		RedirectAttributes redirectAttributes) {
     	String redirecTo="404";
-		Rociador rociador = this.rociadorService.getRociador(ident);
-    	if(rociador!=null){
-    		rociador.setPasive('1');
-    		this.rociadorService.saveRociador(rociador);
+		Foco foco = this.focoService.getFoco(ident);
+    	if(foco!=null){
+    		foco.setPasive('1');
+    		this.focoService.saveFoco(foco);
     		redirectAttributes.addFlashAttribute("entidadDeshabilitada", true);
-    		redirectAttributes.addFlashAttribute("nombreEntidad", rociador.getName());
-    		redirecTo = "redirect:/admin/sprayers/"+rociador.getIdent()+"/";
+    		redirectAttributes.addFlashAttribute("nombreEntidad", foco.getName());
+    		redirecTo = "redirect:/admin/foci/"+foco.getIdent()+"/";
     	}
     	else{
     		redirecTo = "403";
@@ -194,13 +232,13 @@ public class AdminRociadoresController {
     public String enableEntity(@PathVariable("ident") String ident, 
     		RedirectAttributes redirectAttributes) {
     	String redirecTo="404";
-		Rociador rociador = this.rociadorService.getRociador(ident);
-    	if(rociador!=null){
-    		rociador.setPasive('0');
-    		this.rociadorService.saveRociador(rociador);
+		Foco foco = this.focoService.getFoco(ident);
+    	if(foco!=null){
+    		foco.setPasive('0');
+    		this.focoService.saveFoco(foco);
     		redirectAttributes.addFlashAttribute("entidadHabilitada", true);
-    		redirectAttributes.addFlashAttribute("nombreEntidad", rociador.getName());
-    		redirecTo = "redirect:/admin/sprayers/"+rociador.getIdent()+"/";
+    		redirectAttributes.addFlashAttribute("nombreEntidad", foco.getName());
+    		redirecTo = "redirect:/admin/foci/"+foco.getIdent()+"/";
     	}
     	else{
     		redirecTo = "403";

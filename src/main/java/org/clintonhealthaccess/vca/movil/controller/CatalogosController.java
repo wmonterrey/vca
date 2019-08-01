@@ -1,9 +1,9 @@
 package org.clintonhealthaccess.vca.movil.controller;
 
-import org.clintonhealthaccess.vca.domain.Brigada;
 import org.clintonhealthaccess.vca.domain.Censador;
-import org.clintonhealthaccess.vca.domain.Rociador;
-import org.clintonhealthaccess.vca.domain.Supervisor;
+import org.clintonhealthaccess.vca.domain.irs.Brigada;
+import org.clintonhealthaccess.vca.domain.irs.Rociador;
+import org.clintonhealthaccess.vca.domain.irs.Supervisor;
 import org.clintonhealthaccess.vca.language.MessageResource;
 import org.clintonhealthaccess.vca.service.BrigadaService;
 import org.clintonhealthaccess.vca.service.CensadorService;

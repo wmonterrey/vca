@@ -1,7 +1,7 @@
 package org.clintonhealthaccess.vca.web.controller;
 
-import org.clintonhealthaccess.vca.domain.Brigada;
 import org.clintonhealthaccess.vca.domain.audit.AuditTrail;
+import org.clintonhealthaccess.vca.domain.irs.Brigada;
 import org.clintonhealthaccess.vca.service.BrigadaService;
 import org.clintonhealthaccess.vca.service.AuditTrailService;
 import org.clintonhealthaccess.vca.service.MessageResourceService;

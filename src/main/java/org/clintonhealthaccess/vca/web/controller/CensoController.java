@@ -151,13 +151,25 @@ public class CensoController {
     @RequestMapping("/{ident}/")
     public ModelAndView showEntity(@PathVariable("ident") String ident) {
     	ModelAndView mav;
+    	Float latitud;
+    	Float longitud;
+    	Integer zoom;
     	Household vivienda = this.householdService.getVivienda(ident);
         if(vivienda==null){
         	mav = new ModelAndView("403");
         }
         else{
         	mav = new ModelAndView("censo/viewForm");
+        	zoom = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
+        	latitud = Float.parseFloat(parametroService.getParametroByCode("lat").getValue());
+        	longitud = Float.parseFloat(parametroService.getParametroByCode("long").getValue());
+        	if(vivienda.getLatitude()!=null) latitud = vivienda.getLatitude();
+        	if(vivienda.getLongitude()!=null) longitud = vivienda.getLongitude();
+        	
         	mav.addObject("vivienda",vivienda);
+        	mav.addObject("zoom",zoom);
+        	mav.addObject("latitud",latitud);
+        	mav.addObject("longitud",longitud);
             List<AuditTrail> bitacora = auditTrailService.getBitacora(ident);
             mav.addObject("bitacora",bitacora);
         }

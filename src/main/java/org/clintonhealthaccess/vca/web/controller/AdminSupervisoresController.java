@@ -1,7 +1,7 @@
 package org.clintonhealthaccess.vca.web.controller;
 
-import org.clintonhealthaccess.vca.domain.Supervisor;
 import org.clintonhealthaccess.vca.domain.audit.AuditTrail;
+import org.clintonhealthaccess.vca.domain.irs.Supervisor;
 import org.clintonhealthaccess.vca.service.SupervisorService;
 import org.clintonhealthaccess.vca.service.AuditTrailService;
 import org.clintonhealthaccess.vca.service.MessageResourceService;

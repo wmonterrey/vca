@@ -1,12 +1,23 @@
 package org.clintonhealthaccess.vca;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.clintonhealthaccess.vca.domain.Area;
+import org.clintonhealthaccess.vca.domain.Censador;
+import org.clintonhealthaccess.vca.domain.Distrito;
+import org.clintonhealthaccess.vca.domain.Foco;
+import org.clintonhealthaccess.vca.domain.Localidad;
+import org.clintonhealthaccess.vca.service.AreaService;
+import org.clintonhealthaccess.vca.service.CensadorService;
 import org.clintonhealthaccess.vca.service.DashboardCensoService;
+import org.clintonhealthaccess.vca.service.DistritoService;
 import org.clintonhealthaccess.vca.service.EmailServiceImpl;
+import org.clintonhealthaccess.vca.service.FocoService;
+import org.clintonhealthaccess.vca.service.LocalidadService;
 import org.clintonhealthaccess.vca.service.MessageResourceService;
 import org.clintonhealthaccess.vca.service.UsuarioService;
 import org.clintonhealthaccess.vca.users.model.GenericResponse;
@@ -61,12 +72,33 @@ public class HomeController {
 	private MessageResourceService messageResourceService;
 	@Resource(name="dashboardCensoService")
 	private DashboardCensoService dashboardCensoService;
+	
+	@Resource(name="localidadService")
+	private LocalidadService localidadService;
+	@Resource(name="areaService")
+	private AreaService areaService;
+	@Resource(name="distritoService")
+	private DistritoService distritoService;
+	@Resource(name="censadorService")
+	private CensadorService censadorService;
+	@Resource(name="focoService")
+	private FocoService focoService;
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(Model model) {
     	try {
 	    	logger.info("vca Iniciado...");
+	    	List<Area> areas = areaService.getActiveAreas();
+	    	model.addAttribute("areas", areas);
+	    	List<Distrito> distritos = distritoService.getActiveDistricts();
+	    	model.addAttribute("distritos", distritos);
+	    	List<Localidad> localidades = localidadService.getActiveLocalities();
+	    	model.addAttribute("localidades", localidades);
+	    	List<Censador> censadores = censadorService.getActiveCensadores();
+	    	model.addAttribute("censadores", censadores);
+	    	List<Foco> focos = focoService.getActiveFocos();
+	    	model.addAttribute("focos", focos);
     	}
     	catch(Exception e) {
     		logger.error(e.getLocalizedMessage());

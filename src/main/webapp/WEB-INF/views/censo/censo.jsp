@@ -15,6 +15,8 @@
 <link href="${dataTablesCSS}" rel="stylesheet" type="text/css"/>
 <spring:url value="/resources/vendors/css/responsive.dataTables.min.css" var="dataTablesResponsiveCSS" />
 <link href="${dataTablesResponsiveCSS}" rel="stylesheet" type="text/css"/>
+<spring:url value="/resources/vendors/css/buttons.dataTables.min.css" var="dataTablesButtonCSS" />
+<link href="${dataTablesButtonCSS}" rel="stylesheet" type="text/css"/>
 
 </head>
 <!-- BODY options, add following classes to body to change options
@@ -225,6 +227,20 @@
   <script src="${drPicker}" type="text/javascript"></script>
   <spring:url value="/resources/vendors/js/select2.min.js" var="Select2" />
   <script src="${Select2}" type="text/javascript"></script>
+  <spring:url value="/resources/vendors/js/dataTables.buttons.min.js" var="dataTablesButtons" />
+  <script src="${dataTablesButtons}" type="text/javascript"></script>
+  <spring:url value="/resources/vendors/js/buttons.flash.min.js" var="dataTablesButtonsFlash" />
+  <script src="${dataTablesButtonsFlash}" type="text/javascript"></script>
+  <spring:url value="/resources/vendors/js/jszip.min.js" var="dataTablesButtonsZip" />
+  <script src="${dataTablesButtonsZip}" type="text/javascript"></script>
+  <spring:url value="/resources/vendors/js/pdfmake.min.js" var="dataTablesButtonsPdfMake" />
+  <script src="${dataTablesButtonsPdfMake}" type="text/javascript"></script>
+  <spring:url value="/resources/vendors/js/vfs_fonts.js" var="dataTablesButtonsPdfFonts" />
+  <script src="${dataTablesButtonsPdfFonts}" type="text/javascript"></script>
+  <spring:url value="/resources/vendors/js/buttons.html5.min.js" var="dataTablesButtonsHTML5" />
+  <script src="${dataTablesButtonsHTML5}" type="text/javascript"></script>
+  <spring:url value="/resources/vendors/js/buttons.print.min.js" var="dataTablesButtonsPrint" />
+  <script src="${dataTablesButtonsPrint}" type="text/javascript"></script>  
   
   
   <c:set var="successmessage"><spring:message code="process.success" /></c:set>

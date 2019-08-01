@@ -51,8 +51,8 @@
       <!-- Breadcrumb -->
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<spring:url value="/" htmlEscape="true "/>"><spring:message code="home" /></a></li>
-        <li class="breadcrumb-item"><a href="<spring:url value="/admin/localities/" htmlEscape="true "/>"><spring:message code="localities" /></a></li>
-        <li class="breadcrumb-item active"><c:out value="${localidad.code}" /></li>
+        <li class="breadcrumb-item"><a href="<spring:url value="/census/" htmlEscape="true "/>"><spring:message code="census" /></a></li>
+        <li class="breadcrumb-item active"><c:out value="${vivienda.code}" /></li>
         
       </ol>
 	  <!-- Container -->
@@ -63,49 +63,49 @@
 	            <div class="col-md-6">
 	              <div class="card">
 		               	<div class="card-header">
-		                  <i class="icon-compass"></i>&nbsp;<strong><c:out value="${localidad.name}" /></strong>
+		                  <i class="icon-house"></i>&nbsp;<strong><c:out value="${vivienda.ownerName}" /></strong>
 		                </div>
 	                	<div class="card-body">
 	                		<div class="form-group row">
 		                      <label class="col-md-3 col-form-label"><spring:message code="ident" />:</label>
 		                      <div class="col-md-9">
-		                        <p class="form-control-static"><strong><c:out value="${localidad.ident}" /></strong></p>
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.ident}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
 		                      <label class="col-md-3 col-form-label"><spring:message code="code" />:</label>
 		                      <div class="col-md-9">
-		                        <p class="form-control-static"><strong><c:out value="${localidad.code}" /></strong></p>
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.code}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-3 col-form-label"><spring:message code="locality" />:</label>
+		                      <div class="col-md-9">
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.local.name}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
 		                      <label class="col-md-3 col-form-label"><spring:message code="district" />:</label>
 		                      <div class="col-md-9">
-		                        <p class="form-control-static"><strong><c:out value="${localidad.district.name}" /></strong></p>
-		                      </div>
-		                    </div>
-		                    <div class="form-group row">
-		                      <label class="col-md-3 col-form-label"><spring:message code="area" />:</label>
-		                      <div class="col-md-9">
-		                        <p class="form-control-static"><strong><c:out value="${localidad.district.area.name}" /></strong></p>
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.local.district.name}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
 		                      <label class="col-md-3 col-form-label"><spring:message code="location" />:</label>
 		                      <div class="col-md-9">
-		                        <p class="form-control-static"><strong><c:out value="${localidad.latitude}" /> , <c:out value="${localidad.longitude}" />, <c:out value="${localidad.zoom}" /></strong></p>
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.latitude}" /> , <c:out value="${vivienda.longitude}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
-		                      <label class="col-md-3 col-form-label"><spring:message code="population" />:</label>
+		                      <label class="col-md-3 col-form-label"><spring:message code="rooms" />:</label>
 		                      <div class="col-md-9">
-		                        <p class="form-control-static"><strong><c:out value="${localidad.population}" /></strong></p>
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.rooms}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
 		                      <label class="col-md-3 col-form-label"><spring:message code="obs" />:</label>
 		                      <div class="col-md-9">
-		                        <p class="form-control-static"><strong><c:out value="${localidad.obs}" /></strong></p>
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.obs}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
@@ -113,7 +113,7 @@
 		                      <div class="col-md-9">
 		                        <p class="form-control-static"><strong>
 		                        	<c:choose>
-										<c:when test="${localidad.pasive=='0'.charAt(0)}">
+										<c:when test="${vivienda.pasive=='0'.charAt(0)}">
 											<strong><spring:message code="CAT_SINO_SI" /></strong>
 										</c:when>
 										<c:otherwise>
@@ -126,33 +126,33 @@
 		                    <div class="form-group row">
 		                      <label class="col-md-3 col-form-label"><spring:message code="createdBy" />:</label>
 		                      <div class="col-md-9">
-		                        <p class="form-control-static"><strong><c:out value="${localidad.recordUser}" /></strong></p>
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.recordUser}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
 		                      <label class="col-md-3 col-form-label"><spring:message code="dateCreated" />:</label>
 		                      <div class="col-md-9">
-		                        <p class="form-control-static"><strong><c:out value="${localidad.recordDate}" /></strong></p>
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.recordDate}" /></strong></p>
 		                      </div>
 		                    </div>
 	                    	<spring:url value="/admin/localities/editEntity/{ident}/" var="editUrl">
-                              	<spring:param name="ident" value="${localidad.ident}" />
+                              	<spring:param name="ident" value="${vivienda.ident}" />
                           	</spring:url>
             					<spring:url value="/admin/localities/disableEntity/{ident}/" var="disableUrl">
-                              	<spring:param name="ident" value="${localidad.ident}" />
+                              	<spring:param name="ident" value="${vivienda.ident}" />
                           	</spring:url>
                           	<spring:url value="/admin/localities/enableEntity/{ident}/" var="enableUrl">
-                              	<spring:param name="ident" value="${localidad.ident}" />
+                              	<spring:param name="ident" value="${vivienda.ident}" />
                           	</spring:url>
                           	<spring:url value="/admin/localities/enterLocation/{ident}/" var="locationUrl">
-                              	<spring:param name="ident" value="${localidad.ident}" />
+                              	<spring:param name="ident" value="${vivienda.ident}" />
                           	</spring:url>
 						</div>
 						<div class="card-header">
           				<div class="row float-right mr-4" >
           					<button id="edit_entity" onclick="location.href='${fn:escapeXml(editUrl)}'" type="button" class="btn btn-outline-primary"><i class="fa fa-pencil"></i>&nbsp; <spring:message code="edit" /></button>
           					<c:choose>
-								<c:when test="${localidad.pasive=='0'.charAt(0)}">
+								<c:when test="${vivienda.pasive=='0'.charAt(0)}">
 									<button id="disable_entity" onclick="location.href='${fn:escapeXml(disableUrl)}'" type="button" class="btn btn-outline-danger"><i class="fa fa-close"></i>&nbsp; <spring:message code="disable" /></button>
 								</c:when>
 								<c:otherwise>
@@ -285,7 +285,7 @@
 		  });
 	}
 	
-	var mymap = L.map('mapid').setView([${latitude}, ${longitude}], ${zoom});
+	var mymap = L.map('mapid').setView([${latitud}, ${longitud}],${zoom});
 
 	L.tileLayer('http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
 		maxZoom: 18,
@@ -295,12 +295,12 @@
 		id: 'mapbox.streets'
 	}).addTo(mymap);
 	
-	var miLat = "${localidad.latitude}";
-	var miLong = "${localidad.longitude}";
+	var miLat = "${vivienda.latitude}";
+	var miLong = "${vivienda.longitude}";
 	
 	if(!(miLat == "" || miLong == "")){
-		var marker = L.marker([${localidad.latitude}, ${localidad.longitude}]).addTo(mymap);
-		marker.bindTooltip("${localidad.name}");
+		var marker = L.marker([${vivienda.latitude}, ${vivienda.longitude}]).addTo(mymap);
+		marker.bindTooltip("${vivienda.ownerName}");
 	}
 	
 	var popup = L.popup();

@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.clintonhealthaccess.vca.domain.Brigada;
+import org.clintonhealthaccess.vca.domain.irs.Brigada;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
