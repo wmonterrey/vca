@@ -63,54 +63,111 @@
 	            <div class="col-md-6">
 	              <div class="card">
 		               	<div class="card-header">
-		                  <i class="icon-house"></i>&nbsp;<strong><c:out value="${vivienda.ownerName}" /></strong>
+		                  <i class="icon-house"></i>&nbsp;<strong><spring:message code="ownerName" />: <c:out value="${vivienda.ownerName}" /></strong>
 		                </div>
 	                	<div class="card-body">
 	                		<div class="form-group row">
-		                      <label class="col-md-3 col-form-label"><spring:message code="ident" />:</label>
-		                      <div class="col-md-9">
+		                      <label class="col-md-6 col-form-label"><spring:message code="ident" />:</label>
+		                      <div class="col-md-6">
 		                        <p class="form-control-static"><strong><c:out value="${vivienda.ident}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
-		                      <label class="col-md-3 col-form-label"><spring:message code="code" />:</label>
-		                      <div class="col-md-9">
+		                      <label class="col-md-6 col-form-label"><spring:message code="code" />:</label>
+		                      <div class="col-md-6">
 		                        <p class="form-control-static"><strong><c:out value="${vivienda.code}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
-		                      <label class="col-md-3 col-form-label"><spring:message code="locality" />:</label>
-		                      <div class="col-md-9">
+		                      <label class="col-md-6 col-form-label"><spring:message code="locality" />:</label>
+		                      <div class="col-md-6">
 		                        <p class="form-control-static"><strong><c:out value="${vivienda.local.name}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
-		                      <label class="col-md-3 col-form-label"><spring:message code="district" />:</label>
-		                      <div class="col-md-9">
+		                      <label class="col-md-6 col-form-label"><spring:message code="district" />:</label>
+		                      <div class="col-md-6">
 		                        <p class="form-control-static"><strong><c:out value="${vivienda.local.district.name}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
-		                      <label class="col-md-3 col-form-label"><spring:message code="location" />:</label>
-		                      <div class="col-md-9">
+		                      <label class="col-md-6 col-form-label"><spring:message code="location" />:</label>
+		                      <div class="col-md-6">
 		                        <p class="form-control-static"><strong><c:out value="${vivienda.latitude}" /> , <c:out value="${vivienda.longitude}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
-		                      <label class="col-md-3 col-form-label"><spring:message code="rooms" />:</label>
-		                      <div class="col-md-9">
+		                      <label class="col-md-6 col-form-label"><spring:message code="censustaker" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.censusTaker.name}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="censusDate" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.censusDate}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="inhabited" />:</label>
+		                      <div class="col-md-6">
+		                      	<p class="form-control-static"><strong>
+		                        	<c:choose>
+										<c:when test="${vivienda.inhabited=='0'}">
+											<strong><spring:message code="CAT_SINO_NO" /></strong>
+										</c:when>
+										<c:otherwise>
+											<strong><spring:message code="CAT_SINO_SI" /></strong>
+										</c:otherwise>
+									</c:choose>
+		                        </strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="habitants" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.habitants}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="material" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.material}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="rooms" />:</label>
+		                      <div class="col-md-6">
 		                        <p class="form-control-static"><strong><c:out value="${vivienda.rooms}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
-		                      <label class="col-md-3 col-form-label"><spring:message code="obs" />:</label>
-		                      <div class="col-md-9">
+		                      <label class="col-md-6 col-form-label"><spring:message code="sprRooms" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.sprRooms}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="noSprooms" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.noSprooms}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="material" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.noSproomsReasons}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="obs" />:</label>
+		                      <div class="col-md-6">
 		                        <p class="form-control-static"><strong><c:out value="${vivienda.obs}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
-		                      <label class="col-md-3 col-form-label"><spring:message code="enabled" />:</label>
-		                      <div class="col-md-9">
+		                      <label class="col-md-6 col-form-label"><spring:message code="enabled" />:</label>
+		                      <div class="col-md-6">
 		                        <p class="form-control-static"><strong>
 		                        	<c:choose>
 										<c:when test="${vivienda.pasive=='0'.charAt(0)}">
@@ -124,27 +181,27 @@
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
-		                      <label class="col-md-3 col-form-label"><spring:message code="createdBy" />:</label>
-		                      <div class="col-md-9">
+		                      <label class="col-md-6 col-form-label"><spring:message code="createdBy" />:</label>
+		                      <div class="col-md-6">
 		                        <p class="form-control-static"><strong><c:out value="${vivienda.recordUser}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
-		                      <label class="col-md-3 col-form-label"><spring:message code="dateCreated" />:</label>
-		                      <div class="col-md-9">
+		                      <label class="col-md-6 col-form-label"><spring:message code="dateCreated" />:</label>
+		                      <div class="col-md-6">
 		                        <p class="form-control-static"><strong><c:out value="${vivienda.recordDate}" /></strong></p>
 		                      </div>
 		                    </div>
-	                    	<spring:url value="/admin/localities/editEntity/{ident}/" var="editUrl">
+	                    	<spring:url value="/census/editEntity/{ident}/" var="editUrl">
                               	<spring:param name="ident" value="${vivienda.ident}" />
                           	</spring:url>
-            					<spring:url value="/admin/localities/disableEntity/{ident}/" var="disableUrl">
+            					<spring:url value="/census/disableEntity/{ident}/" var="disableUrl">
                               	<spring:param name="ident" value="${vivienda.ident}" />
                           	</spring:url>
-                          	<spring:url value="/admin/localities/enableEntity/{ident}/" var="enableUrl">
+                          	<spring:url value="/census/enableEntity/{ident}/" var="enableUrl">
                               	<spring:param name="ident" value="${vivienda.ident}" />
                           	</spring:url>
-                          	<spring:url value="/admin/localities/enterLocation/{ident}/" var="locationUrl">
+                          	<spring:url value="/census/enterLocation/{ident}/" var="locationUrl">
                               	<spring:param name="ident" value="${vivienda.ident}" />
                           	</spring:url>
 						</div>
@@ -160,7 +217,7 @@
 								</c:otherwise>
 						 	</c:choose>
 						 	<button id="location_button" onclick="location.href='${fn:escapeXml(locationUrl)}'" type="button" class="btn btn-outline-primary"><i class="fa fa-location-arrow"></i>&nbsp; <spring:message code="location" /></button>
-          					<button id="back_button" onclick="location.href='<spring:url value="/admin/localities/" htmlEscape="true "/>'" type="button" class="btn btn-outline-primary"><i class="fa fa-undo"></i>&nbsp; <spring:message code="back" /></button>
+          					<button id="back_button" onclick="location.href='<spring:url value="/census/" htmlEscape="true "/>'" type="button" class="btn btn-outline-primary"><i class="fa fa-undo"></i>&nbsp; <spring:message code="back" /></button>
           				</div>
             		</div>
 					</div>
@@ -285,7 +342,7 @@
 		  });
 	}
 	
-	var mymap = L.map('mapid').setView([${latitud}, ${longitud}],${zoom});
+	var mymap = L.map('mapid').setView(["${latitud}", "${longitud}"],"${zoom}");
 
 	L.tileLayer('http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
 		maxZoom: 18,
@@ -299,7 +356,7 @@
 	var miLong = "${vivienda.longitude}";
 	
 	if(!(miLat == "" || miLong == "")){
-		var marker = L.marker([${vivienda.latitude}, ${vivienda.longitude}]).addTo(mymap);
+		var marker = L.marker(["${vivienda.latitude}", "${vivienda.longitude}"]).addTo(mymap);
 		marker.bindTooltip("${vivienda.ownerName}");
 	}
 	

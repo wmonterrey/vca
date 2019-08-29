@@ -24,29 +24,32 @@ import org.hibernate.annotations.ForeignKey;
  * @since       1.0
  */
 @Entity
-@Table(name = "sprays", catalog = "vca")
-public class Spray extends BaseMetaData implements Auditable{
+@Table(name = "visits", catalog = "vca")
+public class Visit extends BaseMetaData implements Auditable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private String ident;
 	private Target target;
-	private Date sprayDate;
+	private Date visitDate;
 	private Rociador rociador;
+	private Supervisor supervisor;
 	private Brigada brigada;
 	private String activity;
 	private String compVisit;
 	private String reasonNoVisit;
+	private String reasonNoVisitOther;
 	private String reasonReluctant;
+	private String reasonReluctantOther;
 	private Integer sprayedRooms;
 	private Integer numCharges;
 	private String reasonIncomplete;
 	private String supervised;
-	private Supervisor supervisor;
+	
 	
 
-	public Spray() {
+	public Visit() {
 		super();
 	}
 
@@ -80,15 +83,15 @@ public class Spray extends BaseMetaData implements Auditable{
 
 
 
-	@Column(name = "spyDate", nullable = false)
-	public Date getSprayDate() {
-		return sprayDate;
+	@Column(name = "visitDate", nullable = false)
+	public Date getVisitDate() {
+		return visitDate;
 	}
 
 
 
-	public void setSprayDate(Date supervisionDate) {
-		this.sprayDate = supervisionDate;
+	public void setVisitDate(Date visitDate) {
+		this.visitDate = visitDate;
 	}
 
 
@@ -151,9 +154,23 @@ public class Spray extends BaseMetaData implements Auditable{
 	public void setReasonNoVisit(String reasonNoVisit) {
 		this.reasonNoVisit = reasonNoVisit;
 	}
+	
+	
+
+	@Column(name = "reasonNoVisitOther", nullable = true , length = 500)
+	public String getReasonNoVisitOther() {
+		return reasonNoVisitOther;
+	}
 
 
-	@Column(name = "reasonReluctant", nullable = true , length = 150)
+
+	public void setReasonNoVisitOther(String reasonNoVisitOther) {
+		this.reasonNoVisitOther = reasonNoVisitOther;
+	}
+
+
+
+	@Column(name = "reasonReluctant", nullable = true , length = 50)
 	public String getReasonReluctant() {
 		return reasonReluctant;
 	}
@@ -163,6 +180,20 @@ public class Spray extends BaseMetaData implements Auditable{
 	public void setReasonReluctant(String reasonReluctant) {
 		this.reasonReluctant = reasonReluctant;
 	}
+	
+	
+
+	@Column(name = "reasonReluctantOther", nullable = true , length = 500)
+	public String getReasonReluctantOther() {
+		return reasonReluctantOther;
+	}
+
+
+
+	public void setReasonReluctantOther(String reasonReluctantOther) {
+		this.reasonReluctantOther = reasonReluctantOther;
+	}
+
 
 
 	@Column(name = "sprayedRooms", nullable = true)
@@ -189,7 +220,7 @@ public class Spray extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "reasonIncomplete", nullable = true , length = 150)
+	@Column(name = "reasonIncomplete", nullable = true , length = 250)
 	public String getReasonIncomplete() {
 		return reasonIncomplete;
 	}
@@ -246,10 +277,10 @@ public class Spray extends BaseMetaData implements Auditable{
 			return true;
 		if ((other == null))
 			return false;
-		if (!(other instanceof Spray))
+		if (!(other instanceof Visit))
 			return false;
 		
-		Spray castOther = (Spray) other;
+		Visit castOther = (Visit) other;
 
 		return (this.getIdent().equals(castOther.getIdent()));
 	}

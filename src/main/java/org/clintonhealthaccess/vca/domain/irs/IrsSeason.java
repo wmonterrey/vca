@@ -23,7 +23,7 @@ import org.clintonhealthaccess.vca.domain.audit.Auditable;
  * @since       1.0
  */
 @Entity
-@Table(name = "irsSeasons", catalog = "vca", uniqueConstraints={@UniqueConstraint(columnNames = {"code","pasive"})})
+@Table(name = "irsseasons", catalog = "vca", uniqueConstraints={@UniqueConstraint(columnNames = {"code","pasive"})})
 public class IrsSeason extends BaseMetaData implements Auditable{
 	/**
 	 * 
@@ -35,6 +35,7 @@ public class IrsSeason extends BaseMetaData implements Auditable{
 	private Date startDate;
 	private Date endDate;
 	private Integer numberDays;
+	private String obs;
 	
 	
 	
@@ -112,6 +113,18 @@ public class IrsSeason extends BaseMetaData implements Auditable{
 
 	public void setNumberDays(Integer numberDays) {
 		this.numberDays = numberDays;
+	}
+
+
+	@Column(name = "obs", nullable = true, length = 500)
+	public String getObs() {
+		return obs;
+	}
+
+
+
+	public void setObs(String obs) {
+		this.obs = obs;
 	}
 
 

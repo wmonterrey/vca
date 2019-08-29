@@ -17,6 +17,11 @@ import org.clintonhealthaccess.vca.users.model.UserSistema;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,10 +30,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.google.gson.Gson;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -61,27 +70,13 @@ public class CensoController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
     public String getEntities(Model model) throws ParseException { 	
 		logger.debug("Mostrando Viviendas en JSP");
-    	List<Localidad> localidades = localidadService.getLocalities();
+    	List<Localidad> localidades = localidadService.getActiveLocalitiesUsuario(SecurityContextHolder.getContext().getAuthentication().getName());
     	model.addAttribute("localidades", localidades);
     	List<Censador> censadores = censadorService.getCensadores();
     	model.addAttribute("censadores", censadores);
     	List<UserSistema> usuarios = this.usuarioService.getUsers();
     	model.addAttribute("usuarios", usuarios);
-    	List<MessageResource> materiales = messageResourceService.getCatalogo("CAT_MAT");
-    	model.addAttribute("materiales", materiales);
     	return "censo/censo";
-	}
-	
-	/**
-     * Custom handler for adding.
-     * @param model Modelo enlazado a la vista
-     * @return a ModelMap with the model attributes for the view
-     */
-    @RequestMapping(value = "/newEntity/", method = RequestMethod.GET)
-	public String addEntity(Model model) {
-    	Household vivienda = new Household();
-    	model.addAttribute("vivienda", vivienda);
-    	return "censo/enterForm";
 	}
     
     
@@ -102,7 +97,8 @@ public class CensoController {
         	desde = formatter.parse(fecCensoRange.substring(0, 10)).getTime();
         	hasta = formatter.parse(fecCensoRange.substring(fecCensoRange.length()-10, fecCensoRange.length())).getTime();
         }
-        List<Household> datos = householdService.getHousesFiltro(codeHouse, ownerName, desde, hasta, local, censusTaker, recordUser);
+        List<Household> datos = householdService.getHousesFiltro(codeHouse, ownerName, desde, hasta, local, 
+        		censusTaker, recordUser, SecurityContextHolder.getContext().getAuthentication().getName(),null);
         if (datos == null){
         	logger.debug("Nulo");
         }
@@ -151,21 +147,44 @@ public class CensoController {
     @RequestMapping("/{ident}/")
     public ModelAndView showEntity(@PathVariable("ident") String ident) {
     	ModelAndView mav;
-    	Float latitud;
-    	Float longitud;
+    	Double latitud;
+    	Double longitud;
     	Integer zoom;
-    	Household vivienda = this.householdService.getVivienda(ident);
+    	Household vivienda = this.householdService.getVivienda(ident, SecurityContextHolder.getContext().getAuthentication().getName());
         if(vivienda==null){
         	mav = new ModelAndView("403");
         }
         else{
         	mav = new ModelAndView("censo/viewForm");
         	zoom = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
-        	latitud = Float.parseFloat(parametroService.getParametroByCode("lat").getValue());
-        	longitud = Float.parseFloat(parametroService.getParametroByCode("long").getValue());
+        	latitud = Double.parseDouble(parametroService.getParametroByCode("lat").getValue());
+        	longitud = Double.parseDouble(parametroService.getParametroByCode("long").getValue());
         	if(vivienda.getLatitude()!=null) latitud = vivienda.getLatitude();
         	if(vivienda.getLongitude()!=null) longitud = vivienda.getLongitude();
-        	
+        	MessageResource mr = null;
+    		String descCatalogo = null;
+    		mr = this.messageResourceService.getMensaje(vivienda.getMaterial(),"CAT_MAT");
+    		if(mr!=null) {
+    			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
+    			vivienda.setMaterial(descCatalogo);
+    		}
+    		if(!(vivienda.getNoSproomsReasons()==null)) {
+    			String[] partsNSP = vivienda.getNoSproomsReasons().split(",");
+    			descCatalogo = null;
+    			for (int i =0; i<partsNSP.length; i++) {
+    				mr = this.messageResourceService.getMensaje(partsNSP[i],"CAT_RNR");
+            		if(mr!=null) {
+            			if(descCatalogo==null) {
+            				descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
+            			}
+            			else {
+            				String nuevo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
+            				descCatalogo = descCatalogo + ", " +nuevo;
+            			}
+            		}
+    			}
+    			vivienda.setNoSproomsReasons(descCatalogo);
+    		}
         	mav.addObject("vivienda",vivienda);
         	mav.addObject("zoom",zoom);
         	mav.addObject("latitud",latitud);
@@ -175,6 +194,249 @@ public class CensoController {
         }
         return mav;
     }
+    
+    /**
+     * Custom handler for editing.
+     * @param model Modelo enlazado a la vista
+     * @param ident the ID to edit
+     * @return a ModelMap with the model attributes for the view
+     */
+    @RequestMapping(value = "/editEntity/{ident}/", method = RequestMethod.GET)
+	public String editEntity(@PathVariable("ident") String ident, Model model) {
+    	Household vivienda = this.householdService.getVivienda(ident, SecurityContextHolder.getContext().getAuthentication().getName());
+		if(vivienda!=null){
+			List<Censador> censadores = censadorService.getActiveCensadores();
+	    	model.addAttribute("censadores", censadores);
+	    	List<Localidad> localidades = localidadService.getActiveLocalitiesUsuario(SecurityContextHolder.getContext().getAuthentication().getName());
+	    	model.addAttribute("localidades", localidades);
+	    	List<MessageResource> sinos = messageResourceService.getCatalogo("CAT_SINO");
+	    	model.addAttribute("sinos",sinos);
+	    	List<MessageResource> materials = messageResourceService.getCatalogo("CAT_MAT");
+	    	model.addAttribute("materials",materials);
+	    	List<MessageResource> razones = messageResourceService.getCatalogo("CAT_RNR");
+	    	model.addAttribute("razones",razones);
+			model.addAttribute("vivienda",vivienda);
+			return "censo/enterForm";
+		}
+		else{
+			return "403";
+		}
+	}
+    
+    
+    /**
+     * Custom handler for disabling.
+     *
+     * @param ident the ID to disable
+     * @param redirectAttributes 
+     * @return a String
+     */
+    @RequestMapping("/disableEntity/{ident}/")
+    public String disableEntity(@PathVariable("ident") String ident, 
+    		RedirectAttributes redirectAttributes) {
+    	String redirecTo="404";
+		Household vivienda = this.householdService.getVivienda(ident, SecurityContextHolder.getContext().getAuthentication().getName());
+    	if(vivienda!=null){
+    		vivienda.setPasive('1');
+    		this.householdService.saveVivienda(vivienda);
+    		redirectAttributes.addFlashAttribute("entidadDeshabilitada", true);
+    		redirectAttributes.addFlashAttribute("nombreEntidad", vivienda.getCode());
+    		redirecTo = "redirect:/census/"+vivienda.getIdent()+"/";
+    	}
+    	else{
+    		redirecTo = "403";
+    	}
+    	return redirecTo;	
+    }
+    
+    
+    /**
+     * Custom handler for enabling.
+     *
+     * @param ident the ID to enable
+     * @param redirectAttributes
+     * @return a String
+     */
+    @RequestMapping("/enableEntity/{ident}/")
+    public String enableEntity(@PathVariable("ident") String ident, 
+    		RedirectAttributes redirectAttributes) {
+    	String redirecTo="404";
+    	Household vivienda = this.householdService.getVivienda(ident, SecurityContextHolder.getContext().getAuthentication().getName());
+    	if(vivienda!=null){
+    		vivienda.setPasive('0');
+    		this.householdService.saveVivienda(vivienda);
+    		redirectAttributes.addFlashAttribute("entidadHabilitada", true);
+    		redirectAttributes.addFlashAttribute("nombreEntidad", vivienda.getCode());
+    		redirecTo = "redirect:/census/"+vivienda.getIdent()+"/";
+    	}
+    	else{
+    		redirecTo = "403";
+    	}
+    	return redirecTo;	
+    }
+    
+    
+    /**
+     * Custom handler for editing.
+     * @param model Modelo enlazado a la vista
+     * @param ident the ID to edit
+     * @return a ModelMap with the model attributes for the view
+     */
+    @RequestMapping(value = "/enterLocation/{ident}/", method = RequestMethod.GET)
+	public String enterLocation(@PathVariable("ident") String ident, Model model) {
+		Household vivienda = this.householdService.getVivienda(ident, SecurityContextHolder.getContext().getAuthentication().getName());
+		if(vivienda!=null){
+			try {
+				model.addAttribute("vivienda",vivienda);
+				Double latitud;
+				Double longitud;
+		    	Integer zoom;
+		    	zoom = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
+	        	latitud = Double.parseDouble(parametroService.getParametroByCode("lat").getValue());
+	        	longitud = Double.parseDouble(parametroService.getParametroByCode("long").getValue());
+	        	if(vivienda.getLatitude()!=null) latitud = vivienda.getLatitude();
+	        	if(vivienda.getLongitude()!=null) longitud = vivienda.getLongitude();
+	        	model.addAttribute("latitude",latitud);
+	        	model.addAttribute("longitude",longitud);
+	        	model.addAttribute("zoom",zoom);
+				return "censo/enterLocation";
+			}
+        	catch (Exception e) {
+        		model.addAttribute("errormsg",e.getLocalizedMessage());
+        		return "505";
+        	}
+		}
+		else{
+			return "403";
+		}
+	}
+    
+    
+    
+    /**
+     * Custom handler for saving.
+     * 
+     * @param ident Identificador unico
+     * @param code codigo
+     * @param name nombre
+     * @return a ModelMap with the model attributes for the view
+     */
+    @RequestMapping( value="/saveEntity/", method=RequestMethod.POST)
+	public ResponseEntity<String> processEntity( @RequestParam(value="ident", required=false, defaultValue="" ) String ident
+	        , @RequestParam( value="code", required=true ) String code
+	        , @RequestParam( value="ownerName", required=false ) String ownerName
+	        , @RequestParam( value="local", required=true) String local
+	        , @RequestParam( value="censusTaker", required=true) String censusTaker
+	        , @RequestParam( value="censusDate", required=true) String censusDate
+	        , @RequestParam( value="inhabited", required=true) String inhabited
+	        , @RequestParam( value="habitants", required=false) Integer habitants
+	        , @RequestParam( value="material", required=false) String material
+	        , @RequestParam( value="rooms", required=false) Integer rooms
+	        , @RequestParam( value="sprRooms", required=false) Integer sprRooms
+	        , @RequestParam( value="noSprooms", required=false) Integer noSprooms
+	        , @RequestParam( value="noSproomsReasons", required=false) String noSproomsReasons
+	        , @RequestParam( value="latitude", required=false, defaultValue ="" ) String latitude
+	        , @RequestParam( value="longitude", required=false, defaultValue ="" ) String longitude
+	        , @RequestParam( value="obs", required=false, defaultValue ="" ) String obs
+	        )
+	{
+    	try{
+    		Double latitud = null;
+    		Double longitud = null;
+    		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+    		Date fechaCenso =  null;
+    		
+    		if(!latitude.equals("")) latitud = Double.valueOf(latitude);
+    		if(!longitude.equals("")) longitud = Double.valueOf(longitude);
+    		if (!censusDate.equals("")) fechaCenso = formatter.parse(censusDate);
+    		
+    		Localidad localidad = this.localidadService.getLocal(local);
+			Household vivienda = this.householdService.getVivienda(ident, SecurityContextHolder.getContext().getAuthentication().getName());
+			vivienda.setCode(code);
+			vivienda.setLocal(localidad);
+			vivienda.setOwnerName(ownerName);
+			vivienda.setCensusTaker(this.censadorService.getCensador(censusTaker));
+			vivienda.setCensusDate(fechaCenso);
+			vivienda.setInhabited(inhabited);
+			vivienda.setHabitants(habitants);
+			vivienda.setMaterial(material);
+			vivienda.setRooms(rooms);
+			vivienda.setSprRooms(sprRooms);
+			vivienda.setNoSprooms(noSprooms);
+			vivienda.setNoSproomsReasons(noSproomsReasons);
+			vivienda.setLatitude(latitud);
+			vivienda.setLongitude(longitud);
+			vivienda.setObs(obs);
+			this.householdService.saveVivienda(vivienda);
+			
+			return createJsonResponse(vivienda);
+    	}
+		catch (DataIntegrityViolationException e){
+			String message = e.getMostSpecificCause().getMessage();
+			Gson gson = new Gson();
+		    String json = gson.toJson(message);
+		    return createJsonResponse(json);
+		}
+		catch(Exception e){
+			Gson gson = new Gson();
+		    String json = gson.toJson(e.toString());
+		    return createJsonResponse(json);
+		}
+    	
+	}
+    
+    /**
+     * Custom handler for saving location.
+     * 
+     * @param ident Identificador unico
+     * @param code codigo
+     * @param name nombre
+     * @return a ModelMap with the model attributes for the view
+     */
+    @RequestMapping( value="/saveEntityLocation/", method=RequestMethod.POST)
+	public ResponseEntity<String> processEntityLocation( @RequestParam(value="ident", required=true) String ident
+	        , @RequestParam( value="latitude", required=true) String latitude
+	        , @RequestParam( value="longitude", required=true) String longitude
+	        )
+	{
+    	try{
+    		Double latitud = null;
+    		Double longitud = null;
+    		
+    		
+    		if(!latitude.equals("")) latitud = Double.valueOf(latitude);
+    		if(!longitude.equals("")) longitud = Double.valueOf(longitude);
+    		
+    		
+			Household vivienda = this.householdService.getVivienda(ident, SecurityContextHolder.getContext().getAuthentication().getName());
+			vivienda.setLatitude(latitud);
+			vivienda.setLongitude(longitud);
+			this.householdService.saveVivienda(vivienda);
+			
+			return createJsonResponse(vivienda);
+    	}
+		catch (DataIntegrityViolationException e){
+			String message = e.getMostSpecificCause().getMessage();
+			Gson gson = new Gson();
+		    String json = gson.toJson(message);
+		    return createJsonResponse(json);
+		}
+		catch(Exception e){
+			Gson gson = new Gson();
+		    String json = gson.toJson(e.toString());
+		    return createJsonResponse(json);
+		}
+    	
+	}
+    
+    private ResponseEntity<String> createJsonResponse( Object o )
+   	{
+   	    HttpHeaders headers = new HttpHeaders();
+   	    headers.set("Content-Type", "application/json");
+   	    Gson gson = new Gson();
+   	    String json = gson.toJson(o);
+   	    return new ResponseEntity<String>( json, headers, HttpStatus.CREATED );
+   	}
     
 	
 }

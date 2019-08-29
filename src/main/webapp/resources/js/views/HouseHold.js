@@ -33,44 +33,48 @@ return {
         noSpace:true,
         required: true
       },
-      name: {
+      ownerName: {
     	  minlength: 3,
           maxlength: 500,
           required: true
       },
-      area: {
+      local: {
           required: true
       },
-      district: {
+      censusTaker: {
           required: true
       },
-      latitude: {
-          required: false,
-          min:13,
-          max:18
+      censusDate: {
+          required: true
       },
-      zoom:{
-    	  required: false,
-    	  min:0,
-    	  max:18
+      inhabited: {
+          required: true
       },
-      longitude: {
-          required: false,
-          min:-93,
-          max:-87
+      habitants: {
+          required: function(element){
+        	  return $("#inhabited").val()=="1";
+          }
       },
-      population: {
-          required: false,
-          min:1,
-          max:125000
+      material: {
+          required: true
+      },
+      rooms: {
+          required: true
+      },
+      sprRooms: {
+          required: true
+      },
+      noSprooms: {
+          required: true
+      },
+      noSproomsReasons: {
+    	  required: function(element){
+        	  return $("#noSprooms").val()>0;
+          }
       },
       obs: {
           maxlength: 750,
           required: false
-      },
-      value: {
-          maxlength: 250,
-          required: true
       }
     },
     errorElement: 'em',

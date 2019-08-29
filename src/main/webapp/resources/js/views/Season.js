@@ -15,6 +15,11 @@ return {
   init: function (parametros) {	
 	  
 	  handleDatePickers("es");
+	  
+	  $('#localidades').select2({
+		    theme: "bootstrap",
+		    width: '100%'
+		});
 
   $.validator.setDefaults( {
     submitHandler: function () {
@@ -38,39 +43,18 @@ return {
           maxlength: 500,
           required: true
       },
-      area: {
+      startDate: {
           required: true
       },
-      district: {
+      endDate: {
           required: true
       },
-      latitude: {
-          required: false,
-          min:13,
-          max:18
-      },
-      zoom:{
-    	  required: false,
-    	  min:0,
-    	  max:18
-      },
-      longitude: {
-          required: false,
-          min:-93,
-          max:-87
-      },
-      population: {
-          required: false,
-          min:1,
-          max:125000
+      localidades: {
+          required: true
       },
       obs: {
           maxlength: 750,
           required: false
-      },
-      value: {
-          maxlength: 250,
-          required: true
       }
     },
     errorElement: 'em',
@@ -113,7 +97,7 @@ return {
 						$('#ident').val(entidad.ident);
 						setTimeout(function() { 
 				            $.unblockUI({ 
-				                onUnblock: function(){ window.location.href = parametros.listUrl; } 
+				                onUnblock: function(){ window.location.href = parametros.seasonsUrl; } 
 				            }); 
 				        }, 1000); 
 					}
@@ -124,6 +108,15 @@ return {
 		    		$.unblockUI();
 		  		});
 	}
+  
+  $('#startDate').change(
+	  		function() {
+	  			$('#endDate').val("");
+	  			var fiSelec = moment($('#startDate').val(), "DD/MM/YYYY");
+	  			fiSelec.add(120, 'd');
+	  			$('#endDate').datepicker('setStartDate', $('#startDate').val());
+	  			$('#endDate').datepicker('setEndDate', fiSelec.format('DD/MM/YYYY'));
+	  		});
   
   
   $(document).on('keypress','form input',function(event)

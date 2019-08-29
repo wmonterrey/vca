@@ -59,6 +59,25 @@ public class LocalidadService {
 		return  query.list();
 	}
 	
+	/**
+	 * Regresa todos los localidades activos de un usuario
+	 * 
+	 * @return una lista de <code>Localidad</code>(s)
+	 */
+
+	@SuppressWarnings("unchecked")
+	public List<Localidad> getActiveLocalitiesUsuario(String username) {
+		// Retrieve session from Hibernate
+		Session session = sessionFactory.getCurrentSession();
+		// Create a Hibernate query (HQL)
+		Query query = session.createQuery("FROM Localidad loc where loc.pasive ='0' and "
+				+ "loc.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0')");
+		query.setParameter("username",username);
+		// Retrieve all
+		return  query.list();
+	}
+	
+	//viv.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0')
 	
 	/**
 	 * Regresa una Locality

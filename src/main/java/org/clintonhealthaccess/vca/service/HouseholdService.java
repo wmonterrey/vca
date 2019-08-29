@@ -78,6 +78,23 @@ public class HouseholdService {
 		return district;
 	}
 	
+	/**
+	 * Regresa una Household
+	 * @param id Identificador del household 
+	 * @return un <code>Household</code>
+	 */
+
+	public Household getVivienda(String ident, String username) {
+		// Retrieve session from Hibernate
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("FROM Household house where " +
+				"house.ident =:ident and house.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0')");
+		query.setParameter("ident",ident);
+		query.setParameter("username",username);
+		Household district = (Household) query.uniqueResult();
+		return district;
+	}
+	
 	
 	/**
 	 * Guarda un household
@@ -92,9 +109,9 @@ public class HouseholdService {
 	
 	@SuppressWarnings("unchecked")
 	public List<Household> getHousesFiltro(String codeHouse, String ownerName,
-			Long desde, Long hasta, String local, String censusTaker, String recordUser) {
+			Long desde, Long hasta, String local, String censusTaker, String recordUser, String username, String pasivo) {
 		//Set the SQL Query initially
-		String sqlQuery = "from Household viv where 1 = 1";
+		String sqlQuery = "from Household viv where viv.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0') ";
 		// if not null set time parameters
 		if(!(desde==null)) {
 			sqlQuery = sqlQuery + " and viv.censusDate between :fechaInicio and :fechaFinal";
@@ -115,10 +132,15 @@ public class HouseholdService {
 			sqlQuery = sqlQuery + " and viv.recordUser=:recordUser";
 		}
 		
+		if(!(pasivo==null)) {
+			sqlQuery = sqlQuery + " and viv.pasive=:pasivo";
+		}
+		
 		// Retrieve session from Hibernate
 		Session session = sessionFactory.getCurrentSession();
 		// Create a Hibernate query (HQL)
 		Query query = session.createQuery(sqlQuery);
+		query.setParameter("username",username);
 		if(!(desde==null)) {
 			Timestamp timeStampInicio = new Timestamp(desde);
 			Timestamp timeStampFinal = new Timestamp(hasta);
@@ -140,7 +162,9 @@ public class HouseholdService {
 		if(!recordUser.equals("ALL")) {
 			query.setParameter("recordUser", recordUser);
 		}
-		
+		if(!(pasivo==null)) {
+			query.setParameter("pasivo", pasivo.charAt(0));
+		}
 		// Retrieve all
 		return  query.list();
 	}

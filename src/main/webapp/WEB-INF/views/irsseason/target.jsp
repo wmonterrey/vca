@@ -58,7 +58,7 @@
       <!-- Breadcrumb -->
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<spring:url value="/" htmlEscape="true "/>"><spring:message code="home" /></a></li>
-        <li class="breadcrumb-item active"><spring:message code="census" /></li>
+        <li class="breadcrumb-item active"><spring:message code="targets" /></li>
         
       </ol>
 	  <!-- Container -->
@@ -68,14 +68,14 @@
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header">
-                  <i class="fa fa-database"></i> <spring:message code="census" />
+                  <i class="fa fa-calendar-times-o"></i> <spring:message code="targets" />
                   <div class="card-actions">
                   </div>
                 </div>
                 <div class="card-body">
                   <div class="row">
                   	<div class="col-md-12">
-	                  	<form action="#" autocomplete="off" id="viviendas-form">
+	                  	<form action="#" autocomplete="off" id="metas-form">
 		                  	<div class="form-group row">
 		                      <div class="input-group">
 		                        <span class="input-group-addon"><input type="checkbox" id="checkId" name="checkId" value=""></span>
@@ -89,13 +89,21 @@
 		                      </div>
 		                    </div>
 	           			  <div class="form-group row">
-			                  <label><spring:message code="censusDate" /></label>
+			                  <label><spring:message code="dateModified" /></label>
 			                  <div class="input-group">
 			                    <span class="input-group-addon"><input type="checkbox" id="checkDates" name="checkDates" value=""></span>
-			                    <input id="fecCensoRange" name="fecCensoRange" class="form-control" disabled type="text">
+			                    <input id="fecActRange" name="fecActRange" class="form-control" disabled type="text">
 			                  </div>
 		                  </div>
 		                  <div class="form-group row">
+		                  	  <div class="col-sm-4">
+			                    <label><spring:message code="season" /></label>
+			                    <select id="irsSeason" name="irsSeason" class="form-control select2-single">
+			                    	<c:forEach items="${temporadas}" var="temporada">
+			                      		<option value="${temporada.ident}">${temporada.name}</option>
+			                    	</c:forEach>
+			                    </select>
+			                  </div>
 			                  <div class="col-sm-4">
 			                    <label><spring:message code="locality" /></label>
 			                    <select id="local" name="local" class="form-control select2-single">
@@ -106,21 +114,12 @@
 			                    </select>
 			                  </div>
 			                  <div class="col-sm-4">
-			                    <label><spring:message code="censustaker" /></label>
-			                    <select id="censusTaker" name="censusTaker" class="form-control select2-single">
+			                    <label><spring:message code="sprayStatus" /></label>
+			                    <select id="sprayStatus" name="sprayStatus" class="form-control select2-single">
 			                    	<option value="ALL"><spring:message code="all"/></option>
-			                    	<c:forEach items="${censadores}" var="censador">
-			                    		<option value="${censador.ident}"><spring:message code="${censador.name}" /></option>
+			                    	<c:forEach items="${estados}" var="estado">
+			                    		<option value="${estado.catKey}"><spring:message code="${estado.messageKey}" /></option>
 									</c:forEach>
-			                    </select>
-			                  </div>
-			                  <div class="col-sm-4">
-			                    <label><spring:message code="username" /></label>
-			                    <select id="recordUser" name="recordUser" class="form-control select2-single">
-			                    	<option value="ALL"><spring:message code="all"/></option>
-			                    	<c:forEach items="${usuarios}" var="usuario">
-			                      		<option value="${usuario.username}">${usuario.completeName}</option>
-			                    	</c:forEach>
 			                    </select>
 			                  </div>
 		                  </div>
@@ -134,7 +133,7 @@
               </div>
 			</div>
 			</div>
-			<div id="viviendasdiv">
+			<div id="metasdiv">
 			<div class="row">
             <div class="col-md-12">
             	<div class="card">
@@ -247,15 +246,15 @@
   <c:set var="noResults"><spring:message code="noResults" /></c:set>
   
   <spring:url value="/census/searchHouses/" var="searchUrl"/>
-  <spring:url value="/census/" var="censusUrl"/>
+  <spring:url value="/irs/season/targets/" var="targetUrl"/>
   
   <!-- Custom scripts required by this view -->
-  <spring:url value="/resources/js/views/BuscarViviendas.js" var="processSearch" />
+  <spring:url value="/resources/js/views/BuscarMetas.js" var="processSearch" />
   <script src="${processSearch}"></script>
   
   <script>
   	jQuery(document).ready(function() {
-		var parametros = {censusUrl: "${censusUrl}",searchUrl: "${searchUrl}",successmessage: "${successmessage}",
+		var parametros = {targetUrl: "${targetUrl}",searchUrl: "${searchUrl}",successmessage: "${successmessage}",
 				errormessage: "${errormessage}",waitmessage: "${waitmessage}" ,dataTablesLang: "${dataTablesLang}",noResults: "${noResults}"};
 		ProcessSearch.init(parametros);
 	});

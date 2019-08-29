@@ -13,6 +13,35 @@
             </li>
             </sec:authorize>
             
+            <sec:authorize url="/irs/">
+	        <li class="nav-item nav-dropdown lenguaje">
+	            <a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-shower"></i><spring:message code="irs" /></a>
+	            <ul class="nav-dropdown-items">
+	            	<li class="nav-item">
+	                    <a class="nav-link" href="<spring:url value="/irs/dashboard/" htmlEscape="true "/>"><i class="fa fa-signal"></i><spring:message code="dashboard" /></a>
+	                </li>
+	                <sec:authorize url="/irs/season/">
+	                <li class="nav-item">
+	                    <a class="nav-link" href="<spring:url value="/irs/season/" htmlEscape="true "/>"><i class="fa fa-calendar-plus-o"></i><spring:message code="season" /></a>
+	                </li>
+	                <li class="nav-item">
+	                    <a class="nav-link" href="<spring:url value="/irs/season/targets/" htmlEscape="true "/>"><i class="fa fa-calendar-times-o"></i><spring:message code="targets" /></a>
+	                </li>
+	                </sec:authorize>
+	                <sec:authorize url="/irs/spray/">
+	                <li class="nav-item">
+	                    <a class="nav-link" href="<spring:url value="/irs/visits/" htmlEscape="true "/>"><i class="fa fa-shield"></i><spring:message code="visits" /></a>
+	                </li>
+	                </sec:authorize>
+	                <sec:authorize url="/irs/superv/">
+	                <li class="nav-item">
+	                    <a class="nav-link" href="<spring:url value="/irs/supervision/" htmlEscape="true "/>"><i class="fa fa-wpexplorer"></i><spring:message code="supervision" /></a>
+	                </li>
+	                </sec:authorize>
+	            </ul>
+	        </li>
+	        </sec:authorize>
+            
             <sec:authorize url="/admin/">
             <li class="nav-item nav-dropdown administracion">
 	            <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-settings"></i><spring:message code="admin" /></a>
@@ -71,6 +100,7 @@
 	            </ul>
 	        </li>
 	        </sec:authorize>
+	        
             <li class="nav-item nav-dropdown lenguaje">
 	            <a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-language"></i><spring:message code="language" /></a>
 	            <ul class="nav-dropdown-items">

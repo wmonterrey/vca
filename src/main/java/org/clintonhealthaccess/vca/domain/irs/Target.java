@@ -40,14 +40,24 @@ public class Target extends BaseMetaData implements Auditable{
 	private Date lastModified;
 	
 	
-
-	
-	
-	
-	
 	public Target() {
 		super();
 	}
+	
+	public Target(String ident, IrsSeason irsSeason, Household household, String sprayStatus,
+			Date lastModified, String username) {
+		super();
+		this.ident = ident;
+		this.irsSeason = irsSeason;
+		this.household = household;
+		this.sprayStatus = sprayStatus;
+		this.lastModified = lastModified;
+		this.setRecordDate(lastModified);
+		this.setRecordUser(username);
+	}
+
+
+
 
 
 

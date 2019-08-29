@@ -38,5 +38,8 @@
         </div>
     </li>
     <!-- END USER LOGIN DROPDOWN -->
+    <button class="navbar-toggler aside-menu-toggler" type="button">
+      <span class="navbar-toggler-icon"></span>
+    </button>
   </ul>
 </header>

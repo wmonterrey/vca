@@ -3,12 +3,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 <head>
 <jsp:include page="../fragments/headTag.jsp" />
 <!-- Styles required by this views -->
 <spring:url value="/resources/vendors/css/select2.min.css" var="select2css" />
 <link href="${select2css}" rel="stylesheet" type="text/css"/>
+<spring:url value="/resources/vendors/css/datepicker.css" var="datepickercss" />
+<link href="${datepickercss}" rel="stylesheet" type="text/css"/>
 </head>
 <!-- BODY options, add following classes to body to change options
 
@@ -45,13 +48,19 @@
   	<jsp:include page="../fragments/sideBar.jsp" />
     <!-- Main content -->
     <main class="main">
-	  <spring:url value="/admin/localities/saveEntity/" var="saveUrl"></spring:url>
-  	  <spring:url value="/admin/localities/" var="listUrl"/>	
+	  <spring:url value="/census/saveEntity/" var="saveUrl"></spring:url>
+	  <spring:url value="/census/{ident}/" var="viviendaUrl">
+		<spring:param name="ident" value="${vivienda.ident}" />
+	  </spring:url>
+	  <spring:url value="/census/{ident}/" var="listUrl">
+		<spring:param name="ident" value="${vivienda.ident}" />
+	  </spring:url>
+  	  
       <!-- Breadcrumb -->
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<spring:url value="/" htmlEscape="true "/>"><spring:message code="home" /></a></li>
-        <li class="breadcrumb-item"><a href="<spring:url value="/admin/localities/" htmlEscape="true "/>"><spring:message code="localities" /></a></li>
-        <li class="breadcrumb-item active"><c:out value="${localidad.name}" /></li>
+        <li class="breadcrumb-item"><a href="<spring:url value="/census/" htmlEscape="true "/>"><spring:message code="census" /></a></li>
+        <li class="breadcrumb-item active"><c:out value="${vivienda.code}" /></li>
         
       </ol>
 	  <!-- Container -->
@@ -62,7 +71,7 @@
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header">
-                  <i class="icon-note"></i> <spring:message code="edit" /> <spring:message code="localities" />
+                  <i class="icon-note"></i> <spring:message code="edit" /> <spring:message code="census" />
                   <div class="card-actions">
                     
                   </div>
@@ -74,74 +83,195 @@
                     <div class="col-md-8">
                       <form action="#" autocomplete="off" id="add-form">                      
 						<div class="form-group">
+						  <label><spring:message code="ident" /></label>	
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-key"></i></span>
-	                        <input type="text" id="ident" name="ident" readonly value="${localidad.ident}" class="form-control" placeholder="<spring:message code="ident" />">
+	                        <input type="text" id="ident" name="ident" readonly value="${vivienda.ident}" class="form-control" placeholder="<spring:message code="ident" />">
 	                      </div>
 	                    </div>	
 	                    <div class="form-group">
+	                      <label><spring:message code="code" /></label>
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
-	                        <input type="text" id="code" name="code" value="${localidad.code}" class="form-control" placeholder="<spring:message code="code" />">
+	                        <input type="text" id="code" name="code" value="${vivienda.code}" class="form-control" placeholder="<spring:message code="code" />">
 	                      </div>
-	                    </div>  
-                        <div class="form-group">
-	                      <div class="input-group">
-	                        <span class="input-group-addon"><i class="fa fa-address-book"></i></span>
-	                        <input type="text" id="name" name="name" value="${localidad.name}" class="form-control" placeholder="<spring:message code="name" />">
-	                      </div>
-	                    </div>
+	                    </div> 
+	                    
 	                    <div class="form-group">
+	                      <label><spring:message code="locality" /></label>
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="icon-layers"></i></span>
-	                        <select name="district" id="district" class="form-control select2-single">
-	                        	<option value=""><spring:message code="district" /> - <spring:message code="empty" /></option>
-	                        	<c:forEach items="${distritos}" var="distrito">
+	                        <select name="local" id="local" class="form-control select2-single">
+	                        	<option value=""><spring:message code="locality" /> - <spring:message code="empty" /></option>
+	                        	<c:forEach items="${localidades}" var="localidad">
 									<c:choose> 
-										<c:when test="${distrito.ident eq localidad.district.ident}">
-											<option selected value="${distrito.ident}"><spring:message code="${distrito.name}" /></option>
+										<c:when test="${localidad.ident eq vivienda.local.ident}">
+											<option selected value="${localidad.ident}"><spring:message code="${localidad.name}" /></option>
 										</c:when>
 										<c:otherwise>
-											<option value="${distrito.ident}"><spring:message code="${distrito.name}" /></option>
+											<option value="${localidad.ident}"><spring:message code="${localidad.name}" /></option>
 										</c:otherwise>
 									</c:choose> 
 								</c:forEach>
 	                        </select>
 	                      </div>
 	                    </div>
-	                    <div class="form-group">
+	                     
+                        <div class="form-group">
+                          <label><spring:message code="ownerName" /></label>
 	                      <div class="input-group">
-	                        <span class="input-group-addon"><i class="fa fa-location-arrow"></i></span>
-	                        <input type="text" id="latitude" name="latitude" value="${localidad.latitude}" class="form-control" placeholder="<spring:message code="latitude" />">
+	                        <span class="input-group-addon"><i class="fa fa-address-book"></i></span>
+	                        <input type="text" id="ownerName" name="ownerName" value="${vivienda.ownerName}" class="form-control" placeholder="<spring:message code="ownerName" />">
 	                      </div>
 	                    </div>
+	                    
 	                    <div class="form-group">
+	                      <label><spring:message code="censustaker" /></label>
 	                      <div class="input-group">
-	                        <span class="input-group-addon"><i class="fa fa-location-arrow"></i></span>
-	                        <input type="text" id="longitude" name="longitude" value="${localidad.longitude}" class="form-control" placeholder="<spring:message code="longitude" />">
+	                        <span class="input-group-addon"><i class="icon-note"></i></span>
+	                        <select name="censusTaker" id="censusTaker" class="form-control select2-single">
+	                        	<option value=""><spring:message code="censustaker" /> - <spring:message code="empty" /></option>
+	                        	<c:forEach items="${censadores}" var="censador">
+									<c:choose> 
+										<c:when test="${censador.ident eq vivienda.censusTaker.ident}">
+											<option selected value="${censador.ident}"><spring:message code="${censador.name}" /></option>
+										</c:when>
+										<c:otherwise>
+											<option value="${censador.ident}"><spring:message code="${censador.name}" /></option>
+										</c:otherwise>
+									</c:choose> 
+								</c:forEach>
+	                        </select>
 	                      </div>
 	                    </div>
+			            
+			            
 	                    <div class="form-group">
+	                      <label><spring:message code="censusDate" /></label>
 	                      <div class="input-group">
-	                        <span class="input-group-addon"><i class="fa fa-location-arrow"></i></span>
-	                        <input type="text" id="zoom" name="zoom" value="${localidad.zoom}" class="form-control" placeholder="<spring:message code="zoom" />">
+	                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+	                        <fmt:formatDate value="${vivienda.censusDate}" var="fecCenso" pattern="dd/MM/yyyy" />
+	                        <input type="text" id="censusDate" name="censusDate" value="${fecCenso}" class="form-control date-picker" data-date-format="dd/mm/yyyy" data-date-start-date="-90d" data-date-end-date="+0d">
+	                      </div>
+	                    </div>  
+	                    
+	                    <div class="form-group">
+	                      <label><spring:message code="inhabited" /></label>
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
+	                        <select name="inhabited" id="inhabited" class="form-control select2-single">
+	                        	<option value=""><spring:message code="inhabited" /> - <spring:message code="empty" /></option>
+	                        	<c:forEach items="${sinos}" var="sino">
+									<c:choose> 
+										<c:when test="${sino.catKey eq vivienda.inhabited}">
+											<option selected value="${sino.catKey}"><spring:message code="${sino.messageKey}" /></option>
+										</c:when>
+										<c:otherwise>
+											<option value="${sino.catKey}"><spring:message code="${sino.messageKey}" /></option>
+										</c:otherwise>
+									</c:choose> 
+								</c:forEach>
+	                        </select>
 	                      </div>
 	                    </div>
-	                    <div class="form-group">
+                        <div class="form-group">
+                          <label><spring:message code="habitants" /></label>
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-users"></i></span>
-	                        <input type="text" id="population" name="population" value="${localidad.population}" class="form-control" placeholder="<spring:message code="population" />">
+	                        <input type="text" id="habitants" name="habitants" value="${vivienda.habitants}" class="form-control" placeholder="<spring:message code="habitants" />">
+	                      </div>
+	                    </div>
+	                    
+	                    <div class="form-group">
+	                      <label><spring:message code="material" /></label>
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
+	                        <select name="material" id="material" class="form-control select2-single">
+	                        	<option value=""><spring:message code="material" /> - <spring:message code="empty" /></option>
+	                        	<c:forEach items="${materials}" var="material">
+									<c:choose> 
+										<c:when test="${material.catKey eq vivienda.material}">
+											<option selected value="${material.catKey}"><spring:message code="${material.messageKey}" /></option>
+										</c:when>
+										<c:otherwise>
+											<option value="${material.catKey}"><spring:message code="${material.messageKey}" /></option>
+										</c:otherwise>
+									</c:choose> 
+								</c:forEach>
+	                        </select>
+	                      </div>
+	                    </div>
+	                    
+	                    <div class="form-group">
+	                      <label><spring:message code="rooms" /></label>
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-window-restore"></i></span>
+	                        <input type="text" id="rooms" name="rooms" value="${vivienda.rooms}" class="form-control" placeholder="<spring:message code="rooms" />">
+	                      </div>
+	                    </div>
+	                    
+	                    <div class="form-group">
+	                      <label><spring:message code="sprRooms" /></label>
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-window-restore"></i></span>
+	                        <input type="text" id="sprRooms" name="sprRooms" value="${vivienda.sprRooms}" class="form-control" placeholder="<spring:message code="sprRooms" />">
+	                      </div>
+	                    </div>
+	                    
+	                    <div class="form-group">
+	                      <label><spring:message code="noSprooms" /></label>
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-window-restore"></i></span>
+	                        <input type="text" id="noSprooms" name="noSprooms" value="${vivienda.noSprooms}" class="form-control" placeholder="<spring:message code="noSprooms" />">
+	                      </div>
+	                    </div>
+	                    
+	                    <div class="form-group">
+	                      <label><spring:message code="noSproomsReasons" /></label>
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
+	                        <select name="noSproomsReasons" id="noSproomsReasons" class="form-control select2-multiple" multiple="true">
+	                        	<option value=""><spring:message code="noSproomsReasons" /> - <spring:message code="empty" /></option>
+	                        	<c:forEach items="${razones}" var="razon">
+									<c:choose> 
+										<c:when test="${fn:contains(vivienda.noSproomsReasons, razon.catKey)}">
+											<option selected value="${razon.catKey}"><spring:message code="${razon.messageKey}" /></option>
+										</c:when>
+										<c:otherwise>
+											<option value="${razon.catKey}"><spring:message code="${razon.messageKey}" /></option>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+	                        </select>
+	                      </div>
+	                    </div>
+	                    
+	                    
+	                    <div class="form-group">
+	                      <label><spring:message code="latitude" /></label>
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-location-arrow"></i></span>
+	                        <input type="text" id="latitude" name="latitude" value="${vivienda.latitude}" class="form-control" placeholder="<spring:message code="latitude" />">
 	                      </div>
 	                    </div>
 	                    <div class="form-group">
+	                      <label><spring:message code="longitude" /></label>
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-location-arrow"></i></span>
+	                        <input type="text" id="longitude" name="longitude" value="${vivienda.longitude}" class="form-control" placeholder="<spring:message code="longitude" />">
+	                      </div>
+	                    </div>
+	                    
+	                    <div class="form-group">
+	                      <label><spring:message code="obs" /></label>
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-sticky-note-o"></i></span>
-	                        <input type="text" id="obs" name="obs" value="${localidad.obs}" class="form-control" placeholder="<spring:message code="obs" />">
+	                        <input type="text" id="obs" name="obs" value="${vivienda.obs}" class="form-control" placeholder="<spring:message code="obs" />">
 	                      </div>
 	                    </div>
                         <div class="form-group">
                           <button type="submit" class="btn btn-primary" id="guardar"><i class="fa fa-save"></i>&nbsp;<spring:message code="save" /></button>
-						  <a href="${fn:escapeXml(listUrl)}" class="btn btn-danger"><i class="fa fa-undo"></i>&nbsp;<spring:message code="cancel" /></a>
+						  <a href="${fn:escapeXml(viviendaUrl)}" class="btn btn-danger"><i class="fa fa-undo"></i>&nbsp;<spring:message code="cancel" /></a>
                         </div>
                       </form>
                     </div>
@@ -188,12 +318,15 @@
   </spring:url>
   <script src="${jQValidationLoc}"></script>
   
+  <spring:url value="/resources/vendors/js/bootstrap-datepicker.js" var="datepicker" />
+  <script src="${datepicker}" type="text/javascript"></script>
+  
   <spring:url value="/resources/vendors/js/select2.min.js" var="Select2" />
   <script src="${Select2}" type="text/javascript"></script>
   
 
   <!-- Custom scripts required by this view -->
-  <spring:url value="/resources/js/views/Entidad.js" var="processEntity" />
+  <spring:url value="/resources/js/views/HouseHold.js" var="processEntity" />
   <script src="${processEntity}"></script>
   
 <c:set var="successmessage"><spring:message code="process.success" /></c:set>
@@ -209,7 +342,7 @@
 		ProcessEntity.init(parametros);
 	});
 	
-	$('#district').select2({
+	$('#censusTaker,#local,#inhabited,#material,#noSproomsReasons').select2({
 	    theme: "bootstrap",
 	    width: '100%'
 	});

@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -93,7 +94,7 @@ public class HomeController {
 	    	model.addAttribute("areas", areas);
 	    	List<Distrito> distritos = distritoService.getActiveDistricts();
 	    	model.addAttribute("distritos", distritos);
-	    	List<Localidad> localidades = localidadService.getActiveLocalities();
+	    	List<Localidad> localidades = localidadService.getActiveLocalitiesUsuario(SecurityContextHolder.getContext().getAuthentication().getName());
 	    	model.addAttribute("localidades", localidades);
 	    	List<Censador> censadores = censadorService.getActiveCensadores();
 	    	model.addAttribute("censadores", censadores);

@@ -100,7 +100,7 @@
 1. '.footer-fixed'					- Fixed footer
 
 -->
-<body class="app header-fixed sidebar-hidden aside-menu-fixed aside-menu-hidden">
+<body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
   <!-- Header -->
   <jsp:include page="fragments/bodyHeader.jsp" />
   <div class="app-body">
@@ -112,13 +112,7 @@
       <!-- Breadcrumb -->
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<spring:url value="/" htmlEscape="true "/>"><spring:message code="home" /></a></li>
-        <li class="breadcrumb-item"><a href="<spring:url value="/logout" htmlEscape="true "/>"><spring:message code="logout" /></a></li>
         <li class="breadcrumb-item active">&nbsp;</li>
-        <li class="breadcrumb-menu d-md-down-none">
-          <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-            <a class="btn aside-menu-toggler" href="#"><i class="icon-settings"></i> &nbsp;<spring:message code="filters" /></a>
-          </div>
-        </li>
       </ol>
       
 	  <!-- Container -->
@@ -267,7 +261,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-6 col-lg-6">
+				<div class="col-md-6">
 	           		<div class="card">
 		           		<div class="card-header">
 		           			<b>Materiales de la vivienda</b>

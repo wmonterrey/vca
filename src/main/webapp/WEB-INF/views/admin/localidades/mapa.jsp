@@ -164,7 +164,7 @@
   
   <script>
   
-	  	var mymap = L.map('mapid').setView([${latitude}, ${longitude}], ${zoom});
+	  	var mymap = L.map('mapid').setView(["${latitude}", "${longitude}"], "${zoom}");
 		
 		var theMarker = {};
 		var locMarkers = new L.FeatureGroup();
@@ -194,11 +194,11 @@
 			var miLong = "${localidad.longitude}";
 			
 			if(!(miLat == "" || miLong == "")){
-				if(${localidad.pasive}=='1'.charAt(0)){
-					theMarker = L.marker([${localidad.latitude}, ${localidad.longitude}],{url: "${viewList}"+"/"+"${localidad.ident}"+"/"}).addTo(mymap).setIcon(redIcon).on('click', onClick);
+				if("${localidad.pasive}"=='1'.charAt(0)){
+					theMarker = L.marker(["${localidad.latitude}", "${localidad.longitude}"],{url: "${viewList}"+"/"+"${localidad.ident}"+"/"}).addTo(mymap).setIcon(redIcon).on('click', onClick);
 				}
 				else{
-					theMarker = L.marker([${localidad.latitude}, ${localidad.longitude}],{url: "${viewList}"+"/"+"${localidad.ident}"+"/"}).addTo(mymap).setIcon(blueIcon).on('click', onClick);
+					theMarker = L.marker(["${localidad.latitude}", "${localidad.longitude}"],{url: "${viewList}"+"/"+"${localidad.ident}"+"/"}).addTo(mymap).setIcon(blueIcon).on('click', onClick);
 				}
 				theMarker.addTo(locMarkers);
 				theMarker.bindTooltip("${localidad.name}");
@@ -216,9 +216,9 @@
 
 		legend.onAdd = function(map) {
 		  var div = L.DomUtil.create("div", "legend");
-		  div.innerHTML += "<h4>Localidad</h4>";
-		  div.innerHTML += '<i class="icon" style="background-image: url(${iconBlue});background-repeat: no-repeat;"></i><span>Activa</span><br>';
-		  div.innerHTML += '<i class="icon" style="background-image: url(${iconRed});background-repeat: no-repeat;"></i><span>Inactiva</span><br>';
+		  div.innerHTML += "<h4><spring:message code="locality" /></h4>";
+		  div.innerHTML += '<i class="icon" style="background-image: url(${iconBlue});background-repeat: no-repeat;"></i><span><spring:message code="enabled" /></span><br>';
+		  div.innerHTML += '<i class="icon" style="background-image: url(${iconRed});background-repeat: no-repeat;"></i><span><spring:message code="disabled" /></span><br>';
 		  return div;
 		};
 

@@ -21,7 +21,7 @@ import org.hibernate.annotations.ForeignKey;
  **/
 
 @Entity
-@Table(name = "usersLocalities", catalog = "vca")
+@Table(name = "userslocalities", catalog = "vca")
 public class UsuarioLocalidad extends BaseMetaData implements Auditable{
 	
 	/**

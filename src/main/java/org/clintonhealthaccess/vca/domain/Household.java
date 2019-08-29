@@ -43,8 +43,8 @@ public class Household extends BaseMetaData implements Auditable{
 	private Integer sprRooms;
 	private Integer noSprooms;
 	private String noSproomsReasons;
-	private Float latitude;
-	private Float longitude;
+	private Double latitude;
+	private Double longitude;
 	private String obs;
 	
 	public Household() {
@@ -212,25 +212,25 @@ public class Household extends BaseMetaData implements Auditable{
 
 
 	@Column(name = "latitude", nullable = true)
-	public Float getLatitude() {
+	public Double getLatitude() {
 		return latitude;
 	}
 
 
 
-	public void setLatitude(Float latitude) {
+	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
 	}
 
 
 	@Column(name = "longitude", nullable = true)
-	public Float getLongitude() {
+	public Double getLongitude() {
 		return longitude;
 	}
 
 
 
-	public void setLongitude(Float longitude) {
+	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
 

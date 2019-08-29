@@ -5,10 +5,11 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <html>
 <head>
-<jsp:include page="../../fragments/headTag.jsp" />
+<jsp:include page="../fragments/headTag.jsp" />
 <!-- Styles required by this views -->
 <spring:url value="/resources/vendors/css/dataTables.bootstrap4.min.css" var="dataTablesCSS" />
 <link href="${dataTablesCSS}" rel="stylesheet" type="text/css"/>
+
 </head>
 <!-- BODY options, add following classes to body to change options
 
@@ -39,17 +40,17 @@
 -->
 <body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
   <!-- Header -->
-  <jsp:include page="../../fragments/bodyHeader.jsp" />
+  <jsp:include page="../fragments/bodyHeader.jsp" />
   <div class="app-body">
   	<!-- Navigation -->
-  	<jsp:include page="../../fragments/sideBar.jsp" />
+  	<jsp:include page="../fragments/sideBar.jsp" />
     <!-- Main content -->
     <main class="main">
       <!-- Breadcrumb -->
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<spring:url value="/" htmlEscape="true "/>"><spring:message code="home" /></a></li>
-        <li class="breadcrumb-item"><a href="<spring:url value="/admin/foci/" htmlEscape="true "/>"><spring:message code="foci" /></a></li>
-        <li class="breadcrumb-item active"><c:out value="${foco.code}" /></li>
+        <li class="breadcrumb-item"><a href="<spring:url value="/irs/season/" htmlEscape="true "/>"><spring:message code="season" /></a></li>
+        <li class="breadcrumb-item active"><c:out value="${temporada.name}" /></li>
         
       </ol>
 	  <!-- Container -->
@@ -59,115 +60,97 @@
           	<div class="row">
 	            <div class="col-md-12">
 	              <div class="card">
-	                <div class="card-header">
-	                  <i class="icon-graph"></i>&nbsp;<strong><c:out value="${foco.name}" /></strong>
-	                </div>
-                	<div class="card-body">
-                		<div class="form-group row">
-	                      <label class="col-md-3 col-form-label"><spring:message code="ident" />:</label>
-	                      <div class="col-md-9">
-	                        <p class="form-control-static"><strong><c:out value="${foco.ident}" /></strong></p>
-	                      </div>
-	                    </div>
-	                    <div class="form-group row">
-	                      <label class="col-md-3 col-form-label"><spring:message code="code" />:</label>
-	                      <div class="col-md-9">
-	                        <p class="form-control-static"><strong><c:out value="${foco.code}" /></strong></p>
-	                      </div>
-	                    </div>
-	                    <div class="form-group row">
-	                      <label class="col-md-3 col-form-label"><spring:message code="enabled" />:</label>
-	                      <div class="col-md-9">
-	                        <p class="form-control-static"><strong>
-	                        	<c:choose>
-									<c:when test="${foco.pasive=='0'.charAt(0)}">
-										<strong><spring:message code="CAT_SINO_SI" /></strong>
-									</c:when>
-									<c:otherwise>
-										<strong><spring:message code="CAT_SINO_NO" /></strong>
-									</c:otherwise>
-								</c:choose>
-	                        </strong></p>
-	                      </div>
-	                    </div>
-	                    <div class="form-group row">
-	                      <label class="col-md-3 col-form-label"><spring:message code="createdBy" />:</label>
-	                      <div class="col-md-9">
-	                        <p class="form-control-static"><strong><c:out value="${foco.recordUser}" /></strong></p>
-	                      </div>
-	                    </div>
-	                    <div class="form-group row">
-	                      <label class="col-md-3 col-form-label"><spring:message code="dateCreated" />:</label>
-	                      <div class="col-md-9">
-	                        <p class="form-control-static"><strong><c:out value="${foco.recordDate}" /></strong></p>
-	                      </div>
-	                    </div>
-	                    <spring:url value="/admin/foci/editEntity/{ident}/" var="editUrl">
-                        	<spring:param name="ident" value="${foco.ident}" />
-                         </spring:url>
-                         <spring:url value="/admin/foci/disableEntity/{ident}/" var="disableUrl">
-                              	<spring:param name="ident" value="${foco.ident}" />
-                         </spring:url>
-                         <spring:url value="/admin/foci/enableEntity/{ident}/" var="enableUrl">
-                           	<spring:param name="ident" value="${foco.ident}" />
-                         </spring:url>
-					</div>
-					<div class="card-header">
+		               	<div class="card-header">
+		                  <i class="fa fa-calendar"></i>&nbsp;<strong><spring:message code="season" />: <c:out value="${temporada.name}" /></strong>
+		                </div>
+	                	<div class="card-body">
+	                		<div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="ident" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${temporada.ident}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="code" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${temporada.code}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="startDate" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${temporada.startDate}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="endDate" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${temporada.endDate}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="obs" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${temporada.obs}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="enabled" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong>
+		                        	<c:choose>
+										<c:when test="${temporada.pasive=='0'.charAt(0)}">
+											<strong><spring:message code="CAT_SINO_SI" /></strong>
+										</c:when>
+										<c:otherwise>
+											<strong><spring:message code="CAT_SINO_NO" /></strong>
+										</c:otherwise>
+									</c:choose>
+		                        </strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="createdBy" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${temporada.recordUser}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="dateCreated" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${temporada.recordDate}" /></strong></p>
+		                      </div>
+		                    </div>
+	                    	<spring:url value="/irs/season/editEntity/{ident}/" var="editUrl">
+                              	<spring:param name="ident" value="${temporada.ident}" />
+                          	</spring:url>
+            					<spring:url value="/irs/season/disableEntity/{ident}/" var="disableUrl">
+                              	<spring:param name="ident" value="${temporada.ident}" />
+                          	</spring:url>
+                          	<spring:url value="/irs/season/enableEntity/{ident}/" var="enableUrl">
+                              	<spring:param name="ident" value="${temporada.ident}" />
+                          	</spring:url>
+						</div>
+						<div class="card-header">
           				<div class="row float-right mr-4" >
           					<button id="edit_entity" onclick="location.href='${fn:escapeXml(editUrl)}'" type="button" class="btn btn-outline-primary"><i class="fa fa-pencil"></i>&nbsp; <spring:message code="edit" /></button>
           					<c:choose>
-								<c:when test="${foco.pasive=='0'.charAt(0)}">
+								<c:when test="${temporada.pasive=='0'.charAt(0)}">
 									<button id="disable_entity" onclick="location.href='${fn:escapeXml(disableUrl)}'" type="button" class="btn btn-outline-danger"><i class="fa fa-close"></i>&nbsp; <spring:message code="disable" /></button>
 								</c:when>
 								<c:otherwise>
 									<button id="enable_entity" onclick="location.href='${fn:escapeXml(enableUrl)}'" type="button" class="btn btn-outline-primary"><i class="fa fa-check"></i>&nbsp; <spring:message code="enable" /></button>
 								</c:otherwise>
 						 	</c:choose>
-          					<button id="back_button" onclick="location.href='<spring:url value="/admin/foci/" htmlEscape="true "/>'" type="button" class="btn btn-outline-primary"><i class="fa fa-undo"></i>&nbsp; <spring:message code="back" /></button>
+          					<button id="back_button" onclick="location.href='<spring:url value="/irs/season/" htmlEscape="true "/>'" type="button" class="btn btn-outline-primary"><i class="fa fa-undo"></i>&nbsp; <spring:message code="back" /></button>
           				</div>
             		</div>
-				  </div>
+					</div>
 				</div>
+
 	            <!--/.col-->
          	</div>
-         	<div class="row">
-	            <div class="col-md-12">
-	              <div class="card">
-	                <div class="card-header">
-	                  <i class="icon-compass"></i>&nbsp;<strong><spring:message code="class org.clintonhealthaccess.vca.domain.relationships.FocoLocalidad" /></strong>
-	                </div>
-	                <div class="card-body">
-	                	<table id="lista_localidades" class="table table-striped table-bordered datatable" width="100%">
-			                <thead>
-			                	<tr>
-				                    <th><spring:message code="locality" /></th>
-									<th><spring:message code="enabled" /></th>
-									<th><spring:message code="addedBy" /></th>
-									<th><spring:message code="dateAdded" /></th>
-			                	</tr>
-			                </thead>
-			                <tbody>
-			                	<c:forEach items="${localidadesSeleccionadas}" var="localidadfoco">
-								<tr>
-									<td><c:out value="${localidadfoco.name}" /></td>
-									<c:choose>
-										<c:when test="${localidadfoco.pasive=='0'.charAt(0)}">
-											<td><span class="badge badge-success"><spring:message code="CAT_SINO_SI" /></span></td>
-										</c:when>
-										<c:otherwise>
-											<td><span class="badge badge-danger"><spring:message code="CAT_SINO_NO" /></span></td>
-										</c:otherwise>
-									</c:choose>
-									<td><c:out value="${localidadfoco.recordUser}" /></td>
-									<td><c:out value="${localidadfoco.recordDate}" /></td>
-								</tr>
-							</c:forEach>
-			                </tbody>
-			            </table>
-	                </div>
-	              </div>
-	            </div>
-            </div>
+         	
             <div class="row">
 	            <div class="col-md-12">
 	              <div class="card">
@@ -211,11 +194,11 @@
     </main>
   </div>
   <!-- Pie de p�gina -->
-  <jsp:include page="../../fragments/bodyFooter.jsp" />
+  <jsp:include page="../fragments/bodyFooter.jsp" />
 
   <!-- Bootstrap and necessary plugins -->
-  <jsp:include page="../../fragments/corePlugins.jsp" />
-  <jsp:include page="../../fragments/bodyUtils.jsp" />
+  <jsp:include page="../fragments/corePlugins.jsp" />
+  <jsp:include page="../fragments/bodyUtils.jsp" />
 
   <!-- GenesisUI main scripts -->
   <spring:url value="/resources/js/app.js" var="App" />
@@ -245,6 +228,7 @@
   <script src="${dataTablesSc}" type="text/javascript"></script>
   <spring:url value="/resources/vendors/js/dataTables.bootstrap4.min.js" var="dataTablesBsSc" />
   <script src="${dataTablesBsSc}" type="text/javascript"></script>
+  
   
   <c:set var="entityEnabledLabel"><spring:message code="enabled" /></c:set>
   <c:set var="entityDisabledLabel"><spring:message code="disabled" /></c:set>
