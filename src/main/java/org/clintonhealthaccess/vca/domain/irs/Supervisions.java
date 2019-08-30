@@ -39,7 +39,8 @@ public class Supervisions extends BaseMetaData implements Auditable{
 	private String eqProtBien;
 	private String numIden;
 	private String aguaOp;
-	private String propViv;
+	private String prepViv;
+	private String coopPrepViv;
 	private String mezcla;
 	private String aguaAdec;
 	private String mezclaPrep;
@@ -193,16 +194,29 @@ public class Supervisions extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "propViv", nullable = false, length = 5)
-	public String getPropViv() {
-		return propViv;
+	@Column(name = "prepViv", nullable = false, length = 5)
+	public String getPrepViv() {
+		return prepViv;
 	}
 
 
 
-	public void setPropViv(String propViv) {
-		this.propViv = propViv;
+	public void setPrepViv(String prepViv) {
+		this.prepViv = prepViv;
 	}
+
+	
+	@Column(name = "coopPrepViv", nullable = false, length = 5)
+	public String getCoopPrepViv() {
+		return coopPrepViv;
+	}
+
+
+
+	public void setCoopPrepViv(String coopPrepViv) {
+		this.coopPrepViv = coopPrepViv;
+	}
+
 
 
 	@Column(name = "mezcla", nullable = false, length = 5)

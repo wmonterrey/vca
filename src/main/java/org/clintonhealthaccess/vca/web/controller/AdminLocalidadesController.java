@@ -31,6 +31,8 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * Controlador web de peticiones
@@ -109,9 +111,9 @@ public class AdminLocalidadesController {
     public ModelAndView showEntity(@PathVariable("ident") String ident) {
     	ModelAndView mav;
     	Localidad localidad = this.localidadService.getLocal(ident);
-    	Float latitud;
-    	Float longitud;
-    	Integer zoom;
+    	Float latitud=0F;
+    	Float longitud=0F;
+    	Integer zoom=0;
         if(localidad==null){
         	mav = new ModelAndView("403");
         }
@@ -119,9 +121,9 @@ public class AdminLocalidadesController {
         	try {
 	        	mav = new ModelAndView("admin/localidades/viewForm");
 	        	mav.addObject("localidad",localidad);
-	        	zoom = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
-	        	latitud = Float.parseFloat(parametroService.getParametroByCode("lat").getValue());
-	        	longitud = Float.parseFloat(parametroService.getParametroByCode("long").getValue());
+	        	if(parametroService.getParametroByCode("zoom")!=null) zoom = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
+	        	if(parametroService.getParametroByCode("lat")!=null) latitud = Float.parseFloat(parametroService.getParametroByCode("lat").getValue());
+	        	if(parametroService.getParametroByCode("long")!=null) longitud = Float.parseFloat(parametroService.getParametroByCode("long").getValue());
 	        	if(localidad.getLatitude()!=null) latitud = localidad.getLatitude();
 	        	if(localidad.getLongitude()!=null) longitud = localidad.getLongitude();
 	        	if(localidad.getZoom()!=null) zoom = localidad.getZoom();
@@ -133,7 +135,7 @@ public class AdminLocalidadesController {
         	}
         	catch (Exception e) {
         		mav = new ModelAndView("505");
-        		mav.addObject("errormsg",e.getLocalizedMessage());
+        		mav.addObject("errormsg","Error: " +  e.getLocalizedMessage());
         	}
         }
         return mav;
@@ -186,7 +188,7 @@ public class AdminLocalidadesController {
 				return "admin/localidades/enterLocation";
 			}
         	catch (Exception e) {
-        		model.addAttribute("errormsg",e.getLocalizedMessage());
+        		model.addAttribute("errormsg","Error: " + e.getLocalizedMessage());
         		return "505";
         	}
 		}
@@ -212,6 +214,7 @@ public class AdminLocalidadesController {
 	        , @RequestParam( value="longitude", required=false, defaultValue ="" ) String longitude
 	        , @RequestParam( value="zoom", required=false, defaultValue ="" ) String zoom
 	        , @RequestParam( value="population", required=false, defaultValue ="" ) String population
+	        , @RequestParam( value="pattern", required=false, defaultValue ="" ) String pattern
 	        , @RequestParam( value="obs", required=false, defaultValue ="" ) String obs
 	        )
 	{
@@ -225,6 +228,15 @@ public class AdminLocalidadesController {
     		if(!longitude.equals("")) longitud = Float.valueOf(longitude);
     		if(!zoom.equals("")) vista = Integer.valueOf(zoom);
     		if(!population.equals("")) poblacion = Integer.valueOf(population);
+    		
+    		try {
+                Pattern.compile(pattern);
+            } catch (PatternSyntaxException exception) {
+            	String message = "Regex error! .... " + exception.getDescription();
+    			Gson gson = new Gson();
+    		    String json = gson.toJson(message);
+    		    return createJsonResponse(json);
+            }
     		
     		Distrito disLoc = this.distritoService.getDistrict(district);
 			Localidad localidad = new Localidad();
@@ -248,6 +260,7 @@ public class AdminLocalidadesController {
 			localidad.setLongitude(longitud);
 			localidad.setZoom(vista);
 			localidad.setPopulation(poblacion);
+			localidad.setPattern(pattern);
 			localidad.setObs(obs);
 			//Actualiza
 			this.localidadService.saveLocal(localidad);

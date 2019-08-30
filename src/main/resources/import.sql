@@ -174,6 +174,7 @@ INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('longitude', NULL, NULL, 'Longitude', '0', 0, '0', 'Longitud');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('population', NULL, NULL, 'Population', '0', 0, '0', 'Población');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('obs', NULL, NULL, 'Notes', '0', 0, '0', 'Observaciones');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('pattern', NULL, NULL, 'Pattern', '0', 0, '0', 'Patrón');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('orgunit', NULL, NULL, 'Org Units', '0', 0, '0', 'Unidades Organizativas');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('sysopts', NULL, NULL, 'System options', '0', 0, '0', 'Opciones sistema');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('resources', NULL, NULL, 'Human resources', '0', 0, '0', 'Recursos humanos');
@@ -218,12 +219,17 @@ INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden
 
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_STATUS', NULL, NULL, 'Catalogue status house', '1', 0, '0', 'Catalogo Estado de la vivienda');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_STATUS_01', 'SPRTOT', 'CAT_STATUS', 'Sprayed', '0', 1, '0', 'Rociada total');
-INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_STATUS_02', 'SPRPAR', 'CAT_STATUS', 'Partial Sprayed', '0', 1, '0', 'Rociada parcial');
-INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_STATUS_03', 'SPRREL', 'CAT_STATUS', 'Reluctant', '0', 1, '0', 'Renuente');
-INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_STATUS_04', 'SPRCLO', 'CAT_STATUS', 'Closed', '0', 1, '0', 'Cerrada');
-INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_STATUS_05', 'NOTIFI', 'CAT_STATUS', 'Notified', '0', 1, '0', 'Con preaviso');
-INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_STATUS_06', 'NOTCLO', 'CAT_STATUS', 'Not notified', '0', 1, '0', 'Sin preaviso');
-INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_STATUS_07', 'NOTVIS', 'CAT_STATUS', 'Never visited', '0', 1, '0', 'Nunca visitada');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_STATUS_02', 'SPRPAR', 'CAT_STATUS', 'Partial Sprayed', '0', 2, '0', 'Rociada parcial');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_STATUS_03', 'SPRREL', 'CAT_STATUS', 'Reluctant', '0', 3, '0', 'Renuente');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_STATUS_04', 'SPRCLO', 'CAT_STATUS', 'Closed', '0', 4, '0', 'Cerrada');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_STATUS_05', 'NOTIFI', 'CAT_STATUS', 'Notified', '0', 5, '0', 'Con preaviso');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_STATUS_06', 'NOTCLO', 'CAT_STATUS', 'Not notified', '0', 6, '0', 'Sin preaviso');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_STATUS_07', 'NOTVIS', 'CAT_STATUS', 'Never visited', '0', 7, '0', 'Nunca visitada');
+
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_VIS_TYPE', NULL, NULL, 'Catalogue visit type', '1', 0, '0', 'Catalogo Tipo de visita');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_VIS_TYPE_01', 'NOTICE', 'CAT_VIS_TYPE', 'Notice', '0', 1, '0', 'Pre aviso');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_VIS_TYPE_02', 'SPRAY', 'CAT_VIS_TYPE', 'Spray', '0', 2, '0', 'Rociado');
+
 
 //Censo
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('census', NULL, NULL, 'Census', '0', 0, '0', 'Censo');
@@ -284,5 +290,60 @@ INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('targets', NULL, NULL, 'Targets', '0', 0, '0', 'Mantenimiento Metas');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('sprayStatus', NULL, NULL, 'Status', '0', 0, '0', 'Estado');
 
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('visitDate', NULL, NULL, 'visit Date', '0', 0, '0', 'Fecha de visita');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('activity', NULL, NULL, 'Activity', '0', 0, '0', 'Actividad');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('compVisit', NULL, NULL, 'compete Visit', '0', 0, '0', 'Se realiza la actividad?');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('reasonNoVisit', NULL, NULL, 'reason No Visit', '0', 0, '0', 'Porque se no realiza la actividad?');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('reasonNoVisitOther', NULL, NULL, 'reason No Visit Other', '0', 0, '0', 'Otra razon');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('reasonReluctant', NULL, NULL, 'reason Reluctant', '0', 0, '0', 'Motivo renuente');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('reasonReluctantOther', NULL, NULL, 'reason Reluctant Other', '0', 0, '0', 'Otro motivo renuente');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('sprayedRooms', NULL, NULL, 'sprayed Rooms', '0', 0, '0', 'Cuartos rociados');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('numCharges', NULL, NULL, 'num Charges', '0', 0, '0', 'Numero de cargas utilizadas');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('reasonIncomplete', NULL, NULL, 'reason Incomplete', '0', 0, '0', 'Porque no se rociaron todos los cuartos?');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('supervised', NULL, NULL, 'supervised', '0', 0, '0', 'El rociado fue supervisado en esta vivienda?');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('supervisionDate', NULL, NULL, 'supervision Date', '0', 0, '0', 'Fecha de supervisión');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('usoEqProt', NULL, NULL, 'usoEqProt', '0', 0, '0', 'El equpo de protección está bien llevado');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('eqProtBien', NULL, NULL, 'eqProtBien', '0', 0, '0', 'El equipo de protección está en buen estado');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('numIden', NULL, NULL, 'numIden', '0', 0, '0', 'Pone su número de identificación y lo hace correctamente');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('aguaOp', NULL, NULL, 'aguaOp', '0', 0, '0', 'Solicita agua oportunamente');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('prepViv', NULL, NULL, 'prepViv', '0', 0, '0', 'Comprueba la preparación de la vivienda');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('coopPrepViv', NULL, NULL, 'coopPrepViv', '0', 0, '0', 'Coopera en la preparación de la vivienda');
+
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('aguaAdec', NULL, NULL, 'aguaAdec', '0', 0, '0', 'Aplica la cantidad adecuada de agua');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('mezclaPrep', NULL, NULL, 'mezclaPrep', '0', 0, '0', 'Prepara bien la mezcla');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('agitaBomba', NULL, NULL, 'agitaBomba', '0', 0, '0', 'Agita correctamente la bomba');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('bombaCerrada', NULL, NULL, 'bombaCerrada', '0', 0, '0', 'La bomba está cerrada correctamente');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('bombaPresion', NULL, NULL, 'bombaPresion', '0', 0, '0', 'La bomba tiene la presión correcta (55psi)');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('compruebaBomba', NULL, NULL, 'compruebaBomba', '0', 0, '0', 'Comprueba su funcionamiento antes de rociar');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('colocApropiada', NULL, NULL, 'colocApropiada', '0', 0, '0', 'Se coloca adecuadamente');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('distApropiada', NULL, NULL, 'distApropiada', '0', 0, '0', 'Calcula la distancia adecuada');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('distBoquilla', NULL, NULL, 'distBoquilla', '0', 0, '0', 'Mantiene la distancia de la boquilla al momento de rociar');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('pasoFrente', NULL, NULL, 'pasoFrente', '0', 0, '0', 'Da un paso al frente en las superficies altas');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('mantRitmo', NULL, NULL, 'mantRitmo', '0', 0, '0', 'Mantiene el ritmo al rociar');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('metConteo', NULL, NULL, 'metConteo', '0', 0, '0', 'Utiliza el método del conteo');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('velocSuperficies', NULL, NULL, 'velocSuperficies', '0', 0, '0', 'Mantiene volocidad adecuada en las superficies');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('supFajas', NULL, NULL, 'supFajas', '0', 0, '0', 'Superpone las fajas correctamente');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('pasosLaterales', NULL, NULL, 'pasosLaterales', '0', 0, '0', 'Da los pasos laterales de 70 cm aproximadamente');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('salvarObstaculos', NULL, NULL, 'salvarObstaculos', '0', 0, '0', 'Tiene habilidad para salvar obstáculos');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('bienRociado', NULL, NULL, 'bienRociado', '0', 0, '0', 'Rocía bien las superficies');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('supInvertidas', NULL, NULL, 'supInvertidas', '0', 0, '0', 'Rocía las superficies invertidas');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('objPiso', NULL, NULL, 'objPiso', '0', 0, '0', 'Rocía objetos en el piso');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('reportaConsumoAprop', NULL, NULL, 'reportaConsumoAprop', '0', 0, '0', 'La cantidad de cargas reportadas corresponde a la cantidad de producto utilizado');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('transEqAprop', NULL, NULL, 'transEqAprop', '0', 0, '0', 'Transporta el equipo correctamente');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('eqCompleto', NULL, NULL, 'eqCompleto', '0', 0, '0', 'Lleva equipo completo');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('cuidaMatEq', NULL, NULL, 'cuidaMatEq', '0', 0, '0', 'Cuida sus materiales y equipos');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('buenAspPersonal', NULL, NULL, 'buenAspPersonal', '0', 0, '0', 'Su aspecto personal es bueno');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('cumpleInstrucciones', NULL, NULL, 'cumpleInstrucciones', '0', 0, '0', 'Cumple con las instrucciones que recibe');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('aceptaSuperv', NULL, NULL, 'aceptaSuperv', '0', 0, '0', 'Acepta la supervisión');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('respetuoso', NULL, NULL, 'respetuoso', '0', 0, '0', 'Es respetuoso con sus compañeros, superiores y habitantes de las viviendas');
+
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('mezcla', NULL, NULL, 'mezcla', '0', 0, '0', 'Mezcla');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('seguridad', NULL, NULL, 'Seguridad', '0', 0, '0', 'Seguridad');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('organizacion', NULL, NULL, 'Organizacion', '0', 0, '0', 'Organización');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('velocidad', NULL, NULL, 'Velocidad', '0', 0, '0', 'Velocidad');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('fajas', NULL, NULL, 'Fajas', '0', 0, '0', 'Fajas');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('consumo', NULL, NULL, 'Consumo de insecticidas', '0', 0, '0', 'Consumo de insecticidas');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('otros', NULL, NULL, 'Otros aspectos', '0', 0, '0', 'Otros aspectos');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('conducta', NULL, NULL, 'Conducta personal', '0', 0, '0', 'Conducta personal');
 
 

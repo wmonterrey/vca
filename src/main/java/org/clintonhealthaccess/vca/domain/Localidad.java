@@ -143,7 +143,7 @@ public class Localidad extends BaseMetaData implements Auditable{
 		this.population = population;
 	}
 
-	@Column(name = "pattern", nullable = false, length = 500)
+	@Column(name = "pattern", nullable = false, length = 750)
 	public String getPattern() {
 		return pattern;
 	}

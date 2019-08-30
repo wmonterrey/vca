@@ -154,7 +154,7 @@
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
-		                      <label class="col-md-6 col-form-label"><spring:message code="material" />:</label>
+		                      <label class="col-md-6 col-form-label"><spring:message code="noSproomsReasons" />:</label>
 		                      <div class="col-md-6">
 		                        <p class="form-control-static"><strong><c:out value="${vivienda.noSproomsReasons}" /></strong></p>
 		                      </div>

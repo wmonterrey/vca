@@ -46,6 +46,7 @@ public class Visit extends BaseMetaData implements Auditable{
 	private Integer numCharges;
 	private String reasonIncomplete;
 	private String supervised;
+	private String obs;
 	
 	
 
@@ -243,10 +244,22 @@ public class Visit extends BaseMetaData implements Auditable{
 		this.supervised = supervised;
 	}
 
+	@Column(name = "obs", nullable = true , length = 500)
+	public String getObs() {
+		return obs;
+	}
 
-	@ManyToOne(optional=true)
+
+
+	public void setObs(String obs) {
+		this.obs = obs;
+	}
+
+
+
+	@ManyToOne(optional=false)
 	@JoinColumn(name="supervisor")
-    @ForeignKey(name = "FK_SUP_ROC")
+    @ForeignKey(name = "FK_SUP_VIS")
 	public Supervisor getSupervisor() {
 		return supervisor;
 	}

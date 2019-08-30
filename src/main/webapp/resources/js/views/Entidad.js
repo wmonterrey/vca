@@ -64,6 +64,10 @@ return {
           min:1,
           max:125000
       },
+      pattern: {
+          maxlength: 750,
+          required: true,
+      },
       obs: {
           maxlength: 750,
           required: false

@@ -4,13 +4,13 @@ return {
   //main function to initiate the module
   init: function (parametros) {	
 	  
-	$('#local, #irsSeason,#sprayStatus').select2({
+	$('#local, #irsSeason,#activity,#compVisit').select2({
 		theme: "bootstrap"
 	});
 	
-	$('#metasdiv').hide();
+	$('#visitasdiv').hide();
 	
-	$('input[name="fecActRange"]').daterangepicker({
+	$('input[name="fecVisitaRange"]').daterangepicker({
 	   ranges: {
 	     'Hoy': [moment(), moment()],
 	 'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
@@ -78,14 +78,14 @@ return {
 	
 	$('#checkDates').change(function() {
         if(this.checked) {
-        	$("#fecActRange").prop('disabled', false);
+        	$("#fecVisitaRange").prop('disabled', false);
         }else{
-        	$("#fecActRange").prop('disabled', true);
+        	$("#fecVisitaRange").prop('disabled', true);
         }
               
     });
 
-  $( '#metas-form' ).validate( {
+  $( '#visitas-form' ).validate( {
 	    rules: {
 	      codeHouse: {
 	    	  required: true
@@ -96,13 +96,19 @@ return {
 	      local: {
 	          required: true
 	      },
-	      fecActRange: {
+	      fecVisitaRange: {
 	          required: true
 	      },
 	      irsSeason: {
 	    	  required: true
 	      },
-	      sprayStatus: {
+	      local: {
+	          required: true
+	      },
+	      activity: {
+	          required: true
+	      },
+	      compVisit: {
 	          required: true
 	      }
 	    },
@@ -140,7 +146,7 @@ return {
 	  
   function processReport(){
 	  $.blockUI({ message: parametros.waitmessage });
-	  $.getJSON(parametros.searchUrl, $('#metas-form').serialize(), function(data) {
+	  $.getJSON(parametros.searchUrl, $('#visitas-form').serialize(), function(data) {
 		  var table1 = $('#resultados').DataTable({
 			  dom: 'lBfrtip',
 	          "oLanguage": {
@@ -171,16 +177,17 @@ return {
 		}
 		else{
 			for (var row in data) {
-				var d1 = (new Date(data[row].lastModified)).yyyymmdd();
+				var d1 = (new Date(data[row].visitDate)).yyyymmdd();
 				var d2 = (new Date(data[row].recordDate)).yyyymmdd();
-				var viewUrl = parametros.targetUrl  + data[row].ident+'/';
+				var viewUrl = parametros.visitaUrl  + data[row].ident+'/';
 				btnview = '<a title="" href=' + viewUrl + ' class="btn btn-xs btn-primary" ><i class="icon-magnifier"></i></a>';
-				codeview = '<a title="" href=' + viewUrl + '>'+ data[row].household.code+ '</a>';
+				codeview = '<a title="" href=' + viewUrl + '>'+ data[row].target.household.code+ '</a>';
 				
-				table1.row.add([data[row].household.local.name, codeview,data[row].household.ownerName,data[row].irsSeason.name,d1,data[row].sprayStatus,data[row].household.rooms,data[row].household.sprRooms,data[row].household.noSprooms,
-					data[row].household.noSproomsReasons,data[row].pasive,data[row].recordUser,d2,btnview]);
+				table1.row.add([data[row].target.household.local.name, codeview,data[row].target.household.ownerName,data[row].target.irsSeason.name,d1,
+					data[row].activity,data[row].compVisit,data[row].reasonNoVisit,data[row].reasonReluctant,data[row].sprayedRooms,data[row].numCharges,data[row].reasonIncomplete,data[row].supervised,
+					data[row].pasive,data[row].recordUser,d2,btnview]);
 			}
-			$('#metasdiv').show();
+			$('#visitasdiv').show();
 		}
 		$.unblockUI();
 	})

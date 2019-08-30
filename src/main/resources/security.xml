@@ -15,8 +15,8 @@
 		<intercept-url pattern="/admin/.*" access="ROLE_ADMIN"/>
 		<intercept-url pattern="/census/.*" access="ROLE_CENSUS"/>
 		<intercept-url pattern="/irs/season/.*" access="ROLE_SUPER"/>
-		<intercept-url pattern="/irs/superv/.*" access="ROLE_SUPER"/>
-		<intercept-url pattern="/irs/spray/.*" access="ROLE_SPRAY"/>
+		<intercept-url pattern="/irs/supervision/.*" access="ROLE_SUPER"/>
+		<intercept-url pattern="/irs/visit/.*" access="ROLE_SPRAY"/>
 		<intercept-url pattern="/irs/.*" access="ROLE_REVIEW,ROLE_SUPER,ROLE_SPRAY"/>
 		
         <intercept-url pattern="/users/chgpass" access="ROLE_PASSWORD"/>

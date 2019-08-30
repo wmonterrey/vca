@@ -5,13 +5,11 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <html>
 <head>
-<jsp:include page="../../fragments/headTag.jsp" />
+<jsp:include page="../fragments/headTag.jsp" />
 <!-- Styles required by this views -->
 <spring:url value="/resources/vendors/css/dataTables.bootstrap4.min.css" var="dataTablesCSS" />
 <link href="${dataTablesCSS}" rel="stylesheet" type="text/css"/>
 
-<spring:url value="/resources/vendors/css/leaflet.css" var="leafletCSS" />
-<link href="${leafletCSS}" rel="stylesheet" type="text/css"/>
 </head>
 <!-- BODY options, add following classes to body to change options
 
@@ -42,17 +40,17 @@
 -->
 <body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
   <!-- Header -->
-  <jsp:include page="../../fragments/bodyHeader.jsp" />
+  <jsp:include page="../fragments/bodyHeader.jsp" />
   <div class="app-body">
   	<!-- Navigation -->
-  	<jsp:include page="../../fragments/sideBar.jsp" />
+  	<jsp:include page="../fragments/sideBar.jsp" />
     <!-- Main content -->
     <main class="main">
       <!-- Breadcrumb -->
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<spring:url value="/" htmlEscape="true "/>"><spring:message code="home" /></a></li>
-        <li class="breadcrumb-item"><a href="<spring:url value="/admin/localities/" htmlEscape="true "/>"><spring:message code="localities" /></a></li>
-        <li class="breadcrumb-item active"><c:out value="${localidad.code}" /></li>
+        <li class="breadcrumb-item"><a href="<spring:url value="/irs/visit/" htmlEscape="true "/>"><spring:message code="visit" /></a></li>
+        <li class="breadcrumb-item active"><c:out value="${visita.target.household.code}" /></li>
         
       </ol>
 	  <!-- Container -->
@@ -60,66 +58,43 @@
       	<div class="animated fadeIn">
 
           	<div class="row">
-	            <div class="col-md-6">
+	            <div class="col-md-12">
 	              <div class="card">
 		               	<div class="card-header">
-		                  <i class="icon-compass"></i>&nbsp;<strong><c:out value="${localidad.name}" /></strong>
+		                  <i class="icon-house"></i>&nbsp;<strong><spring:message code="ownerName" />: <c:out value="${visita.target.household.ownerName}" /></strong>
 		                </div>
 	                	<div class="card-body">
 	                		<div class="form-group row">
-		                      <label class="col-md-3 col-form-label"><spring:message code="ident" />:</label>
-		                      <div class="col-md-9">
-		                        <p class="form-control-static"><strong><c:out value="${localidad.ident}" /></strong></p>
+		                      <label class="col-md-6 col-form-label"><spring:message code="ident" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${visita.ident}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
-		                      <label class="col-md-3 col-form-label"><spring:message code="code" />:</label>
-		                      <div class="col-md-9">
-		                        <p class="form-control-static"><strong><c:out value="${localidad.code}" /></strong></p>
+		                      <label class="col-md-6 col-form-label"><spring:message code="season" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${visita.target.irsSeason.name}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
-		                      <label class="col-md-3 col-form-label"><spring:message code="district" />:</label>
-		                      <div class="col-md-9">
-		                        <p class="form-control-static"><strong><c:out value="${localidad.district.name}" /></strong></p>
+		                      <label class="col-md-6 col-form-label"><spring:message code="code" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${visita.target.household.code}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
-		                      <label class="col-md-3 col-form-label"><spring:message code="area" />:</label>
-		                      <div class="col-md-9">
-		                        <p class="form-control-static"><strong><c:out value="${localidad.district.area.name}" /></strong></p>
+		                      <label class="col-md-6 col-form-label"><spring:message code="locality" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${visita.target.household.local.name}" /></strong></p>
 		                      </div>
 		                    </div>
+		                    
 		                    <div class="form-group row">
-		                      <label class="col-md-3 col-form-label"><spring:message code="location" />:</label>
-		                      <div class="col-md-9">
-		                        <p class="form-control-static"><strong><c:out value="${localidad.latitude}" /> , <c:out value="${localidad.longitude}" />, <c:out value="${localidad.zoom}" /></strong></p>
-		                      </div>
-		                    </div>
-		                    <div class="form-group row">
-		                      <label class="col-md-3 col-form-label"><spring:message code="population" />:</label>
-		                      <div class="col-md-9">
-		                        <p class="form-control-static"><strong><c:out value="${localidad.population}" /></strong></p>
-		                      </div>
-		                    </div>
-		                    <div class="form-group row">
-		                      <label class="col-md-3 col-form-label"><spring:message code="pattern" />:</label>
-		                      <div class="col-md-9">
-		                        <p class="form-control-static"><strong><c:out value="${localidad.pattern}" /></strong></p>
-		                      </div>
-		                    </div>
-		                    <div class="form-group row">
-		                      <label class="col-md-3 col-form-label"><spring:message code="obs" />:</label>
-		                      <div class="col-md-9">
-		                        <p class="form-control-static"><strong><c:out value="${localidad.obs}" /></strong></p>
-		                      </div>
-		                    </div>
-		                    <div class="form-group row">
-		                      <label class="col-md-3 col-form-label"><spring:message code="enabled" />:</label>
-		                      <div class="col-md-9">
+		                      <label class="col-md-6 col-form-label"><spring:message code="enabled" />:</label>
+		                      <div class="col-md-6">
 		                        <p class="form-control-static"><strong>
 		                        	<c:choose>
-										<c:when test="${localidad.pasive=='0'.charAt(0)}">
+										<c:when test="${visita.pasive=='0'.charAt(0)}">
 											<strong><spring:message code="CAT_SINO_SI" /></strong>
 										</c:when>
 										<c:otherwise>
@@ -130,56 +105,45 @@
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
-		                      <label class="col-md-3 col-form-label"><spring:message code="createdBy" />:</label>
-		                      <div class="col-md-9">
-		                        <p class="form-control-static"><strong><c:out value="${localidad.recordUser}" /></strong></p>
+		                      <label class="col-md-6 col-form-label"><spring:message code="createdBy" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${visita.recordUser}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
-		                      <label class="col-md-3 col-form-label"><spring:message code="dateCreated" />:</label>
-		                      <div class="col-md-9">
-		                        <p class="form-control-static"><strong><c:out value="${localidad.recordDate}" /></strong></p>
+		                      <label class="col-md-6 col-form-label"><spring:message code="dateCreated" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${visita.recordDate}" /></strong></p>
 		                      </div>
 		                    </div>
-	                    	<spring:url value="/admin/localities/editEntity/{ident}/" var="editUrl">
-                              	<spring:param name="ident" value="${localidad.ident}" />
+            					<spring:url value="/irs/visit/disableEntity/{ident}/" var="disableUrl">
+                              	<spring:param name="ident" value="${visita.ident}" />
                           	</spring:url>
-            					<spring:url value="/admin/localities/disableEntity/{ident}/" var="disableUrl">
-                              	<spring:param name="ident" value="${localidad.ident}" />
-                          	</spring:url>
-                          	<spring:url value="/admin/localities/enableEntity/{ident}/" var="enableUrl">
-                              	<spring:param name="ident" value="${localidad.ident}" />
-                          	</spring:url>
-                          	<spring:url value="/admin/localities/enterLocation/{ident}/" var="locationUrl">
-                              	<spring:param name="ident" value="${localidad.ident}" />
+                          	<spring:url value="/irs/visit/enableEntity/{ident}/" var="enableUrl">
+                              	<spring:param name="ident" value="${visita.ident}" />
                           	</spring:url>
 						</div>
 						<div class="card-header">
           				<div class="row float-right mr-4" >
-          					<button id="edit_entity" onclick="location.href='${fn:escapeXml(editUrl)}'" type="button" class="btn btn-outline-primary"><i class="fa fa-pencil"></i>&nbsp; <spring:message code="edit" /></button>
           					<c:choose>
-								<c:when test="${localidad.pasive=='0'.charAt(0)}">
+								<c:when test="${target.pasive=='0'.charAt(0)}">
 									<button id="disable_entity" onclick="location.href='${fn:escapeXml(disableUrl)}'" type="button" class="btn btn-outline-danger"><i class="fa fa-close"></i>&nbsp; <spring:message code="disable" /></button>
 								</c:when>
 								<c:otherwise>
 									<button id="enable_entity" onclick="location.href='${fn:escapeXml(enableUrl)}'" type="button" class="btn btn-outline-primary"><i class="fa fa-check"></i>&nbsp; <spring:message code="enable" /></button>
 								</c:otherwise>
 						 	</c:choose>
-						 	<button id="location_button" onclick="location.href='${fn:escapeXml(locationUrl)}'" type="button" class="btn btn-outline-primary"><i class="fa fa-location-arrow"></i>&nbsp; <spring:message code="location" /></button>
-          					<button id="back_button" onclick="location.href='<spring:url value="/admin/localities/" htmlEscape="true "/>'" type="button" class="btn btn-outline-primary"><i class="fa fa-undo"></i>&nbsp; <spring:message code="back" /></button>
+						 	<button id="back_button" onclick="location.href='<spring:url value="/irs/visit/" htmlEscape="true "/>'" type="button" class="btn btn-outline-primary"><i class="fa fa-undo"></i>&nbsp; <spring:message code="back" /></button>
           				</div>
             		</div>
 					</div>
 				</div>
-				<div class="col-md-6">
-					<div class="card">
-						<div class="card-body">
-							<div id="mapid" style="width: 100%; height: 680px;"></div>
-						</div>
-					</div>
-				</div>
+				
 	            <!--/.col-->
          	</div>
+         	
+         	
+         	
          	
             <div class="row">
 	            <div class="col-md-12">
@@ -224,11 +188,11 @@
     </main>
   </div>
   <!-- Pie de p�gina -->
-  <jsp:include page="../../fragments/bodyFooter.jsp" />
+  <jsp:include page="../fragments/bodyFooter.jsp" />
 
   <!-- Bootstrap and necessary plugins -->
-  <jsp:include page="../../fragments/corePlugins.jsp" />
-  <jsp:include page="../../fragments/bodyUtils.jsp" />
+  <jsp:include page="../fragments/corePlugins.jsp" />
+  <jsp:include page="../fragments/bodyUtils.jsp" />
 
   <!-- GenesisUI main scripts -->
   <spring:url value="/resources/js/app.js" var="App" />
@@ -258,9 +222,7 @@
   <script src="${dataTablesSc}" type="text/javascript"></script>
   <spring:url value="/resources/vendors/js/dataTables.bootstrap4.min.js" var="dataTablesBsSc" />
   <script src="${dataTablesBsSc}" type="text/javascript"></script>
-  
-  <spring:url value="/resources/vendors/js/leaflet.js" var="leafletJS" />
-  <script src="${leafletJS}" type="text/javascript"></script>
+
   
   <c:set var="entityEnabledLabel"><spring:message code="enabled" /></c:set>
   <c:set var="entityDisabledLabel"><spring:message code="disabled" /></c:set>
@@ -290,26 +252,6 @@
 		    progressBar: true,
 		  });
 	}
-	
-	var mymap = L.map('mapid').setView([${latitude}, ${longitude}], ${zoom});
-
-	L.tileLayer('http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-		maxZoom: 18,
-		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-			'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-		id: 'mapbox.streets'
-	}).addTo(mymap);
-	
-	var miLat = "${localidad.latitude}";
-	var miLong = "${localidad.longitude}";
-	
-	if(!(miLat == "" || miLong == "")){
-		var marker = L.marker([${localidad.latitude}, ${localidad.longitude}]).addTo(mymap);
-		marker.bindTooltip("${localidad.name}");
-	}
-	
-	var popup = L.popup();
 
   </script>
 </body>

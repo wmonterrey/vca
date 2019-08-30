@@ -30,7 +30,7 @@
 	                </sec:authorize>
 	                <sec:authorize url="/irs/spray/">
 	                <li class="nav-item">
-	                    <a class="nav-link" href="<spring:url value="/irs/visits/" htmlEscape="true "/>"><i class="fa fa-shield"></i><spring:message code="visits" /></a>
+	                    <a class="nav-link" href="<spring:url value="/irs/visit/" htmlEscape="true "/>"><i class="fa fa-shield"></i><spring:message code="visits" /></a>
 	                </li>
 	                </sec:authorize>
 	                <sec:authorize url="/irs/superv/">

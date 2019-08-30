@@ -2,6 +2,7 @@ package org.clintonhealthaccess.vca.web.controller;
 
 import org.clintonhealthaccess.vca.domain.irs.IrsSeason;
 import org.clintonhealthaccess.vca.domain.irs.Target;
+import org.clintonhealthaccess.vca.domain.irs.Visit;
 import org.clintonhealthaccess.vca.language.MessageResource;
 import org.clintonhealthaccess.vca.domain.Household;
 import org.clintonhealthaccess.vca.domain.Localidad;
@@ -11,8 +12,12 @@ import org.clintonhealthaccess.vca.service.LocalidadService;
 import org.clintonhealthaccess.vca.service.AuditTrailService;
 import org.clintonhealthaccess.vca.service.HouseholdService;
 import org.clintonhealthaccess.vca.service.MessageResourceService;
+import org.clintonhealthaccess.vca.service.ParametroService;
+import org.clintonhealthaccess.vca.service.TargetService;
+import org.clintonhealthaccess.vca.service.VisitService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,6 +29,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -55,6 +61,12 @@ public class IrsSeasonController {
 	private LocalidadService localidadService;
 	@Resource(name="householdService")
 	private HouseholdService householdService;
+	@Resource(name="targetService")
+	private TargetService targetService;
+	@Resource(name="parametroService")
+	private ParametroService parametroService;
+	@Resource(name="visitService")
+	private VisitService visitService;
     
     
 	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -165,13 +177,21 @@ public class IrsSeasonController {
 				
 				//Guardar nuevo
 				this.temporadaService.saveIrsSeason(temporada);
-				
+				Integer counter = 0;
 				for(String l:localidades){
 					List<Household> casasEnLocalidad = this.householdService.getHousesFiltro(null, null, null, null, l, "ALL", "ALL", 
 							usuarioActual,"0");
 					for(Household casa:casasEnLocalidad){
-						ident = new UUID(SecurityContextHolder.getContext().getAuthentication().getName().hashCode(),new Date().hashCode()).toString();
-						Target newTarget = new Target(ident,temporada,casa,"NOTVIS", new Date(),usuarioActual);
+						counter++;
+						Target newTarget = new Target();
+						ident = new UUID(counter.hashCode(),new Date().hashCode()).toString();
+						newTarget.setIdent(ident);
+						newTarget.setHousehold(casa);
+						newTarget.setIrsSeason(temporada);
+						newTarget.setSprayStatus("NOTVIS");
+						newTarget.setLastModified(new Date());
+						newTarget.setRecordUser(usuarioActual);
+						newTarget.setRecordDate(new Date());
 						this.temporadaService.saveTarget(newTarget);
 					}
 				}
@@ -325,6 +345,180 @@ public class IrsSeasonController {
     	model.addAttribute("temporadas",temporadas);
     	return "irsseason/target";
 	}
+    
+    @RequestMapping(value = "/searchTargets/", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody List<Target> fetchTargets(@RequestParam(value = "codeHouse", required = false) String codeHouse,
+    		@RequestParam(value = "ownerName", required = false) String ownerName,
+    		@RequestParam(value = "fecActRange", required = false, defaultValue = "") String fecActRange,
+    		@RequestParam(value = "local", required = true) String local,
+    		@RequestParam(value = "irsSeason", required = true) String irsSeason,
+    		@RequestParam(value = "sprayStatus", required = true) String sprayStatus
+    		) throws ParseException {
+        logger.info("Obteniendo resultados");
+        Long desde = null;
+        Long hasta = null;
+        
+        if (!fecActRange.matches("")) {
+        	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        	desde = formatter.parse(fecActRange.substring(0, 10)).getTime();
+        	hasta = formatter.parse(fecActRange.substring(fecActRange.length()-10, fecActRange.length())).getTime();
+        }
+        List<Target> datos = this.targetService.getMetasFiltro(codeHouse, ownerName, desde, hasta, local, 
+        		irsSeason, sprayStatus, SecurityContextHolder.getContext().getAuthentication().getName(),null);
+        if (datos == null){
+        	logger.debug("Nulo");
+        }
+        else {
+        	for (Target meta:datos) {
+        		MessageResource mr = null;
+        		String descCatalogo = null;
+        		mr = this.messageResourceService.getMensaje(meta.getHousehold().getMaterial(),"CAT_MAT");
+        		if(mr!=null) {
+        			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
+        			meta.getHousehold().setMaterial(descCatalogo);
+        		}
+        		mr = this.messageResourceService.getMensaje(meta.getHousehold().getInhabited(),"CAT_HAB");
+        		if(mr!=null) {
+        			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
+        			meta.getHousehold().setInhabited(descCatalogo);
+        		}
+        		if(!(meta.getHousehold().getNoSproomsReasons()==null)) {
+        			String[] partsNSP = meta.getHousehold().getNoSproomsReasons().split(",");
+        			descCatalogo = null;
+        			for (int i =0; i<partsNSP.length; i++) {
+        				mr = this.messageResourceService.getMensaje(partsNSP[i],"CAT_RNR");
+                		if(mr!=null) {
+                			if(descCatalogo==null) {
+                				descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
+                			}
+                			else {
+                				String nuevo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
+                				descCatalogo = descCatalogo + ", " +nuevo;
+                			}
+                		}
+        			}
+        			meta.getHousehold().setNoSproomsReasons(descCatalogo);
+        		}
+        		mr = this.messageResourceService.getMensaje(meta.getSprayStatus(),"CAT_STATUS");
+        		if(mr!=null) {
+        			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
+        			meta.setSprayStatus(descCatalogo);
+        		}
+        	}
+        }
+        return datos;
+    }
+    
+    /**
+     * Custom handler for displaying.
+     *
+     * @param ident the ID to display
+     * @return a ModelMap with the model attributes for the view
+     */
+    @RequestMapping("/targets/{ident}/")
+    public ModelAndView showEntity2(@PathVariable("ident") String ident) {
+    	ModelAndView mav;
+    	Double latitud;
+    	Double longitud;
+    	Integer zoom;
+    	Target target = this.targetService.getMeta(ident, SecurityContextHolder.getContext().getAuthentication().getName());
+    	
+        if(target==null){
+        	mav = new ModelAndView("403");
+        }
+        else{
+        	mav = new ModelAndView("irsseason/viewTargetForm");
+        	zoom = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
+        	latitud = Double.parseDouble(parametroService.getParametroByCode("lat").getValue());
+        	longitud = Double.parseDouble(parametroService.getParametroByCode("long").getValue());
+        	if(target.getHousehold().getLatitude()!=null) latitud = target.getHousehold().getLatitude();
+        	if(target.getHousehold().getLongitude()!=null) longitud = target.getHousehold().getLongitude();
+        	MessageResource mr = null;
+    		String descCatalogo = null;
+    		mr = this.messageResourceService.getMensaje(target.getHousehold().getMaterial(),"CAT_MAT");
+    		if(mr!=null) {
+    			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
+    			target.getHousehold().setMaterial(descCatalogo);
+    		}
+    		if(!(target.getHousehold().getNoSproomsReasons()==null)) {
+    			String[] partsNSP = target.getHousehold().getNoSproomsReasons().split(",");
+    			descCatalogo = null;
+    			for (int i =0; i<partsNSP.length; i++) {
+    				mr = this.messageResourceService.getMensaje(partsNSP[i],"CAT_RNR");
+            		if(mr!=null) {
+            			if(descCatalogo==null) {
+            				descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
+            			}
+            			else {
+            				String nuevo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
+            				descCatalogo = descCatalogo + ", " +nuevo;
+            			}
+            		}
+    			}
+    			target.getHousehold().setNoSproomsReasons(descCatalogo);
+    		}
+        	mav.addObject("target",target);
+        	mav.addObject("zoom",zoom);
+        	mav.addObject("latitud",latitud);
+        	mav.addObject("longitud",longitud);
+            List<AuditTrail> bitacora = auditTrailService.getBitacora(ident);
+            mav.addObject("bitacora",bitacora);
+            List<Visit> visitas = this.visitService.getTargetVisits(target.getIdent());
+            mav.addObject("visitas",visitas);
+        }
+        return mav;
+    }
+    
+    /**
+     * Custom handler for disabling.
+     *
+     * @param ident the ID to disable
+     * @param redirectAttributes 
+     * @return a String
+     */
+    @RequestMapping("/targets/disableEntity/{ident}/")
+    public String disableEntity2(@PathVariable("ident") String ident, 
+    		RedirectAttributes redirectAttributes) {
+    	String redirecTo="404";
+		Target meta = this.targetService.getMeta(ident, SecurityContextHolder.getContext().getAuthentication().getName());
+    	if(meta!=null){
+    		meta.setPasive('1');
+    		this.targetService.saveMeta(meta);
+    		redirectAttributes.addFlashAttribute("entidadDeshabilitada", true);
+    		redirectAttributes.addFlashAttribute("nombreEntidad", meta.getHousehold().getCode());
+    		redirecTo = "redirect:/irs/season/targets/"+meta.getIdent()+"/";
+    	}
+    	else{
+    		redirecTo = "403";
+    	}
+    	return redirecTo;	
+    }
+    
+    
+    /**
+     * Custom handler for enabling.
+     *
+     * @param ident the ID to enable
+     * @param redirectAttributes
+     * @return a String
+     */
+    @RequestMapping("/targets/enableEntity/{ident}/")
+    public String enableEntity2(@PathVariable("ident") String ident, 
+    		RedirectAttributes redirectAttributes) {
+    	String redirecTo="404";
+		Target meta = this.targetService.getMeta(ident, SecurityContextHolder.getContext().getAuthentication().getName());
+    	if(meta!=null){
+    		meta.setPasive('0');
+    		this.targetService.saveMeta(meta);
+    		redirectAttributes.addFlashAttribute("entidadHabilitada", true);
+    		redirectAttributes.addFlashAttribute("nombreEntidad", meta.getHousehold().getCode());
+    		redirecTo = "redirect:/irs/season/targets/"+meta.getIdent()+"/";
+    	}
+    	else{
+    		redirecTo = "403";
+    	}
+    	return redirecTo;	
+    }
 	
     private ResponseEntity<String> createJsonResponse( Object o )
 	{

@@ -135,6 +135,12 @@
 	                    </div>
 	                    <div class="form-group">
 	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-hashtag"></i></span>
+	                        <input type="text" id="pattern" name="pattern" value="${localidad.pattern}" class="form-control" placeholder="<spring:message code="pattern" />">
+	                      </div>
+	                    </div>
+	                    <div class="form-group">
+	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-sticky-note-o"></i></span>
 	                        <input type="text" id="obs" name="obs" value="${localidad.obs}" class="form-control" placeholder="<spring:message code="obs" />">
 	                      </div>
