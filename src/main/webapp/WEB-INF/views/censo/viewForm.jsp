@@ -114,11 +114,14 @@
 		                      	<p class="form-control-static"><strong>
 		                        	<c:choose>
 										<c:when test="${vivienda.inhabited=='0'}">
-											<strong><spring:message code="CAT_SINO_NO" /></strong>
+											<strong><spring:message code="CAT_HAB_NO" /></strong>
 										</c:when>
-										<c:otherwise>
-											<strong><spring:message code="CAT_SINO_SI" /></strong>
-										</c:otherwise>
+										<c:when test="${vivienda.inhabited=='1'}">
+											<strong><spring:message code="CAT_HAB_SI" /></strong>
+										</c:when>
+										<c:when test="${vivienda.inhabited=='9'}">
+											<strong><spring:message code="CAT_HAB_NA" /></strong>
+										</c:when>
 									</c:choose>
 		                        </strong></p>
 		                      </div>
@@ -157,6 +160,12 @@
 		                      <label class="col-md-6 col-form-label"><spring:message code="noSproomsReasons" />:</label>
 		                      <div class="col-md-6">
 		                        <p class="form-control-static"><strong><c:out value="${vivienda.noSproomsReasons}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="personasCharlas" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.personasCharlas}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">

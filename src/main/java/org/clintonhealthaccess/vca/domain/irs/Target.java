@@ -14,6 +14,7 @@ import org.clintonhealthaccess.vca.domain.BaseMetaData;
 import org.clintonhealthaccess.vca.domain.Household;
 import org.clintonhealthaccess.vca.domain.audit.Auditable;
 import org.hibernate.annotations.ForeignKey;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 
@@ -113,6 +114,7 @@ public class Target extends BaseMetaData implements Auditable{
 
 
 	@Column(name = "lastModified", nullable = false)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	public Date getLastModified() {
 		return lastModified;
 	}

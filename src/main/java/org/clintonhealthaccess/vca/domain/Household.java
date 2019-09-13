@@ -8,10 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-
 import org.clintonhealthaccess.vca.domain.audit.Auditable;
 import org.hibernate.annotations.ForeignKey;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 
@@ -24,7 +23,7 @@ import org.hibernate.annotations.ForeignKey;
  * @since       1.0
  */
 @Entity
-@Table(name = "households", catalog = "vca", uniqueConstraints={@UniqueConstraint(columnNames = {"code","pasive"})})
+@Table(name = "households", catalog = "vca")
 public class Household extends BaseMetaData implements Auditable{
 	/**
 	 * 
@@ -43,8 +42,11 @@ public class Household extends BaseMetaData implements Auditable{
 	private Integer sprRooms;
 	private Integer noSprooms;
 	private String noSproomsReasons;
+	private Integer personasCharlas;
 	private Double latitude;
 	private Double longitude;
+	private Float exactitud;
+	private Double altitud;
 	private String obs;
 	
 	public Household() {
@@ -104,6 +106,7 @@ public class Household extends BaseMetaData implements Auditable{
 
 
 	@Column(name = "censusDate", nullable = false)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	public Date getCensusDate() {
 		return censusDate;
 	}
@@ -127,7 +130,7 @@ public class Household extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "ownerName", nullable = false, length = 250)
+	@Column(name = "ownerName", nullable = true, length = 250)
 	public String getOwnerName() {
 		return ownerName;
 	}
@@ -151,7 +154,7 @@ public class Household extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "material", nullable = false, length = 50)
+	@Column(name = "material", nullable = true, length = 50)
 	public String getMaterial() {
 		return material;
 	}
@@ -209,6 +212,20 @@ public class Household extends BaseMetaData implements Auditable{
 	public void setNoSproomsReasons(String noSproomsReasons) {
 		this.noSproomsReasons = noSproomsReasons;
 	}
+	
+	
+
+	@Column(name = "personasCharlas", nullable = true)
+	public Integer getPersonasCharlas() {
+		return personasCharlas;
+	}
+
+
+
+	public void setPersonasCharlas(Integer personasCharlas) {
+		this.personasCharlas = personasCharlas;
+	}
+
 
 
 	@Column(name = "latitude", nullable = true)
@@ -233,6 +250,31 @@ public class Household extends BaseMetaData implements Auditable{
 	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
+
+	
+	@Column(name = "exactitud", nullable = true)
+	public Float getExactitud() {
+		return exactitud;
+	}
+
+
+
+	public void setExactitud(Float exactitud) {
+		this.exactitud = exactitud;
+	}
+
+
+	@Column(name = "altitud", nullable = true)
+	public Double getAltitud() {
+		return altitud;
+	}
+
+
+
+	public void setAltitud(Double altitud) {
+		this.altitud = altitud;
+	}
+
 
 
 	@Column(name = "obs", nullable = true, length = 750)

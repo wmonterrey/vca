@@ -33,9 +33,11 @@
 				p:password="${app.jdbc.password}"
 				p:acquireIncrement="5"
 				p:idleConnectionTestPeriod="240"
+				p:maxIdleTime="3600"
 				p:maxPoolSize="100"
+				p:initialPoolSize="5"
+				p:minPoolSize="5"
 				p:maxStatements="50"
-				p:minPoolSize="10"
 				p:maxStatementsPerConnection="100" />
 
 	<!-- Declare a transaction manager-->

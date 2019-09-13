@@ -209,7 +209,7 @@ public class CensoController {
 	    	model.addAttribute("censadores", censadores);
 	    	List<Localidad> localidades = localidadService.getActiveLocalitiesUsuario(SecurityContextHolder.getContext().getAuthentication().getName());
 	    	model.addAttribute("localidades", localidades);
-	    	List<MessageResource> sinos = messageResourceService.getCatalogo("CAT_SINO");
+	    	List<MessageResource> sinos = messageResourceService.getCatalogo("CAT_HAB");
 	    	model.addAttribute("sinos",sinos);
 	    	List<MessageResource> materials = messageResourceService.getCatalogo("CAT_MAT");
 	    	model.addAttribute("materials",materials);
@@ -335,6 +335,7 @@ public class CensoController {
 	        , @RequestParam( value="sprRooms", required=false) Integer sprRooms
 	        , @RequestParam( value="noSprooms", required=false) Integer noSprooms
 	        , @RequestParam( value="noSproomsReasons", required=false) String noSproomsReasons
+	        , @RequestParam( value="personasCharlas", required=false) Integer personasCharlas
 	        , @RequestParam( value="latitude", required=false, defaultValue ="" ) String latitude
 	        , @RequestParam( value="longitude", required=false, defaultValue ="" ) String longitude
 	        , @RequestParam( value="obs", required=false, defaultValue ="" ) String obs
@@ -364,6 +365,7 @@ public class CensoController {
 			vivienda.setSprRooms(sprRooms);
 			vivienda.setNoSprooms(noSprooms);
 			vivienda.setNoSproomsReasons(noSproomsReasons);
+			vivienda.setPersonasCharlas(personasCharlas);
 			vivienda.setLatitude(latitud);
 			vivienda.setLongitude(longitud);
 			vivienda.setObs(obs);
@@ -437,6 +439,19 @@ public class CensoController {
    	    String json = gson.toJson(o);
    	    return new ResponseEntity<String>( json, headers, HttpStatus.CREATED );
    	}
+    
+    
+    @RequestMapping(value = "localidad", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody Localidad fetchLocalidadJson(@RequestParam(value = "ident", required = true) String idLocalidad) {
+        logger.info("Obteniendo la localidad en JSON");
+        Localidad localidad = this.localidadService.getLocal(idLocalidad);
+        if (localidad == null){
+        	logger.debug("Nulo");
+        	localidad = new Localidad();
+        	localidad.setPattern(".");
+        }
+        return localidad;	
+    }
     
 	
 }

@@ -107,7 +107,7 @@ public class VisitService {
 	
 	
 	@SuppressWarnings("unchecked")
-	public List<Visit> getVisitasFiltro(String codeVisita, String ownerName,
+	public List<Visit> getVisitasFiltro(String codeHouse, String ownerName,
 			Long desde, Long hasta, String local, String irsSeason, String activity, String compVisit, String username, String pasivo) {
 		//Set the SQL Query initially
 		String sqlQuery = "from Visit visita where visita.target.household.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0') ";
@@ -115,8 +115,8 @@ public class VisitService {
 		if(!(desde==null)) {
 			sqlQuery = sqlQuery + " and visita.visitDate between :fechaInicio and :fechaFinal";
 		}
-		if (!(codeVisita==null)) {
-			sqlQuery = sqlQuery + " and visita.target.household.code like:codeVisita";
+		if (!(codeHouse==null)) {
+			sqlQuery = sqlQuery + " and visita.target.household.code like:codeHouse";
 		}
 		if (!(ownerName==null)) {
 			sqlQuery = sqlQuery + " and visita.target.household.ownerName like:ownerName";
@@ -148,8 +148,8 @@ public class VisitService {
 			query.setTimestamp("fechaInicio", timeStampInicio);
 			query.setTimestamp("fechaFinal", timeStampFinal);
 		}
-		if (!(codeVisita==null)) {
-			query.setParameter("codeVisita", "%" + codeVisita + "%");
+		if (!(codeHouse==null)) {
+			query.setParameter("codeHouse", "%" + codeHouse + "%");
 		}
 		if (!(ownerName==null)) {
 			query.setParameter("ownerName", "%" + ownerName + "%");

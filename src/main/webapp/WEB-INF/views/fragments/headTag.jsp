@@ -21,6 +21,8 @@
 <link href="${toastcss}" rel="stylesheet" type="text/css"/>
 <spring:url value="/resources/vendors/css/jquery-confirm.min.css" var="jConfirmcss" />
 <link href="${jConfirmcss}" rel="stylesheet" type="text/css"/>
+<spring:url value="/resources/vendors/css/chart.min.css" var="Chartcss" />
+<link href="${Chartcss}" rel="stylesheet" type="text/css"/>
 
 <!-- END GLOBAL MANDATORY STYLES -->
 

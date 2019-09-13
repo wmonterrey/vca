@@ -10,6 +10,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.clintonhealthaccess.vca.domain.BaseMetaData;
 import org.clintonhealthaccess.vca.domain.audit.Auditable;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 
@@ -43,6 +44,19 @@ public class IrsSeason extends BaseMetaData implements Auditable{
 	public IrsSeason() {
 		super();
 	}
+	
+	
+
+
+
+	public IrsSeason(String ident, String code, String name) {
+		super();
+		this.ident = ident;
+		this.code = code;
+		this.name = name;
+	}
+
+
 
 
 
@@ -83,6 +97,7 @@ public class IrsSeason extends BaseMetaData implements Auditable{
 	
 
 	@Column(name = "startDate", nullable = false)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	public Date getStartDate() {
 		return startDate;
 	}
@@ -95,6 +110,7 @@ public class IrsSeason extends BaseMetaData implements Auditable{
 
 
 	@Column(name = "endDate", nullable = false)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	public Date getEndDate() {
 		return endDate;
 	}

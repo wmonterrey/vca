@@ -11,14 +11,22 @@ import org.clintonhealthaccess.vca.domain.Censador;
 import org.clintonhealthaccess.vca.domain.Distrito;
 import org.clintonhealthaccess.vca.domain.Foco;
 import org.clintonhealthaccess.vca.domain.Localidad;
+import org.clintonhealthaccess.vca.domain.irs.Brigada;
+import org.clintonhealthaccess.vca.domain.irs.IrsSeason;
+import org.clintonhealthaccess.vca.domain.irs.Rociador;
+import org.clintonhealthaccess.vca.domain.irs.Supervisor;
 import org.clintonhealthaccess.vca.service.AreaService;
+import org.clintonhealthaccess.vca.service.BrigadaService;
 import org.clintonhealthaccess.vca.service.CensadorService;
 import org.clintonhealthaccess.vca.service.DashboardCensoService;
 import org.clintonhealthaccess.vca.service.DistritoService;
 import org.clintonhealthaccess.vca.service.EmailServiceImpl;
 import org.clintonhealthaccess.vca.service.FocoService;
+import org.clintonhealthaccess.vca.service.IrsSeasonService;
 import org.clintonhealthaccess.vca.service.LocalidadService;
 import org.clintonhealthaccess.vca.service.MessageResourceService;
+import org.clintonhealthaccess.vca.service.RociadorService;
+import org.clintonhealthaccess.vca.service.SupervisorService;
 import org.clintonhealthaccess.vca.service.UsuarioService;
 import org.clintonhealthaccess.vca.users.model.GenericResponse;
 import org.clintonhealthaccess.vca.users.model.UserSistema;
@@ -56,7 +64,7 @@ import com.google.gson.Gson;
  * <li>Pagina de Salida
  * <li>No autorizado
  * <li>No encontrado
- * <li>Reset contraseña
+ * <li>Ruuuueset contraseña
  * </ul>
  * 
  * @author William Aviles
@@ -67,6 +75,7 @@ public class HomeController {
 	
 	@Resource(name="usuarioService")
 	private UsuarioService usuarioService;
+	
 	@Resource(name="emailServiceImpl")
 	private EmailServiceImpl emailServiceImpl;
 	@Resource(name="messageResourceService")
@@ -84,6 +93,19 @@ public class HomeController {
 	private CensadorService censadorService;
 	@Resource(name="focoService")
 	private FocoService focoService;
+	
+	@Resource(name="rociadorService")
+	private RociadorService rociadorService;
+	
+	@Resource(name="supervisorService")
+	private SupervisorService supervisorService;
+	@Resource(name="brigadaService")
+	private BrigadaService brigadaService;
+	
+	@Resource(name="temporadaService")
+	private IrsSeasonService temporadaService;
+	
+	
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -105,6 +127,36 @@ public class HomeController {
     		logger.error(e.getLocalizedMessage());
     	}
     	return "home";
+    }
+    
+    @RequestMapping(value = "/irs/dashboard/", method = RequestMethod.GET)
+    public String homeIrs(Model model) {
+    	try {
+	    	logger.info("vca Iniciado...");
+	    	List<Area> areas = areaService.getActiveAreas();
+	    	model.addAttribute("areas", areas);
+	    	List<Distrito> distritos = distritoService.getActiveDistricts();
+	    	model.addAttribute("distritos", distritos);
+	    	List<Localidad> localidades = localidadService.getActiveLocalitiesUsuario(SecurityContextHolder.getContext().getAuthentication().getName());
+	    	model.addAttribute("localidades", localidades);
+	    	List<Rociador> rociadores = rociadorService.getActiveRociadores();
+	    	model.addAttribute("rociadores", rociadores);
+	    	List<Foco> focos = focoService.getActiveFocos();
+	    	model.addAttribute("focos", focos);
+	    	List<IrsSeason> temporadas = this.temporadaService.getActiveIrsSeasons();
+	    	model.addAttribute("temporadas", temporadas);
+	    	if (temporadas.size()==0) {
+	    		temporadas.add(new IrsSeason("noseasons","noseasons","No hay temporadas"));
+	    	}
+	    	List<Supervisor> supervisores = this.supervisorService.getActiveSupervisores();
+	    	model.addAttribute("supervisores", supervisores);
+	    	List<Brigada> brigadas = this.brigadaService.getActiveBrigadas();
+	    	model.addAttribute("brigadas", brigadas);
+    	}
+    	catch(Exception e) {
+    		logger.error(e.getLocalizedMessage());
+    	}
+    	return "irs/home";
     }
     
     @RequestMapping(value="/login", method = RequestMethod.GET)
@@ -184,6 +236,17 @@ public class HomeController {
 	public String noEncontrado() { 
 		return "404";
 	}
+	
+	@RequestMapping(value = "/help/", method = RequestMethod.GET)
+    public String help(Model model) {
+    	try {
+	    	logger.info("vca ayuda Iniciado...");
+    	}
+    	catch(Exception e) {
+    		logger.error(e.getLocalizedMessage());
+    	}
+    	return "help";
+    }
     
 	@RequestMapping( value="keepsession")
 	public @ResponseBody String keepSession()

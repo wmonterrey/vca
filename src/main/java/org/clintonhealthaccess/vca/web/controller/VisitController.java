@@ -1,15 +1,19 @@
 package org.clintonhealthaccess.vca.web.controller;
 
 import org.clintonhealthaccess.vca.domain.irs.Rociador;
+import org.clintonhealthaccess.vca.domain.irs.Supervisor;
 import org.clintonhealthaccess.vca.domain.irs.Visit;
 import org.clintonhealthaccess.vca.domain.Localidad;
 import org.clintonhealthaccess.vca.domain.audit.AuditTrail;
+import org.clintonhealthaccess.vca.domain.irs.Brigada;
 import org.clintonhealthaccess.vca.domain.irs.IrsSeason;
 import org.clintonhealthaccess.vca.language.MessageResource;
 import org.clintonhealthaccess.vca.service.IrsSeasonService;
 import org.clintonhealthaccess.vca.service.LocalidadService;
 import org.clintonhealthaccess.vca.service.AuditTrailService;
+import org.clintonhealthaccess.vca.service.BrigadaService;
 import org.clintonhealthaccess.vca.service.RociadorService;
+import org.clintonhealthaccess.vca.service.SupervisorService;
 import org.clintonhealthaccess.vca.service.MessageResourceService;
 import org.clintonhealthaccess.vca.service.VisitService;
 import org.slf4j.Logger;
@@ -59,6 +63,10 @@ public class VisitController {
 	private VisitService visitService;
 	@Resource(name="rociadorService")
 	private RociadorService rociadorService;
+	@Resource(name="supervisorService")
+	private SupervisorService supervisorService;
+	@Resource(name="brigadaService")
+	private BrigadaService brigadaService;
 
     
     
@@ -78,7 +86,7 @@ public class VisitController {
     
     
     @RequestMapping(value = "/searchVisits/", method = RequestMethod.GET, produces = "application/json")
-    public @ResponseBody List<Visit> fetchVisits(@RequestParam(value = "codeVisit", required = false) String codeVisit,
+    public @ResponseBody List<Visit> fetchVisits(@RequestParam(value = "codeHouse", required = false) String codeHouse,
     		@RequestParam(value = "ownerName", required = false) String ownerName,
     		@RequestParam(value = "fecVisitaRange", required = false, defaultValue = "") String fecVisitaRange,
     		@RequestParam(value = "local", required = true) String local,
@@ -95,7 +103,7 @@ public class VisitController {
         	desde = formatter.parse(fecVisitaRange.substring(0, 10)).getTime();
         	hasta = formatter.parse(fecVisitaRange.substring(fecVisitaRange.length()-10, fecVisitaRange.length())).getTime();
         }
-        List<Visit> datos = visitService.getVisitasFiltro(codeVisit, ownerName, desde, hasta, local, 
+        List<Visit> datos = visitService.getVisitasFiltro(codeHouse, ownerName, desde, hasta, local, 
         		irsSeason, activity, compVisit, SecurityContextHolder.getContext().getAuthentication().getName(),null);
         if (datos == null){
         	logger.debug("Nulo");
@@ -104,6 +112,11 @@ public class VisitController {
         	for (Visit visita:datos) {
         		MessageResource mr = null;
         		String descCatalogo = null;
+        		mr = this.messageResourceService.getMensaje(visita.getVisit(),"CAT_VIS_CAT");
+        		if(mr!=null) {
+        			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
+        			visita.setVisit(descCatalogo);
+        		}
         		mr = this.messageResourceService.getMensaje(visita.getActivity(),"CAT_VIS_TYPE");
         		if(mr!=null) {
         			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
@@ -136,6 +149,11 @@ public class VisitController {
         	mav = new ModelAndView("irs/viewVisitForm");
         	MessageResource mr = null;
     		String descCatalogo = null;
+    		mr = this.messageResourceService.getMensaje(visita.getVisit(),"CAT_VIS_CAT");
+    		if(mr!=null) {
+    			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
+    			visita.setVisit(descCatalogo);
+    		}
     		mr = this.messageResourceService.getMensaje(visita.getActivity(),"CAT_VIS_TYPE");
     		if(mr!=null) {
     			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
@@ -145,6 +163,16 @@ public class VisitController {
     		if(mr!=null) {
     			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
     			visita.setCompVisit(descCatalogo);
+    		}
+    		mr = this.messageResourceService.getMensaje(visita.getReasonNoVisit(),"CAT_NO_VISIT");
+    		if(mr!=null) {
+    			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
+    			visita.setReasonNoVisit(descCatalogo);
+    		}
+    		mr = this.messageResourceService.getMensaje(visita.getReasonReluctant(),"CAT_RELUCTANT");
+    		if(mr!=null) {
+    			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
+    			visita.setReasonReluctant(descCatalogo);
     		}
         	mav.addObject("visita",visita);
             List<AuditTrail> bitacora = auditTrailService.getBitacora(ident);
@@ -165,12 +193,20 @@ public class VisitController {
 		if(visita!=null){
 			List<Rociador> rociadores = rociadorService.getActiveRociadores();
 	    	model.addAttribute("rociadores", rociadores);
-	    	List<Localidad> localidades = localidadService.getActiveLocalitiesUsuario(SecurityContextHolder.getContext().getAuthentication().getName());
-	    	model.addAttribute("localidades", localidades);
+	    	List<Supervisor> supervisores = supervisorService.getActiveSupervisores();
+	    	model.addAttribute("supervisores", supervisores);
+	    	List<Brigada> brigadas = brigadaService.getActiveBrigadas();
+	    	model.addAttribute("brigadas", brigadas);
 	    	List<MessageResource> sinos = messageResourceService.getCatalogo("CAT_SINO");
 	    	model.addAttribute("sinos",sinos);
 	    	List<MessageResource> tipos = messageResourceService.getCatalogo("CAT_VIS_TYPE");
 	    	model.addAttribute("tipos",tipos);
+	    	List<MessageResource> razonesnovis = messageResourceService.getCatalogo("CAT_NO_VISIT");
+	    	model.addAttribute("razonesnovis",razonesnovis);
+	    	List<MessageResource> razonesrenuente = messageResourceService.getCatalogo("CAT_RELUCTANT");
+	    	model.addAttribute("razonesrenuente",razonesrenuente);
+	    	List<MessageResource> categorias = messageResourceService.getCatalogo("CAT_VIS_CAT");
+	    	model.addAttribute("categorias",categorias);
 			model.addAttribute("visita",visita);
 			return "irs/enterVisitForm";
 		}
@@ -197,7 +233,7 @@ public class VisitController {
     		this.visitService.saveVisit(visita);
     		redirectAttributes.addFlashAttribute("entidadDeshabilitada", true);
     		redirectAttributes.addFlashAttribute("nombreEntidad", visita.getTarget().getHousehold().getCode());
-    		redirecTo = "redirect:/irs/visits/"+visita.getIdent()+"/";
+    		redirecTo = "redirect:/irs/visit/"+visita.getIdent()+"/";
     	}
     	else{
     		redirecTo = "403";
@@ -223,7 +259,7 @@ public class VisitController {
     		this.visitService.saveVisit(visita);
     		redirectAttributes.addFlashAttribute("entidadHabilitada", true);
     		redirectAttributes.addFlashAttribute("nombreEntidad", visita.getTarget().getHousehold().getCode());
-    		redirecTo = "redirect:/irs/visits/"+visita.getIdent()+"/";
+    		redirecTo = "redirect:/irs/visit/"+visita.getIdent()+"/";
     	}
     	else{
     		redirecTo = "403";
@@ -248,6 +284,7 @@ public class VisitController {
 	        , @RequestParam( value="rociador", required=false ) String rociador
 	        , @RequestParam( value="supervisor", required=false) String supervisor
 	        , @RequestParam( value="brigada", required=false) String brigada
+	        , @RequestParam( value="visit", required=true) String visit
 	        , @RequestParam( value="activity", required=true) String activity
 	        , @RequestParam( value="compVisit", required=true) String compVisit
 	        , @RequestParam( value="reasonNoVisit", required=false) String reasonNoVisit
@@ -258,6 +295,7 @@ public class VisitController {
 	        , @RequestParam( value="numCharges", required=false) Integer numCharges
 	        , @RequestParam( value="reasonIncomplete", required=false) String reasonIncomplete
 	        , @RequestParam( value="supervised", required=false ) String supervised
+	        , @RequestParam( value="personasCharlas", required=false) Integer personasCharlas
 	        , @RequestParam( value="obs", required=false, defaultValue ="" ) String obs
 	        )
 	{
@@ -267,30 +305,27 @@ public class VisitController {
     		Date fechaVisita =  null;
     		if (!visitDate.equals("")) fechaVisita = formatter.parse(visitDate);
     		
-    		/*if(!latitude.equals("")) latitud = Double.valueOf(latitude);
-    		if(!longitude.equals("")) longitud = Double.valueOf(longitude);
-    		if (!censusDate.equals("")) fechaCenso = formatter.parse(censusDate);
+    		Visit visita = this.visitService.getVisit(ident);
+    		visita.setVisitDate(fechaVisita);
+    		visita.setRociador(this.rociadorService.getRociador(rociador));
+    		visita.setSupervisor(this.supervisorService.getSupervisor(supervisor));
+    		visita.setBrigada(this.brigadaService.getBrigada(brigada));
+    		visita.setVisit(visit);
+    		visita.setActivity(activity);
+    		visita.setCompVisit(compVisit);
+    		visita.setReasonNoVisit(reasonNoVisit);
+    		visita.setReasonNoVisitOther(reasonNoVisitOther);
+    		visita.setReasonReluctant(reasonReluctant);
+    		visita.setReasonReluctantOther(reasonReluctantOther);
+    		visita.setSprayedRooms(sprayedRooms);
+    		visita.setNumCharges(numCharges);
+    		visita.setReasonIncomplete(reasonIncomplete);
+    		visita.setSupervised(supervised);
+    		visita.setObs(obs);
+    		visita.setPersonasCharlas(personasCharlas);
+    		this.visitService.saveVisit(visita);
     		
-    		Localidad localidad = this.localidadService.getLocal(local);
-			Visit vivienda = this.householdService.getVisita(ident, SecurityContextHolder.getContext().getAuthentication().getName());
-			vivienda.setCode(code);
-			vivienda.setLocal(localidad);
-			vivienda.setOwnerName(ownerName);
-			vivienda.setCensusTaker(this.rociadorService.getRociador(censusTaker));
-			vivienda.setCensusDate(fechaCenso);
-			vivienda.setInhabited(inhabited);
-			vivienda.setHabitants(habitants);
-			vivienda.setMaterial(material);
-			vivienda.setRooms(rooms);
-			vivienda.setSprRooms(sprRooms);
-			vivienda.setNoSprooms(noSprooms);
-			vivienda.setNoSproomsReasons(noSproomsReasons);
-			vivienda.setLatitude(latitud);
-			vivienda.setLongitude(longitud);
-			vivienda.setObs(obs);
-			this.householdService.saveVisita(vivienda);*/
-			
-			return createJsonResponse(null);
+			return createJsonResponse(visita);
     	}
 		catch (DataIntegrityViolationException e){
 			String message = e.getMostSpecificCause().getMessage();

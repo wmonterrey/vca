@@ -5,7 +5,7 @@ INSERT INTO roles (ROLE) VALUES ('ROLE_SPRAY');
 INSERT INTO roles (ROLE) VALUES ('ROLE_CENSUS');
 INSERT INTO roles (ROLE) VALUES ('ROLE_REVIEW');
 INSERT INTO roles (ROLE) VALUES ('ROLE_PASSWORD');
-INSERT INTO users (username, credentialsNonExpired, accountNonLocked, changePasswordNextLogin, completeName, created,createdBy, accountNonExpired, email, enabled, lastAccess, lastCredentialChange, modified, modifiedBy, password) VALUES ('admin', b'1', b'1', b'0', 'Administrador del Sistema', '2018-11-08 00:00:00', 'admin', b'1', 'waviles@icsnicaragua.org', b'1', '2018-11-08 00:00:00', '2018-11-08 00:00:00', '2018-11-08 00:00:00', 'admin', '6c36dc262b0e44be5811c2296669fc65643aec9dcaa4a76501e0a9508b633fd01ee59a207f8c6d68');
+INSERT INTO users (username, credentialsNonExpired, accountNonLocked, changePasswordNextLogin, completeName, created,createdBy, accountNonExpired, email, enabled, lastAccess, lastCredentialChange, modified, modifiedBy, password) VALUES ('admin', b'1', b'1', b'0', 'Administrador del Sistema', '2018-11-08 00:00:00', 'admin', b'1', 'waviles@clintonhealthaccess.org', b'1', '2018-11-08 00:00:00', '2018-11-08 00:00:00', '2018-11-08 00:00:00', 'admin', '6c36dc262b0e44be5811c2296669fc65643aec9dcaa4a76501e0a9508b633fd01ee59a207f8c6d68');
 INSERT INTO userroles (ROLE, username, deviceid, status, pasive, recordDate,recordUser) VALUES ('ROLE_ADMIN', 'admin', 'admin', '2', '0', '2018-11-08 00:00:00', 'admin');
 INSERT INTO userroles (ROLE, username, deviceid, status, pasive, recordDate,recordUser) VALUES ('ROLE_PASSWORD', 'admin', 'admin', '2', '0', '2018-11-08 00:00:00', 'admin');
 INSERT INTO userroles (ROLE, username, deviceid, status, pasive, recordDate,recordUser) VALUES ('ROLE_SPRAY', 'admin', 'admin', '2', '0', '2018-11-08 00:00:00', 'admin');
@@ -194,7 +194,7 @@ INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('class org.clintonhealthaccess.vca.domain.irs.Visit', NULL, NULL, 'Visit', '0', 0, '0', 'Visita');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('class org.clintonhealthaccess.vca.domain.irs.Target', NULL, NULL, 'Target', '0', 0, '0', 'Objetivo');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('class org.clintonhealthaccess.vca.domain.irs.IrsSeason', NULL, NULL, 'Irs Season', '0', 0, '0', 'Temporada');
-INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('class org.clintonhealthaccess.vca.domain.irs.Supervisions', NULL, NULL, 'Supervisions', '0', 0, '0', 'Supervision');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('class org.clintonhealthaccess.vca.domain.irs.Supervision', NULL, NULL, 'Supervision', '0', 0, '0', 'Supervisión');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('map', NULL, NULL, 'Map', '0', 0, '0', 'Mapa');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('list', NULL, NULL, 'List', '0', 0, '0', 'Lista');
 //Catalogos
@@ -220,16 +220,32 @@ INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_STATUS', NULL, NULL, 'Catalogue status house', '1', 0, '0', 'Catalogo Estado de la vivienda');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_STATUS_01', 'SPRTOT', 'CAT_STATUS', 'Sprayed', '0', 1, '0', 'Rociada total');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_STATUS_02', 'SPRPAR', 'CAT_STATUS', 'Partial Sprayed', '0', 2, '0', 'Rociada parcial');
-INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_STATUS_03', 'SPRREL', 'CAT_STATUS', 'Reluctant', '0', 3, '0', 'Renuente');
-INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_STATUS_04', 'SPRCLO', 'CAT_STATUS', 'Closed', '0', 4, '0', 'Cerrada');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_STATUS_03', 'RELUCT', 'CAT_STATUS', 'Reluctant', '0', 3, '0', 'Renuente');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_STATUS_04', 'CLOSED', 'CAT_STATUS', 'Closed', '0', 4, '0', 'Cerrada');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_STATUS_05', 'NOTIFI', 'CAT_STATUS', 'Notified', '0', 5, '0', 'Con preaviso');
-INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_STATUS_06', 'NOTCLO', 'CAT_STATUS', 'Not notified', '0', 6, '0', 'Sin preaviso');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_STATUS_06', 'NONOTI', 'CAT_STATUS', 'Unnotified', '0', 6, '0', 'Sin preaviso');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_STATUS_07', 'NOTVIS', 'CAT_STATUS', 'Never visited', '0', 7, '0', 'Nunca visitada');
 
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_VIS_TYPE', NULL, NULL, 'Catalogue visit type', '1', 0, '0', 'Catalogo Tipo de visita');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_VIS_TYPE_01', 'NOTICE', 'CAT_VIS_TYPE', 'Notice', '0', 1, '0', 'Pre aviso');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_VIS_TYPE_02', 'SPRAY', 'CAT_VIS_TYPE', 'Spray', '0', 2, '0', 'Rociado');
 
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_VIS_CAT', NULL, NULL, 'Catalogue visit cat', '1', 0, '0', 'Catalogo categoria de visita');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_VIS_CAT_01', '1', 'CAT_VIS_CAT', 'First', '0', 1, '0', 'Inicial');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_VIS_CAT_02', '2', 'CAT_VIS_CAT', 'Follow up', '0', 2, '0', 'Seguimiento');
+
+
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_NO_VISIT', NULL, NULL, 'Catalogue reasons no visit', '1', 0, '0', 'Catalogo razones no visita');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_NO_VISIT_01', 'CLOSED', 'CAT_NO_VISIT', 'Closed', '0', 1, '0', 'Cerrada');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_NO_VISIT_02', 'RELUCT', 'CAT_NO_VISIT', 'Reluctant', '0', 2, '0', 'Renuente');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_NO_VISIT_03', 'DESTRO', 'CAT_NO_VISIT', 'Destroyed', '0', 3, '0', 'Destruída');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_NO_VISIT_04', 'OTHER', 'CAT_NO_VISIT', 'Other', '0', 4, '0', 'Otras razones (especifique)');
+
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_RELUCTANT', NULL, NULL, 'Catalogue reasons reluctant', '1', 0, '0', 'Catalogo renuente');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_RELUCTANT_01', 'PREGNANCY', 'CAT_RELUCTANT', 'Pregnancy', '0', 1, '0', 'Mujer embarazada');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_RELUCTANT_02', 'NEWBORN', 'CAT_RELUCTANT', 'New Born', '0', 2, '0', 'Recien nacido en casa');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_RELUCTANT_03', 'ILLNESS', 'CAT_RELUCTANT', 'Illness', '0', 3, '0', 'Persona enferma');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_RELUCTANT_04', 'OTHER', 'CAT_RELUCTANT', 'Other', '0', 4, '0', 'Otras razones (especifique)');
 
 //Censo
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('census', NULL, NULL, 'Census', '0', 0, '0', 'Censo');
@@ -243,6 +259,7 @@ INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('sprRooms', NULL, NULL, '', '0', 0, '0', 'Número de Cuartos Rociables');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('noSprooms', NULL, NULL, '', '0', 0, '0', 'Número de Cuartos No rociables');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('noSproomsReasons', NULL, NULL, '', '0', 0, '0', 'Razones no rociables');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('personasCharlas', NULL, NULL, '', '0', 0, '0', 'Numero de personas se imparte charla');
 
 
 //Dashboard censo
@@ -270,10 +287,22 @@ INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('ou', NULL, NULL, '', '0', 0, '0', 'unidad organizativa');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('vivhab', NULL, NULL, '', '0', 0, '0', 'Viviendas habitadas');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('vivdeshab', NULL, NULL, '', '0', 0, '0', 'Viviendas no habitadas');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('vivcerrada', NULL, NULL, '', '0', 0, '0', 'Viviendas cerradas');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('vivcuartos', NULL, NULL, '', '0', 0, '0', 'Total de cuartos');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('vivcuartosroc', NULL, NULL, '', '0', 0, '0', 'Cuartos rociables');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('vivcuartosnoroc', NULL, NULL, '', '0', 0, '0', 'Cuartos no rociables');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('vivtothab', NULL, NULL, '', '0', 0, '0', 'Total habitantes');
+
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('totvisit', NULL, NULL, '', '0', 0, '0', 'Total visitas');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('totexito', NULL, NULL, '', '0', 0, '0', 'Visitas completas');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('totfracaso', NULL, NULL, '', '0', 0, '0', 'Visitas fallidas');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('totpreav', NULL, NULL, '', '0', 0, '0', 'Visitas preaviso');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('totrociado', NULL, NULL, '', '0', 0, '0', 'Visitas rociado');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('totiniciales', NULL, NULL, '', '0', 0, '0', 'Visitas iniciales');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('totseg', NULL, NULL, '', '0', 0, '0', 'Visitas seguimiento');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('totrociados', NULL, NULL, '', '0', 0, '0', 'Cuartos rociados');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('totcargas', NULL, NULL, '', '0', 0, '0', 'Total cargas');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('totcharlas', NULL, NULL, '', '0', 0, '0', 'Habitantes charlas');
 
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('irs', NULL, NULL, 'IRS', '0', 0, '0', 'RRI');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('dashboard', NULL, NULL, 'Dashboard', '0', 0, '0', 'Tablero');
@@ -287,10 +316,11 @@ INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('numberDays', NULL, NULL, 'Number of days', '0', 0, '0', 'Número de días');
 
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('planning', NULL, NULL, 'Planning', '0', 0, '0', 'Planificación');
-INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('targets', NULL, NULL, 'Targets', '0', 0, '0', 'Mantenimiento Metas');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('targets', NULL, NULL, 'Targets', '0', 0, '0', 'Meta');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('sprayStatus', NULL, NULL, 'Status', '0', 0, '0', 'Estado');
 
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('visitDate', NULL, NULL, 'visit Date', '0', 0, '0', 'Fecha de visita');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('visit', NULL, NULL, 'Visita', '0', 0, '0', 'Visita');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('activity', NULL, NULL, 'Activity', '0', 0, '0', 'Actividad');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('compVisit', NULL, NULL, 'compete Visit', '0', 0, '0', 'Se realiza la actividad?');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('reasonNoVisit', NULL, NULL, 'reason No Visit', '0', 0, '0', 'Porque se no realiza la actividad?');
@@ -345,5 +375,12 @@ INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('consumo', NULL, NULL, 'Consumo de insecticidas', '0', 0, '0', 'Consumo de insecticidas');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('otros', NULL, NULL, 'Otros aspectos', '0', 0, '0', 'Otros aspectos');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('conducta', NULL, NULL, 'Conducta personal', '0', 0, '0', 'Conducta personal');
+
+
+//After
+
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('help', NULL, NULL, 'Help', '0', 0, '0', 'Ayuda');
+
+
 
 

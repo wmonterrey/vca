@@ -7,7 +7,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 <head>
-<jsp:include page="fragments/headTag.jsp" />
+<jsp:include page="../fragments/headTag.jsp" />
 <!-- Styles required by this views -->
 <spring:url value="/resources/vendors/css/dataTables.bootstrap4.min.css" var="dataTablesCSS" />
 <link href="${dataTablesCSS}" rel="stylesheet" type="text/css"/>
@@ -102,62 +102,106 @@
 -->
 <body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
   <!-- Header -->
-  <jsp:include page="fragments/bodyHeader.jsp" />
+  <jsp:include page="../fragments/bodyHeader.jsp" />
   <div class="app-body">
   	<!-- Navigation -->
-  	<jsp:include page="fragments/sideBar.jsp" />
+  	<jsp:include page="../fragments/sideBar.jsp" />
     <!-- Main content -->
     <main class="main">
 
       <!-- Breadcrumb -->
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<spring:url value="/" htmlEscape="true "/>"><spring:message code="home" /></a></li>
-        <li class="breadcrumb-item active">&nbsp;</li>
+        <li class="breadcrumb-item active"><a href="<spring:url value="/irs/dashboard/" htmlEscape="true "/>"><spring:message code="irs" /></a></li>
+        <li class="breadcrumb-item active"><spring:message code="dashboard" /></li>
       </ol>
       
 	  <!-- Container -->
       <div class="container-fluid">
         <div class="animated fadeIn">
         	<div class="row">
-	            <div class="col-6 col-lg-4">
+        		<div class="col-6 col-lg-6">
+	        		<div class="card">
+	        		<form action="#" autocomplete="off" id="temp-form">
+		        		<select name="temporada" id="temporada" class="form-control select2-single">
+							<c:forEach items="${temporadas}" var="temporada">
+								<option value="${temporada.ident}"><spring:message code="${temporada.name}" /></option>
+							</c:forEach>
+						</select>
+					</form>
+					</div>
+				</div>
+        	</div>
+        	<div class="row">
+	            <div class="col-6 col-lg-3">
 		            <div class="card">
 			            <div class="card-body p-3 clearfix">
-				            <i class="fa fa-home bg-primary p-3 font-2xl mr-3 float-left"></i>
-				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="vivtot" /></div>
-				            <div class="h2 text-right"><label id="labelTotViv"></label></div>
-				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="vivact" /></div>
-				            <div class="h2 text-right"><label id="labelPorViv"></label></div>
+				            <i class="fa fa-check bg-primary p-3 font-2xl mr-3 float-left"></i>
+				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="targets" /></div>
+				            <div class="h2 text-right"><label id="labelTotalMetas"></label></div>
+				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="CAT_STATUS_01" /></div>
+				            <div class="h2 text-right"><label id="labelRociadas"></label></div>
+				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="CAT_STATUS_02" /></div>
+				            <div class="h2 text-right"><label id="labelRociadasParcial"></label></div>
+				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="CAT_STATUS_03" /></div>
+				            <div class="h2 text-right"><label id="labelRenuentes"></label></div>
 			            </div>
 			            <div class="card-footer px-3 py-2">
-			            	<a class="font-weight-bold font-xs btn-block text-muted" href="<spring:url value="/census/" htmlEscape="true "/>"><spring:message code="viewcensus" /> <i class="fa fa-angle-right float-right font-lg"></i></a>
+			            	<a class="font-weight-bold font-xs btn-block text-muted" href="<spring:url value="/irs/visit/" htmlEscape="true "/>"><spring:message code="visits" /> <i class="fa fa-angle-right float-right font-lg"></i></a>
 			            </div>
 		            </div>
 	            </div>
-	            <div class="col-6 col-lg-4">
+	            <div class="col-6 col-lg-3">
 		            <div class="card">
 			            <div class="card-body p-3 clearfix">
-				            <i class="fa fa-window-restore bg-primary p-3 font-2xl mr-3 float-left"></i>
-				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="cuartostot" /></div>
-				            <div class="h2 text-right"><label id="labelTotCuartos"></label></div>
-				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="cuartosroc" /></div>
-				            <div class="h2 text-right"><label id="labelCuartosRociables"></label></div>
+				            <i class="fa fa-check bg-primary p-3 font-2xl mr-3 float-left"></i>
+				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="CAT_STATUS_04" /></div>
+				            <div class="h2 text-right"><label id="labelCerradas"></label></div>
+				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="CAT_STATUS_05" /></div>
+				            <div class="h2 text-right"><label id="labelConPre"></label></div>
+				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="CAT_STATUS_06" /></div>
+				            <div class="h2 text-right"><label id="labelSinPre"></label></div>
+				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="CAT_STATUS_07" /></div>
+				            <div class="h2 text-right"><label id="labelNoVisitadas"></label></div>
 			            </div>
 			            <div class="card-footer px-3 py-2">
-			            	<a class="font-weight-bold font-xs btn-block text-muted" href="<spring:url value="/census/" htmlEscape="true "/>"><spring:message code="viewcensus" /> <i class="fa fa-angle-right float-right font-lg"></i></a>
+			            	<a class="font-weight-bold font-xs btn-block text-muted" href="<spring:url value="/irs/visit/" htmlEscape="true "/>"><spring:message code="visits" /> <i class="fa fa-angle-right float-right font-lg"></i></a>
 			            </div>
 		            </div>
 	            </div>
-	            <div class="col-6 col-lg-4">
+	            <div class="col-6 col-lg-3">
 		            <div class="card">
 			            <div class="card-body p-3 clearfix">
-				            <i class="fa fa-home bg-primary p-3 font-2xl mr-3 float-left"></i>
-				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="vivhab" /></div>
-				            <div class="h2 text-right"><label id="labelvivhab"></label></div>
+				            <i class="fa fa-check bg-primary p-3 font-2xl mr-3 float-left"></i>
+				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="vivcuartosroc" /></div>
+				            <div class="h2 text-right"><label id="labelRociables"></label></div>
 				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="vivtothab" /></div>
-				            <div class="h2 text-right"><label id="labelvivtothab"></label></div>
+				            <div class="h2 text-right"><label id="labelHabitantes"></label></div>
+				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="totrociados" /></div>
+				            <div class="h2 text-right"><label id="labelRociados"></label></div>
+				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="totcargas" /></div>
+				            <div class="h2 text-right"><label id="labelCargas"></label></div>
 			            </div>
 			            <div class="card-footer px-3 py-2">
-			            	<a class="font-weight-bold font-xs btn-block text-muted" href="<spring:url value="/census/" htmlEscape="true "/>"><spring:message code="viewcensus" /> <i class="fa fa-angle-right float-right font-lg"></i></a>
+			            	<a class="font-weight-bold font-xs btn-block text-muted" href="<spring:url value="/irs/visit/" htmlEscape="true "/>"><spring:message code="visits" /> <i class="fa fa-angle-right float-right font-lg"></i></a>
+			            </div>
+		            </div>
+	            </div>
+	            <div class="col-6 col-lg-3">
+		            <div class="card">
+			            <div class="card-body p-3 clearfix">
+				            <i class="fa fa-check bg-primary p-3 font-2xl mr-3 float-left"></i>
+				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="totvisit" /></div>
+				            <div class="h2 text-right"><label id="labelVisitas"></label></div>
+				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="totexito" /></div>
+				            <div class="h2 text-right"><label id="labelExitosas"></label></div>
+				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="totiniciales" /></div>
+				            <div class="h2 text-right"><label id="labelIniciales"></label></div>
+				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="totcharlas" /></div>
+				            <div class="h2 text-right"><label id="labelCharlas"></label></div>
+			            </div>
+			            <div class="card-footer px-3 py-2">
+			            	<a class="font-weight-bold font-xs btn-block text-muted" href="<spring:url value="/irs/visit/" htmlEscape="true "/>"><spring:message code="visits" /> <i class="fa fa-angle-right float-right font-lg"></i></a>
 			            </div>
 		            </div>
 	            </div>
@@ -167,7 +211,7 @@
             	<div class="col-12 col-lg-12">
 	           		<div class="card">
 		           		<div class="card-header">
-		           			<b><spring:message code="vivday" /></b>
+		           			<b><spring:message code="totvisit" /></b>
 							<ul class="nav nav-tabs float-right" role="tablist">
 						        <li class="nav-item">
 						          <a class="nav-link active" data-toggle="tab" href="#day-graph" role="tab"><i class="fa fa-bar-chart"></i></a>
@@ -189,10 +233,16 @@
 				                 		<table id="daytable" class="table table-striped table-bordered datatable" width="100%">
 							                <thead>
 							                	<tr>
-							                		<th><spring:message code="censusDate" /></th>
-							                		<th><spring:message code="vivtot" /></th>
-								                    <th><spring:message code="vivact" /></th>
-								                    <th><spring:message code="vivnoact" /></th>
+							                		<th><spring:message code="visitDate" /></th>
+							                		<th><spring:message code="totvisit" /></th>
+								                    <th><spring:message code="totiniciales" /></th>
+								                    <th><spring:message code="totseg" /></th>
+								                    <th><spring:message code="totexito" /></th>
+								                    <th>Preavisos</th>
+								                    <th>Rociados</th>
+								                    <th><spring:message code="totrociados" /></th>
+								                    <th><spring:message code="numCharges" /></th>
+								                    <th><spring:message code="personasCharlas" /></th>
 							                	</tr>
 							                </thead>
 							                <tbody>
@@ -210,7 +260,7 @@
             	<div class="col-12 col-lg-12">
 	           		<div class="card">
 		           		<div class="card-header">
-		           			<b><spring:message code="vivou" /></b>
+		           			<b><spring:message code="totvisit" /></b>
 							<ul class="nav nav-tabs float-right" role="tablist">
 						        <li class="nav-item">
 						          <a class="nav-link active" data-toggle="tab" href="#ou-graph" role="tab"><i class="fa fa-bar-chart"></i></a>
@@ -233,13 +283,15 @@
 							                <thead>
 							                	<tr>
 							                		<th><spring:message code="ou" /></th>
-							                		<th><spring:message code="vivtot" /></th>
-							                		<th><spring:message code="vivhab" /></th>
-								                    <th>% Habitadas</th>
-								                    <th><spring:message code="vivcuartos" /></th>
-								                    <th><spring:message code="vivcuartosroc" /></th>
-								                    <th>% Rociables</th>
-								                    <th><spring:message code="vivtothab" /></th>
+							                		<th><spring:message code="totvisit" /></th>
+								                    <th><spring:message code="totiniciales" /></th>
+								                    <th><spring:message code="totseg" /></th>
+								                    <th><spring:message code="totexito" /></th>
+								                    <th>Preavisos</th>
+								                    <th>Rociados</th>
+								                    <th><spring:message code="totrociados" /></th>
+								                    <th><spring:message code="numCharges" /></th>
+								                    <th><spring:message code="personasCharlas" /></th>
 							                	</tr>
 							                </thead>
 							                <tbody>
@@ -254,52 +306,13 @@
          	</div>
          	
          	<div class="row">
-	         	<div class="col-md-6">
+	         	<div class="col-12 col-lg-12">
 					<div class="card">
 						<div id="mapCard" class="card-body">
 							<div id="mapid" style="width: 100%; height: 480px;"></div>
 						</div>
 					</div>
 				</div>
-				<div class="col-md-6">
-	           		<div class="card">
-		           		<div class="card-header">
-		           			<b>Materiales de la vivienda</b>
-							<ul class="nav nav-tabs float-right" role="tablist">
-						        <li class="nav-item">
-						          <a class="nav-link active" data-toggle="tab" href="#mat-graph" role="tab"><i class="fa fa-bar-chart"></i></a>
-						        </li>
-						        <li class="nav-item">
-						          <a class="nav-link" data-toggle="tab" href="#mat-table" role="tab"><i class="fa fa-table"></i></a>
-						        </li>
-						    </ul>
-		           		</div>
-		           		<div class="card-body">
-		           			<div class="tab-content">
-		           				<div class="tab-pane active" id="mat-graph" role="tabpanel">
-			           				<div class="chart-wrapper matchart">
-			                 			<canvas id="mat-chart" height="300"></canvas>
-			             			</div>
-			         			</div>
-			         			<div class="tab-pane" id="mat-table" role="tabpanel">
-				           			<div class="chart-wrapper mattable">
-				                 		<table id="mattable" class="table table-striped table-bordered datatable" width="100%">
-							                <thead>
-							                	<tr>
-							                		<th>Material</th>
-							                		<th>Viviendas</th>
-								                    <th>% </th>
-							                	</tr>
-							                </thead>
-							                <tbody>
-							                </tbody>
-						            	</table>
-				             		</div>
-				             	</div>
-			         		</div>
-		         		</div> 
-	         		</div> 
-         		</div>
 			</div>
          	
          	
@@ -308,7 +321,14 @@
       <!-- /.container-fluid -->
     </main>
     <aside class="aside-menu">
-
+	  <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+          
+        </li>
+      </ul>
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div class="tab-pane active" id="filtros" role="tabpanel">
           <form action="#" autocomplete="off" id="filters-form">
 	          <div class="callout m-0 py-2 text-muted text-center bg-light text-uppercase">
 	            <small><b><spring:message code="filters" /></b>
@@ -364,23 +384,47 @@
 	          <hr class="mx-3 my-0">
 	          <div class="callout m-0 py-2">
 	            <div>
-	              <strong><spring:message code="censustaker" /></strong>
+	              <strong><spring:message code="sprayer" /></strong>
 	            </div>
-	            <select name="censustaker" id="censustaker" class="form-control select2-single">
+	            <select name="rociador" id="rociador" class="form-control select2-single">
 					<option value="ALL"><spring:message code="all"/></option>
-					<c:forEach items="${censadores}" var="censador">
-						<option value="${censador.ident}"><spring:message code="${censador.name}" /></option>
+					<c:forEach items="${rociadores}" var="rociador">
+						<option value="${rociador.ident}"><spring:message code="${rociador.name}" /></option>
+					</c:forEach>
+				</select>
+	          </div>
+	          <hr class="mx-3 my-0">
+	          <div class="callout m-0 py-2">
+	            <div>
+	              <strong><spring:message code="supervisor" /></strong>
+	            </div>
+	            <select name="supervisor" id="supervisor" class="form-control select2-single">
+					<option value="ALL"><spring:message code="all"/></option>
+					<c:forEach items="${supervisores}" var="supervisor">
+						<option value="${supervisor.ident}"><spring:message code="${supervisor.name}" /></option>
+					</c:forEach>
+				</select>
+	          </div>
+	          <hr class="mx-3 my-0">
+	          <div class="callout m-0 py-2">
+	            <div>
+	              <strong><spring:message code="brigades" /></strong>
+	            </div>
+	            <select name="brigada" id="brigada" class="form-control select2-single">
+					<option value="ALL"><spring:message code="all"/></option>
+					<c:forEach items="${brigadas}" var="brigada">
+						<option value="${brigada.ident}"><spring:message code="${brigada.name}" /></option>
 					</c:forEach>
 				</select>
 	          </div>
 	          <hr class="mx-3 my-0">
 	          <div class="callout callout-info m-0 py-2">
 	            <div>
-	              <strong><spring:message code="censusDate" /></strong>
+	              <strong><spring:message code="visitDate" /></strong>
 	            </div>
 	            <div class="input-group">
                    <span class="input-group-addon"><input type="checkbox" id="checkDates" name="checkDates" value=""></span>
-                   <input id="fecCensoRange" name="fecCensoRange" class="form-control" disabled type="text">
+                   <input id="fecVisitaRange" name="fecVisitaRange" class="form-control" disabled type="text">
                  </div>
 	          </div>
 	          <div class="callout m-0 py-2 text-muted text-center bg-light text-uppercase">
@@ -395,7 +439,9 @@
 	            	<option value="AREA"><spring:message code="area"/></option>
 	            	<option value="DISTR"><spring:message code="district"/></option>
 					<option selected value="LOCAL"><spring:message code="locality"/></option>
-					<option value="CENS"><spring:message code="censustaker"/></option>
+					<option value="ROC"><spring:message code="sprayer"/></option>
+					<option value="SUP"><spring:message code="supervisor"/></option>
+					<option value="BRI"><spring:message code="brigades"/></option>
 				</select>
 	          </div>
 	          <hr class="mx-3 my-0">
@@ -404,7 +450,7 @@
 	              <strong>Tiempo</strong>
 	            </div>
 	            <select name="tiempo" id="tiempo" class="form-control select2-single">
-	            	<option selected value="Dia"><spring:message code="censusDate"/></option>
+	            	<option selected value="Dia"><spring:message code="visitDate"/></option>
 	            	<option value="Semana">Semana</option>
 					<option value="Mes">Mes</option>
 				</select>
@@ -416,17 +462,17 @@
 	            </div>
 	          </div>
           </form>
-        
-      
+        </div>
+      </div>
     </aside>
     
   </div>
   <!-- Pie de página -->
-  <jsp:include page="fragments/bodyFooter.jsp" />
+  <jsp:include page="../fragments/bodyFooter.jsp" />
 
   <!-- Bootstrap and necessary plugins -->
-  <jsp:include page="fragments/corePlugins.jsp" />
-  <jsp:include page="fragments/bodyUtils.jsp" />
+  <jsp:include page="../fragments/corePlugins.jsp" />
+  <jsp:include page="../fragments/bodyUtils.jsp" />
 
   <!-- GenesisUI main scripts -->
   <spring:url value="/resources/js/app.js" var="App" />
@@ -484,24 +530,28 @@
   <script src="${leafletJS}" type="text/javascript"></script>
   
   <!-- Custom scripts required by this view -->
-  <spring:url value="/resources/js/views/home.js" var="ProcessDashboardCenso" />
-  <script src="${ProcessDashboardCenso}"></script>
+  <spring:url value="/resources/js/views/homeIrs.js" var="ProcessDashboardIrs" />
+  <script src="${ProcessDashboardIrs}"></script>
   
-  <spring:url value="/census/" var="censusUrl"/>
-  
-  <spring:url value="/view/censo/pordia/" var="vivPorDiaUrl"/>
-  <spring:url value="/view/censo/porou/" var="vivPorOUUrl"/>
-  <spring:url value="/view/censo/porubi/" var="vivPorUbiUrl"/>
-  <spring:url value="/view/censo/pormat/" var="vivPorMatUrl"/>
+  <spring:url value="/view/irs/estado/" var="irsEstadoUrl"/>
+  <spring:url value="/view/irs/pordia/" var="irsPorDiaUrl"/>
+  <spring:url value="/view/irs/porou/" var="irsPorOUUrl"/>
+  <spring:url value="/view/irs/porubi/" var="irsPorUbiUrl"/>
+ 
   
   
   <spring:url value="/resources/img/icons-maps/blue.png" var="iconBlue" />
   <spring:url value="/resources/img/icons-maps/green.png" var="iconGreen" />
   <spring:url value="/resources/img/icons-maps/red.png" var="iconRed" />
+  <spring:url value="/resources/img/icons-maps/gray.png" var="iconGray" />
+  <spring:url value="/resources/img/icons-maps/black.png" var="iconBlack" />
+  <spring:url value="/resources/img/icons-maps/purple.png" var="iconPurple" />
+  <spring:url value="/resources/img/icons-maps/yellow.png" var="iconYellow" />
+  <spring:url value="/resources/img/icons-maps/orange.png" var="iconOrange" />
   
-  <c:set var="vivtot"><spring:message code="vivtot" /></c:set>
-  <c:set var="vivact"><spring:message code="vivact" /></c:set>
-  <c:set var="vivnoact"><spring:message code="vivnoact" /></c:set>
+  <c:set var="totvisit"><spring:message code="totvisit" /></c:set>
+  <c:set var="totiniciales"><spring:message code="totiniciales" /></c:set>
+  <c:set var="totseg"><spring:message code="totseg" /></c:set>
   <c:set var="censusDate"><spring:message code="censusDate" /></c:set>
   <c:set var="successmessage"><spring:message code="process.success" /></c:set>
   <c:set var="errormessage"><spring:message code="process.errors" /></c:set>
@@ -511,11 +561,15 @@
 <script>
 
 jQuery(document).ready(function() {
-	var parametros = {censusUrl: "${censusUrl}",vivPorDiaUrl: "${vivPorDiaUrl}", vivPorOUUrl: "${vivPorOUUrl}", vivPorUbiUrl: "${vivPorUbiUrl}", vivPorMatUrl: "${vivPorMatUrl}"
+	var parametros = {irsEstadoUrl: "${irsEstadoUrl}",irsPorDiaUrl: "${irsPorDiaUrl}", irsPorOUUrl: "${irsPorOUUrl}", irsPorUbiUrl: "${irsPorUbiUrl}"
 			,successmessage: "${successmessage}",
-			errormessage: "${errormessage}",waitmessage: "${waitmessage}",iconBlue: "${iconBlue}",iconGreen: "${iconGreen}",iconRed: "${iconRed}",
-			vivact: "${vivact}",vivnoact: "${vivnoact}",vivtot: "${vivtot}",censusDate: "${censusDate}",dataTablesLang: "${dataTablesLang}"};
-	ProcessDashboardCenso.init(parametros);
+			errormessage: "${errormessage}",waitmessage: "${waitmessage}",iconBlue: "${iconBlue}",iconGreen: "${iconGreen}",iconRed: "${iconRed}",iconGray: "${iconGray}",
+			iconBlack: "${iconBlack}",
+			iconPurple: "${iconPurple}",
+			iconYellow: "${iconYellow}",
+			iconOrange: "${iconOrange}",
+			totiniciales: "${totiniciales}",totseg: "${totseg}",totvisit: "${totvisit}",dataTablesLang: "${dataTablesLang}"};
+	ProcessDashboardIrs.init(parametros);
 });
 
 

@@ -51,6 +51,7 @@
       <!-- Breadcrumb -->
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<spring:url value="/" htmlEscape="true "/>"><spring:message code="home" /></a></li>
+        <li class="breadcrumb-item active"><spring:message code="irs" /></li>
         <li class="breadcrumb-item"><a href="<spring:url value="/irs/season/targets/" htmlEscape="true "/>"><spring:message code="targets" /></a></li>
         <li class="breadcrumb-item active"><c:out value="${target.household.code}" /></li>
         
@@ -112,6 +113,12 @@
 		                      <label class="col-md-6 col-form-label"><spring:message code="noSprooms" />:</label>
 		                      <div class="col-md-6">
 		                        <p class="form-control-static"><strong><c:out value="${target.household.noSprooms}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="sprayStatus" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${target.sprayStatus}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
@@ -197,8 +204,8 @@
 									<td><spring:message code="${visita.visitDate}" /></td>
 									<td><c:out value="${visita.activity}" /></td>
 									<td><c:out value="${visita.compVisit}" /></td>
-									<td><c:out value="${visita.createdBy}" /></td>
-									<td><c:out value="${visita.dateCreated}" /></td>
+									<td><c:out value="${visita.recordDate}" /></td>
+									<td><c:out value="${visita.recordUser}" /></td>
 								</tr>
 							</c:forEach>
 			                </tbody>

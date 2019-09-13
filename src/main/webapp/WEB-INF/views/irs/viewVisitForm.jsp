@@ -49,7 +49,8 @@
       <!-- Breadcrumb -->
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<spring:url value="/" htmlEscape="true "/>"><spring:message code="home" /></a></li>
-        <li class="breadcrumb-item"><a href="<spring:url value="/irs/visit/" htmlEscape="true "/>"><spring:message code="visit" /></a></li>
+        <li class="breadcrumb-item active"><a href="<spring:url value="/irs/dashboard/" htmlEscape="true "/>"><spring:message code="irs" /></a></li>
+        <li class="breadcrumb-item"><a href="<spring:url value="/irs/visit/" htmlEscape="true "/>"><spring:message code="visits" /></a></li>
         <li class="breadcrumb-item active"><c:out value="${visita.target.household.code}" /></li>
         
       </ol>
@@ -88,7 +89,108 @@
 		                        <p class="form-control-static"><strong><c:out value="${visita.target.household.local.name}" /></strong></p>
 		                      </div>
 		                    </div>
-		                    
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="visitDate" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${visita.visitDate}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="rociador" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${visita.rociador.name}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="supervisor" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${visita.supervisor.name}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="brigada" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${visita.brigada.name}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="visit" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${visita.visit}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="activity" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${visita.activity}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="compVisit" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${visita.compVisit}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="reasonNoVisit" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${visita.reasonNoVisit}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="reasonNoVisitOther" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${visita.reasonNoVisitOther}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="reasonReluctant" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${visita.reasonReluctant}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="reasonReluctantOther" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${visita.reasonReluctantOther}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="sprayedRooms" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${visita.sprayedRooms}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="numCharges" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${visita.numCharges}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="reasonIncomplete" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${visita.reasonIncomplete}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="supervised" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${visita.supervised}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="personasCharlas" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${visita.personasCharlas}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="obs" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${visita.obs}" /></strong></p>
+		                      </div>
+		                    </div>
 		                    <div class="form-group row">
 		                      <label class="col-md-6 col-form-label"><spring:message code="enabled" />:</label>
 		                      <div class="col-md-6">
@@ -116,17 +218,21 @@
 		                        <p class="form-control-static"><strong><c:out value="${visita.recordDate}" /></strong></p>
 		                      </div>
 		                    </div>
-            					<spring:url value="/irs/visit/disableEntity/{ident}/" var="disableUrl">
+            				<spring:url value="/irs/visit/disableEntity/{ident}/" var="disableUrl">
                               	<spring:param name="ident" value="${visita.ident}" />
                           	</spring:url>
                           	<spring:url value="/irs/visit/enableEntity/{ident}/" var="enableUrl">
                               	<spring:param name="ident" value="${visita.ident}" />
                           	</spring:url>
+                          	<spring:url value="/irs/visit/editEntity/{ident}/" var="editUrl">
+                              	<spring:param name="ident" value="${visita.ident}" />
+                          	</spring:url>
 						</div>
 						<div class="card-header">
           				<div class="row float-right mr-4" >
+          					<button id="edit_entity" onclick="location.href='${fn:escapeXml(editUrl)}'" type="button" class="btn btn-outline-primary"><i class="fa fa-pencil"></i>&nbsp; <spring:message code="edit" /></button>
           					<c:choose>
-								<c:when test="${target.pasive=='0'.charAt(0)}">
+								<c:when test="${visita.pasive=='0'.charAt(0)}">
 									<button id="disable_entity" onclick="location.href='${fn:escapeXml(disableUrl)}'" type="button" class="btn btn-outline-danger"><i class="fa fa-close"></i>&nbsp; <spring:message code="disable" /></button>
 								</c:when>
 								<c:otherwise>

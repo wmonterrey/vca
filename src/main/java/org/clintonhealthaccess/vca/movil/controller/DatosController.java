@@ -1,15 +1,21 @@
 package org.clintonhealthaccess.vca.movil.controller;
 
 import org.clintonhealthaccess.vca.domain.Household;
+import org.clintonhealthaccess.vca.domain.irs.IrsSeason;
+import org.clintonhealthaccess.vca.domain.irs.Target;
+import org.clintonhealthaccess.vca.domain.irs.Visit;
 import org.clintonhealthaccess.vca.service.HouseholdService;
+import org.clintonhealthaccess.vca.service.IrsSeasonService;
+import org.clintonhealthaccess.vca.service.TargetService;
+import org.clintonhealthaccess.vca.service.VisitService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -30,39 +36,48 @@ public class DatosController {
 
     @Resource(name = "householdService")
     private HouseholdService householdService;
+    @Resource(name = "temporadaService")
+    private IrsSeasonService temporadaService;
+    @Resource(name = "targetService")
+    private TargetService targetService;
+    @Resource(name = "visitService")
+    private VisitService visitService;
+    
 
     /**
-     * Retorna viviendas. Acepta una solicitud GET para JSON
-     * @return List<Household> JSON
+     * Retorna datos. Acepta una solicitud GET para JSON
+     * @return Datos JSON
      */
     @RequestMapping(value = "datos", method = RequestMethod.GET, produces = "application/json")
-    public @ResponseBody List<Household>  getViviendas(){
-        logger.info("Descargando toda la informacion de los datos de las viviendas");
-        List<Household> viviendas = householdService.getViviendas();
+    public @ResponseBody
+    Datos getDatos(){
+        logger.info("Descargando toda la informacion de los datos vivienda");
+        List<Household> viviendas = householdService.getHousesFiltro(null, null, null, null,"ALL", "ALL", "ALL",SecurityContextHolder.getContext().getAuthentication().getName(), "0");
         if (viviendas == null){
-        	logger.debug(new Date() + "- Nulo");
+        	logger.debug(new Date() + " - Viviendas - Nulo");
         }
-        return  viviendas;
+        logger.info("Descargando toda la informacion de los datos temporadas");
+        List<IrsSeason> temporadas = temporadaService.getActiveIrsSeasons();
+        if (temporadas == null){
+        	logger.debug(new Date() + " - Temporadas - Nulo");
+        }
+        logger.info("Descargando toda la informacion de los datos metas");
+        List<Target> metas = targetService.getMetasFiltro(null, null, null, null, "ALL", "ALL", "ALL", SecurityContextHolder.getContext().getAuthentication().getName(), "0");
+        if (metas == null){
+        	logger.debug(new Date() + " - Metas - Nulo");
+        }
+        logger.info("Descargando toda la informacion de los datos visitas");
+        List<Visit> visitas = visitService.getVisitasFiltro(null, null, null, null, "ALL", "ALL", "ALL", "ALL", SecurityContextHolder.getContext().getAuthentication().getName(), "0");
+        if (visitas == null){
+        	logger.debug(new Date() + " - Visitas - Nulo");
+        }
+        //Crea la clase Datos
+        Datos datos = new Datos();
+        datos.setViviendas(viviendas);
+        datos.setTemporadas(temporadas);
+        datos.setMetas(metas);
+        datos.setVisitas(visitas);
+        return  datos;
     }
-    
-    /**
-     * Acepta una solicitud POST con un JSON
-     * @param envio Objeto serializado de Household
-     * @return String con el resultado
-     */
-    @RequestMapping(value = "datos", method = RequestMethod.POST, consumes = "application/json")
-    public @ResponseBody String saveViviendas(@RequestBody Household[] envio) {
-        logger.debug("Insertando/Actualizando formularios viviendas");
-        if (envio == null){
-            logger.debug("Nulo");
-            return "No recibi nada!";
-        }
-        else{
-            List<Household> viviendas = Arrays.asList(envio);
-            for (Household vivienda : viviendas){
-            	householdService.saveVivienda(vivienda);
-            }
-        }
-        return "Datos recibidos!";
-    }
+
 }

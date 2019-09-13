@@ -111,6 +111,10 @@
 	            </ul>
 	        </li>
 	        
+	        <li class="nav-item help">
+                <a class="nav-link" href="<spring:url value="/help/" htmlEscape="true "/>"><i class="fa fa-question"></i><spring:message code="help" /></a>
+            </li>
+	        
 	        <li class="nav-item">
                 <a class="nav-link" href="<spring:url value="/logout" htmlEscape="true" />"><i class="icon-logout"></i><spring:message code="logout" /></a>
             </li>

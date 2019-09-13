@@ -55,6 +55,7 @@
 	  <spring:url value="/census/{ident}/" var="listUrl">
 		<spring:param name="ident" value="${vivienda.ident}" />
 	  </spring:url>
+	  <spring:url value="/census/localidad/" var="opclocaUrl"/>
   	  
       <!-- Breadcrumb -->
       <ol class="breadcrumb">
@@ -122,6 +123,14 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-address-book"></i></span>
 	                        <input type="text" id="ownerName" name="ownerName" value="${vivienda.ownerName}" class="form-control" placeholder="<spring:message code="ownerName" />">
+	                      </div>
+	                    </div>
+	                    
+	                    <div class="form-group" hidden>
+                          <label><spring:message code="pattern" /></label>
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-address-book"></i></span>
+	                        <input type="text" id="pattern" name="pattern" value="${vivienda.local.pattern}" class="form-control" placeholder="<spring:message code="pattern" />">
 	                      </div>
 	                    </div>
 	                    
@@ -248,6 +257,15 @@
 	                    
 	                    
 	                    <div class="form-group">
+	                      <label><spring:message code="personasCharlas" /></label>
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-window-restore"></i></span>
+	                        <input type="text" id="personasCharlas" name="personasCharlas" value="${vivienda.personasCharlas}" class="form-control" placeholder="<spring:message code="personasCharlas" />">
+	                      </div>
+	                    </div>
+	                    
+	                    
+	                    <div class="form-group">
 	                      <label><spring:message code="latitude" /></label>
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-location-arrow"></i></span>
@@ -337,7 +355,7 @@
 	jQuery(document).ready(function() {
 		var parametros = {saveUrl: "${saveUrl}", successmessage: "${successmessage}",
 				errormessage: "${errormessage}",waitmessage: "${waitmessage}",
-				listUrl: "${listUrl}" 
+				listUrl: "${listUrl}",opclocaUrl: "${opclocaUrl}" 
 		};
 		ProcessEntity.init(parametros);
 	});

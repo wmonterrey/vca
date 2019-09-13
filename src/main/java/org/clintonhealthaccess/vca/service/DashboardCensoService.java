@@ -130,7 +130,8 @@ public class DashboardCensoService {
 		}
 		
 		String sqlQueryStart = " COUNT(viv.ident) AS Total, SUM( CASE inhabited WHEN '1' THEN 1 ELSE 0 END ) AS Habitadas, SUM( CASE inhabited WHEN '1' THEN 1 ELSE 0 END )/COUNT(viv.ident)*100 AS PorcHab, "
-				+ "SUM(rooms) AS cuartos, SUM(sprRooms) AS rociables, (SUM(sprRooms)/SUM(rooms))*100 AS PorcRoc, SUM(habitants) AS habitantes";
+				+ "SUM(rooms) AS cuartos, SUM(sprRooms) AS rociables, (SUM(sprRooms)/SUM(rooms))*100 AS PorcRoc, SUM(habitants) AS habitantes, SUM( CASE inhabited WHEN '0' THEN 1 ELSE 0 END ) AS NoHabitadas,"
+				+ "SUM( CASE inhabited WHEN '9' THEN 1 ELSE 0 END ) AS Cerradas, SUM(personasCharlas) AS charlas";
 		String sqlQueryFilter = " from Household viv where viv.pasive = '0' and viv.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0') ";
 		
 		if(!area.equals("ALL")) {
@@ -191,7 +192,8 @@ public class DashboardCensoService {
 	public List<Household> getDatosHouseholdxUbi(String area, String district, String foci, String localidad, String censustaker,Long desde, Long hasta, String username) {
 		// Retrieve session from Hibernate
 		
-		String sqlQueryFilter = "from Household viv where viv.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0') ";
+		String sqlQueryFilter = "from Household viv where viv.latitude is not null and viv.longitude is not null and viv.latitude <> 0 and viv.longitude <> 0 and "
+				+ "viv.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0') ";
 		
 		if(!area.equals("ALL")) {
 			sqlQueryFilter = sqlQueryFilter + " and viv.local.district.area.ident=:area";

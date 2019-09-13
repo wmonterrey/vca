@@ -58,6 +58,7 @@
       <!-- Breadcrumb -->
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<spring:url value="/" htmlEscape="true "/>"><spring:message code="home" /></a></li>
+        <li class="breadcrumb-item active"><a href="<spring:url value="/irs/dashboard/" htmlEscape="true "/>"><spring:message code="irs" /></a></li>
         <li class="breadcrumb-item active"><spring:message code="visits" /></li>
         
       </ol>
@@ -89,7 +90,7 @@
 		                      </div>
 		                    </div>
 	           			  <div class="form-group row">
-			                  <label><spring:message code="fecVisitaRange" /></label>
+			                  <label><spring:message code="visitDate" /></label>
 			                  <div class="input-group">
 			                    <span class="input-group-addon"><input type="checkbox" id="checkDates" name="checkDates" value=""></span>
 			                    <input id="fecVisitaRange" name="fecVisitaRange" class="form-control" disabled type="text">
@@ -159,6 +160,7 @@
 			                    <th><spring:message code="ownerName" /></th>
 			                    <th class="hidden-xs"><spring:message code="season" /></th>
 			                    <th class="hidden-xs"><spring:message code="visitDate" /></th>
+			                    <th class="hidden-xs"><spring:message code="visit" /></th>
 			                    <th class="hidden-xs"><spring:message code="activity" /></th>
 			                    <th class="hidden-xs"><spring:message code="compVisit" /></th>
 			                    <th class="hidden-xs"><spring:message code="reasonNoVisit" /></th>

@@ -179,7 +179,7 @@ return {
 				
 				table1.row.add([data[row].local.name, codeview,data[row].ownerName,d1,data[row].censusTaker.name,data[row].inhabited,
 					data[row].habitants,data[row].material,data[row].rooms,data[row].sprRooms,data[row].noSprooms,
-					data[row].noSproomsReasons,data[row].latitude,data[row].longitude,data[row].obs,data[row].pasive,data[row].recordUser,d2,btnview]);
+					data[row].noSproomsReasons,data[row].latitude,data[row].longitude,data[row].altitud,data[row].exactitud,data[row].obs,data[row].pasive,data[row].recordUser,d2,btnview]);
 			}
 			$('#viviendasdiv').show();
 		}

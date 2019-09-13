@@ -160,6 +160,8 @@
 			                    <th class="hidden-xs"><spring:message code="noSproomsReasons" /></th>
 			                    <th class="hidden-xs"><spring:message code="latitude" /></th>
 			                    <th class="hidden-xs"><spring:message code="longitude" /></th>
+			                    <th class="hidden-xs"><spring:message code="altitud" /></th>
+			                    <th class="hidden-xs"><spring:message code="exactitud" /></th>
 			                    <th class="hidden-xs"><spring:message code="obs" /></th>
 			                    <th class="hidden-xs"><spring:message code="pasive" /></th>
 			                    <th class="hidden-xs"><spring:message code="createdBy" /></th>

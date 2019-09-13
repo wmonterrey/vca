@@ -32,8 +32,8 @@ public class Localidad extends BaseMetaData implements Auditable{
 	private String code;
 	private String name;
 	private Distrito district;
-	private Float latitude;
-	private Float longitude;
+	private Double latitude;
+	private Double longitude;
 	private Integer zoom;
 	private Integer population;
 	private String pattern;
@@ -95,25 +95,25 @@ public class Localidad extends BaseMetaData implements Auditable{
 
 
 	@Column(name = "latitude", nullable = true)
-	public Float getLatitude() {
+	public Double getLatitude() {
 		return latitude;
 	}
 
 
 
-	public void setLatitude(Float latitude) {
+	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
 	}
 
 
 	@Column(name = "longitude", nullable = true)
-	public Float getLongitude() {
+	public Double getLongitude() {
 		return longitude;
 	}
 
 
 
-	public void setLongitude(Float longitude) {
+	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
 	

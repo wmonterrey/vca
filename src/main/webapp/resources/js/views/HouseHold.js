@@ -15,7 +15,10 @@ return {
   init: function (parametros) {	
 	  
 	  handleDatePickers("es");
+	  
+	  var patron = new RegExp($("#pattern").val());
 
+	 
   $.validator.setDefaults( {
     submitHandler: function () {
     	processEntidad();
@@ -24,13 +27,20 @@ return {
   
   jQuery.validator.addMethod("noSpace", function(value, element) { 
 		  return value.indexOf(" ") < 0 && value != ""; 
-	}, "Invalid");
+	}, "Formato inválido");
+  
+  jQuery.validator.addMethod("regex", function(value, element, regexpr) {          
+	     return regexpr.test(value);
+	   }, "Formato inválido"); 
+  
+  
   $( '#add-form' ).validate( {
     rules: {
       code: {
-    	minlength: 2,
-        maxlength: 15,
+    	minlength: 1,
+        maxlength: 100,
         noSpace:true,
+        regex: patron,
         required: true
       },
       ownerName: {
@@ -128,6 +138,26 @@ return {
 		    		$.unblockUI();
 		  		});
 	}
+  
+  $('#local').change(
+  		function() {
+  			$.blockUI({ message: parametros.waitmessage });
+  			$.getJSON(parametros.opclocaUrl, {
+  				ident : $('#local').val(),
+  				ajax : 'true'
+  			}, function(data) {
+  				patron = new RegExp(data.pattern);
+  				$( "#code" ).rules( "remove", "regex" );
+  				$( "#code" ).rules( "add", {
+  				  regex: patron
+  				});
+  				$.unblockUI();
+  			}).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+	    		alert( "error:" + errorThrown);
+	    		$.unblockUI();
+	  		});
+          });
+  
   
   
   $(document).on('keypress','form input',function(event)

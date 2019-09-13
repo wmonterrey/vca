@@ -11,12 +11,13 @@ import javax.persistence.Table;
 import org.clintonhealthaccess.vca.domain.BaseMetaData;
 import org.clintonhealthaccess.vca.domain.audit.Auditable;
 import org.hibernate.annotations.ForeignKey;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 
 /**
  * 
- * Supervisions es la clase que representa las visitas realizadas en campo.
+ * Visit es la clase que representa las visitas realizadas en campo.
  * 
  *  
  * @author      William Avilés
@@ -36,6 +37,7 @@ public class Visit extends BaseMetaData implements Auditable{
 	private Rociador rociador;
 	private Supervisor supervisor;
 	private Brigada brigada;
+	private String visit;
 	private String activity;
 	private String compVisit;
 	private String reasonNoVisit;
@@ -46,6 +48,7 @@ public class Visit extends BaseMetaData implements Auditable{
 	private Integer numCharges;
 	private String reasonIncomplete;
 	private String supervised;
+	private Integer personasCharlas;
 	private String obs;
 	
 	
@@ -85,6 +88,7 @@ public class Visit extends BaseMetaData implements Auditable{
 
 
 	@Column(name = "visitDate", nullable = false)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	public Date getVisitDate() {
 		return visitDate;
 	}
@@ -120,6 +124,20 @@ public class Visit extends BaseMetaData implements Auditable{
 	public void setBrigada(Brigada brigada) {
 		this.brigada = brigada;
 	}
+	
+	
+	@Column(name = "visit", nullable = false , length = 50)
+	public String getVisit() {
+		return visit;
+	}
+
+
+
+	public void setVisit(String visit) {
+		this.visit = visit;
+	}
+
+
 
 	@Column(name = "activity", nullable = false , length = 50)
 	public String getActivity() {
@@ -238,7 +256,16 @@ public class Visit extends BaseMetaData implements Auditable{
 		return supervised;
 	}
 
+	@Column(name = "personasCharlas", nullable = true)
+	public Integer getPersonasCharlas() {
+		return personasCharlas;
+	}
 
+
+
+	public void setPersonasCharlas(Integer personasCharlas) {
+		this.personasCharlas = personasCharlas;
+	}
 
 	public void setSupervised(String supervised) {
 		this.supervised = supervised;

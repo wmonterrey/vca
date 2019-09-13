@@ -151,8 +151,16 @@ public class IrsSeasonController {
     		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
     		Date fechaInicio =  null;
     		Date fechaFin =  null;
+    		
     		fechaInicio=formatter.parse(startDate);
     		fechaFin=formatter.parse(endDate);
+    		
+
+    		Date fechaHoy = null;
+    		String fechaactual = formatter.format((new Date()));
+    		fechaHoy=formatter.parse(fechaactual);
+    		
+    		
     		String usuarioActual = SecurityContextHolder.getContext().getAuthentication().getName();
     		
     		//Calculate number of days
@@ -189,9 +197,10 @@ public class IrsSeasonController {
 						newTarget.setHousehold(casa);
 						newTarget.setIrsSeason(temporada);
 						newTarget.setSprayStatus("NOTVIS");
-						newTarget.setLastModified(new Date());
+						newTarget.setLastModified(fechaHoy);
 						newTarget.setRecordUser(usuarioActual);
 						newTarget.setRecordDate(new Date());
+						newTarget.setEstado('2');
 						this.temporadaService.saveTarget(newTarget);
 					}
 				}
@@ -464,6 +473,18 @@ public class IrsSeasonController {
             List<AuditTrail> bitacora = auditTrailService.getBitacora(ident);
             mav.addObject("bitacora",bitacora);
             List<Visit> visitas = this.visitService.getTargetVisits(target.getIdent());
+            for (Visit visita: visitas) {
+        		mr = this.messageResourceService.getMensaje(visita.getActivity(),"CAT_VIS_TYPE");
+        		if(mr!=null) {
+        			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
+        			visita.setActivity(descCatalogo);
+        		}
+        		mr = this.messageResourceService.getMensaje(visita.getCompVisit(),"CAT_SINO");
+        		if(mr!=null) {
+        			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
+        			visita.setCompVisit(descCatalogo);
+        		}
+            }
             mav.addObject("visitas",visitas);
         }
         return mav;

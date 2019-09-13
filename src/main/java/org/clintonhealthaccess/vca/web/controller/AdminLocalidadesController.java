@@ -111,8 +111,8 @@ public class AdminLocalidadesController {
     public ModelAndView showEntity(@PathVariable("ident") String ident) {
     	ModelAndView mav;
     	Localidad localidad = this.localidadService.getLocal(ident);
-    	Float latitud=0F;
-    	Float longitud=0F;
+    	Double latitud=0D;
+    	Double longitud=0D;
     	Integer zoom=0;
         if(localidad==null){
         	mav = new ModelAndView("403");
@@ -122,8 +122,8 @@ public class AdminLocalidadesController {
 	        	mav = new ModelAndView("admin/localidades/viewForm");
 	        	mav.addObject("localidad",localidad);
 	        	if(parametroService.getParametroByCode("zoom")!=null) zoom = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
-	        	if(parametroService.getParametroByCode("lat")!=null) latitud = Float.parseFloat(parametroService.getParametroByCode("lat").getValue());
-	        	if(parametroService.getParametroByCode("long")!=null) longitud = Float.parseFloat(parametroService.getParametroByCode("long").getValue());
+	        	if(parametroService.getParametroByCode("lat")!=null) latitud = Double.parseDouble(parametroService.getParametroByCode("lat").getValue());
+	        	if(parametroService.getParametroByCode("long")!=null) longitud = Double.parseDouble(parametroService.getParametroByCode("long").getValue());
 	        	if(localidad.getLatitude()!=null) latitud = localidad.getLatitude();
 	        	if(localidad.getLongitude()!=null) longitud = localidad.getLongitude();
 	        	if(localidad.getZoom()!=null) zoom = localidad.getZoom();
@@ -173,12 +173,12 @@ public class AdminLocalidadesController {
 		if(localidad!=null){
 			try {
 				model.addAttribute("localidad",localidad);
-				Float latitud;
-		    	Float longitud;
+				Double latitud;
+				Double longitud;
 		    	Integer zoom;
 		    	zoom = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
-	        	latitud = Float.parseFloat(parametroService.getParametroByCode("lat").getValue());
-	        	longitud = Float.parseFloat(parametroService.getParametroByCode("long").getValue());
+	        	latitud = Double.parseDouble(parametroService.getParametroByCode("lat").getValue());
+	        	longitud = Double.parseDouble(parametroService.getParametroByCode("long").getValue());
 	        	if(localidad.getLatitude()!=null) latitud = localidad.getLatitude();
 	        	if(localidad.getLongitude()!=null) longitud = localidad.getLongitude();
 	        	if(localidad.getZoom()!=null) zoom = localidad.getZoom();
@@ -219,13 +219,13 @@ public class AdminLocalidadesController {
 	        )
 	{
     	try{
-    		Float latitud = null;
-    		Float longitud = null;
+    		Double latitud = null;
+    		Double longitud = null;
     		Integer vista= null;
     		Integer poblacion= null;
     		
-    		if(!latitude.equals("")) latitud = Float.valueOf(latitude);
-    		if(!longitude.equals("")) longitud = Float.valueOf(longitude);
+    		if(!latitude.equals("")) latitud = Double.valueOf(latitude);
+    		if(!longitude.equals("")) longitud = Double.valueOf(longitude);
     		if(!zoom.equals("")) vista = Integer.valueOf(zoom);
     		if(!population.equals("")) poblacion = Integer.valueOf(population);
     		

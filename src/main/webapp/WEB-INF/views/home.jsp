@@ -119,7 +119,7 @@
       <div class="container-fluid">
         <div class="animated fadeIn">
         	<div class="row">
-	            <div class="col-6 col-lg-4">
+	            <div class="col-6 col-lg-3">
 		            <div class="card">
 			            <div class="card-body p-3 clearfix">
 				            <i class="fa fa-home bg-primary p-3 font-2xl mr-3 float-left"></i>
@@ -133,7 +133,7 @@
 			            </div>
 		            </div>
 	            </div>
-	            <div class="col-6 col-lg-4">
+	            <div class="col-6 col-lg-3">
 		            <div class="card">
 			            <div class="card-body p-3 clearfix">
 				            <i class="fa fa-window-restore bg-primary p-3 font-2xl mr-3 float-left"></i>
@@ -147,7 +147,7 @@
 			            </div>
 		            </div>
 	            </div>
-	            <div class="col-6 col-lg-4">
+	            <div class="col-6 col-lg-3">
 		            <div class="card">
 			            <div class="card-body p-3 clearfix">
 				            <i class="fa fa-home bg-primary p-3 font-2xl mr-3 float-left"></i>
@@ -155,6 +155,20 @@
 				            <div class="h2 text-right"><label id="labelvivhab"></label></div>
 				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="vivtothab" /></div>
 				            <div class="h2 text-right"><label id="labelvivtothab"></label></div>
+			            </div>
+			            <div class="card-footer px-3 py-2">
+			            	<a class="font-weight-bold font-xs btn-block text-muted" href="<spring:url value="/census/" htmlEscape="true "/>"><spring:message code="viewcensus" /> <i class="fa fa-angle-right float-right font-lg"></i></a>
+			            </div>
+		            </div>
+	            </div>
+	            <div class="col-6 col-lg-3">
+		            <div class="card">
+			            <div class="card-body p-3 clearfix">
+				            <i class="fa fa-home bg-primary p-3 font-2xl mr-3 float-left"></i>
+				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="vivdeshab" /></div>
+				            <div class="h2 text-right"><label id="labelvivnohab"></label></div>
+				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="vivcerrada" /></div>
+				            <div class="h2 text-right"><label id="labelvivcerrada"></label></div>
 			            </div>
 			            <div class="card-footer px-3 py-2">
 			            	<a class="font-weight-bold font-xs btn-block text-muted" href="<spring:url value="/census/" htmlEscape="true "/>"><spring:message code="viewcensus" /> <i class="fa fa-angle-right float-right font-lg"></i></a>
@@ -233,13 +247,18 @@
 							                <thead>
 							                	<tr>
 							                		<th><spring:message code="ou" /></th>
-							                		<th><spring:message code="vivtot" /></th>
-							                		<th><spring:message code="vivhab" /></th>
-								                    <th>% Habitadas</th>
-								                    <th><spring:message code="vivcuartos" /></th>
-								                    <th><spring:message code="vivcuartosroc" /></th>
-								                    <th>% Rociables</th>
-								                    <th><spring:message code="vivtothab" /></th>
+							                		<th class="hidden-xs"><spring:message code="vivtot" /></th>
+							                		<th class="hidden-xs"><spring:message code="vivhab" /></th>
+								                    <th class="hidden-xs" >% Habitadas</th>
+								                    <th class="hidden-xs"><spring:message code="vivcuartos" /></th>
+								                    <th class="hidden-xs"><spring:message code="vivcuartosroc" /></th>
+								                    <th class="hidden-xs">% Rociables</th>
+								                    <th class="hidden-xs"><spring:message code="vivtothab" /></th>
+								                    <th class="hidden-xs"><spring:message code="vivdeshab" /></th>
+								                    <th class="hidden-xs">% No Habitadas</th>
+								                    <th class="hidden-xs"><spring:message code="vivcerrada" /></th>
+								                    <th class="hidden-xs">% Cerradas</th>
+								                    <th class="hidden-xs"><spring:message code="personasCharlas" /></th>
 							                	</tr>
 							                </thead>
 							                <tbody>
@@ -308,7 +327,14 @@
       <!-- /.container-fluid -->
     </main>
     <aside class="aside-menu">
-
+	  <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+          
+        </li>
+      </ul>
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div class="tab-pane active" id="filtros" role="tabpanel">
           <form action="#" autocomplete="off" id="filters-form">
 	          <div class="callout m-0 py-2 text-muted text-center bg-light text-uppercase">
 	            <small><b><spring:message code="filters" /></b>
@@ -416,7 +442,8 @@
 	            </div>
 	          </div>
           </form>
-        
+        </div>
+    </div>
       
     </aside>
     
@@ -500,6 +527,9 @@
   <spring:url value="/resources/img/icons-maps/red.png" var="iconRed" />
   
   <c:set var="vivtot"><spring:message code="vivtot" /></c:set>
+  <c:set var="vivhab"><spring:message code="vivhab" /></c:set>
+  <c:set var="vivdeshab"><spring:message code="vivdeshab" /></c:set>
+  <c:set var="vivcerrada"><spring:message code="vivcerrada" /></c:set>
   <c:set var="vivact"><spring:message code="vivact" /></c:set>
   <c:set var="vivnoact"><spring:message code="vivnoact" /></c:set>
   <c:set var="censusDate"><spring:message code="censusDate" /></c:set>
@@ -514,7 +544,7 @@ jQuery(document).ready(function() {
 	var parametros = {censusUrl: "${censusUrl}",vivPorDiaUrl: "${vivPorDiaUrl}", vivPorOUUrl: "${vivPorOUUrl}", vivPorUbiUrl: "${vivPorUbiUrl}", vivPorMatUrl: "${vivPorMatUrl}"
 			,successmessage: "${successmessage}",
 			errormessage: "${errormessage}",waitmessage: "${waitmessage}",iconBlue: "${iconBlue}",iconGreen: "${iconGreen}",iconRed: "${iconRed}",
-			vivact: "${vivact}",vivnoact: "${vivnoact}",vivtot: "${vivtot}",censusDate: "${censusDate}",dataTablesLang: "${dataTablesLang}"};
+			vivact: "${vivact}",vivnoact: "${vivnoact}",vivtot: "${vivtot}",vivhab: "${vivhab}",vivdeshab: "${vivdeshab}",vivcerrada: "${vivcerrada}",censusDate: "${censusDate}",dataTablesLang: "${dataTablesLang}"};
 	ProcessDashboardCenso.init(parametros);
 });
 

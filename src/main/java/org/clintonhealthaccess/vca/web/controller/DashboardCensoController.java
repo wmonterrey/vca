@@ -92,11 +92,7 @@ public class DashboardCensoController {
         	hasta = formatter.parse(fecCensoRange.substring(fecCensoRange.length()-10, fecCensoRange.length())).getTime();
         }
         List<Household> datos = dashboardCensoService.getDatosHouseholdxUbi(area,district,foci,localidad,censustaker, desde, hasta,SecurityContextHolder.getContext().getAuthentication().getName());
-        for(Household dato: datos) {
-			if (dato.getLatitude()== null || dato.getLatitude()==null) {
-				datos.remove(dato);
-			}
-		}
+        
         return datos;
     }
     
@@ -124,11 +120,13 @@ public class DashboardCensoController {
 		String descCatalogo = null;
 		
 		for(Object[] dato: datos) {
-			mr = this.messageResourceService.getMensaje(dato[0].toString(),"CAT_MAT");
-			if(mr!=null) {
-    			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
-    			dato[0]=descCatalogo;
-    		}
+			if(dato[0]!=null) {
+				mr = this.messageResourceService.getMensaje(dato[0].toString(),"CAT_MAT");
+				if(mr!=null) {
+					descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
+					dato[0]=descCatalogo;
+				}
+			}
 		}
 		
         

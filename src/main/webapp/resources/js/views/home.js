@@ -263,11 +263,14 @@ return {
 		  var totales = [];
 		  var habitadas = [];
 		  var deshabitadas = [];
+		  var cerradas = [];
 		  var totalViviendas=0;
 		  var totalCuartos=0;
 		  var cuartosRociables=0;
 		  var totalHabitadas=0;
 		  var totalHabitantes=0;
+		  var totalDesHabitadas=0;
+		  var totalCerradas=0;
 		  $.getJSON(parametros.vivPorOUUrl, $('#filters-form').serialize(), function(data) {
 			  var table2 = $('#outable').DataTable({
 				  dom: 'lBfrtip',
@@ -298,13 +301,19 @@ return {
 				  ous.push([data[row][0]]);
 				  totales.push([data[row][1]]);
 				  habitadas.push([data[row][2]]);
-				  table2.row.add([data[row][0], data[row][1], data[row][2], (data[row][2]/data[row][1]*100).toFixed(2), data[row][4], data[row][5], (data[row][5]/data[row][4]*100).toFixed(2), data[row][7]]);
+				  deshabitadas.push([data[row][8]]);
+				  cerradas.push([data[row][9]]);
+				  table2.row.add([data[row][0], data[row][1], data[row][2], (data[row][2]/data[row][1]*100).toFixed(2), data[row][4], data[row][5], (data[row][5]/data[row][4]*100).toFixed(2)
+					  , data[row][7], data[row][8],(data[row][8]/data[row][1]*100).toFixed(2), data[row][9],(data[row][9]/data[row][1]*100).toFixed(2), data[row][10]]);
 				  totalViviendas = totalViviendas + data[row][1];
 				  totalCuartos = totalCuartos + data[row][4];
 				  cuartosRociables = cuartosRociables + data[row][5];
 				  totalHabitadas = totalHabitadas + data[row][2];
 				  totalHabitantes = totalHabitantes + data[row][7];
+				  totalDesHabitadas = totalDesHabitadas + data[row][8];
+				  totalCerradas = totalCerradas + data[row][9];
 			  }
+			  table2.draw();
 			  
 			  $('#labelTotCuartos').html(totalCuartos);
 			  var porcRociables = (cuartosRociables/totalCuartos*100).toFixed(2);
@@ -313,50 +322,53 @@ return {
 			  $('#labelvivhab').html(totalHabitadas + " (" + (totalHabitadas/totalViviendas*100).toFixed(2) +"%)");
 			  $('#labelvivtothab').html(totalHabitantes);
 			  
+			  $('#labelvivnohab').html(totalDesHabitadas + " (" + (totalDesHabitadas/totalViviendas*100).toFixed(2) +"%)");
+			  $('#labelvivcerrada').html(totalCerradas + " (" + (totalCerradas/totalViviendas*100).toFixed(2) +"%)");
+			  
 			  var optionsBar = {
+					
+					tooltips: {
+						mode: 'index',
+						intersect: 'false'
+					},
 					  responsive: true,
 					  maintainAspectRatio: false,
 					  scales: {
 						  xAxes: [{
-							  gridLines: {
-								  drawOnChartArea: false,
-							  },
-							  scaleLabel:{
-								  display: true,
-								  labelString:$('#tipoou').val()
-							  }
+							  stacked: true
 						  }],
 						  yAxes: [{
-							  ticks: {
-								  beginAtZero: true,
-				  		          maxTicksLimit: 5,
-							  }
+							  stacked: true
 						  }]
 					  },
 					  legend: {
-						  display: false
+						  display: true
 					  }
 			  };
 
 			  
-			  var dataSet1 = {
-					  labels: ous,
-					  datasets: [
-						  {
-							  type: 'bar',
-				  		      label: parametros.vivtot,
-				  		      backgroundColor: '#36a9e0',
-				  		      borderColor: '#36a9e0',
-				  		      pointHoverBackgroundColor: '#36a9e0',
-				  		      data: totales
-						  }
-						  ]
-			  };
+			  var barChartData = {
+						labels: ous,
+						datasets: [{
+							label: parametros.vivhab,
+							backgroundColor: '#36a9e0',
+							data: habitadas
+						}, {
+							label: parametros.vivdeshab,
+							backgroundColor: '#66b37a',
+							data:deshabitadas
+						}, {
+							label: parametros.vivcerrada,
+							backgroundColor: '#c2c059',
+							data: cerradas
+						}]
+
+					};
 			  
 			  ouChart.destroy();
 			  ouChart = new Chart(ctx2, {
 				  type: 'bar',
-				  data: dataSet1,
+				  data: barChartData,
 				  options: optionsBar
 			  });
 			  $('div.ouchart').unblock();
@@ -486,13 +498,15 @@ return {
 					        '#36a9e0',
 					        '#3575e0',
 					        '#7559e0',
-					        '#9879e0'
+					        '#9879e0',
+					        '#5669e0'
 					      ],
 					      hoverBackgroundColor: [
 					    	'#bdbfab',
 					    	'#bdbfab',
 					    	'#bdbfab',
 					    	'#bdbfab',
+					        '#bdbfab',
 					        '#bdbfab'
 					      ]
 					    }]
