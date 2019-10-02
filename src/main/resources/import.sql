@@ -380,6 +380,9 @@ INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden
 //After
 
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('help', NULL, NULL, 'Help', '0', 0, '0', 'Ayuda');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('qc', NULL, NULL, 'Quality control', '0', 0, '0', 'Control de calidad');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('qc_duplicated_houses', NULL, NULL, 'Duplicated houses', '0', 0, '0', 'Casas duplicadas');
+
 
 
 

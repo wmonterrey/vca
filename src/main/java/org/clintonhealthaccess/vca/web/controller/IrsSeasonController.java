@@ -190,18 +190,20 @@ public class IrsSeasonController {
 					List<Household> casasEnLocalidad = this.householdService.getHousesFiltro(null, null, null, null, l, "ALL", "ALL", 
 							usuarioActual,"0");
 					for(Household casa:casasEnLocalidad){
-						counter++;
-						Target newTarget = new Target();
-						ident = new UUID(counter.hashCode(),new Date().hashCode()).toString();
-						newTarget.setIdent(ident);
-						newTarget.setHousehold(casa);
-						newTarget.setIrsSeason(temporada);
-						newTarget.setSprayStatus("NOTVIS");
-						newTarget.setLastModified(fechaHoy);
-						newTarget.setRecordUser(usuarioActual);
-						newTarget.setRecordDate(new Date());
-						newTarget.setEstado('2');
-						this.temporadaService.saveTarget(newTarget);
+						if(!(casa.getInhabited().equals("9"))) {
+							counter++;
+							Target newTarget = new Target();
+							ident = new UUID(counter.hashCode(),new Date().hashCode()).toString();
+							newTarget.setIdent(ident);
+							newTarget.setHousehold(casa);
+							newTarget.setIrsSeason(temporada);
+							newTarget.setSprayStatus("NOTVIS");
+							newTarget.setLastModified(fechaHoy);
+							newTarget.setRecordUser(usuarioActual);
+							newTarget.setRecordDate(new Date());
+							newTarget.setEstado('2');
+							this.temporadaService.saveTarget(newTarget);
+						}
 					}
 				}
 			}

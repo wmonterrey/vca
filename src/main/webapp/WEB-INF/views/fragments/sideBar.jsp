@@ -101,6 +101,17 @@
 	        </li>
 	        </sec:authorize>
 	        
+	        <sec:authorize url="/qc/">
+	        <li class="nav-item nav-dropdown lenguaje">
+	            <a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-check"></i><spring:message code="qc" /></a>
+	            <ul class="nav-dropdown-items">
+	            	<li class="nav-item">
+	                    <a class="nav-link" href="<spring:url value="/qc/duplicates/" htmlEscape="true "/>"><i class="fa fa-clone"></i><spring:message code="qc_duplicated_houses" /></a>
+	                </li>
+	            </ul>
+	        </li>
+	        </sec:authorize>
+	        
             <li class="nav-item nav-dropdown lenguaje">
 	            <a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-language"></i><spring:message code="language" /></a>
 	            <ul class="nav-dropdown-items">
