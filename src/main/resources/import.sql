@@ -204,7 +204,8 @@ INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_HAB', NULL, NULL, 'Catalogue inhabited', '1', 0, '0', 'Catalogo Habitada');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_HAB_NO', '0', 'CAT_HAB', 'No', '0', 2, '0', 'No');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_HAB_SI', '1', 'CAT_HAB', 'Yes', '0', 1, '0', 'Si');
-INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_HAB_NA', '9', 'CAT_HAB', 'Closed', '0', 3, '0', 'Cerrada');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_HAB_NR', '8', 'CAT_HAB', 'Reluctant', '0', 3, '0', 'Renuente');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_HAB_NA', '9', 'CAT_HAB', 'Closed', '0', 4, '0', 'Cerrada');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_MAT', NULL, NULL, 'Catalogue materials', '1', 0, '0', 'Catalogo Materiales');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_MAT_01', '01', 'CAT_MAT', '', '0', 1, '0', 'Bloque Rústico');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('CAT_MAT_02', '02', 'CAT_MAT', '', '0', 2, '0', 'Bloque Repellado');
