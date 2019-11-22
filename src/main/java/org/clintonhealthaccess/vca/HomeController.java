@@ -13,8 +13,7 @@ import org.clintonhealthaccess.vca.domain.Foco;
 import org.clintonhealthaccess.vca.domain.Localidad;
 import org.clintonhealthaccess.vca.domain.irs.Brigada;
 import org.clintonhealthaccess.vca.domain.irs.IrsSeason;
-import org.clintonhealthaccess.vca.domain.irs.Rociador;
-import org.clintonhealthaccess.vca.domain.irs.Supervisor;
+import org.clintonhealthaccess.vca.domain.irs.Personal;
 import org.clintonhealthaccess.vca.service.AreaService;
 import org.clintonhealthaccess.vca.service.BrigadaService;
 import org.clintonhealthaccess.vca.service.CensadorService;
@@ -25,8 +24,7 @@ import org.clintonhealthaccess.vca.service.FocoService;
 import org.clintonhealthaccess.vca.service.IrsSeasonService;
 import org.clintonhealthaccess.vca.service.LocalidadService;
 import org.clintonhealthaccess.vca.service.MessageResourceService;
-import org.clintonhealthaccess.vca.service.RociadorService;
-import org.clintonhealthaccess.vca.service.SupervisorService;
+import org.clintonhealthaccess.vca.service.PersonalService;
 import org.clintonhealthaccess.vca.service.UsuarioService;
 import org.clintonhealthaccess.vca.users.model.GenericResponse;
 import org.clintonhealthaccess.vca.users.model.UserSistema;
@@ -94,11 +92,9 @@ public class HomeController {
 	@Resource(name="focoService")
 	private FocoService focoService;
 	
-	@Resource(name="rociadorService")
-	private RociadorService rociadorService;
+	@Resource(name="personalService")
+	private PersonalService personalService;
 	
-	@Resource(name="supervisorService")
-	private SupervisorService supervisorService;
 	@Resource(name="brigadaService")
 	private BrigadaService brigadaService;
 	
@@ -139,7 +135,7 @@ public class HomeController {
 	    	model.addAttribute("distritos", distritos);
 	    	List<Localidad> localidades = localidadService.getActiveLocalitiesUsuario(SecurityContextHolder.getContext().getAuthentication().getName());
 	    	model.addAttribute("localidades", localidades);
-	    	List<Rociador> rociadores = rociadorService.getActiveRociadores();
+	    	List<Personal> rociadores = personalService.getActiveRociadores();
 	    	model.addAttribute("rociadores", rociadores);
 	    	List<Foco> focos = focoService.getActiveFocos();
 	    	model.addAttribute("focos", focos);
@@ -148,7 +144,7 @@ public class HomeController {
 	    	if (temporadas.size()==0) {
 	    		temporadas.add(new IrsSeason("noseasons","noseasons","No hay temporadas"));
 	    	}
-	    	List<Supervisor> supervisores = this.supervisorService.getActiveSupervisores();
+	    	List<Personal> supervisores = this.personalService.getActiveSupervisores();
 	    	model.addAttribute("supervisores", supervisores);
 	    	List<Brigada> brigadas = this.brigadaService.getActiveBrigadas();
 	    	model.addAttribute("brigadas", brigadas);
