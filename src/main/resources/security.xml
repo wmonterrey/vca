@@ -19,11 +19,12 @@
 		<intercept-url pattern="/irs/visit/.*" access="ROLE_SPRAY"/>
 		<intercept-url pattern="/irs/.*" access="ROLE_REVIEW,ROLE_SUPER,ROLE_SPRAY"/>
 		<intercept-url pattern="/qc/.*" access="ROLE_SUPER"/>
+		<intercept-url pattern="/movil/.*" access="ROLE_MOVIL"/>
 		
         <intercept-url pattern="/users/chgpass" access="ROLE_PASSWORD"/>
         <intercept-url pattern="/users/resetpass" access="ROLE_PASSWORD"/>
         <intercept-url pattern="/users/chgPass" access="ROLE_PASSWORD"/>
-        <intercept-url pattern="/.*" access="ROLE_ADMIN,ROLE_SUPER,ROLE_SPRAY,ROLE_REVIEW,ROLE_CENSUS"/>
+        <intercept-url pattern="/.*" access="ROLE_ADMIN,ROLE_SUPER,ROLE_SPRAY,ROLE_REVIEW,ROLE_CENSUS,ROLE_MOVIL"/>
 		<form-login login-page="/login" default-target-url="/"
 			authentication-failure-url="/loginfailed" />
 		<logout logout-url="/logout" 

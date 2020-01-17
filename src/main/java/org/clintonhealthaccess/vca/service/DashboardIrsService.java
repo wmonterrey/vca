@@ -41,8 +41,8 @@ public class DashboardIrsService {
 		sqlQueryEnd = " ";
 		String sqlQueryStart = " COUNT(tar.sprayStatus) AS Total, "
 				+ "SUM( CASE tar.sprayStatus WHEN 'NOTVIS' THEN 1 ELSE 0 END ) AS SinVisita, "
-				+ "SUM( CASE tar.sprayStatus WHEN 'NONOTI' THEN 1 ELSE 0 END ) AS NoNotificadas, "
-				+ "SUM( CASE tar.sprayStatus WHEN 'NOTIFI' THEN 1 ELSE 0 END ) AS Notificadas, "
+				+ "SUM( CASE tar.sprayStatus WHEN 'DROPPED' THEN 1 ELSE 0 END ) AS Descartadas, "
+				+ "SUM( CASE tar.sprayStatus WHEN 'PENDING' THEN 1 ELSE 0 END ) AS Notificadas, "
 				+ "SUM( CASE tar.sprayStatus WHEN 'CLOSED' THEN 1 ELSE 0 END ) AS Cerradas, "
 				+ "SUM( CASE tar.sprayStatus WHEN 'RELUCT' THEN 1 ELSE 0 END ) AS Renuentes, "
 				+ "SUM( CASE tar.sprayStatus WHEN 'SPRPAR' THEN 1 ELSE 0 END ) AS Parciales, "
@@ -135,7 +135,7 @@ public class DashboardIrsService {
 			sqlQueryFilter = sqlQueryFilter + " and vis.target.irsSeason.ident=:temporada";
 		}
 		if(!rociador.equals("ALL")) {
-			sqlQueryFilter = sqlQueryFilter + " and vis.rociador.ident=:rociador";
+			sqlQueryFilter = sqlQueryFilter + " and vis.visitor.ident=:rociador";
 		}
 		if(!supervisor.equals("ALL")) {
 			sqlQueryFilter = sqlQueryFilter + " and vis.supervisor.ident=:supervisor";
@@ -186,7 +186,7 @@ public class DashboardIrsService {
 	
 	
 	/**
-	 * Regresa datos de visitas por fecha
+	 * Regresa datos de visitas por OU
 	 * 
 	 * @return lista de objetos
 	 */
@@ -208,8 +208,8 @@ public class DashboardIrsService {
 			sqlQueryEnd = " GROUP BY (vis.target.household.local.district.name)";
 		}
 		else if(tipoOU.equals("ROC")) {
-			sqlQueryTipoOU = "SELECT (vis.rociador.name) as rociador, ";
-			sqlQueryEnd = " GROUP BY (vis.rociador.name)";
+			sqlQueryTipoOU = "SELECT (vis.visitor.name) as rociador, ";
+			sqlQueryEnd = " GROUP BY (vis.visitor.name)";
 		}
 		else if(tipoOU.equals("SUP")) {
 			sqlQueryTipoOU = "SELECT (vis.supervisor.name) as supervisor, ";
@@ -249,7 +249,7 @@ public class DashboardIrsService {
 			sqlQueryFilter = sqlQueryFilter + " and vis.target.irsSeason.ident=:temporada";
 		}
 		if(!rociador.equals("ALL")) {
-			sqlQueryFilter = sqlQueryFilter + " and vis.rociador.ident=:rociador";
+			sqlQueryFilter = sqlQueryFilter + " and vis.visitor.ident=:rociador";
 		}
 		if(!supervisor.equals("ALL")) {
 			sqlQueryFilter = sqlQueryFilter + " and vis.supervisor.ident=:supervisor";
@@ -312,7 +312,7 @@ public class DashboardIrsService {
 		// Retrieve session from Hibernate
 		
 		String sqlQueryFilter = "from Target viv where viv.household.latitude is not null and viv.household.longitude is not null and viv.household.latitude <> 0 and viv.household.longitude <> 0 and "
-				+ "viv.household.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0') ";
+				+ "viv.pasive = '0' and viv.household.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0') ";
 		
 		if(!area.equals("ALL")) {
 			sqlQueryFilter = sqlQueryFilter + " and viv.household.local.district.area.ident=:area";
@@ -352,5 +352,338 @@ public class DashboardIrsService {
 		return  query.list();
 	}
 	
+	
+	/**
+	 * Regresa datos de consumo por OU
+	 * 
+	 * @return lista de objetos
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Object> getDatosConsumoxOU(String area, String district, String foci, String localidad, String temporada, 
+			String rociador, String supervisor, String brigada,Long desde, Long hasta,String tipoOU, String username) {
+		// Retrieve session from Hibernate
+		String sqlQueryTipoOU = "";
+		String sqlQueryEnd = "";
+		if(tipoOU.equals("LOCAL")) {
+			sqlQueryTipoOU = "SELECT vis.visitDate, (vis.target.household.local.name) as localidad, ";
+			sqlQueryEnd = " GROUP BY vis.visitDate, vis.target.household.local.name";
+		}else if(tipoOU.equals("AREA")) {
+			sqlQueryTipoOU = "SELECT vis.visitDate,(vis.target.household.local.district.area.name) as area, ";
+			sqlQueryEnd = " GROUP BY vis.visitDate, vis.target.household.local.district.area.name";
+		}
+		else if(tipoOU.equals("DISTR")) {
+			sqlQueryTipoOU = "SELECT vis.visitDate,(vis.target.household.local.district.name) as district, ";
+			sqlQueryEnd = " GROUP BY vis.visitDate, vis.target.household.local.district.name";
+		}
+		else if(tipoOU.equals("ROC")) {
+			sqlQueryTipoOU = "SELECT vis.visitDate,(vis.visitor.name) as rociador, ";
+			sqlQueryEnd = " GROUP BY vis.visitDate, vis.visitor.name";
+		}
+		else if(tipoOU.equals("SUP")) {
+			sqlQueryTipoOU = "SELECT vis.visitDate,(vis.supervisor.name) as supervisor, ";
+			sqlQueryEnd = " GROUP BY vis.visitDate, vis.supervisor.name";
+		}
+		else if(tipoOU.equals("BRI")) {
+			sqlQueryTipoOU = "SELECT vis.visitDate,(vis.brigada.name) as brigada, ";
+			sqlQueryEnd = " GROUP BY vis.visitDate, vis.brigada.name";
+		}
+		
+		
+		String sqlQueryStart = " COUNT(vis.ident) AS Casas, "
+				+ "SUM( vis.sprayedRooms ) AS rociados, "
+				+ "SUM( vis.numCharges ) AS cargas ";
+		String sqlQueryFilter = " from Visit vis where vis.activity = 'SPRAY' and vis.compVisit = 1 and  vis.pasive='0' and vis.target.household.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0') ";
+		
+		if(!area.equals("ALL")) {
+			sqlQueryFilter = sqlQueryFilter + " and vis.target.household.local.district.area.ident=:area";
+		}
+		if(!district.equals("ALL")) {
+			sqlQueryFilter = sqlQueryFilter + " and vis.target.household.local.district.ident=:district";
+		}
+		if(!foci.equals("ALL")) {
+			sqlQueryFilter = sqlQueryFilter + " and vis.target.household.local.ident in (select fl.focoLocalidadId.localidad from FocoLocalidad fl where fl.focoLocalidadId.foco=:foci and fl.pasive = '0')";
+		}
+		if(!localidad.equals("ALL")) {
+			sqlQueryFilter = sqlQueryFilter + " and vis.target.household.local.ident=:localidad";
+		}
+		if(!temporada.equals("ALL")) {
+			sqlQueryFilter = sqlQueryFilter + " and vis.target.irsSeason.ident=:temporada";
+		}
+		if(!rociador.equals("ALL")) {
+			sqlQueryFilter = sqlQueryFilter + " and vis.visitor.ident=:rociador";
+		}
+		if(!supervisor.equals("ALL")) {
+			sqlQueryFilter = sqlQueryFilter + " and vis.supervisor.ident=:supervisor";
+		}
+		if(!brigada.equals("ALL")) {
+			sqlQueryFilter = sqlQueryFilter + " and vis.brigada.ident=:brigada";
+		}
+		if(!(desde==null)) {
+			sqlQueryFilter = sqlQueryFilter + " and vis.visitDate between :fechaInicio and :fechaFinal";
+		}
+		Session session = sessionFactory.getCurrentSession();
+		// Create a Hibernate query (HQL)
+		Query query = session.createQuery(sqlQueryTipoOU + sqlQueryStart + sqlQueryFilter + sqlQueryEnd);
+		query.setParameter("username",username);
+		if(!area.equals("ALL")) {
+			query.setParameter("area", area);
+		}
+		if(!district.equals("ALL")) {
+			query.setParameter("district", district);
+		}
+		if(!foci.equals("ALL")) {
+			query.setParameter("foci", foci);
+		}
+		if(!localidad.equals("ALL")) {
+			query.setParameter("localidad", localidad);
+		}
+		if(!temporada.equals("ALL")) {
+			query.setParameter("temporada", temporada);
+		}
+		if(!rociador.equals("ALL")) {
+			query.setParameter("rociador", rociador);
+		}
+		if(!supervisor.equals("ALL")) {
+			query.setParameter("supervisor", supervisor);
+		}
+		if(!brigada.equals("ALL")) {
+			query.setParameter("brigada", brigada);
+		}
+		if(!(desde==null)) {
+			Timestamp timeStampInicio = new Timestamp(desde);
+			Timestamp timeStampFinal = new Timestamp(hasta);
+			query.setTimestamp("fechaInicio", timeStampInicio);
+			query.setTimestamp("fechaFinal", timeStampFinal);
+		}
+		// Retrieve all
+		return  query.list();
+	}
+	
+	
+	
+	/**
+	 * Regresa datos de consumo por OU
+	 * 
+	 * @return lista de objetos
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Object> getDatosConsumoxOUxSemana(String area, String district, String foci, String localidad, String temporada, 
+			String rociador, String supervisor, String brigada,Long desde, Long hasta,String tipoOU, String username) {
+		// Retrieve session from Hibernate
+		String sqlQueryTipoOU = "";
+		String sqlQueryEnd = "";
+		if(tipoOU.equals("LOCAL")) {
+			sqlQueryTipoOU = "SELECT week(vis.visitDate), (vis.target.household.local.name) as localidad, ";
+			sqlQueryEnd = " GROUP BY week(vis.visitDate), vis.target.household.local.name";
+		}else if(tipoOU.equals("AREA")) {
+			sqlQueryTipoOU = "SELECT week(vis.visitDate),(vis.target.household.local.district.area.name) as area, ";
+			sqlQueryEnd = " GROUP BY week(vis.visitDate), vis.target.household.local.district.area.name";
+		}
+		else if(tipoOU.equals("DISTR")) {
+			sqlQueryTipoOU = "SELECT week(vis.visitDate),(vis.target.household.local.district.name) as district, ";
+			sqlQueryEnd = " GROUP BY week(vis.visitDate), vis.target.household.local.district.name";
+		}
+		else if(tipoOU.equals("ROC")) {
+			sqlQueryTipoOU = "SELECT week(vis.visitDate),(vis.visitor.name) as rociador, ";
+			sqlQueryEnd = " GROUP BY week(vis.visitDate), vis.visitor.name";
+		}
+		else if(tipoOU.equals("SUP")) {
+			sqlQueryTipoOU = "SELECT week(vis.visitDate),(vis.supervisor.name) as supervisor, ";
+			sqlQueryEnd = " GROUP BY week(vis.visitDate), vis.supervisor.name";
+		}
+		else if(tipoOU.equals("BRI")) {
+			sqlQueryTipoOU = "SELECT week(vis.visitDate),(vis.brigada.name) as brigada, ";
+			sqlQueryEnd = " GROUP BY week(vis.visitDate), vis.brigada.name";
+		}
+		
+		
+		String sqlQueryStart = " COUNT(vis.ident) AS Casas, "
+				+ "SUM( vis.sprayedRooms ) AS rociados, "
+				+ "SUM( vis.numCharges ) AS cargas ";
+		String sqlQueryFilter = " from Visit vis where vis.activity = 'SPRAY' and vis.compVisit = 1 and vis.pasive='0' and vis.target.household.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0') ";
+		
+		if(!area.equals("ALL")) {
+			sqlQueryFilter = sqlQueryFilter + " and vis.target.household.local.district.area.ident=:area";
+		}
+		if(!district.equals("ALL")) {
+			sqlQueryFilter = sqlQueryFilter + " and vis.target.household.local.district.ident=:district";
+		}
+		if(!foci.equals("ALL")) {
+			sqlQueryFilter = sqlQueryFilter + " and vis.target.household.local.ident in (select fl.focoLocalidadId.localidad from FocoLocalidad fl where fl.focoLocalidadId.foco=:foci and fl.pasive = '0')";
+		}
+		if(!localidad.equals("ALL")) {
+			sqlQueryFilter = sqlQueryFilter + " and vis.target.household.local.ident=:localidad";
+		}
+		if(!temporada.equals("ALL")) {
+			sqlQueryFilter = sqlQueryFilter + " and vis.target.irsSeason.ident=:temporada";
+		}
+		if(!rociador.equals("ALL")) {
+			sqlQueryFilter = sqlQueryFilter + " and vis.visitor.ident=:rociador";
+		}
+		if(!supervisor.equals("ALL")) {
+			sqlQueryFilter = sqlQueryFilter + " and vis.supervisor.ident=:supervisor";
+		}
+		if(!brigada.equals("ALL")) {
+			sqlQueryFilter = sqlQueryFilter + " and vis.brigada.ident=:brigada";
+		}
+		if(!(desde==null)) {
+			sqlQueryFilter = sqlQueryFilter + " and vis.visitDate between :fechaInicio and :fechaFinal";
+		}
+		Session session = sessionFactory.getCurrentSession();
+		// Create a Hibernate query (HQL)
+		Query query = session.createQuery(sqlQueryTipoOU + sqlQueryStart + sqlQueryFilter + sqlQueryEnd);
+		query.setParameter("username",username);
+		if(!area.equals("ALL")) {
+			query.setParameter("area", area);
+		}
+		if(!district.equals("ALL")) {
+			query.setParameter("district", district);
+		}
+		if(!foci.equals("ALL")) {
+			query.setParameter("foci", foci);
+		}
+		if(!localidad.equals("ALL")) {
+			query.setParameter("localidad", localidad);
+		}
+		if(!temporada.equals("ALL")) {
+			query.setParameter("temporada", temporada);
+		}
+		if(!rociador.equals("ALL")) {
+			query.setParameter("rociador", rociador);
+		}
+		if(!supervisor.equals("ALL")) {
+			query.setParameter("supervisor", supervisor);
+		}
+		if(!brigada.equals("ALL")) {
+			query.setParameter("brigada", brigada);
+		}
+		if(!(desde==null)) {
+			Timestamp timeStampInicio = new Timestamp(desde);
+			Timestamp timeStampFinal = new Timestamp(hasta);
+			query.setTimestamp("fechaInicio", timeStampInicio);
+			query.setTimestamp("fechaFinal", timeStampFinal);
+		}
+		// Retrieve all
+		return  query.list();
+	}
+	
+	
+	/**
+	 * Regresa datos de consumo por OU
+	 * 
+	 * @return lista de objetos
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Object> getDatosConsumoxOUxSemanaTemp(String area, String district, String foci, String localidad, String temporada, 
+			String rociador, String supervisor, String brigada,Long desde, Long hasta,String tipoOU, String username) {
+		// Retrieve session from Hibernate
+		
+		
+		String sqlQueryNueva = "SELECT week(vis.visitDate) "
+				+ " from Visit vis where vis.activity = 'SPRAY' and vis.compVisit = 1 and vis.pasive='0' and "
+				+ " vis.target.household.local.ident in "
+				+ " (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc "
+				+ " where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0')";
+		
+		
+		
+		
+		
+		String sqlQueryTipoOU = "";
+		String sqlQueryEnd = "";
+		if(tipoOU.equals("LOCAL")) {
+			sqlQueryTipoOU = "SELECT week(vis.visitDate), (vis.target.household.local.name) as localidad, ";
+			sqlQueryEnd = " GROUP BY week(vis.visitDate), vis.target.household.local.name";
+		}else if(tipoOU.equals("AREA")) {
+			sqlQueryTipoOU = "SELECT week(vis.visitDate),(vis.target.household.local.district.area.name) as area, ";
+			sqlQueryEnd = " GROUP BY week(vis.visitDate), vis.target.household.local.district.area.name";
+		}
+		else if(tipoOU.equals("DISTR")) {
+			sqlQueryTipoOU = "SELECT week(vis.visitDate),(vis.target.household.local.district.name) as district, ";
+			sqlQueryEnd = " GROUP BY week(vis.visitDate), vis.target.household.local.district.name";
+		}
+		else if(tipoOU.equals("ROC")) {
+			sqlQueryTipoOU = "SELECT week(vis.visitDate),(vis.visitor.name) as rociador, ";
+			sqlQueryEnd = " GROUP BY week(vis.visitDate), vis.visitor.name";
+		}
+		else if(tipoOU.equals("SUP")) {
+			sqlQueryTipoOU = "SELECT week(vis.visitDate),(vis.supervisor.name) as supervisor, ";
+			sqlQueryEnd = " GROUP BY week(vis.visitDate), vis.supervisor.name";
+		}
+		else if(tipoOU.equals("BRI")) {
+			sqlQueryTipoOU = "SELECT week(vis.visitDate),(vis.brigada.name) as brigada, ";
+			sqlQueryEnd = " GROUP BY week(vis.visitDate), vis.brigada.name";
+		}
+		
+		
+		String sqlQueryStart = " COUNT(vis.ident) AS Casas, "
+				+ "SUM( vis.sprayedRooms ) AS rociados, "
+				+ "SUM( vis.numCharges ) AS cargas ";
+		String sqlQueryFilter = " from Visit vis where vis.activity = 'SPRAY' and vis.compVisit = 1 and vis.pasive='0' and vis.target.household.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0') ";
+		
+		if(!area.equals("ALL")) {
+			sqlQueryFilter = sqlQueryFilter + " and vis.target.household.local.district.area.ident=:area";
+		}
+		if(!district.equals("ALL")) {
+			sqlQueryFilter = sqlQueryFilter + " and vis.target.household.local.district.ident=:district";
+		}
+		if(!foci.equals("ALL")) {
+			sqlQueryFilter = sqlQueryFilter + " and vis.target.household.local.ident in (select fl.focoLocalidadId.localidad from FocoLocalidad fl where fl.focoLocalidadId.foco=:foci and fl.pasive = '0')";
+		}
+		if(!localidad.equals("ALL")) {
+			sqlQueryFilter = sqlQueryFilter + " and vis.target.household.local.ident=:localidad";
+		}
+		if(!temporada.equals("ALL")) {
+			sqlQueryFilter = sqlQueryFilter + " and vis.target.irsSeason.ident=:temporada";
+		}
+		if(!rociador.equals("ALL")) {
+			sqlQueryFilter = sqlQueryFilter + " and vis.visitor.ident=:rociador";
+		}
+		if(!supervisor.equals("ALL")) {
+			sqlQueryFilter = sqlQueryFilter + " and vis.supervisor.ident=:supervisor";
+		}
+		if(!brigada.equals("ALL")) {
+			sqlQueryFilter = sqlQueryFilter + " and vis.brigada.ident=:brigada";
+		}
+		if(!(desde==null)) {
+			sqlQueryFilter = sqlQueryFilter + " and vis.visitDate between :fechaInicio and :fechaFinal";
+		}
+		Session session = sessionFactory.getCurrentSession();
+		// Create a Hibernate query (HQL)
+		Query query = session.createQuery(sqlQueryTipoOU + sqlQueryStart + sqlQueryFilter + sqlQueryEnd);
+		query.setParameter("username",username);
+		if(!area.equals("ALL")) {
+			query.setParameter("area", area);
+		}
+		if(!district.equals("ALL")) {
+			query.setParameter("district", district);
+		}
+		if(!foci.equals("ALL")) {
+			query.setParameter("foci", foci);
+		}
+		if(!localidad.equals("ALL")) {
+			query.setParameter("localidad", localidad);
+		}
+		if(!temporada.equals("ALL")) {
+			query.setParameter("temporada", temporada);
+		}
+		if(!rociador.equals("ALL")) {
+			query.setParameter("rociador", rociador);
+		}
+		if(!supervisor.equals("ALL")) {
+			query.setParameter("supervisor", supervisor);
+		}
+		if(!brigada.equals("ALL")) {
+			query.setParameter("brigada", brigada);
+		}
+		if(!(desde==null)) {
+			Timestamp timeStampInicio = new Timestamp(desde);
+			Timestamp timeStampFinal = new Timestamp(hasta);
+			query.setTimestamp("fechaInicio", timeStampInicio);
+			query.setTimestamp("fechaFinal", timeStampFinal);
+		}
+		// Retrieve all
+		return  query.list();
+	}
 	
 }

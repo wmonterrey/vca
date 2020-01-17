@@ -173,12 +173,14 @@ return {
 			for (var row in data) {
 				var d1 = (new Date(data[row].lastModified)).yyyymmdd();
 				var d2 = (new Date(data[row].recordDate)).yyyymmdd();
+				var asignado = '';
+				data[row].assignedTo===null?asignado='No asignado':asignado=data[row].assignedTo.name;
 				var viewUrl = parametros.targetUrl  + data[row].ident+'/';
 				btnview = '<a title="" href=' + viewUrl + ' class="btn btn-xs btn-primary" ><i class="icon-magnifier"></i></a>';
 				codeview = '<a title="" href=' + viewUrl + '>'+ data[row].household.code+ '</a>';
 				
 				table1.row.add([data[row].household.local.name, codeview,data[row].household.ownerName,data[row].irsSeason.name,d1,data[row].sprayStatus,data[row].household.rooms,data[row].household.sprRooms,data[row].household.noSprooms,
-					data[row].household.noSproomsReasons,data[row].pasive,data[row].recordUser,d2,btnview]);
+					data[row].household.noSproomsReasons,asignado,data[row].pasive,data[row].recordUser,d2,btnview]);
 			}
 			$('#metasdiv').show();
 		}

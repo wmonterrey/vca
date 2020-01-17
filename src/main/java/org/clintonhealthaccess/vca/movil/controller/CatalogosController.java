@@ -2,14 +2,12 @@ package org.clintonhealthaccess.vca.movil.controller;
 
 import org.clintonhealthaccess.vca.domain.Censador;
 import org.clintonhealthaccess.vca.domain.irs.Brigada;
-import org.clintonhealthaccess.vca.domain.irs.Rociador;
-import org.clintonhealthaccess.vca.domain.irs.Supervisor;
+import org.clintonhealthaccess.vca.domain.irs.Personal;
 import org.clintonhealthaccess.vca.language.MessageResource;
 import org.clintonhealthaccess.vca.service.BrigadaService;
 import org.clintonhealthaccess.vca.service.CensadorService;
 import org.clintonhealthaccess.vca.service.MessageResourceService;
-import org.clintonhealthaccess.vca.service.RociadorService;
-import org.clintonhealthaccess.vca.service.SupervisorService;
+import org.clintonhealthaccess.vca.service.PersonalService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -39,10 +37,8 @@ public class CatalogosController {
     private MessageResourceService messageResourceService;
     @Resource(name = "censadorService")
     private CensadorService censadorService;
-    @Resource(name = "rociadorService")
-    private RociadorService rociadorService;
-    @Resource(name = "supervisorService")
-    private SupervisorService supervisorService;
+    @Resource(name = "personalService")
+    private PersonalService personalService;
     @Resource(name = "brigadaService")
     private BrigadaService brigadaService;
 
@@ -63,16 +59,12 @@ public class CatalogosController {
         if (censadores == null){
         	logger.debug(new Date() + " - Censadores - Nulo");
         }
-        logger.info("Descargando toda la informacion de los datos de los rociadores");
-        List<Rociador> rociadores = rociadorService.getActiveRociadores();
-        if (rociadores == null){
-        	logger.debug(new Date() + " - Rociadores - Nulo");
+        logger.info("Descargando toda la informacion de los datos de las personas relacionadas con IRS");
+        List<Personal> personal = personalService.getActivePersonales();
+        if (personal == null){
+        	logger.debug(new Date() + " - Personal - Nulo");
         }
-        logger.info("Descargando toda la informacion de los datos de los supervisores");
-        List<Supervisor> supervisores = supervisorService.getActiveSupervisores();
-        if (supervisores == null){
-        	logger.debug(new Date() + " - Supervisores - Nulo");
-        }
+        
         logger.info("Descargando toda la informacion de los datos de los brigadas");
         List<Brigada> brigadas = brigadaService.getActiveBrigadas();
         if (brigadas == null){
@@ -83,8 +75,7 @@ public class CatalogosController {
         Catalogos catalogos = new Catalogos();
         catalogos.setCatalogos(messages);
         catalogos.setCensadores(censadores);
-        catalogos.setRociadores(rociadores);
-        catalogos.setSupervisores(supervisores);
+        catalogos.setPersonalIrs(personal);
         catalogos.setBrigadas(brigadas);
         return  catalogos;
     }

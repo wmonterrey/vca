@@ -50,7 +50,7 @@
       <!-- Breadcrumb -->
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<spring:url value="/" htmlEscape="true "/>"><spring:message code="home" /></a></li>
-        <li class="breadcrumb-item active"><spring:message code="sprayer" /></li>
+        <li class="breadcrumb-item active"><spring:message code="personnel" /></li>
         
       </ol>
 	  <!-- Container -->
@@ -58,18 +58,21 @@
       <div class="animated fadeIn">
           <div class="card">
             <div class="card-header">
-              <i class="fa fa-fire-extinguisher"></i> <spring:message code="sprayer" />
+              <i class="fa fa-fire-extinguisher"></i> <spring:message code="personnel" />
               <div class="card-actions">
               </div>
             </div>
             <div class="card-body">
-              <spring:url value="/admin/sprayers/newEntity/"	var="newEntity"/>	
+              <spring:url value="/admin/personal/newEntity/"	var="newEntity"/>	
               <button id="lista_rociadores_new" onclick="location.href='${fn:escapeXml(newEntity)}'" type="button" class="btn btn-outline-primary"><i class="fa fa-plus"></i>&nbsp; <spring:message code="add" /></button><br><br>	
               <table id="lista_rociadores" class="table table-striped table-bordered datatable" width="100%">
                 <thead>
                 	<tr>
 	                    <th><spring:message code="code" /></th>
 	                    <th class="hidden-xs"><spring:message code="name" /></th>
+	                    <th><spring:message code="sprayer" /></th>
+	                    <th><spring:message code="sentinel" /></th>
+	                    <th><spring:message code="supervisor" /></th>
 	                    <th><spring:message code="enabled" /></th>
 	                    <th><spring:message code="createdBy" /></th>
 	                    <th><spring:message code="dateCreated" /></th>
@@ -77,25 +80,48 @@
                 	</tr>
                 </thead>
                 <tbody>
-                	<c:forEach items="${rociadores}" var="rociador">
+                	<c:forEach items="${personal}" var="persona">
                 		<tr>
-                			<spring:url value="/admin/sprayers/{id}/"
+                			<spring:url value="/admin/personal/{id}/"
                                         var="idUrl">
-                                <spring:param name="id" value="${rociador.ident}" />
+                                <spring:param name="id" value="${persona.ident}" />
                             </spring:url>
-                            <td><a href="${fn:escapeXml(idUrl)}"><c:out value="${rociador.code}" /></a></td>
-                            <td class="hidden-xs"><c:out value="${rociador.name}" /></td>
-                            
+                            <td><a href="${fn:escapeXml(idUrl)}"><c:out value="${persona.code}" /></a></td>
+                            <td class="hidden-xs"><c:out value="${persona.name}" /></td>
                             <c:choose>
-                                <c:when test="${rociador.pasive eq '0'.charAt(0)}">
+                                <c:when test="${persona.sprayer}">
                                     <td><span class="badge badge-success"><spring:message code="CAT_SINO_SI" /></span></td>
                                 </c:when>
                                 <c:otherwise>
                                     <td><span class="badge badge-danger"><spring:message code="CAT_SINO_NO" /></span></td>
                                 </c:otherwise>
                             </c:choose>
-                            <td><c:out value="${rociador.recordUser}" /></td>
-                            <td><c:out value="${rociador.recordDate}" /></td>
+                            <c:choose>
+                                <c:when test="${persona.sentinel}">
+                                    <td><span class="badge badge-success"><spring:message code="CAT_SINO_SI" /></span></td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td><span class="badge badge-danger"><spring:message code="CAT_SINO_NO" /></span></td>
+                                </c:otherwise>
+                            </c:choose>
+                            <c:choose>
+                                <c:when test="${persona.supervisor}">
+                                    <td><span class="badge badge-success"><spring:message code="CAT_SINO_SI" /></span></td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td><span class="badge badge-danger"><spring:message code="CAT_SINO_NO" /></span></td>
+                                </c:otherwise>
+                            </c:choose>
+                            <c:choose>
+                                <c:when test="${persona.pasive eq '0'.charAt(0)}">
+                                    <td><span class="badge badge-success"><spring:message code="CAT_SINO_SI" /></span></td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td><span class="badge badge-danger"><spring:message code="CAT_SINO_NO" /></span></td>
+                                </c:otherwise>
+                            </c:choose>
+                            <td><c:out value="${persona.recordUser}" /></td>
+                            <td><c:out value="${persona.recordDate}" /></td>
                             <td><a href="${fn:escapeXml(idUrl)}" class="btn btn-outline-primary btn-sm"><i class="fa fa-search"></i></a></td>
                 		</tr>
                 	</c:forEach>

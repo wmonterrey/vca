@@ -1,18 +1,16 @@
 package org.clintonhealthaccess.vca.web.controller;
 
-import org.clintonhealthaccess.vca.domain.irs.Rociador;
-import org.clintonhealthaccess.vca.domain.irs.Supervisor;
 import org.clintonhealthaccess.vca.domain.irs.Supervision;
 import org.clintonhealthaccess.vca.domain.Localidad;
 import org.clintonhealthaccess.vca.domain.audit.AuditTrail;
 import org.clintonhealthaccess.vca.domain.irs.IrsSeason;
+import org.clintonhealthaccess.vca.domain.irs.Personal;
 import org.clintonhealthaccess.vca.language.MessageResource;
 import org.clintonhealthaccess.vca.service.IrsSeasonService;
 import org.clintonhealthaccess.vca.service.LocalidadService;
 import org.clintonhealthaccess.vca.service.AuditTrailService;
-import org.clintonhealthaccess.vca.service.RociadorService;
-import org.clintonhealthaccess.vca.service.SupervisorService;
 import org.clintonhealthaccess.vca.service.MessageResourceService;
+import org.clintonhealthaccess.vca.service.PersonalService;
 import org.clintonhealthaccess.vca.service.SupervisionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,10 +57,8 @@ public class SupervisionController {
 	private LocalidadService localidadService;
 	@Resource(name="supervisionService")
 	private SupervisionService supervisionService;
-	@Resource(name="rociadorService")
-	private RociadorService rociadorService;
-	@Resource(name="supervisorService")
-	private SupervisorService supervisorService;
+	@Resource(name="personalService")
+	private PersonalService personalService;
 
     
     
@@ -71,9 +67,9 @@ public class SupervisionController {
 		logger.debug("Mostrando Supervisionas en JSP");
 		List<Localidad> localidades = localidadService.getActiveLocalitiesUsuario(SecurityContextHolder.getContext().getAuthentication().getName());
     	model.addAttribute("localidades", localidades);
-    	List<Rociador> rociadores = rociadorService.getActiveRociadores();
+    	List<Personal> rociadores = personalService.getActiveRociadores();
     	model.addAttribute("rociadores", rociadores);
-    	List<Supervisor> supervisores = supervisorService.getActiveSupervisores();
+    	List<Personal> supervisores = personalService.getActiveSupervisores();
     	model.addAttribute("supervisores", supervisores);
     	List<IrsSeason> temporadas = this.temporadaService.getIrsSeasons();
     	model.addAttribute("temporadas",temporadas);
@@ -146,9 +142,9 @@ public class SupervisionController {
 	public String editEntity(@PathVariable("ident") String ident, Model model) {
     	Supervision supervision = this.supervisionService.getSupervision(ident);
 		if(supervision!=null){
-			List<Rociador> rociadores = rociadorService.getActiveRociadores();
+			List<Personal> rociadores = personalService.getActiveRociadores();
 	    	model.addAttribute("rociadores", rociadores);
-	    	List<Supervisor> supervisores = supervisorService.getActiveSupervisores();
+	    	List<Personal> supervisores = personalService.getActiveSupervisores();
 	    	model.addAttribute("supervisores", supervisores);
 	    	List<MessageResource> sinos = messageResourceService.getCatalogo("CAT_SINO");
 	    	model.addAttribute("sinos",sinos);
@@ -266,7 +262,7 @@ public class SupervisionController {
 	        , @RequestParam( value="cumpleInstrucciones", required=false) String cumpleInstrucciones
 	        , @RequestParam( value="aceptaSuperv", required=false) String aceptaSuperv
 	        , @RequestParam( value="respetuoso", required=false) String respetuoso
-	        
+	        , @RequestParam( value="camp", required=false) String camp
 	        , @RequestParam( value="obs", required=false, defaultValue ="" ) String obs
 	        )
 	{
@@ -278,8 +274,8 @@ public class SupervisionController {
     		
     		Supervision supervision = this.supervisionService.getSupervision(ident);
     		supervision.setSupervisionDate(fechaSupervision);
-    		supervision.setRociador(this.rociadorService.getRociador(rociador));
-    		supervision.setSupervisor(this.supervisorService.getSupervisor(supervisor));
+    		supervision.setRociador(this.personalService.getPersonal(rociador));
+    		supervision.setSupervisor(this.personalService.getPersonal(supervisor));
     		supervision.setUsoEqProt(usoEqProt);
     		
     		supervision.setEqProtBien(eqProtBien);

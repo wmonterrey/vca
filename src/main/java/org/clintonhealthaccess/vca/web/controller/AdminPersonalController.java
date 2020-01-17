@@ -1,8 +1,9 @@
 package org.clintonhealthaccess.vca.web.controller;
 
 import org.clintonhealthaccess.vca.domain.audit.AuditTrail;
-import org.clintonhealthaccess.vca.domain.irs.Rociador;
-import org.clintonhealthaccess.vca.service.RociadorService;
+import org.clintonhealthaccess.vca.domain.irs.Personal;
+import org.clintonhealthaccess.vca.language.MessageResource;
+import org.clintonhealthaccess.vca.service.PersonalService;
 import org.clintonhealthaccess.vca.service.AuditTrailService;
 import org.clintonhealthaccess.vca.service.MessageResourceService;
 import org.slf4j.Logger;
@@ -30,16 +31,16 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Controlador web de peticiones relacionadas a rociadores
+ * Controlador web de peticiones relacionadas a personal
  * 
  * @author William Aviles
  */
 @Controller
-@RequestMapping("/admin/sprayers/*")
-public class AdminRociadoresController {
-	private static final Logger logger = LoggerFactory.getLogger(AdminRociadoresController.class);
-	@Resource(name="rociadorService")
-	private RociadorService rociadorService;
+@RequestMapping("/admin/personal/*")
+public class AdminPersonalController {
+	private static final Logger logger = LoggerFactory.getLogger(AdminPersonalController.class);
+	@Resource(name="personalService")
+	private PersonalService personalService;
 	@Resource(name="auditTrailService")
 	private AuditTrailService auditTrailService;
 	@Resource(name="messageResourceService")
@@ -48,10 +49,10 @@ public class AdminRociadoresController {
     
 	@RequestMapping(value = "/", method = RequestMethod.GET)
     public String getEntities(Model model) throws ParseException { 	
-    	logger.debug("Mostrando Rociadores en JSP");
-    	List<Rociador> rociadores = rociadorService.getRociadores();
-    	model.addAttribute("rociadores", rociadores);
-    	return "admin/rociadores/list";
+    	logger.debug("Mostrando Personales en JSP");
+    	List<Personal> personal = personalService.getPersonales();
+    	model.addAttribute("personal", personal);
+    	return "admin/personal/list";
 	}
 	
 	/**
@@ -61,7 +62,9 @@ public class AdminRociadoresController {
      */
     @RequestMapping(value = "/newEntity/", method = RequestMethod.GET)
 	public String addEntity(Model model) {
-    	return "admin/rociadores/enterForm";
+    	List<MessageResource> sinos = messageResourceService.getCatalogo("CAT_SINO");
+    	model.addAttribute("sinos",sinos);
+    	return "admin/personal/enterForm";
 	}
     
     /**
@@ -73,13 +76,13 @@ public class AdminRociadoresController {
     @RequestMapping("/{ident}/")
     public ModelAndView showEntity(@PathVariable("ident") String ident) {
     	ModelAndView mav;
-    	Rociador rociador = this.rociadorService.getRociador(ident);
-        if(rociador==null){
+    	Personal personal = this.personalService.getPersonal(ident);
+        if(personal==null){
         	mav = new ModelAndView("403");
         }
         else{
-        	mav = new ModelAndView("admin/rociadores/viewForm");
-        	mav.addObject("rociador",rociador);
+        	mav = new ModelAndView("admin/personal/viewForm");
+        	mav.addObject("personal",personal);
             List<AuditTrail> bitacora = auditTrailService.getBitacora(ident);
             mav.addObject("bitacora",bitacora);
         }
@@ -94,10 +97,12 @@ public class AdminRociadoresController {
      */
     @RequestMapping(value = "/editEntity/{ident}/", method = RequestMethod.GET)
 	public String editEntity(@PathVariable("ident") String ident, Model model) {
-		Rociador rociador = this.rociadorService.getRociador(ident);
-		if(rociador!=null){
-			model.addAttribute("rociador",rociador);
-			return "admin/rociadores/enterForm";
+		Personal personal = this.personalService.getPersonal(ident);
+		if(personal!=null){
+			model.addAttribute("personal",personal);
+			List<MessageResource> sinos = messageResourceService.getCatalogo("CAT_SINO");
+	    	model.addAttribute("sinos",sinos);
+			return "admin/personal/enterForm";
 		}
 		else{
 			return "403";
@@ -116,32 +121,72 @@ public class AdminRociadoresController {
 	public ResponseEntity<String> processEntity( @RequestParam(value="ident", required=false, defaultValue="" ) String ident
 	        , @RequestParam( value="code", required=true ) String code
 	        , @RequestParam( value="name", required=true ) String name
+	        , @RequestParam( value="sprayer", required=false, defaultValue="" ) String sprayer
+	        , @RequestParam( value="sentinel", required=false, defaultValue="" ) String sentinel
+	        , @RequestParam( value="supervisor", required=false, defaultValue="" ) String supervisor
 	        )
 	{
     	try{
-			Rociador rociador = new Rociador();
+			Personal personal = new Personal();
 			//Si el ident viene en blanco es nuevo
 			if (ident.equals("")){
 				//Crear nuevo
 				ident = new UUID(SecurityContextHolder.getContext().getAuthentication().getName().hashCode(),new Date().hashCode()).toString();
-				rociador.setIdent(ident);
-				rociador.setCode(code);
-				rociador.setName(name);
-				rociador.setRecordUser(SecurityContextHolder.getContext().getAuthentication().getName());
-				rociador.setRecordDate(new Date());
+				personal.setIdent(ident);
+				personal.setCode(code);
+				personal.setName(name);
+				if(sprayer.equals("on")) {
+					personal.setSprayer(true);
+				}
+				else {
+					personal.setSprayer(false);
+				}
+				if(sentinel.equals("on")) {
+					personal.setSentinel(true);
+				}
+				else {
+					personal.setSentinel(false);
+				}
+				if(supervisor.equals("on")) {
+					personal.setSupervisor(true);
+				}
+				else {
+					personal.setSupervisor(false);
+				}
+				personal.setRecordUser(SecurityContextHolder.getContext().getAuthentication().getName());
+				personal.setRecordDate(new Date());
 				//Guardar nuevo
-				this.rociadorService.saveRociador(rociador);
+				this.personalService.savePersonal(personal);
 			}
 			//Si el ident no viene en blanco hay que editar
 			else{
 				//Recupera de la base de datos
-				rociador = rociadorService.getRociador(ident);
-				rociador.setCode(code);
-				rociador.setName(name);
+				personal = personalService.getPersonal(ident);
+				personal.setCode(code);
+				personal.setName(name);
+				if(sprayer.equals("on")) {
+					personal.setSprayer(true);
+				}
+				else {
+					personal.setSprayer(false);
+				}
+				if(sentinel.equals("on")) {
+					personal.setSentinel(true);
+				}
+				else {
+					personal.setSentinel(false);
+				}
+				if(supervisor.equals("on")) {
+					personal.setSupervisor(true);
+				}
+				else {
+					personal.setSupervisor(false);
+				}
+			
 				//Actualiza
-				this.rociadorService.saveRociador(rociador);
+				this.personalService.savePersonal(personal);
 			}
-			return createJsonResponse(rociador);
+			return createJsonResponse(personal);
     	}
 		catch (DataIntegrityViolationException e){
 			String message = e.getMostSpecificCause().getMessage();
@@ -168,13 +213,13 @@ public class AdminRociadoresController {
     public String disableEntity(@PathVariable("ident") String ident, 
     		RedirectAttributes redirectAttributes) {
     	String redirecTo="404";
-		Rociador rociador = this.rociadorService.getRociador(ident);
-    	if(rociador!=null){
-    		rociador.setPasive('1');
-    		this.rociadorService.saveRociador(rociador);
+		Personal personal = this.personalService.getPersonal(ident);
+    	if(personal!=null){
+    		personal.setPasive('1');
+    		this.personalService.savePersonal(personal);
     		redirectAttributes.addFlashAttribute("entidadDeshabilitada", true);
-    		redirectAttributes.addFlashAttribute("nombreEntidad", rociador.getName());
-    		redirecTo = "redirect:/admin/sprayers/"+rociador.getIdent()+"/";
+    		redirectAttributes.addFlashAttribute("nombreEntidad", personal.getName());
+    		redirecTo = "redirect:/admin/personal/"+personal.getIdent()+"/";
     	}
     	else{
     		redirecTo = "403";
@@ -194,13 +239,13 @@ public class AdminRociadoresController {
     public String enableEntity(@PathVariable("ident") String ident, 
     		RedirectAttributes redirectAttributes) {
     	String redirecTo="404";
-		Rociador rociador = this.rociadorService.getRociador(ident);
-    	if(rociador!=null){
-    		rociador.setPasive('0');
-    		this.rociadorService.saveRociador(rociador);
+		Personal personal = this.personalService.getPersonal(ident);
+    	if(personal!=null){
+    		personal.setPasive('0');
+    		this.personalService.savePersonal(personal);
     		redirectAttributes.addFlashAttribute("entidadHabilitada", true);
-    		redirectAttributes.addFlashAttribute("nombreEntidad", rociador.getName());
-    		redirecTo = "redirect:/admin/sprayers/"+rociador.getIdent()+"/";
+    		redirectAttributes.addFlashAttribute("nombreEntidad", personal.getName());
+    		redirecTo = "redirect:/admin/personal/"+personal.getIdent()+"/";
     	}
     	else{
     		redirecTo = "403";

@@ -43,13 +43,13 @@
   	<jsp:include page="../../fragments/sideBar.jsp" />
     <!-- Main content -->
     <main class="main">
-	  <spring:url value="/admin/supervisors/saveEntity/" var="saveUrl"></spring:url>
-  	  <spring:url value="/admin/supervisors/" var="listUrl"/>	
+	  <spring:url value="/admin/personal/saveEntity/" var="saveUrl"></spring:url>
+  	  <spring:url value="/admin/personal/" var="listUrl"/>	
       <!-- Breadcrumb -->
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<spring:url value="/" htmlEscape="true "/>"><spring:message code="home" /></a></li>
-        <li class="breadcrumb-item"><a href="<spring:url value="/admin/supervisors/" htmlEscape="true "/>"><spring:message code="supervisor" /></a></li>
-        <li class="breadcrumb-item active"><c:out value="${supervisor.name}" /></li>
+        <li class="breadcrumb-item"><a href="<spring:url value="/admin/personal/" htmlEscape="true "/>"><spring:message code="personnel" /></a></li>
+        <li class="breadcrumb-item active"><c:out value="${personal.name}" /></li>
         
       </ol>
 	  <!-- Container -->
@@ -60,7 +60,7 @@
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header">
-                  <i class="icon-note"></i> <spring:message code="edit" /> <spring:message code="supervisor" />
+                  <i class="icon-note"></i> <spring:message code="edit" /> <spring:message code="personnel" />
                   <div class="card-actions">
                     
                   </div>
@@ -74,19 +74,34 @@
 						<div class="form-group">
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-key"></i></span>
-	                        <input type="text" id="ident" name="ident" readonly value="${supervisor.ident}" class="form-control" placeholder="<spring:message code="ident" />">
+	                        <input type="text" id="ident" name="ident" readonly value="${personal.ident}" class="form-control" placeholder="<spring:message code="ident" />">
 	                      </div>
 	                    </div>	
 	                    <div class="form-group">
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
-	                        <input type="text" id="code" name="code" value="${supervisor.code}" class="form-control" placeholder="<spring:message code="code" />">
+	                        <input type="text" id="code" name="code" value="${personal.code}" class="form-control" placeholder="<spring:message code="code" />">
 	                      </div>
 	                    </div>  
                         <div class="form-group">
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-address-book"></i></span>
-	                        <input type="text" id="name" name="name" value="${supervisor.name}" class="form-control" placeholder="<spring:message code="name" />">
+	                        <input type="text" id="name" name="name" value="${personal.name}" class="form-control" placeholder="<spring:message code="name" />">
+	                      </div>
+	                    </div>
+	                    <div class="form-group row">
+	                      <label class="col-md-3 col-form-label">Tipo</label>
+	                      <div class="col-md-9">
+	                        <label class="checkbox-inline" for="sprayer">
+	                          
+	                          <input type="checkbox" id="sprayer" name="sprayer"><spring:message code="sprayer" />
+	                        </label>
+	                        <label class="checkbox-inline" for="sentinel">
+	                          <input type="checkbox" id="sentinel" name="sentinel"><spring:message code="sentinel" />
+	                        </label>
+	                        <label class="checkbox-inline" for="supervisor">
+	                          <input type="checkbox" id="supervisor" name="supervisor"><spring:message code="supervisor" />
+	                        </label>
 	                      </div>
 	                    </div>
                         <div class="form-group">
@@ -154,6 +169,7 @@
 				listUrl: "${listUrl}" 
 		};
 		ProcessEntity.init(parametros);
+
 	});
 </script>
   

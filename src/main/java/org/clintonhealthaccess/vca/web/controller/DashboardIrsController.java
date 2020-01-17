@@ -104,6 +104,54 @@ public class DashboardIrsController {
         return datos;
     }
     
+    @RequestMapping(value = "/consumo/", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody List<Object> obtenerConsumoxOU(@RequestParam(value = "area", required = true) String area,
+    		@RequestParam(value = "district", required = true) String district,
+    		@RequestParam(value = "foci", required = true) String foci,
+    		@RequestParam(value = "localidad", required = true) String localidad,
+    		@RequestParam(value = "temporada", required = true) String temporada,
+    		@RequestParam(value = "rociador", required = true) String rociador,
+    		@RequestParam(value = "supervisor", required = true) String supervisor,
+    		@RequestParam(value = "brigada", required = true) String brigada,
+    		@RequestParam(value = "tipoou", required = true) String tipoou,
+    		@RequestParam(value = "fecVisitaRange", required = false, defaultValue = "") String fecVisitaRange
+    		) throws ParseException {
+        logger.info("Obteniendo consumos por unidad organizativa");
+        Long desde = null;
+        Long hasta = null;
+        
+        if (!fecVisitaRange.matches("")) {
+        	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        	desde = formatter.parse(fecVisitaRange.substring(0, 10)).getTime();
+        	hasta = formatter.parse(fecVisitaRange.substring(fecVisitaRange.length()-10, fecVisitaRange.length())).getTime();
+        }
+        List<Object> datos = dashboardIrsService.getDatosConsumoxOU(area,district,foci,localidad,temporada,rociador,supervisor, brigada, desde, hasta,tipoou,SecurityContextHolder.getContext().getAuthentication().getName());
+        return datos;
+    }
     
+    @RequestMapping(value = "/consumosemana/", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody List<Object> obtenerConsumoxOUxSemana(@RequestParam(value = "area", required = true) String area,
+    		@RequestParam(value = "district", required = true) String district,
+    		@RequestParam(value = "foci", required = true) String foci,
+    		@RequestParam(value = "localidad", required = true) String localidad,
+    		@RequestParam(value = "temporada", required = true) String temporada,
+    		@RequestParam(value = "rociador", required = true) String rociador,
+    		@RequestParam(value = "supervisor", required = true) String supervisor,
+    		@RequestParam(value = "brigada", required = true) String brigada,
+    		@RequestParam(value = "tipoou", required = true) String tipoou,
+    		@RequestParam(value = "fecVisitaRange", required = false, defaultValue = "") String fecVisitaRange
+    		) throws ParseException {
+        logger.info("Obteniendo consumos por unidad organizativa");
+        Long desde = null;
+        Long hasta = null;
+        
+        if (!fecVisitaRange.matches("")) {
+        	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        	desde = formatter.parse(fecVisitaRange.substring(0, 10)).getTime();
+        	hasta = formatter.parse(fecVisitaRange.substring(fecVisitaRange.length()-10, fecVisitaRange.length())).getTime();
+        }
+        List<Object> datos = dashboardIrsService.getDatosConsumoxOUxSemana(area,district,foci,localidad,temporada,rociador,supervisor, brigada, desde, hasta,tipoou,SecurityContextHolder.getContext().getAuthentication().getName());
+        return datos;
+    }
     
 }

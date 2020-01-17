@@ -34,8 +34,8 @@ public class Visit extends BaseMetaData implements Auditable{
 	private String ident;
 	private Target target;
 	private Date visitDate;
-	private Rociador rociador;
-	private Supervisor supervisor;
+	private Personal visitor;
+	private Personal supervisor;
 	private Brigada brigada;
 	private String visit;
 	private String activity;
@@ -99,18 +99,17 @@ public class Visit extends BaseMetaData implements Auditable{
 		this.visitDate = visitDate;
 	}
 
-
 	@ManyToOne(optional=false)
-	@JoinColumn(name="sprayer")
+	@JoinColumn(name="visitor")
     @ForeignKey(name = "FK_SPY_ROC")
-	public Rociador getRociador() {
-		return rociador;
+	public Personal getVisitor() {
+		return visitor;
 	}
 
 
 
-	public void setRociador(Rociador rociador) {
-		this.rociador = rociador;
+	public void setVisitor(Personal visitor) {
+		this.visitor = visitor;
 	}
 	
 	@ManyToOne(optional=false)
@@ -287,13 +286,13 @@ public class Visit extends BaseMetaData implements Auditable{
 	@ManyToOne(optional=false)
 	@JoinColumn(name="supervisor")
     @ForeignKey(name = "FK_SUP_VIS")
-	public Supervisor getSupervisor() {
+	public Personal getSupervisor() {
 		return supervisor;
 	}
 
 
 
-	public void setSupervisor(Supervisor supervisor) {
+	public void setSupervisor(Personal supervisor) {
 		this.supervisor = supervisor;
 	}
 

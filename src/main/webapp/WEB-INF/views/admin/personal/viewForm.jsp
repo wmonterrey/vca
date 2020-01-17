@@ -48,8 +48,8 @@
       <!-- Breadcrumb -->
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<spring:url value="/" htmlEscape="true "/>"><spring:message code="home" /></a></li>
-        <li class="breadcrumb-item"><a href="<spring:url value="/admin/sprayers/" htmlEscape="true "/>"><spring:message code="sprayer" /></a></li>
-        <li class="breadcrumb-item active"><c:out value="${rociador.code}" /></li>
+        <li class="breadcrumb-item"><a href="<spring:url value="/admin/personal/" htmlEscape="true "/>"><spring:message code="personnel" /></a></li>
+        <li class="breadcrumb-item active"><c:out value="${personal.code}" /></li>
         
       </ol>
 	  <!-- Container -->
@@ -60,19 +60,64 @@
 	            <div class="col-md-12">
 	              <div class="card">
 	                <div class="card-header">
-	                  <i class="fa fa-fire-extinguisher"></i>&nbsp;<strong><c:out value="${rociador.name}" /></strong>
+	                  <i class="fa fa-fire-extinguisher"></i>&nbsp;<strong><c:out value="${personal.name}" /></strong>
 	                </div>
                 	<div class="card-body">
                 		<div class="form-group row">
 	                      <label class="col-md-3 col-form-label"><spring:message code="ident" />:</label>
 	                      <div class="col-md-9">
-	                        <p class="form-control-static"><strong><c:out value="${rociador.ident}" /></strong></p>
+	                        <p class="form-control-static"><strong><c:out value="${personal.ident}" /></strong></p>
 	                      </div>
 	                    </div>
 	                    <div class="form-group row">
 	                      <label class="col-md-3 col-form-label"><spring:message code="code" />:</label>
 	                      <div class="col-md-9">
-	                        <p class="form-control-static"><strong><c:out value="${rociador.code}" /></strong></p>
+	                        <p class="form-control-static"><strong><c:out value="${personal.code}" /></strong></p>
+	                      </div>
+	                    </div>
+	                    <div class="form-group row">
+	                      <label class="col-md-3 col-form-label"><spring:message code="sprayer" />:</label>
+	                      <div class="col-md-9">
+	                        <p class="form-control-static"><strong>
+	                        	<c:choose>
+									<c:when test="${personal.sprayer}">
+										<strong><spring:message code="CAT_SINO_SI" /></strong>
+									</c:when>
+									<c:otherwise>
+										<strong><spring:message code="CAT_SINO_NO" /></strong>
+									</c:otherwise>
+								</c:choose>
+	                        </strong></p>
+	                      </div>
+	                    </div>
+	                    <div class="form-group row">
+	                      <label class="col-md-3 col-form-label"><spring:message code="sentinel" />:</label>
+	                      <div class="col-md-9">
+	                        <p class="form-control-static"><strong>
+	                        	<c:choose>
+									<c:when test="${personal.sentinel}">
+										<strong><spring:message code="CAT_SINO_SI" /></strong>
+									</c:when>
+									<c:otherwise>
+										<strong><spring:message code="CAT_SINO_NO" /></strong>
+									</c:otherwise>
+								</c:choose>
+	                        </strong></p>
+	                      </div>
+	                    </div>
+	                    <div class="form-group row">
+	                      <label class="col-md-3 col-form-label"><spring:message code="supervisor" />:</label>
+	                      <div class="col-md-9">
+	                        <p class="form-control-static"><strong>
+	                        	<c:choose>
+									<c:when test="${personal.supervisor}">
+										<strong><spring:message code="CAT_SINO_SI" /></strong>
+									</c:when>
+									<c:otherwise>
+										<strong><spring:message code="CAT_SINO_NO" /></strong>
+									</c:otherwise>
+								</c:choose>
+	                        </strong></p>
 	                      </div>
 	                    </div>
 	                    <div class="form-group row">
@@ -80,7 +125,7 @@
 	                      <div class="col-md-9">
 	                        <p class="form-control-static"><strong>
 	                        	<c:choose>
-									<c:when test="${rociador.pasive=='0'.charAt(0)}">
+									<c:when test="${personal.pasive=='0'.charAt(0)}">
 										<strong><spring:message code="CAT_SINO_SI" /></strong>
 									</c:when>
 									<c:otherwise>
@@ -93,37 +138,37 @@
 	                    <div class="form-group row">
 	                      <label class="col-md-3 col-form-label"><spring:message code="createdBy" />:</label>
 	                      <div class="col-md-9">
-	                        <p class="form-control-static"><strong><c:out value="${rociador.recordUser}" /></strong></p>
+	                        <p class="form-control-static"><strong><c:out value="${personal.recordUser}" /></strong></p>
 	                      </div>
 	                    </div>
 	                    <div class="form-group row">
 	                      <label class="col-md-3 col-form-label"><spring:message code="dateCreated" />:</label>
 	                      <div class="col-md-9">
-	                        <p class="form-control-static"><strong><c:out value="${rociador.recordDate}" /></strong></p>
+	                        <p class="form-control-static"><strong><c:out value="${personal.recordDate}" /></strong></p>
 	                      </div>
 	                    </div>
-	                    <spring:url value="/admin/sprayers/editEntity/{ident}/" var="editUrl">
-                        	<spring:param name="ident" value="${rociador.ident}" />
+	                    <spring:url value="/admin/personal/editEntity/{ident}/" var="editUrl">
+                        	<spring:param name="ident" value="${personal.ident}" />
                          </spring:url>
-                         <spring:url value="/admin/sprayers/disableEntity/{ident}/" var="disableUrl">
-                              	<spring:param name="ident" value="${rociador.ident}" />
+                         <spring:url value="/admin/personal/disableEntity/{ident}/" var="disableUrl">
+                              	<spring:param name="ident" value="${personal.ident}" />
                          </spring:url>
-                         <spring:url value="/admin/sprayers/enableEntity/{ident}/" var="enableUrl">
-                           	<spring:param name="ident" value="${rociador.ident}" />
+                         <spring:url value="/admin/personal/enableEntity/{ident}/" var="enableUrl">
+                           	<spring:param name="ident" value="${personal.ident}" />
                          </spring:url>
 					</div>
 					<div class="card-header">
           				<div class="row float-right mr-4" >
           					<button id="edit_entity" onclick="location.href='${fn:escapeXml(editUrl)}'" type="button" class="btn btn-outline-primary"><i class="fa fa-pencil"></i>&nbsp; <spring:message code="edit" /></button>
           					<c:choose>
-								<c:when test="${rociador.pasive=='0'.charAt(0)}">
+								<c:when test="${personal.pasive=='0'.charAt(0)}">
 									<button id="disable_entity" onclick="location.href='${fn:escapeXml(disableUrl)}'" type="button" class="btn btn-outline-danger"><i class="fa fa-close"></i>&nbsp; <spring:message code="disable" /></button>
 								</c:when>
 								<c:otherwise>
 									<button id="enable_entity" onclick="location.href='${fn:escapeXml(enableUrl)}'" type="button" class="btn btn-outline-primary"><i class="fa fa-check"></i>&nbsp; <spring:message code="enable" /></button>
 								</c:otherwise>
 						 	</c:choose>
-          					<button id="back_button" onclick="location.href='<spring:url value="/admin/sprayers/" htmlEscape="true "/>'" type="button" class="btn btn-outline-primary"><i class="fa fa-undo"></i>&nbsp; <spring:message code="back" /></button>
+          					<button id="back_button" onclick="location.href='<spring:url value="/admin/personal/" htmlEscape="true "/>'" type="button" class="btn btn-outline-primary"><i class="fa fa-undo"></i>&nbsp; <spring:message code="back" /></button>
           				</div>
             		</div>
 				  </div>

@@ -39,6 +39,7 @@ public class Target extends BaseMetaData implements Auditable{
 	private Household household;
 	private String sprayStatus;
 	private Date lastModified;
+	private Personal assignedTo;
 	
 	
 	public Target() {
@@ -124,8 +125,20 @@ public class Target extends BaseMetaData implements Auditable{
 	public void setLastModified(Date lastModified) {
 		this.lastModified = lastModified;
 	}
+	
+	
 
 
+	@ManyToOne(optional=true)
+	@JoinColumn(name="assignedto")
+    @ForeignKey(name = "FK_TAR_PER")
+	public Personal getAssignedTo() {
+		return assignedTo;
+	}
+
+	public void setAssignedTo(Personal assignedTo) {
+		this.assignedTo = assignedTo;
+	}
 
 	@Override
 	public boolean isFieldAuditable(String fieldname) {

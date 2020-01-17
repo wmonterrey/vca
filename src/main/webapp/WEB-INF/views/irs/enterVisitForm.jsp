@@ -106,14 +106,14 @@
 	                    </div>  
 	                    
 	                   <div class="form-group">
-	                      <label><spring:message code="sprayer" /></label>
+	                      <label><spring:message code="visitor" /></label>
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="icon-note"></i></span>
 	                        <select name="rociador" id="rociador" class="form-control select2-single">
-	                        	<option value=""><spring:message code="sprayer" /> - <spring:message code="empty" /></option>
+	                        	<option value=""><spring:message code="visitor" /> - <spring:message code="empty" /></option>
 	                        	<c:forEach items="${rociadores}" var="rociador">
 									<c:choose> 
-										<c:when test="${rociador.ident eq visita.rociador.ident}">
+										<c:when test="${rociador.ident eq visita.visitor.ident}">
 											<option selected value="${rociador.ident}"><spring:message code="${rociador.name}" /></option>
 										</c:when>
 										<c:otherwise>

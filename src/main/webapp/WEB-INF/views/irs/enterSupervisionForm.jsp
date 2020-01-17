@@ -151,6 +151,7 @@
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="usoEqProt" id="usoEqProt" class="form-control select2-single">
 	                        	<c:forEach items="${sinos}" var="sino">
+	                        		<option value=""><spring:message code="empty" /></option>
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.usoEqProt}">
 											<option selected value="${sino.catKey}"><spring:message code="${sino.messageKey}" /></option>
@@ -169,6 +170,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="eqProtBien" id="eqProtBien" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.eqProtBien}">
@@ -189,6 +191,7 @@
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="numIden" id="numIden" class="form-control select2-single">
 	                        	<c:forEach items="${sinos}" var="sino">
+	                        		<option value=""><spring:message code="empty" /></option>
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.numIden}">
 											<option selected value="${sino.catKey}"><spring:message code="${sino.messageKey}" /></option>
@@ -207,6 +210,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="aguaOp" id="aguaOp" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.aguaOp}">
@@ -227,6 +231,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="prepViv" id="prepViv" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.prepViv}">
@@ -246,6 +251,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="coopPrepViv" id="coopPrepViv" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.coopPrepViv}">
@@ -265,6 +271,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="mezcla" id="mezcla" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.mezcla}">
@@ -284,6 +291,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="aguaAdec" id="aguaAdec" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.aguaAdec}">
@@ -303,6 +311,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="mezclaPrep" id="mezclaPrep" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.mezclaPrep}">
@@ -322,6 +331,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="agitaBomba" id="agitaBomba" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.agitaBomba}">
@@ -341,6 +351,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="bombaCerrada" id="bombaCerrada" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.bombaCerrada}">
@@ -360,6 +371,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="bombaPresion" id="bombaPresion" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.bombaPresion}">
@@ -379,6 +391,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="compruebaBomba" id="compruebaBomba" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.compruebaBomba}">
@@ -398,6 +411,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="colocApropiada" id="colocApropiada" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.colocApropiada}">
@@ -417,6 +431,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="distApropiada" id="distApropiada" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.distApropiada}">
@@ -436,6 +451,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="distBoquilla" id="distBoquilla" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.distBoquilla}">
@@ -455,6 +471,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="pasoFrente" id="pasoFrente" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.pasoFrente}">
@@ -474,6 +491,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="mantRitmo" id="mantRitmo" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.mantRitmo}">
@@ -493,6 +511,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="metConteo" id="metConteo" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.metConteo}">
@@ -512,6 +531,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="velocSuperficies" id="velocSuperficies" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.velocSuperficies}">
@@ -531,6 +551,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="supFajas" id="supFajas" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.supFajas}">
@@ -550,6 +571,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="pasosLaterales" id="pasosLaterales" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.pasosLaterales}">
@@ -569,6 +591,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="salvarObstaculos" id="salvarObstaculos" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.salvarObstaculos}">
@@ -588,6 +611,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="bienRociado" id="bienRociado" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.bienRociado}">
@@ -607,6 +631,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="supInvertidas" id="supInvertidas" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.supInvertidas}">
@@ -626,6 +651,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="objPiso" id="objPiso" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.objPiso}">
@@ -645,6 +671,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="reportaConsumoAprop" id="reportaConsumoAprop" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.reportaConsumoAprop}">
@@ -664,6 +691,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="transEqAprop" id="transEqAprop" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.transEqAprop}">
@@ -683,6 +711,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="eqCompleto" id="eqCompleto" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.eqCompleto}">
@@ -702,6 +731,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="cuidaMatEq" id="cuidaMatEq" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.cuidaMatEq}">
@@ -721,6 +751,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="buenAspPersonal" id="buenAspPersonal" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.buenAspPersonal}">
@@ -740,6 +771,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="cumpleInstrucciones" id="cumpleInstrucciones" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.cumpleInstrucciones}">
@@ -759,6 +791,7 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="aceptaSuperv" id="aceptaSuperv" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.aceptaSuperv}">
@@ -778,9 +811,30 @@
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
 	                        <select name="respetuoso" id="respetuoso" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
 	                        	<c:forEach items="${sinos}" var="sino">
 									<c:choose> 
 										<c:when test="${sino.catKey eq supervision.respetuoso}">
+											<option selected value="${sino.catKey}"><spring:message code="${sino.messageKey}" /></option>
+										</c:when>
+										<c:otherwise>
+											<option value="${sino.catKey}"><spring:message code="${sino.messageKey}" /></option>
+										</c:otherwise>
+									</c:choose> 
+								</c:forEach>
+	                        </select>
+	                      </div>
+	                    </div>
+	                    
+	                    <div class="form-group">
+	                      <label><spring:message code="camp" /></label>
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
+	                        <select name="camp" id="camp" class="form-control select2-single">
+	                        	<option value=""><spring:message code="empty" /></option>
+	                        	<c:forEach items="${sinos}" var="sino">
+									<c:choose> 
+										<c:when test="${sino.catKey eq supervision.camp}">
 											<option selected value="${sino.catKey}"><spring:message code="${sino.messageKey}" /></option>
 										</c:when>
 										<c:otherwise>

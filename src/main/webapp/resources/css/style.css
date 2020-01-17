@@ -3258,6 +3258,47 @@ tbody.collapse.show {
 .badge-pill {
   padding-right: 0.6em;
   padding-left: 0.6em; }
+  
+ .badge-rociadas {
+  color: #fff;
+  background-color: #7acf7e; }
+  .badge-rociadas[href]:focus, .badge-rociadas[href]:hover {
+    color: #fff;
+    text-decoration: none;
+    background-color: #7acf7e; }
+    
+ .badge-parcial {
+ color: #fff;
+ background-color: #e6e26e; }
+ .badge-parcial[href]:focus, .badge-parcial[href]:hover {
+   color: #fff;
+   text-decoration: none;
+   background-color: #e6e26e; }
+   
+.badge-renuente {
+ color: #fff;
+ background-color: #9a59c9; }
+ .badge-renuente[href]:focus, .badge-renuente[href]:hover {
+   color: #fff;
+   text-decoration: none;
+   background-color: #9a59c9; }   
+   
+.badge-closed {
+ color: #fff;
+ background-color: #d19917; }
+ .badge-closed[href]:focus, .badge-closed[href]:hover {
+   color: #fff;
+   text-decoration: none;
+   background-color: #d19917; }   
+   
+   
+.badge-pendientes {
+ color: #fff;
+ background-color: #d92b42; }
+ .badge-pendientes[href]:focus, .badge-pendientes[href]:hover {
+   color: #fff;
+   text-decoration: none;
+   background-color: #d92b42; }   
 
 .badge-primary {
   color: #fff;

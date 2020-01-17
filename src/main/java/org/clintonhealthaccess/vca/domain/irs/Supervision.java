@@ -34,8 +34,8 @@ public class Supervision extends BaseMetaData implements Auditable{
 	private String ident;
 	private Target target;
 	private Date supervisionDate;
-	private Supervisor supervisor;
-	private Rociador rociador;
+	private Personal supervisor;
+	private Personal rociador;
 	private String usoEqProt;
 	private String eqProtBien;
 	private String numIden;
@@ -70,6 +70,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	private String cumpleInstrucciones;
 	private String aceptaSuperv;
 	private String respetuoso;
+	private String camp;
 	private String obs;
 	
 	
@@ -121,13 +122,13 @@ public class Supervision extends BaseMetaData implements Auditable{
 	@ManyToOne(optional=false)
 	@JoinColumn(name="supervisor")
     @ForeignKey(name = "FK_SUP_SUPER")
-	public Supervisor getSupervisor() {
+	public Personal getSupervisor() {
 		return supervisor;
 	}
 
 
 
-	public void setSupervisor(Supervisor supervisor) {
+	public void setSupervisor(Personal supervisor) {
 		this.supervisor = supervisor;
 	}
 
@@ -135,20 +136,20 @@ public class Supervision extends BaseMetaData implements Auditable{
 	@ManyToOne(optional=false)
 	@JoinColumn(name="sprayer")
     @ForeignKey(name = "FK_SUP_ROC")
-	public Rociador getRociador() {
+	public Personal getRociador() {
 		return rociador;
 	}
 
 
 
-	public void setRociador(Rociador rociador) {
+	public void setRociador(Personal rociador) {
 		this.rociador = rociador;
 	}
 
 
 
 
-	@Column(name = "usoEqProt", nullable = false, length = 5)
+	@Column(name = "usoEqProt", nullable = true, length = 5)
 	public String getUsoEqProt() {
 		return usoEqProt;
 	}
@@ -160,7 +161,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "eqProtBien", nullable = false, length = 5)
+	@Column(name = "eqProtBien", nullable = true, length = 5)
 	public String getEqProtBien() {
 		return eqProtBien;
 	}
@@ -172,7 +173,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "numIden", nullable = false, length = 5)
+	@Column(name = "numIden", nullable = true, length = 5)
 	public String getNumIden() {
 		return numIden;
 	}
@@ -184,7 +185,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "aguaOp", nullable = false, length = 5)
+	@Column(name = "aguaOp", nullable = true, length = 5)
 	public String getAguaOp() {
 		return aguaOp;
 	}
@@ -196,7 +197,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "prepViv", nullable = false, length = 5)
+	@Column(name = "prepViv", nullable = true, length = 5)
 	public String getPrepViv() {
 		return prepViv;
 	}
@@ -208,7 +209,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 	
-	@Column(name = "coopPrepViv", nullable = false, length = 5)
+	@Column(name = "coopPrepViv", nullable = true, length = 5)
 	public String getCoopPrepViv() {
 		return coopPrepViv;
 	}
@@ -221,7 +222,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 
 
 
-	@Column(name = "mezcla", nullable = false, length = 5)
+	@Column(name = "mezcla", nullable = true, length = 5)
 	public String getMezcla() {
 		return mezcla;
 	}
@@ -233,7 +234,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "aguaAdec", nullable = false, length = 5)
+	@Column(name = "aguaAdec", nullable = true, length = 5)
 	public String getAguaAdec() {
 		return aguaAdec;
 	}
@@ -245,7 +246,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "mezclaPrep", nullable = false, length = 5)
+	@Column(name = "mezclaPrep", nullable = true, length = 5)
 	public String getMezclaPrep() {
 		return mezclaPrep;
 	}
@@ -257,7 +258,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "agitaBomba", nullable = false, length = 5)
+	@Column(name = "agitaBomba", nullable = true, length = 5)
 	public String getAgitaBomba() {
 		return agitaBomba;
 	}
@@ -269,7 +270,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "bombaCerrada", nullable = false, length = 5)
+	@Column(name = "bombaCerrada", nullable = true, length = 5)
 	public String getBombaCerrada() {
 		return bombaCerrada;
 	}
@@ -281,7 +282,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "bombaPresion", nullable = false, length = 5)
+	@Column(name = "bombaPresion", nullable = true, length = 5)
 	public String getBombaPresion() {
 		return bombaPresion;
 	}
@@ -293,7 +294,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "compruebaBomba", nullable = false, length = 5)
+	@Column(name = "compruebaBomba", nullable = true, length = 5)
 	public String getCompruebaBomba() {
 		return compruebaBomba;
 	}
@@ -305,7 +306,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "colocApropiada", nullable = false, length = 5)
+	@Column(name = "colocApropiada", nullable = true, length = 5)
 	public String getColocApropiada() {
 		return colocApropiada;
 	}
@@ -317,7 +318,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "distApropiada", nullable = false, length = 5)
+	@Column(name = "distApropiada", nullable = true, length = 5)
 	public String getDistApropiada() {
 		return distApropiada;
 	}
@@ -329,7 +330,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "distBoquilla", nullable = false, length = 5)
+	@Column(name = "distBoquilla", nullable = true, length = 5)
 	public String getDistBoquilla() {
 		return distBoquilla;
 	}
@@ -341,7 +342,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "pasoFrente", nullable = false, length = 5)
+	@Column(name = "pasoFrente", nullable = true, length = 5)
 	public String getPasoFrente() {
 		return pasoFrente;
 	}
@@ -353,7 +354,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "mantRitmo", nullable = false, length = 5)
+	@Column(name = "mantRitmo", nullable = true, length = 5)
 	public String getMantRitmo() {
 		return mantRitmo;
 	}
@@ -365,7 +366,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "metConteo", nullable = false, length = 5)
+	@Column(name = "metConteo", nullable = true, length = 5)
 	public String getMetConteo() {
 		return metConteo;
 	}
@@ -377,7 +378,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "velocSuperficies", nullable = false, length = 5)
+	@Column(name = "velocSuperficies", nullable = true, length = 5)
 	public String getVelocSuperficies() {
 		return velocSuperficies;
 	}
@@ -389,7 +390,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "supFajas", nullable = false, length = 5)
+	@Column(name = "supFajas", nullable = true, length = 5)
 	public String getSupFajas() {
 		return supFajas;
 	}
@@ -401,7 +402,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "pasosLaterales", nullable = false, length = 5)
+	@Column(name = "pasosLaterales", nullable = true, length = 5)
 	public String getPasosLaterales() {
 		return pasosLaterales;
 	}
@@ -413,7 +414,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "salvarObstaculos", nullable = false, length = 5)
+	@Column(name = "salvarObstaculos", nullable = true, length = 5)
 	public String getSalvarObstaculos() {
 		return salvarObstaculos;
 	}
@@ -425,7 +426,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "bienRociado", nullable = false, length = 5)
+	@Column(name = "bienRociado", nullable = true, length = 5)
 	public String getBienRociado() {
 		return bienRociado;
 	}
@@ -437,7 +438,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "supInvertidas", nullable = false, length = 5)
+	@Column(name = "supInvertidas", nullable = true, length = 5)
 	public String getSupInvertidas() {
 		return supInvertidas;
 	}
@@ -449,7 +450,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "objPiso", nullable = false, length = 5)
+	@Column(name = "objPiso", nullable = true, length = 5)
 	public String getObjPiso() {
 		return objPiso;
 	}
@@ -461,7 +462,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "reportaConsumoAprop", nullable = false, length = 5)
+	@Column(name = "reportaConsumoAprop", nullable = true, length = 5)
 	public String getReportaConsumoAprop() {
 		return reportaConsumoAprop;
 	}
@@ -473,7 +474,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "transEqAprop", nullable = false, length = 5)
+	@Column(name = "transEqAprop", nullable = true, length = 5)
 	public String getTransEqAprop() {
 		return transEqAprop;
 	}
@@ -485,7 +486,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "eqCompleto", nullable = false, length = 5)
+	@Column(name = "eqCompleto", nullable = true, length = 5)
 	public String getEqCompleto() {
 		return eqCompleto;
 	}
@@ -497,7 +498,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "cuidaMatEq", nullable = false, length = 5)
+	@Column(name = "cuidaMatEq", nullable = true, length = 5)
 	public String getCuidaMatEq() {
 		return cuidaMatEq;
 	}
@@ -509,7 +510,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "buenAspPersonal", nullable = false, length = 5)
+	@Column(name = "buenAspPersonal", nullable = true, length = 5)
 	public String getBuenAspPersonal() {
 		return buenAspPersonal;
 	}
@@ -521,7 +522,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "cumpleInstrucciones", nullable = false, length = 5)
+	@Column(name = "cumpleInstrucciones", nullable = true, length = 5)
 	public String getCumpleInstrucciones() {
 		return cumpleInstrucciones;
 	}
@@ -533,7 +534,7 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "aceptaSuperv", nullable = false, length = 5)
+	@Column(name = "aceptaSuperv", nullable = true, length = 5)
 	public String getAceptaSuperv() {
 		return aceptaSuperv;
 	}
@@ -545,16 +546,30 @@ public class Supervision extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "respetuoso", nullable = false, length = 5)
+	@Column(name = "respetuoso", nullable = true, length = 5)
 	public String getRespetuoso() {
 		return respetuoso;
 	}
 
 
+	
 
 	public void setRespetuoso(String respetuoso) {
 		this.respetuoso = respetuoso;
 	}
+	
+	@Column(name = "camp", nullable = true, length = 5)
+	public String getCamp() {
+		return camp;
+	}
+
+
+
+	public void setCamp(String camp) {
+		this.camp = camp;
+	}
+
+
 
 	@Column(name = "obs", nullable = true , length = 500)
 	public String getObs() {

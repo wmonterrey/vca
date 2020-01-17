@@ -76,7 +76,7 @@ public class Personal extends BaseMetaData implements Auditable{
 		this.name = name;
 	}
 
-	@Column(name = "sprayer", nullable = false)
+	@Column(name = "sprayer", nullable = true)
 	public boolean isSprayer() {
 		return sprayer;
 	}
@@ -88,7 +88,7 @@ public class Personal extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "sentinel", nullable = false)
+	@Column(name = "sentinel", nullable = true)
 	public boolean isSentinel() {
 		return sentinel;
 	}
@@ -100,7 +100,7 @@ public class Personal extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "supervisor", nullable = false)
+	@Column(name = "supervisor", nullable = true)
 	public boolean isSupervisor() {
 		return supervisor;
 	}

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.clintonhealthaccess.vca.domain.Household;
 import org.clintonhealthaccess.vca.domain.irs.IrsSeason;
+import org.clintonhealthaccess.vca.domain.irs.Supervision;
 import org.clintonhealthaccess.vca.domain.irs.Target;
 import org.clintonhealthaccess.vca.domain.irs.Visit;
 
@@ -18,6 +19,7 @@ public class Datos implements Serializable {
 	List<IrsSeason> temporadas;
 	List<Target> metas;
 	List<Visit> visitas;
+	List<Supervision> supervisiones;
 
 	
 	public Datos() {
@@ -28,12 +30,13 @@ public class Datos implements Serializable {
 
 
 
-	public Datos(List<Household> viviendas, List<IrsSeason> temporadas,List<Target> metas,List<Visit> visitas) {
+	public Datos(List<Household> viviendas, List<IrsSeason> temporadas,List<Target> metas,List<Visit> visitas,List<Supervision> supervisiones) {
 		super();
 		this.viviendas = viviendas;
 		this.temporadas = temporadas;
 		this.metas = metas;
 		this.visitas = visitas;
+		this.supervisiones = supervisiones;
 	}
 
 
@@ -98,6 +101,22 @@ public class Datos implements Serializable {
 
 	public void setVisitas(List<Visit> visitas) {
 		this.visitas = visitas;
+	}
+
+
+
+
+
+	public List<Supervision> getSupervisiones() {
+		return supervisiones;
+	}
+
+
+
+
+
+	public void setSupervisiones(List<Supervision> supervisiones) {
+		this.supervisiones = supervisiones;
 	}
 
 

@@ -59,7 +59,7 @@
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<spring:url value="/" htmlEscape="true "/>"><spring:message code="home" /></a></li>
         <li class="breadcrumb-item active"><a href="<spring:url value="/irs/dashboard/" htmlEscape="true "/>"><spring:message code="irs" /></a></li>
-        <li class="breadcrumb-item active"><spring:message code="visits" /></li>
+        <li class="breadcrumb-item active">Consumo</li>
         
       </ol>
 	  <!-- Container -->
@@ -69,73 +69,25 @@
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header">
-                  <i class="fa fa-shield"></i> <spring:message code="visits" />
+                  <i class="fa fa-calculator"></i> Consumo
                   <div class="card-actions">
                   </div>
                 </div>
                 <div class="card-body">
                   <div class="row">
                   	<div class="col-md-12">
-	                  	<form action="#" autocomplete="off" id="visitas-form">
-		                  	<div class="form-group row">
-		                      <div class="input-group">
-		                        <span class="input-group-addon"><input type="checkbox" id="checkId" name="checkId" value=""></span>
-		                        <input type="text" id="codeHouse" name="codeHouse" disabled class="form-control" placeholder="<spring:message code="codeHouse" />">
-		                      </div>
-		                    </div>
-		                    <div class="form-group row">
-		                      <div class="input-group">
-		                        <span class="input-group-addon"><input type="checkbox" id="checkName" name="checkName" value=""></span>
-		                        <input type="text" id="ownerName" name="ownerName" disabled class="form-control" placeholder="<spring:message code="ownerName" />">
-		                      </div>
-		                    </div>
-	           			  <div class="form-group row">
-			                  <label><spring:message code="visitDate" /></label>
-			                  <div class="input-group">
-			                    <span class="input-group-addon"><input type="checkbox" id="checkDates" name="checkDates" value=""></span>
-			                    <input id="fecVisitaRange" name="fecVisitaRange" class="form-control" disabled type="text">
-			                  </div>
-		                  </div>
+	                  	<form action="#" autocomplete="off" id="consumo-form">
 		                  <div class="form-group row">
-		                  	  <div class="col-sm-3">
+		                  	  <div class="col-sm-6">
 			                    <label><spring:message code="season" /></label>
-			                    <select id="irsSeason" name="irsSeason" class="form-control select2-single">
+			                    <select id="temporada" name="temporada" class="form-control select2-single">
 			                    	<c:forEach items="${temporadas}" var="temporada">
 			                      		<option value="${temporada.ident}">${temporada.name}</option>
 			                    	</c:forEach>
 			                    </select>
 			                  </div>
-			                  <div class="col-sm-3">
-			                    <label><spring:message code="locality" /></label>
-			                    <select id="local" name="local" class="form-control select2-single">
-			                    	<option value="ALL"><spring:message code="all"/></option>
-			                    	<c:forEach items="${localidades}" var="localidad">
-			                    		<option value="${localidad.ident}"><spring:message code="${localidad.name}" /></option>
-									</c:forEach>
-			                    </select>
-			                  </div>
-			                  <div class="col-sm-3">
-			                    <label><spring:message code="activity" /></label>
-			                    <select id="activity" name="activity" class="form-control select2-single">
-			                    	<option value="ALL"><spring:message code="all"/></option>
-			                    	<c:forEach items="${tiposvisita}" var="tipo">
-			                    		<option value="${tipo.catKey}"><spring:message code="${tipo.messageKey}" /></option>
-									</c:forEach>
-			                    </select>
-			                  </div>
-			                  <div class="col-sm-3">
-			                    <label><spring:message code="compVisit" /></label>
-			                    <select id="compVisit" name="compVisit" class="form-control select2-single">
-			                    	<option value="ALL"><spring:message code="all"/></option>
-			                    	<c:forEach items="${visitacompletasn}" var="sino">
-			                    		<option value="${sino.catKey}"><spring:message code="${sino.messageKey}" /></option>
-									</c:forEach>
-			                    </select>
-			                  </div>
+			                  
 		                  </div>
-		                  <div class="row float-right mr-4" >  
-		                    	<button type="submit" class="btn btn-primary" id="buscarvisita""><i class="fa fa-check"></i>&nbsp;<spring:message code="search" /></button>
-				          </div>
 	                  	</form>
                   	</div>
                   </div>
@@ -143,7 +95,7 @@
               </div>
 			</div>
 			</div>
-			<div id="visitasdiv">
+			<div id="consumodiv">
 			<div class="row">
             <div class="col-md-12">
             	<div class="card">
@@ -155,25 +107,42 @@
 		              <table id="resultados" class="table table-striped table-bordered datatable" width="100%">
 		                <thead>
 		                	<tr>
-		                		<th><spring:message code="locality" /></th>
-		                		<th><spring:message code="codeHouse" /></th>
-			                    <th><spring:message code="ownerName" /></th>
-			                    <th class="hidden-xs"><spring:message code="season" /></th>
-			                    <th class="hidden-xs"><spring:message code="visitDate" /></th>
-			                    <th class="hidden-xs"><spring:message code="visitor" /></th>
-			                    <th class="hidden-xs"><spring:message code="visit" /></th>
-			                    <th class="hidden-xs"><spring:message code="activity" /></th>
-			                    <th class="hidden-xs"><spring:message code="compVisit" /></th>
-			                    <th class="hidden-xs"><spring:message code="reasonNoVisit" /></th>
-			                    <th class="hidden-xs"><spring:message code="reasonReluctant" /></th>
-			                    <th class="hidden-xs"><spring:message code="sprayedRooms" /></th>
-			                    <th class="hidden-xs"><spring:message code="numCharges" /></th>
-			                    <th class="hidden-xs"><spring:message code="reasonIncomplete" /></th>
-			                    <th class="hidden-xs"><spring:message code="supervised" /></th>
-			                    <th class="hidden-xs"><spring:message code="pasive" /></th>
-			                    <th class="hidden-xs"><spring:message code="createdBy" /></th>
-			                    <th class="hidden-xs"><spring:message code="dateCreated" /></th>
-			                    <th></th>
+		                		<th>Semana</th>
+		                		<th><spring:message code="ou" /></th>
+			                    <th>Casas</th>
+			                    <th>Cuartos</th>
+			                    <th>Cargas</th>
+			                    <th>Razón</th>
+		                	</tr>
+		                </thead>
+		                <tbody>
+		                </tbody>
+		              </table>
+		            </div>
+		          </div>  
+			</div>
+			</div>
+			</div>
+			
+			
+			<div id="consumodivsemana">
+			<div class="row">
+            <div class="col-md-12">
+            	<div class="card">
+		            <div class="card-header">
+		              <div class="card-actions">
+		              </div>
+		            </div>
+		            <div class="card-body">
+		              <table id="resultadossemana" class="table table-striped table-bordered datatable" width="100%">
+		                <thead>
+		                	<tr>
+		                		<th>Semana</th>
+		                		<th><spring:message code="ou" /></th>
+			                    <th>Casas</th>
+			                    <th>Cuartos</th>
+			                    <th>Cargas</th>
+			                    <th>Razón</th>
 		                	</tr>
 		                </thead>
 		                <tbody>
@@ -189,6 +158,144 @@
       </div>
       <!-- /.container-fluid -->
     </main>
+    
+    <aside class="aside-menu">
+	  <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+          
+        </li>
+      </ul>
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div class="tab-pane active" id="filtros" role="tabpanel">
+          <form action="#" autocomplete="off" id="filters-form">
+	          <div class="callout m-0 py-2 text-muted text-center bg-light text-uppercase">
+	            <small><b><spring:message code="filters" /></b>
+	          </div>
+	          <hr class="transparent mx-3 my-0">
+	          <div class="callout callout-info m-0 py-2">
+	            <div>
+	              <strong><spring:message code="area" /></strong>
+	            </div>
+	            <select name="area" id="area" class="form-control select2-single">
+					<option value="ALL"><spring:message code="all"/></option>
+					<c:forEach items="${areas}" var="area">
+						<option value="${area.ident}"><spring:message code="${area.name}" /></option>
+					</c:forEach>
+				</select>
+	          </div>
+	          <hr class="mx-3 my-0">
+	          <div class="callout callout-success m-0 py-2">
+	            <div>
+	              <strong><spring:message code="district" /></strong>
+	            </div>
+	            <select name="district" id="district" class="form-control select2-single">
+					<option value="ALL"><spring:message code="all"/></option>
+					<c:forEach items="${distritos}" var="distrito">
+						<option value="${distrito.ident}"><spring:message code="${distrito.name}" /></option>
+					</c:forEach>
+				</select>
+	          </div>
+	          <hr class="mx-3 my-0">
+	          <div class="callout callout-danger m-0 py-2">
+	            <div>
+	              <strong><spring:message code="foci" /></strong>
+	            </div>
+	            <select name="foci" id="foci" class="form-control select2-single">
+					<option value="ALL"><spring:message code="all"/></option>
+					<c:forEach items="${focos}" var="foco">
+						<option value="${foco.ident}"><spring:message code="${foco.name}" /></option>
+					</c:forEach>
+				</select>
+	          </div>
+	          <hr class="mx-3 my-0">
+	          <div class="callout callout-warning m-0 py-2">
+	            <div>
+	              <strong><spring:message code="locality" /></strong>
+	            </div>
+	            <select name="localidad" id="localidad" class="form-control select2-single">
+					<option value="ALL"><spring:message code="all"/></option>
+					<c:forEach items="${localidades}" var="localidad">
+						<option value="${localidad.ident}"><spring:message code="${localidad.name}" /></option>
+					</c:forEach>
+				</select>
+	          </div>
+	          <hr class="mx-3 my-0">
+	          <div class="callout m-0 py-2">
+	            <div>
+	              <strong><spring:message code="sprayer" /></strong>
+	            </div>
+	            <select name="rociador" id="rociador" class="form-control select2-single">
+					<option value="ALL"><spring:message code="all"/></option>
+					<c:forEach items="${rociadores}" var="rociador">
+						<option value="${rociador.ident}"><spring:message code="${rociador.name}" /></option>
+					</c:forEach>
+				</select>
+	          </div>
+	          <hr class="mx-3 my-0">
+	          <div class="callout m-0 py-2">
+	            <div>
+	              <strong><spring:message code="supervisor" /></strong>
+	            </div>
+	            <select name="supervisor" id="supervisor" class="form-control select2-single">
+					<option value="ALL"><spring:message code="all"/></option>
+					<c:forEach items="${supervisores}" var="supervisor">
+						<option value="${supervisor.ident}"><spring:message code="${supervisor.name}" /></option>
+					</c:forEach>
+				</select>
+	          </div>
+	          <hr class="mx-3 my-0">
+	          <div class="callout m-0 py-2">
+	            <div>
+	              <strong><spring:message code="brigades" /></strong>
+	            </div>
+	            <select name="brigada" id="brigada" class="form-control select2-single">
+					<option value="ALL"><spring:message code="all"/></option>
+					<c:forEach items="${brigadas}" var="brigada">
+						<option value="${brigada.ident}"><spring:message code="${brigada.name}" /></option>
+					</c:forEach>
+				</select>
+	          </div>
+	          <hr class="mx-3 my-0">
+	          <div class="callout callout-info m-0 py-2">
+	            <div>
+	              <strong><spring:message code="visitDate" /></strong>
+	            </div>
+	            <div class="input-group">
+                   <span class="input-group-addon"><input type="checkbox" id="checkDates" name="checkDates" value=""></span>
+                   <input id="fecVisitaRange" name="fecVisitaRange" class="form-control" disabled type="text">
+                 </div>
+	          </div>
+	          <div class="callout m-0 py-2 text-muted text-center bg-light text-uppercase">
+	            <small><b>Estrato</small>
+	          </div>
+	          <hr class="mx-3 my-0">
+	          <div class="callout callout-success m-0 py-2">
+	            <div>
+	              <strong><spring:message code="tipoou" /></strong>
+	            </div>
+	            <select name="tipoou" id="tipoou" class="form-control select2-single">
+	            	<option value="AREA"><spring:message code="area"/></option>
+	            	<option value="DISTR"><spring:message code="district"/></option>
+					<option selected value="LOCAL"><spring:message code="locality"/></option>
+					<option value="ROC"><spring:message code="sprayer"/></option>
+					<option value="SUP"><spring:message code="supervisor"/></option>
+					<option value="BRI"><spring:message code="brigades"/></option>
+				</select>
+	          </div>
+	          <hr class="mx-3 my-0">
+	          
+	          <div class="callout m-0 py-2">
+	          	<div class="float-right">
+	              <button type="submit" class="btn btn-primary" id="actualizardatos""><i class="fa fa-refresh"></i>&nbsp;<spring:message code="update" /></button>
+	            </div>
+	          </div>
+          </form>
+        </div>
+      </div>
+    </aside>
+    
+    
   </div>
   <!-- Pie de página -->
   <jsp:include page="../fragments/bodyFooter.jsp" />
@@ -255,16 +362,17 @@
   <c:set var="waitmessage"><spring:message code="process.wait" /></c:set>
   <c:set var="noResults"><spring:message code="noResults" /></c:set>
   
-  <spring:url value="/irs/visit/searchVisits/" var="searchUrl"/>
-  <spring:url value="/irs/visit/" var="visitaUrl"/>
+  <spring:url value="/view/irs/consumo/" var="updateUrl"/>
+  <spring:url value="/view/irs/consumosemana/" var="updateUrl2"/>
+
   
   <!-- Custom scripts required by this view -->
-  <spring:url value="/resources/js/views/BuscarVisitas.js" var="processSearch" />
+  <spring:url value="/resources/js/views/Consumos.js" var="processSearch" />
   <script src="${processSearch}"></script>
   
   <script>
   	jQuery(document).ready(function() {
-		var parametros = {visitaUrl: "${visitaUrl}",searchUrl: "${searchUrl}",successmessage: "${successmessage}",
+		var parametros = {updateUrl: "${updateUrl}",updateUrl2: "${updateUrl2}",successmessage: "${successmessage}",
 				errormessage: "${errormessage}",waitmessage: "${waitmessage}" ,dataTablesLang: "${dataTablesLang}",noResults: "${noResults}"};
 		ProcessSearch.init(parametros);
 	});

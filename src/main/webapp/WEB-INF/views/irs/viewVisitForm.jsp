@@ -96,9 +96,9 @@
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
-		                      <label class="col-md-6 col-form-label"><spring:message code="rociador" />:</label>
+		                      <label class="col-md-6 col-form-label"><spring:message code="visitor" />:</label>
 		                      <div class="col-md-6">
-		                        <p class="form-control-static"><strong><c:out value="${visita.rociador.name}" /></strong></p>
+		                        <p class="form-control-static"><strong><c:out value="${visita.visitor.name}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">

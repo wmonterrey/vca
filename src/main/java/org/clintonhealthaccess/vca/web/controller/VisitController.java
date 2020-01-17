@@ -1,20 +1,18 @@
 package org.clintonhealthaccess.vca.web.controller;
 
-import org.clintonhealthaccess.vca.domain.irs.Rociador;
-import org.clintonhealthaccess.vca.domain.irs.Supervisor;
 import org.clintonhealthaccess.vca.domain.irs.Visit;
 import org.clintonhealthaccess.vca.domain.Localidad;
 import org.clintonhealthaccess.vca.domain.audit.AuditTrail;
 import org.clintonhealthaccess.vca.domain.irs.Brigada;
 import org.clintonhealthaccess.vca.domain.irs.IrsSeason;
+import org.clintonhealthaccess.vca.domain.irs.Personal;
 import org.clintonhealthaccess.vca.language.MessageResource;
 import org.clintonhealthaccess.vca.service.IrsSeasonService;
 import org.clintonhealthaccess.vca.service.LocalidadService;
 import org.clintonhealthaccess.vca.service.AuditTrailService;
 import org.clintonhealthaccess.vca.service.BrigadaService;
-import org.clintonhealthaccess.vca.service.RociadorService;
-import org.clintonhealthaccess.vca.service.SupervisorService;
 import org.clintonhealthaccess.vca.service.MessageResourceService;
+import org.clintonhealthaccess.vca.service.PersonalService;
 import org.clintonhealthaccess.vca.service.VisitService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,10 +59,8 @@ public class VisitController {
 	private LocalidadService localidadService;
 	@Resource(name="visitService")
 	private VisitService visitService;
-	@Resource(name="rociadorService")
-	private RociadorService rociadorService;
-	@Resource(name="supervisorService")
-	private SupervisorService supervisorService;
+	@Resource(name="personalService")
+	private PersonalService personalService;
 	@Resource(name="brigadaService")
 	private BrigadaService brigadaService;
 
@@ -191,9 +187,9 @@ public class VisitController {
 	public String editEntity(@PathVariable("ident") String ident, Model model) {
     	Visit visita = this.visitService.getVisit(ident);
 		if(visita!=null){
-			List<Rociador> rociadores = rociadorService.getActiveRociadores();
+			List<Personal> rociadores = personalService.getActivePersonales();
 	    	model.addAttribute("rociadores", rociadores);
-	    	List<Supervisor> supervisores = supervisorService.getActiveSupervisores();
+	    	List<Personal> supervisores = personalService.getActiveSupervisores();
 	    	model.addAttribute("supervisores", supervisores);
 	    	List<Brigada> brigadas = brigadaService.getActiveBrigadas();
 	    	model.addAttribute("brigadas", brigadas);
@@ -307,8 +303,8 @@ public class VisitController {
     		
     		Visit visita = this.visitService.getVisit(ident);
     		visita.setVisitDate(fechaVisita);
-    		visita.setRociador(this.rociadorService.getRociador(rociador));
-    		visita.setSupervisor(this.supervisorService.getSupervisor(supervisor));
+    		visita.setVisitor(this.personalService.getPersonal(rociador));
+    		visita.setSupervisor(this.personalService.getPersonal(supervisor));
     		visita.setBrigada(this.brigadaService.getBrigada(brigada));
     		visita.setVisit(visit);
     		visita.setActivity(activity);

@@ -184,7 +184,7 @@ return {
 				codeview = '<a title="" href=' + viewUrl + '>'+ data[row].target.household.code+ '</a>';
 				
 				table1.row.add([data[row].target.household.local.name, codeview,data[row].target.household.ownerName,data[row].target.irsSeason.name,d1,
-					data[row].visit,data[row].activity,data[row].compVisit,data[row].reasonNoVisit,data[row].reasonReluctant,data[row].sprayedRooms,data[row].numCharges,data[row].reasonIncomplete,data[row].supervised,
+					data[row].visitor.name,data[row].visit,data[row].activity,data[row].compVisit,data[row].reasonNoVisit,data[row].reasonReluctant,data[row].sprayedRooms,data[row].numCharges,data[row].reasonIncomplete,data[row].supervised,
 					data[row].pasive,data[row].recordUser,d2,btnview]);
 			}
 			$('#visitasdiv').show();

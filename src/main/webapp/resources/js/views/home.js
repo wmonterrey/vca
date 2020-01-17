@@ -311,7 +311,7 @@ return {
 				  totalHabitadas = totalHabitadas + data[row][2];
 				  totalHabitantes = totalHabitantes + data[row][7];
 				  totalDesHabitadas = totalDesHabitadas + data[row][8];
-				  totalCerradas = totalCerradas + data[row][9];
+				  totalCerradas = totalCerradas + data[row][9] + data[row][11];
 			  }
 			  table2.draw();
 			  

@@ -190,7 +190,7 @@ public class IrsSeasonController {
 					List<Household> casasEnLocalidad = this.householdService.getHousesFiltro(null, null, null, null, l, "ALL", "ALL", 
 							usuarioActual,"0");
 					for(Household casa:casasEnLocalidad){
-						if(!(casa.getInhabited().equals("9"))) {
+						if(!(casa.getInhabited().equals("9")||casa.getSprRooms()<1||casa.getInhabited().equals("8"))) {
 							counter++;
 							Target newTarget = new Target();
 							ident = new UUID(counter.hashCode(),new Date().hashCode()).toString();

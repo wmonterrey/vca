@@ -156,6 +156,7 @@
 			                    <th class="hidden-xs"><spring:message code="sprRooms" /></th>
 			                    <th class="hidden-xs"><spring:message code="noSprooms" /></th>
 			                    <th class="hidden-xs"><spring:message code="noSproomsReasons" /></th>
+			                    <th class="hidden-xs"><spring:message code="assignedTo" /></th>
 			                    <th class="hidden-xs"><spring:message code="pasive" /></th>
 			                    <th class="hidden-xs"><spring:message code="createdBy" /></th>
 			                    <th class="hidden-xs"><spring:message code="dateCreated" /></th>

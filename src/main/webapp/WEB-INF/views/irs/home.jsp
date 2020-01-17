@@ -133,78 +133,98 @@
 				</div>
         	</div>
         	<div class="row">
-	            <div class="col-6 col-lg-3">
-		            <div class="card">
-			            <div class="card-body p-3 clearfix">
-				            <i class="fa fa-check bg-primary p-3 font-2xl mr-3 float-left"></i>
-				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="targets" /></div>
-				            <div class="h2 text-right"><label id="labelTotalMetas"></label></div>
-				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="CAT_STATUS_01" /></div>
-				            <div class="h2 text-right"><label id="labelRociadas"></label></div>
-				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="CAT_STATUS_02" /></div>
-				            <div class="h2 text-right"><label id="labelRociadasParcial"></label></div>
-				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="CAT_STATUS_03" /></div>
-				            <div class="h2 text-right"><label id="labelRenuentes"></label></div>
-			            </div>
-			            <div class="card-footer px-3 py-2">
-			            	<a class="font-weight-bold font-xs btn-block text-muted" href="<spring:url value="/irs/visit/" htmlEscape="true "/>"><spring:message code="visits" /> <i class="fa fa-angle-right float-right font-lg"></i></a>
-			            </div>
-		            </div>
-	            </div>
-	            <div class="col-6 col-lg-3">
-		            <div class="card">
-			            <div class="card-body p-3 clearfix">
-				            <i class="fa fa-check bg-primary p-3 font-2xl mr-3 float-left"></i>
-				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="CAT_STATUS_04" /></div>
-				            <div class="h2 text-right"><label id="labelCerradas"></label></div>
-				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="CAT_STATUS_05" /></div>
-				            <div class="h2 text-right"><label id="labelConPre"></label></div>
-				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="CAT_STATUS_06" /></div>
-				            <div class="h2 text-right"><label id="labelSinPre"></label></div>
-				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="CAT_STATUS_07" /></div>
-				            <div class="h2 text-right"><label id="labelNoVisitadas"></label></div>
-			            </div>
-			            <div class="card-footer px-3 py-2">
-			            	<a class="font-weight-bold font-xs btn-block text-muted" href="<spring:url value="/irs/visit/" htmlEscape="true "/>"><spring:message code="visits" /> <i class="fa fa-angle-right float-right font-lg"></i></a>
-			            </div>
-		            </div>
-	            </div>
-	            <div class="col-6 col-lg-3">
-		            <div class="card">
-			            <div class="card-body p-3 clearfix">
-				            <i class="fa fa-check bg-primary p-3 font-2xl mr-3 float-left"></i>
-				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="vivcuartosroc" /></div>
-				            <div class="h2 text-right"><label id="labelRociables"></label></div>
-				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="vivtothab" /></div>
-				            <div class="h2 text-right"><label id="labelHabitantes"></label></div>
-				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="totrociados" /></div>
-				            <div class="h2 text-right"><label id="labelRociados"></label></div>
-				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="totcargas" /></div>
-				            <div class="h2 text-right"><label id="labelCargas"></label></div>
-			            </div>
-			            <div class="card-footer px-3 py-2">
-			            	<a class="font-weight-bold font-xs btn-block text-muted" href="<spring:url value="/irs/visit/" htmlEscape="true "/>"><spring:message code="visits" /> <i class="fa fa-angle-right float-right font-lg"></i></a>
-			            </div>
-		            </div>
-	            </div>
-	            <div class="col-6 col-lg-3">
-		            <div class="card">
-			            <div class="card-body p-3 clearfix">
-				            <i class="fa fa-check bg-primary p-3 font-2xl mr-3 float-left"></i>
-				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="totvisit" /></div>
-				            <div class="h2 text-right"><label id="labelVisitas"></label></div>
-				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="totexito" /></div>
-				            <div class="h2 text-right"><label id="labelExitosas"></label></div>
-				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="totiniciales" /></div>
-				            <div class="h2 text-right"><label id="labelIniciales"></label></div>
-				            <div class="text-uppercase text-muted font-weight-bold font-xs text-right mb-0 mt-2"><spring:message code="totcharlas" /></div>
-				            <div class="h2 text-right"><label id="labelCharlas"></label></div>
-			            </div>
-			            <div class="card-footer px-3 py-2">
-			            	<a class="font-weight-bold font-xs btn-block text-muted" href="<spring:url value="/irs/visit/" htmlEscape="true "/>"><spring:message code="visits" /> <i class="fa fa-angle-right float-right font-lg"></i></a>
-			            </div>
-		            </div>
-	            </div>
+        		<div class="col-12 col-lg-4">
+	            <div class="card">
+              		<i class="fa fa-sliders bg-primary p-3 font-lg mr-6 float-left"> <spring:message code="sprayStatus" /></i>	
+			  		<ul class="list-group list-group-flush">
+			    		<li class="list-group-item d-flex justify-content-between align-items-center font-lg">
+						    <spring:message code="targets" />
+						    <span id="labelTotalMetas" class="badge badge-primary badge-pill"></span>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center font-lg">
+						    <spring:message code="CAT_STATUS_01" />
+						    <span id="labelRociadas" class="badge badge-rociadas badge-pill"></span>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center font-lg">
+						    <spring:message code="CAT_STATUS_02" />
+						    <span id="labelRociadasParcial" class="badge badge-parcial badge-pill"></span>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center font-lg">
+						    <spring:message code="CAT_STATUS_03" />
+						    <span id="labelRenuentes" class="badge badge-renuente badge-pill"></span>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center font-lg">
+						    <spring:message code="CAT_STATUS_04" />
+						    <span id="labelCerradas" class="badge badge-closed badge-pill"></span>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center font-lg">
+						    Pendiente
+						    <span id="labelNoVisitadas" class="badge badge-pendientes badge-pill"></span>
+						</li>
+			  		</ul>
+				</div>	
+				</div>
+				
+				<div class="col-12 col-lg-4">
+	            <div class="card">
+              		<i class="fa fa-server bg-primary p-3 font-lg mr-6 float-left"> <spring:message code="visits" /></i>	
+			  		<ul class="list-group list-group-flush">
+			    		<li class="list-group-item d-flex justify-content-between align-items-center font-lg">
+						    <spring:message code="totvisit" />
+						    <span id="labelVisitas" class="badge badge-primary badge-pill"></span>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center font-lg">
+						    <spring:message code="totpreav" />
+						    <span id="labelVisitasPre" class="badge badge-primary badge-pill"></span>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center font-lg">
+						    <spring:message code="totrociado" />
+						    <span id="labelVisitasRoc" class="badge badge-primary badge-pill"></span>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center font-lg">
+						    <spring:message code="totiniciales" />
+						    <span id="labelIniciales" class="badge badge-primary badge-pill"></span>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center font-lg">
+						    <spring:message code="totseg" />
+						    <span id="labelVisitasSeg" class="badge badge-primary badge-pill"></span>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center font-lg">
+						    <spring:message code="totexito" />
+						    <span id="labelExitosas" class="badge badge-primary badge-pill"></span>
+						</li>
+			  		</ul>
+				</div>	
+				</div>
+				
+				<div class="col-12 col-lg-4">
+	            <div class="card">
+              		<i class="fa fa-check bg-primary p-3 font-lg mr-6 float-left"> Datos</i>	
+			  		<ul class="list-group list-group-flush">
+			    		<li class="list-group-item d-flex justify-content-between align-items-center font-lg">
+						    <spring:message code="vivcuartosroc" />
+						    <span id="labelRociables" class="badge badge-primary badge-pill"></span>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center font-lg">
+						    <spring:message code="totrociados" />
+						    <span id="labelRociados" class="badge badge-primary badge-pill"></span>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center font-lg">
+						    <spring:message code="totcargas" />
+						    <span id="labelCargas" class="badge badge-primary badge-pill"></span>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center font-lg">
+						    <spring:message code="vivtothab" />
+						    <span id="labelHabitantes" class="badge badge-primary badge-pill"></span>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center font-lg">
+						    <spring:message code="totcharlas" />
+						    <span id="labelCharlas" class="badge badge-primary badge-pill"></span>
+						</li>
+			  		</ul>
+				</div>	
+				</div>
+ 
             </div>
             
             <div class="row">

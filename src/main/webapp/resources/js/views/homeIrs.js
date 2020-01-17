@@ -139,12 +139,8 @@ return {
 	  function estadoTemporada (){		  
 		  $.getJSON(parametros.irsEstadoUrl, $('#filters-form,#temp-form').serialize(), function(data) {
 			  $('#labelTotalMetas').html(data[0][0]);
-			  var porcNovisitadas = (data[0][1]/data[0][0]*100).toFixed(2);
-			  $('#labelNoVisitadas').html(data[0][1] + " (" + porcNovisitadas +"%)");
-			  var porcNonotificadas = (data[0][2]/data[0][0]*100).toFixed(2);
-			  $('#labelSinPre').html(data[0][2] + " (" + porcNonotificadas +"%)");
-			  var porcPreaviso = (data[0][3]/data[0][0]*100).toFixed(2);
-			  $('#labelConPre').html(data[0][3] + " (" + porcPreaviso +"%)");
+			  var porcNovisitadas = ((data[0][1]+data[0][2]+data[0][3])/data[0][0]*100).toFixed(2);
+			  $('#labelNoVisitadas').html(data[0][1]+data[0][2]+data[0][3] + " (" + porcNovisitadas +"%)");
 			  var porcCerradas = (data[0][4]/data[0][0]*100).toFixed(2);
 			  $('#labelCerradas').html(data[0][4] + " (" + porcCerradas +"%)");
 			  var porcRenuentes = (data[0][5]/data[0][0]*100).toFixed(2);
@@ -177,6 +173,7 @@ return {
 		  var seguimientos = [];
 		  var totalVisitas=0;
 		  var totalIniciales=0;
+		  var totalSeguimientos=0;
 		  var totalExitos=0;
 		  var totalCargas=0;
 		  var totalCharlas=0;
@@ -222,6 +219,7 @@ return {
 				  iniciales.push([data[row][3]]);
 				  totalIniciales = totalIniciales + data[row][3];
 				  seguimientos.push([data[row][4]]);
+				  totalSeguimientos = totalSeguimientos + data[row][4];
 				  totalExitos = totalExitos + data[row][5];
 				  totalRociados = totalRociados + data[row][7];
 				  totalCargas = totalCargas + data[row][8];
@@ -231,9 +229,15 @@ return {
 				  table1.row.add([d1, data[row][2], data[row][3], data[row][4], data[row][5], data[row][10], data[row][11], data[row][7], data[row][8], data[row][9]]);
 			  }
 			  
-			  $('#labelVisitas').html(totalVisitas + " (" + totalVPreavisos + ")" + " (" + totalVRociados + ")");
+			  $('#labelVisitas').html(totalVisitas);
+			  var porcPreaviso = (totalVPreavisos/totalVisitas*100).toFixed(2);
+			  $('#labelVisitasPre').html(totalVPreavisos + " (" + porcPreaviso +"%)");
+			  var porcRociado = (totalVRociados/totalVisitas*100).toFixed(2);
+			  $('#labelVisitasRoc').html(totalVRociados + " (" + porcRociado +"%)");
 			  var porcIniciales = (totalIniciales/totalVisitas*100).toFixed(2);
 			  $('#labelIniciales').html(totalIniciales + " (" + porcIniciales +"%)");
+			  var porcSeguimientos = (totalSeguimientos/totalVisitas*100).toFixed(2);
+			  $('#labelVisitasSeg').html(totalSeguimientos + " (" + porcSeguimientos +"%)");
 			  var porcExitos = (totalExitos/totalVisitas*100).toFixed(2);
 			  $('#labelExitosas').html(totalExitos + " (" + porcExitos +"%)");
 			  $('#labelCargas').html(totalCargas);
@@ -461,8 +465,11 @@ return {
 				  if(data[row].sprayStatus=='NOTVIS'){
 					  theMarker = L.marker([miLat, miLong]).addTo(mymap).setIcon(redIcon);
 				  }
-				  else if(data[row].sprayStatus=='NOTIFI'){
-					  theMarker = L.marker([miLat, miLong]).addTo(mymap).setIcon(blueIcon);
+				  else if(data[row].sprayStatus=='DROPPED'){
+					  theMarker = L.marker([miLat, miLong]).addTo(mymap).setIcon(redIcon);
+				  }
+				  else if(data[row].sprayStatus=='PENDING'){
+					  theMarker = L.marker([miLat, miLong]).addTo(mymap).setIcon(redIcon);
 				  }
 				  else if(data[row].sprayStatus=='CLOSED'){
 					  theMarker = L.marker([miLat, miLong]).addTo(mymap).setIcon(orangeIcon);
@@ -495,8 +502,7 @@ return {
 				  div.innerHTML += '<i class="icon" style="background-image: url('+parametros.iconYellow+');background-repeat: no-repeat;"></i><span>Rociada parcial</span><br>';
 				  div.innerHTML += '<i class="icon" style="background-image: url('+parametros.iconPurple+');background-repeat: no-repeat;"></i><span>Renuente</span><br>';
 				  div.innerHTML += '<i class="icon" style="background-image: url('+parametros.iconOrange+');background-repeat: no-repeat;"></i><span>Cerrada</span><br>';
-				  div.innerHTML += '<i class="icon" style="background-image: url('+parametros.iconBlue+');background-repeat: no-repeat;"></i><span>Con preaviso</span><br>';
-				  div.innerHTML += '<i class="icon" style="background-image: url('+parametros.iconRed+');background-repeat: no-repeat;"></i><span>Nunca visitada</span><br>';
+				  div.innerHTML += '<i class="icon" style="background-image: url('+parametros.iconRed+');background-repeat: no-repeat;"></i><span>Pediente</span><br>';
 				  return div;
 			  };
 
