@@ -4,13 +4,13 @@ return {
   //main function to initiate the module
   init: function (parametros) {	
 	  
-	$('#local, #censusTaker,#recordUser').select2({
+	$('#local, #llinSeason,#llinStatus').select2({
 		theme: "bootstrap"
 	});
 	
-	$('#viviendasdiv').hide();
+	$('#metasdiv').hide();
 	
-	$('input[name="fecCensoRange"]').daterangepicker({
+	$('input[name="fecActRange"]').daterangepicker({
 	   ranges: {
 	     'Hoy': [moment(), moment()],
 	 'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
@@ -78,14 +78,14 @@ return {
 	
 	$('#checkDates').change(function() {
         if(this.checked) {
-        	$("#fecCensoRange").prop('disabled', false);
+        	$("#fecActRange").prop('disabled', false);
         }else{
-        	$("#fecCensoRange").prop('disabled', true);
+        	$("#fecActRange").prop('disabled', true);
         }
               
     });
 
-  $( '#viviendas-form' ).validate( {
+  $( '#metas-form' ).validate( {
 	    rules: {
 	      codeHouse: {
 	    	  required: true
@@ -96,13 +96,13 @@ return {
 	      local: {
 	          required: true
 	      },
-	      fecCensoRange: {
+	      fecActRange: {
 	          required: true
 	      },
-	      censusTaker: {
+	      irsSeason: {
 	    	  required: true
 	      },
-	      recordUser: {
+	      sprayStatus: {
 	          required: true
 	      }
 	    },
@@ -140,7 +140,7 @@ return {
 	  
   function processReport(){
 	  $.blockUI({ message: parametros.waitmessage });
-	  $.getJSON(parametros.searchUrl, $('#viviendas-form').serialize(), function(data) {
+	  $.getJSON(parametros.searchUrl, $('#metas-form').serialize(), function(data) {
 		  var table1 = $('#resultados').DataTable({
 			  dom: 'lBfrtip',
 	          "oLanguage": {
@@ -171,17 +171,19 @@ return {
 		}
 		else{
 			for (var row in data) {
-				var d1 = (new Date(data[row].censusDate)).yyyymmdd();
+				var d1 = (new Date(data[row].lastModified)).yyyymmdd();
 				var d2 = (new Date(data[row].recordDate)).yyyymmdd();
-				var viewUrl = parametros.censusUrl  + data[row].ident+'/';
+				var d3 = (new Date(data[row].enrollmentDate)).yyyymmdd();
+				var asignado = '';
+				data[row].assignedTo===null?asignado='No asignado':asignado=data[row].assignedTo.name;
+				var viewUrl = parametros.targetUrl  + data[row].ident+'/';
 				btnview = '<a title="" href=' + viewUrl + ' class="btn btn-xs btn-primary" ><i class="icon-magnifier"></i></a>';
-				codeview = '<a title="" href=' + viewUrl + '>'+ data[row].code+ '</a>';
+				codeview = '<a title="" href=' + viewUrl + '>'+ data[row].household.code+ '</a>';
 				
-				table1.row.add([data[row].local.name, codeview,data[row].ownerName,d1,data[row].censusTaker.name,data[row].inhabited,
-					data[row].habitants,data[row].material,data[row].rooms,data[row].sprRooms,data[row].noSprooms,
-					data[row].noSproomsReasons,data[row].sleep,data[row].numNets,data[row].latitude,data[row].longitude,data[row].altitud,data[row].exactitud,data[row].obs,data[row].pasive,data[row].recordUser,d2,btnview]);
+				table1.row.add([data[row].household.local.name, codeview,data[row].household.ownerName,data[row].ciclo.name,d3,d1,data[row].status,data[row].household.rooms,data[row].household.sprRooms,data[row].household.noSprooms,
+					data[row].household.noSproomsReasons,asignado,data[row].pasive,data[row].recordUser,d2,btnview]);
 			}
-			$('#viviendasdiv').show();
+			$('#metasdiv').show();
 		}
 		$.unblockUI();
 	})

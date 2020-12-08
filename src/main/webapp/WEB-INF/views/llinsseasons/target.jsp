@@ -58,7 +58,8 @@
       <!-- Breadcrumb -->
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<spring:url value="/" htmlEscape="true "/>"><spring:message code="home" /></a></li>
-        <li class="breadcrumb-item active"><spring:message code="census" /></li>
+        <li class="breadcrumb-item active"><a href="<spring:url value="/llins/dashboard/" htmlEscape="true "/>"><spring:message code="strCycle" /></a></li>
+        <li class="breadcrumb-item active"><spring:message code="strTargets" /></li>
         
       </ol>
 	  <!-- Container -->
@@ -68,14 +69,14 @@
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header">
-                  <i class="fa fa-database"></i> <spring:message code="census" />
+                  <i class="fa fa-calendar-times-o"></i> <spring:message code="strTargets" />
                   <div class="card-actions">
                   </div>
                 </div>
                 <div class="card-body">
                   <div class="row">
                   	<div class="col-md-12">
-	                  	<form action="#" autocomplete="off" id="viviendas-form">
+	                  	<form action="#" autocomplete="off" id="metas-form">
 		                  	<div class="form-group row">
 		                      <div class="input-group">
 		                        <span class="input-group-addon"><input type="checkbox" id="checkId" name="checkId" value=""></span>
@@ -89,13 +90,21 @@
 		                      </div>
 		                    </div>
 	           			  <div class="form-group row">
-			                  <label><spring:message code="censusDate" /></label>
+			                  <label><spring:message code="dateModified" /></label>
 			                  <div class="input-group">
 			                    <span class="input-group-addon"><input type="checkbox" id="checkDates" name="checkDates" value=""></span>
-			                    <input id="fecCensoRange" name="fecCensoRange" class="form-control" disabled type="text">
+			                    <input id="fecActRange" name="fecActRange" class="form-control" disabled type="text">
 			                  </div>
 		                  </div>
 		                  <div class="form-group row">
+		                  	  <div class="col-sm-4">
+			                    <label><spring:message code="strCycle" /></label>
+			                    <select id="llinSeason" name="llinSeason" class="form-control select2-single">
+			                    	<c:forEach items="${ciclos}" var="ciclo">
+			                      		<option value="${ciclo.ident}">${ciclo.name}</option>
+			                    	</c:forEach>
+			                    </select>
+			                  </div>
 			                  <div class="col-sm-4">
 			                    <label><spring:message code="locality" /></label>
 			                    <select id="local" name="local" class="form-control select2-single">
@@ -106,21 +115,12 @@
 			                    </select>
 			                  </div>
 			                  <div class="col-sm-4">
-			                    <label><spring:message code="censustaker" /></label>
-			                    <select id="censusTaker" name="censusTaker" class="form-control select2-single">
+			                    <label><spring:message code="llinStatus" /></label>
+			                    <select id="llinStatus" name="llinStatus" class="form-control select2-single">
 			                    	<option value="ALL"><spring:message code="all"/></option>
-			                    	<c:forEach items="${censadores}" var="censador">
-			                    		<option value="${censador.ident}"><spring:message code="${censador.name}" /></option>
+			                    	<c:forEach items="${estados}" var="estado">
+			                    		<option value="${estado.catKey}"><spring:message code="${estado.messageKey}" /></option>
 									</c:forEach>
-			                    </select>
-			                  </div>
-			                  <div class="col-sm-4">
-			                    <label><spring:message code="username" /></label>
-			                    <select id="recordUser" name="recordUser" class="form-control select2-single">
-			                    	<option value="ALL"><spring:message code="all"/></option>
-			                    	<c:forEach items="${usuarios}" var="usuario">
-			                      		<option value="${usuario.username}">${usuario.completeName}</option>
-			                    	</c:forEach>
 			                    </select>
 			                  </div>
 		                  </div>
@@ -134,7 +134,7 @@
               </div>
 			</div>
 			</div>
-			<div id="viviendasdiv">
+			<div id="metasdiv">
 			<div class="row">
             <div class="col-md-12">
             	<div class="card">
@@ -149,22 +149,15 @@
 		                		<th><spring:message code="locality" /></th>
 		                		<th><spring:message code="codeHouse" /></th>
 			                    <th><spring:message code="ownerName" /></th>
-			                    <th class="hidden-xs"><spring:message code="censusDate" /></th>
-			                    <th class="hidden-xs"><spring:message code="censustaker" /></th>
-			                    <th class="hidden-xs"><spring:message code="inhabited" /></th>
-			                    <th class="hidden-xs"><spring:message code="habitants" /></th>
-			                    <th class="hidden-xs"><spring:message code="material" /></th>
-			                    <th class="hidden-xs"><spring:message code="rooms" /></th>
-			                    <th class="hidden-xs"><spring:message code="sprRooms" /></th>
-			                    <th class="hidden-xs"><spring:message code="noSprooms" /></th>
-			                    <th class="hidden-xs"><spring:message code="noSproomsReasons" /></th>
-			                    <th class="hidden-xs"><spring:message code="sleep" /></th>
-			                    <th class="hidden-xs"><spring:message code="numNets" /></th>
-			                    <th class="hidden-xs"><spring:message code="latitude" /></th>
-			                    <th class="hidden-xs"><spring:message code="longitude" /></th>
-			                    <th class="hidden-xs"><spring:message code="altitud" /></th>
-			                    <th class="hidden-xs"><spring:message code="exactitud" /></th>
-			                    <th class="hidden-xs"><spring:message code="obs" /></th>
+			                    <th class="hidden-xs"><spring:message code="strCycle" /></th>
+			                    <th class="hidden-xs"><spring:message code="strDateEnrollment" /></th>
+			                    <th class="hidden-xs"><spring:message code="dateModified" /></th>
+			                    <th class="hidden-xs"><spring:message code="strStatus" /></th>
+			                    <th class="hidden-xs"><spring:message code="strSleepSpaces1" /></th>
+			                    <th class="hidden-xs"><spring:message code="strSleepSpaces2" /></th>
+			                    <th class="hidden-xs"><spring:message code="strSleepSpaces3" /></th>
+			                    <th class="hidden-xs"><spring:message code="strSleepSpaces4" /></th>
+			                    <th class="hidden-xs"><spring:message code="assignedTo" /></th>
 			                    <th class="hidden-xs"><spring:message code="pasive" /></th>
 			                    <th class="hidden-xs"><spring:message code="createdBy" /></th>
 			                    <th class="hidden-xs"><spring:message code="dateCreated" /></th>
@@ -250,16 +243,16 @@
   <c:set var="waitmessage"><spring:message code="process.wait" /></c:set>
   <c:set var="noResults"><spring:message code="noResults" /></c:set>
   
-  <spring:url value="/census/searchHouses/" var="searchUrl"/>
-  <spring:url value="/census/" var="censusUrl"/>
+  <spring:url value="/llins/season/searchTargets/" var="searchUrl"/>
+  <spring:url value="/llins/season/targets/" var="targetUrl"/>
   
   <!-- Custom scripts required by this view -->
-  <spring:url value="/resources/js/views/BuscarViviendas.js" var="processSearch" />
+  <spring:url value="/resources/js/views/BuscarMetasLlins.js" var="processSearch" />
   <script src="${processSearch}"></script>
   
   <script>
   	jQuery(document).ready(function() {
-		var parametros = {censusUrl: "${censusUrl}",searchUrl: "${searchUrl}",successmessage: "${successmessage}",
+		var parametros = {targetUrl: "${targetUrl}",searchUrl: "${searchUrl}",successmessage: "${successmessage}",
 				errormessage: "${errormessage}",waitmessage: "${waitmessage}" ,dataTablesLang: "${dataTablesLang}",noResults: "${noResults}"};
 		ProcessSearch.init(parametros);
 	});

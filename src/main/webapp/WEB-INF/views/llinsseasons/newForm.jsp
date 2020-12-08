@@ -5,10 +5,12 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <html>
 <head>
-<jsp:include page="../../fragments/headTag.jsp" />
+<jsp:include page="../fragments/headTag.jsp" />
 <!-- Styles required by this views -->
 <spring:url value="/resources/vendors/css/select2.min.css" var="select2css" />
 <link href="${select2css}" rel="stylesheet" type="text/css"/>
+<spring:url value="/resources/vendors/css/datepicker.css" var="datepickercss" />
+<link href="${datepickercss}" rel="stylesheet" type="text/css"/>
 </head>
 <!-- BODY options, add following classes to body to change options
 
@@ -39,19 +41,20 @@
 -->
 <body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
   <!-- Header -->
-  <jsp:include page="../../fragments/bodyHeader.jsp" />
+  <jsp:include page="../fragments/bodyHeader.jsp" />
   <div class="app-body">
   	<!-- Navigation -->
-  	<jsp:include page="../../fragments/sideBar.jsp" />
+  	<jsp:include page="../fragments/sideBar.jsp" />
     <!-- Main content -->
     <main class="main">
-	  <spring:url value="/admin/localities/saveEntity/" var="saveUrl"></spring:url>
-  	  <spring:url value="/admin/localities/" var="listUrl"/>	
+	  <spring:url value="/llins/season/saveEntity/" var="saveUrl"></spring:url>
+  	  <spring:url value="/llins/season/" var="seasonsUrl"></spring:url>	
       <!-- Breadcrumb -->
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<spring:url value="/" htmlEscape="true "/>"><spring:message code="home" /></a></li>
-        <li class="breadcrumb-item"><a href="<spring:url value="/admin/localities/" htmlEscape="true "/>"><spring:message code="localities" /></a></li>
-        <li class="breadcrumb-item active"><c:out value="${localidad.name}" /></li>
+        <li class="breadcrumb-item active"><a href="<spring:url value="/llins/dashboard/" htmlEscape="true "/>"><spring:message code="strLlins" /></a></li>
+        <li class="breadcrumb-item"><a href="<spring:url value="/llins/season/" htmlEscape="true "/>"><spring:message code="strCycle" /></a></li>
+        <li class="breadcrumb-item active"><spring:message code="add" /></li>
         
       </ol>
 	  <!-- Container -->
@@ -62,7 +65,7 @@
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header">
-                  <i class="icon-note"></i> <spring:message code="edit" /> <spring:message code="localities" />
+                  <i class="icon-note"></i> <spring:message code="add" />
                   <div class="card-actions">
                     
                   </div>
@@ -76,78 +79,59 @@
 						<div class="form-group">
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-key"></i></span>
-	                        <input type="text" id="ident" name="ident" readonly value="${localidad.ident}" class="form-control" placeholder="<spring:message code="ident" />">
+	                        <input type="text" id="ident" name="ident" readonly class="form-control" placeholder="<spring:message code="ident" />">
 	                      </div>
 	                    </div>	
 	                    <div class="form-group">
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
-	                        <input type="text" id="code" name="code" value="${localidad.code}" class="form-control" placeholder="<spring:message code="code" />">
+	                        <input type="text" id="code" name="code" class="form-control" placeholder="<spring:message code="code" />">
 	                      </div>
 	                    </div>  
                         <div class="form-group">
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-address-book"></i></span>
-	                        <input type="text" id="name" name="name" value="${localidad.name}" class="form-control" placeholder="<spring:message code="name" />">
+	                        <input type="text" id="name" name="name" class="form-control" placeholder="<spring:message code="name" />">
 	                      </div>
 	                    </div>
+	                    
 	                    <div class="form-group">
+	                      <label><spring:message code="startDate" /></label>
 	                      <div class="input-group">
-	                        <span class="input-group-addon"><i class="icon-layers"></i></span>
-	                        <select name="district" id="district" class="form-control select2-single">
-	                        	<option value=""><spring:message code="district" /> - <spring:message code="empty" /></option>
-	                        	<c:forEach items="${distritos}" var="distrito">
-									<c:choose> 
-										<c:when test="${distrito.ident eq localidad.district.ident}">
-											<option selected value="${distrito.ident}"><spring:message code="${distrito.name}" /></option>
-										</c:when>
-										<c:otherwise>
-											<option value="${distrito.ident}"><spring:message code="${distrito.name}" /></option>
-										</c:otherwise>
-									</c:choose> 
-								</c:forEach>
-	                        </select>
+	                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+	                        <input type="text" id="startDate" name="startDate" class="form-control date-picker" data-date-format="dd/mm/yyyy" data-date-start-date="-90d" data-date-end-date="+90d" placeholder="dd/mm/yyy">
 	                      </div>
 	                    </div>
+	                    
 	                    <div class="form-group">
+	                      <label><spring:message code="endDate" /></label>
 	                      <div class="input-group">
-	                        <span class="input-group-addon"><i class="fa fa-location-arrow"></i></span>
-	                        <input type="text" id="latitude" name="latitude" value="${localidad.latitude}" class="form-control" placeholder="<spring:message code="latitude" />">
+	                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+	                        <input type="text" id="endDate" name="endDate" class="form-control date-picker" data-date-format="dd/mm/yyyy" data-date-start-date="+0d" data-date-end-date="+0d" placeholder="dd/mm/yyy">
 	                      </div>
 	                    </div>
-	                    <div class="form-group">
-	                      <div class="input-group">
-	                        <span class="input-group-addon"><i class="fa fa-location-arrow"></i></span>
-	                        <input type="text" id="longitude" name="longitude" value="${localidad.longitude}" class="form-control" placeholder="<spring:message code="longitude" />">
-	                      </div>
-	                    </div>
-	                    <div class="form-group">
-	                      <div class="input-group">
-	                        <span class="input-group-addon"><i class="fa fa-location-arrow"></i></span>
-	                        <input type="text" id="zoom" name="zoom" value="${localidad.zoom}" class="form-control" placeholder="<spring:message code="zoom" />">
-	                      </div>
-	                    </div>
-	                    <div class="form-group">
-	                      <div class="input-group">
-	                        <span class="input-group-addon"><i class="fa fa-users"></i></span>
-	                        <input type="text" id="population" name="population" value="${localidad.population}" class="form-control" placeholder="<spring:message code="population" />">
-	                      </div>
-	                    </div>
-	                    <div class="form-group">
-	                      <div class="input-group">
-	                        <span class="input-group-addon"><i class="fa fa-hashtag"></i></span>
-	                        <input type="text" id="pattern" name="pattern" value="${localidad.pattern}" class="form-control" placeholder="<spring:message code="pattern" />">
-	                      </div>
-	                    </div>
-	                    <div class="form-group">
+	                    
+	                    <fieldset class="form-group">
+		                 	<i class="fa fa-map-o"></i>
+		                    <label><spring:message code="locality" /></label>
+		                    <select id="localidades" name="localidades" class="form-control select2-multiple" multiple="">
+		                      <c:forEach items="${localidades}" var="localidad">
+		                      	<option value="${localidad.ident}">${localidad.code}-${localidad.name}-${localidad.district.name}-${localidad.district.area.name}</option>
+		                      </c:forEach>
+		                    </select>
+		                 </fieldset>
+		                 
+		                 <div class="form-group">
+	                      <label><spring:message code="obs" /></label>
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-sticky-note-o"></i></span>
-	                        <input type="text" id="obs" name="obs" value="${localidad.obs}" class="form-control" placeholder="<spring:message code="obs" />">
+	                        <input type="text" id="obs" name="obs" class="form-control" placeholder="<spring:message code="obs" />">
 	                      </div>
 	                    </div>
+                        
                         <div class="form-group">
                           <button type="submit" class="btn btn-primary" id="guardar"><i class="fa fa-save"></i>&nbsp;<spring:message code="save" /></button>
-						  <a href="${fn:escapeXml(listUrl)}" class="btn btn-danger"><i class="fa fa-undo"></i>&nbsp;<spring:message code="cancel" /></a>
+						  <a href="${fn:escapeXml(seasonsUrl)}" class="btn btn-danger"><i class="fa fa-undo"></i>&nbsp;<spring:message code="cancel" /></a>
                         </div>
                       </form>
                     </div>
@@ -166,11 +150,11 @@
     
   </div>
   <!-- Pie de p�gina -->
-  <jsp:include page="../../fragments/bodyFooter.jsp" />
+  <jsp:include page="../fragments/bodyFooter.jsp" />
 
   <!-- Bootstrap and necessary plugins -->
-  <jsp:include page="../../fragments/corePlugins.jsp" />
-  <jsp:include page="../../fragments/bodyUtils.jsp" />
+  <jsp:include page="../fragments/corePlugins.jsp" />
+  <jsp:include page="../fragments/bodyUtils.jsp" />
 
   <!-- GenesisUI main scripts -->
   <spring:url value="/resources/js/app.js" var="App" />
@@ -193,14 +177,19 @@
       <spring:param name="language" value="${lenguaje}" />
   </spring:url>
   <script src="${jQValidationLoc}"></script>
-  
   <spring:url value="/resources/vendors/js/select2.min.js" var="Select2" />
   <script src="${Select2}" type="text/javascript"></script>
   
+  <spring:url value="/resources/vendors/js/bootstrap-datepicker.js" var="datepicker" />
+  <script src="${datepicker}" type="text/javascript"></script>
+  
+  <spring:url value="/resources/vendors/js/moment.min.js" var="moment" />
+  <script src="${moment}" type="text/javascript"></script>
+  
 
   <!-- Custom scripts required by this view -->
-  <spring:url value="/resources/js/views/Entidad.js" var="processEntity" />
-  <script src="${processEntity}"></script>
+  <spring:url value="/resources/js/views/Season.js" var="processSeason" />
+  <script src="${processSeason}"></script>
   
 <c:set var="successmessage"><spring:message code="process.success" /></c:set>
 <c:set var="errormessage"><spring:message code="process.errors" /></c:set>
@@ -210,15 +199,9 @@
 	jQuery(document).ready(function() {
 		var parametros = {saveUrl: "${saveUrl}", successmessage: "${successmessage}",
 				errormessage: "${errormessage}",waitmessage: "${waitmessage}",
-				listUrl: "${listUrl}", latitudMinima: "${latitudMinima}", latitudMaxima: "${latitudMaxima}"  
-					, longitudMinima: "${longitudMinima}", longitudMaxima: "${longitudMaxima}" 
+				seasonsUrl: "${seasonsUrl}" 
 		};
 		ProcessEntity.init(parametros);
-	});
-	
-	$('#district').select2({
-	    theme: "bootstrap",
-	    width: '100%'
 	});
 </script>
   

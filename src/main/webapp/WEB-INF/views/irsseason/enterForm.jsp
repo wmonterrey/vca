@@ -72,7 +72,7 @@
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header">
-                  <i class="icon-note"></i> <spring:message code="edit" /> <spring:message code="census" />
+                  <i class="icon-note"></i> <spring:message code="edit" /> <spring:message code="season" />
                   <div class="card-actions">
                     
                   </div>

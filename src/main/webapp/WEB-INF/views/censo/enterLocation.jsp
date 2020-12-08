@@ -179,7 +179,8 @@
   jQuery(document).ready(function() {
 		var parametros = {saveUrl: "${saveUrl}", successmessage: "${successmessage}",
 				errormessage: "${errormessage}",waitmessage: "${waitmessage}",
-				listUrl: "${listUrl}" 
+				listUrl: "${listUrl}" , latitudMinima: "${latitudMinima}", latitudMaxima: "${latitudMaxima}"  
+					, longitudMinima: "${longitudMinima}", longitudMaxima: "${longitudMaxima}" 
 		};
 		ProcessEntity.init(parametros);
 	});

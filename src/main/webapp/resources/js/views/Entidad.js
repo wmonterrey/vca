@@ -46,8 +46,8 @@ return {
       },
       latitude: {
           required: false,
-          min:13,
-          max:18
+          min:parseFloat(parametros.latitudMinima),
+          max:parseFloat(parametros.latitudMaxima)
       },
       zoom:{
     	  required: false,
@@ -56,8 +56,8 @@ return {
       },
       longitude: {
           required: false,
-          min:-93,
-          max:-87
+          min:parseFloat(parametros.longitudMinima),
+          max:parseFloat(parametros.longitudMaxima)
       },
       population: {
           required: false,

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.clintonhealthaccess.vca.domain.Household;
+import org.clintonhealthaccess.vca.domain.Person;
 import org.clintonhealthaccess.vca.domain.irs.IrsSeason;
 import org.clintonhealthaccess.vca.domain.irs.Supervision;
 import org.clintonhealthaccess.vca.domain.irs.Target;
@@ -16,6 +17,7 @@ public class Datos implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	List<Household> viviendas;
+	List<Person> personas;
 	List<IrsSeason> temporadas;
 	List<Target> metas;
 	List<Visit> visitas;
@@ -30,13 +32,14 @@ public class Datos implements Serializable {
 
 
 
-	public Datos(List<Household> viviendas, List<IrsSeason> temporadas,List<Target> metas,List<Visit> visitas,List<Supervision> supervisiones) {
+	public Datos(List<Household> viviendas, List<IrsSeason> temporadas,List<Target> metas,List<Visit> visitas,List<Supervision> supervisiones,List<Person> personas) {
 		super();
 		this.viviendas = viviendas;
 		this.temporadas = temporadas;
 		this.metas = metas;
 		this.visitas = visitas;
 		this.supervisiones = supervisiones;
+		this.personas=personas;
 	}
 
 
@@ -117,6 +120,22 @@ public class Datos implements Serializable {
 
 	public void setSupervisiones(List<Supervision> supervisiones) {
 		this.supervisiones = supervisiones;
+	}
+
+
+
+
+
+	public List<Person> getPersonas() {
+		return personas;
+	}
+
+
+
+
+
+	public void setPersonas(List<Person> personas) {
+		this.personas = personas;
 	}
 
 

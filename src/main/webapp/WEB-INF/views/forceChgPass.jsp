@@ -131,8 +131,6 @@
       <spring:param name="language" value="${lenguaje}" />
   </spring:url>
   <script src="${jQValidationLoc}"></script>
-  <spring:url value="/resources/vendors/js/select2.min.js" var="Select2" />
-  <script src="${Select2}" type="text/javascript"></script>
   
 
   <!-- Custom scripts required by this view -->

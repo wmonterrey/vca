@@ -579,11 +579,11 @@ public class DashboardIrsService {
 		// Retrieve session from Hibernate
 		
 		
-		String sqlQueryNueva = "SELECT week(vis.visitDate) "
+		/*String sqlQueryNueva = "SELECT week(vis.visitDate) "
 				+ " from Visit vis where vis.activity = 'SPRAY' and vis.compVisit = 1 and vis.pasive='0' and "
 				+ " vis.target.household.local.ident in "
 				+ " (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc "
-				+ " where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0')";
+				+ " where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0')";*/
 		
 		
 		

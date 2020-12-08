@@ -17,7 +17,11 @@
 		<intercept-url pattern="/irs/season/.*" access="ROLE_SUPER"/>
 		<intercept-url pattern="/irs/supervision/.*" access="ROLE_SUPER"/>
 		<intercept-url pattern="/irs/visit/.*" access="ROLE_SPRAY"/>
-		<intercept-url pattern="/irs/.*" access="ROLE_REVIEW,ROLE_SUPER,ROLE_SPRAY"/>
+		<intercept-url pattern="/irs/.*" access="ROLE_REVIEW,ROLE_SUPER,ROLE_LLINS"/>
+		<intercept-url pattern="/llins/.*" access="ROLE_REVIEW,ROLE_SUPER,ROLE_SPRAY"/>
+		<intercept-url pattern="/llins/season/.*" access="ROLE_SUPER"/>
+		<intercept-url pattern="/llins/delivers/.*" access="ROLE_SUPER"/>
+		<intercept-url pattern="/llins/evals/.*" access="ROLE_SUPER"/>
 		<intercept-url pattern="/qc/.*" access="ROLE_SUPER"/>
 		<intercept-url pattern="/movil/.*" access="ROLE_MOVIL"/>
 		

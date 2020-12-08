@@ -43,11 +43,14 @@ public class Household extends BaseMetaData implements Auditable{
 	private Integer noSprooms;
 	private String noSproomsReasons;
 	private Integer personasCharlas;
+	private Integer sleep;
+	private Integer numNets;
 	private Double latitude;
 	private Double longitude;
 	private Float exactitud;
 	private Double altitud;
 	private String obs;
+	private String verified;
 	
 	public Household() {
 		super();
@@ -227,6 +230,30 @@ public class Household extends BaseMetaData implements Auditable{
 	}
 
 
+	@Column(name = "sleep", nullable = true)
+	public Integer getSleep() {
+		return sleep;
+	}
+
+
+
+	public void setSleep(Integer sleep) {
+		this.sleep = sleep;
+	}
+
+
+	@Column(name = "numNets", nullable = true)
+	public Integer getNumNets() {
+		return numNets;
+	}
+
+
+
+	public void setNumNets(Integer numNets) {
+		this.numNets = numNets;
+	}
+
+
 
 	@Column(name = "latitude", nullable = true)
 	public Double getLatitude() {
@@ -286,6 +313,20 @@ public class Household extends BaseMetaData implements Auditable{
 
 	public void setObs(String obs) {
 		this.obs = obs;
+	}
+	
+	
+
+
+	@Column(name = "verif", nullable = true, length = 50)
+	public String getVerified() {
+		return verified;
+	}
+
+
+
+	public void setVerified(String verified) {
+		this.verified = verified;
 	}
 
 

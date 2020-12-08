@@ -266,6 +266,8 @@ INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('noSprooms', NULL, NULL, '', '0', 0, '0', 'Número de Cuartos No rociables');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('noSproomsReasons', NULL, NULL, '', '0', 0, '0', 'Razones no rociables');
 INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('personasCharlas', NULL, NULL, '', '0', 0, '0', 'Numero de personas se imparte charla');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('sleep', NULL, NULL, '', '0', 0, '0', 'Cuantos sitios para dormir hay en la casa?');
+INSERT INTO `messages` (`messageKey`, `catKey`, `catRoot`, `en`, `isCat`, `orden`, `catPasive`, `es`) VALUES ('numNets', NULL, NULL, '', '0', 0, '0', 'Cuantos mosquiteros tienen en la casa?');
 
 
 //Dashboard censo

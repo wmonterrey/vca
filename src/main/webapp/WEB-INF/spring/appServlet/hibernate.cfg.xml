@@ -9,7 +9,7 @@
     <property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
     <!-- Enable this to see the SQL statements in the logs-->
     <property name="show_sql">true</property>
-    <property name="hbm2ddl.auto">validate</property>
+    <property name="hbm2ddl.auto">update</property>
     <listener type="post-delete" class="org.clintonhealthaccess.vca.web.listener.HibernateAuditLogListener"/>  
 	<listener type="post-update" class="org.clintonhealthaccess.vca.web.listener.HibernateAuditLogListener"/>  
 	<listener type="post-insert" class="org.clintonhealthaccess.vca.web.listener.HibernateAuditLogListener"/> 

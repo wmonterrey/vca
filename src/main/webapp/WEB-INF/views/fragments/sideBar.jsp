@@ -44,6 +44,35 @@
 	            </ul>
 	        </li>
 	        </sec:authorize>
+	        
+	        <sec:authorize url="/llins/">
+	        <li class="nav-item nav-dropdown lenguaje">
+	            <a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-bed"></i><spring:message code="strLlins" /></a>
+	            <ul class="nav-dropdown-items">
+	            	<li class="nav-item">
+	                    <a class="nav-link" href="<spring:url value="/llins/dashboard/" htmlEscape="true "/>"><i class="fa fa-signal"></i><spring:message code="dashboard" /></a>
+	                </li>
+	                <sec:authorize url="/llins/season/">
+	                <li class="nav-item">
+	                    <a class="nav-link" href="<spring:url value="/llins/season/" htmlEscape="true "/>"><i class="fa fa-calendar-plus-o"></i><spring:message code="strCycle" /></a>
+	                </li>
+	                <li class="nav-item">	
+	                    <a class="nav-link" href="<spring:url value="/llins/season/targets/" htmlEscape="true "/>"><i class="fa fa-calendar-times-o"></i><spring:message code="strTargets" /></a>
+	                </li>
+	                </sec:authorize>
+	                <sec:authorize url="/llins/delivers/">
+	                <li class="nav-item">
+	                    <a class="nav-link" href="<spring:url value="/llins/delivers/" htmlEscape="true "/>"><i class="fa fa-shield"></i><spring:message code="strDeliver" /></a>
+	                </li>
+	                </sec:authorize>
+	                <sec:authorize url="/llins/evals/">
+	                <li class="nav-item">
+	                    <a class="nav-link" href="<spring:url value="/llins/evals/" htmlEscape="true "/>"><i class="fa fa-wpexplorer"></i><spring:message code="strEvals" /></a>
+	                </li>
+	                </sec:authorize>
+	            </ul>
+	        </li>
+	        </sec:authorize>
             
             <sec:authorize url="/admin/">
             <li class="nav-item nav-dropdown administracion">

@@ -5,7 +5,6 @@ import org.clintonhealthaccess.vca.domain.Household;
 import org.clintonhealthaccess.vca.domain.Localidad;
 import org.clintonhealthaccess.vca.domain.audit.AuditTrail;
 import org.clintonhealthaccess.vca.language.MessageResource;
-import org.clintonhealthaccess.vca.service.DistritoService;
 import org.clintonhealthaccess.vca.service.HouseholdService;
 import org.clintonhealthaccess.vca.service.LocalidadService;
 import org.clintonhealthaccess.vca.service.AuditTrailService;
@@ -53,8 +52,7 @@ public class CensoController {
 	private HouseholdService householdService;
 	@Resource(name="localidadService")
 	private LocalidadService localidadService;
-	@Resource(name="distritoService")
-	private DistritoService distritoService;
+	
 	@Resource(name="auditTrailService")
 	private AuditTrailService auditTrailService;
 	@Resource(name="messageResourceService")
@@ -216,6 +214,18 @@ public class CensoController {
 	    	List<MessageResource> razones = messageResourceService.getCatalogo("CAT_RNR");
 	    	model.addAttribute("razones",razones);
 			model.addAttribute("vivienda",vivienda);
+			Float latitudMinima=0F;
+	    	Float latitudMaxima=0F;
+	    	Float longitudMinima=0F;
+	    	Float longitudMaxima=0F;
+			latitudMinima = Float.parseFloat(parametroService.getParametroByCode("latMin").getValue());
+	    	latitudMaxima = Float.parseFloat(parametroService.getParametroByCode("latMax").getValue());
+	    	longitudMinima = Float.parseFloat(parametroService.getParametroByCode("longMin").getValue());
+	    	longitudMaxima = Float.parseFloat(parametroService.getParametroByCode("longMax").getValue());
+	    	model.addAttribute("latitudMinima", latitudMinima);
+	    	model.addAttribute("latitudMaxima", latitudMaxima);
+	    	model.addAttribute("longitudMinima", longitudMinima);
+	    	model.addAttribute("longitudMaxima", longitudMaxima);
 			return "censo/enterForm";
 		}
 		else{
@@ -299,6 +309,18 @@ public class CensoController {
 	        	model.addAttribute("latitude",latitud);
 	        	model.addAttribute("longitude",longitud);
 	        	model.addAttribute("zoom",zoom);
+	        	Float latitudMinima=0F;
+		    	Float latitudMaxima=0F;
+		    	Float longitudMinima=0F;
+		    	Float longitudMaxima=0F;
+				latitudMinima = Float.parseFloat(parametroService.getParametroByCode("latMin").getValue());
+		    	latitudMaxima = Float.parseFloat(parametroService.getParametroByCode("latMax").getValue());
+		    	longitudMinima = Float.parseFloat(parametroService.getParametroByCode("longMin").getValue());
+		    	longitudMaxima = Float.parseFloat(parametroService.getParametroByCode("longMax").getValue());
+		    	model.addAttribute("latitudMinima", latitudMinima);
+		    	model.addAttribute("latitudMaxima", latitudMaxima);
+		    	model.addAttribute("longitudMinima", longitudMinima);
+		    	model.addAttribute("longitudMaxima", longitudMaxima);
 				return "censo/enterLocation";
 			}
         	catch (Exception e) {
@@ -335,10 +357,13 @@ public class CensoController {
 	        , @RequestParam( value="sprRooms", required=false) Integer sprRooms
 	        , @RequestParam( value="noSprooms", required=false) Integer noSprooms
 	        , @RequestParam( value="noSproomsReasons", required=false) String noSproomsReasons
+	        , @RequestParam( value="sleep", required=false) Integer sleep
+	        , @RequestParam( value="numNets", required=false) Integer numNets
 	        , @RequestParam( value="personasCharlas", required=false) Integer personasCharlas
 	        , @RequestParam( value="latitude", required=false, defaultValue ="" ) String latitude
 	        , @RequestParam( value="longitude", required=false, defaultValue ="" ) String longitude
 	        , @RequestParam( value="obs", required=false, defaultValue ="" ) String obs
+	        , @RequestParam( value="verified", required=false, defaultValue ="" ) String verified
 	        )
 	{
     	try{
@@ -365,10 +390,13 @@ public class CensoController {
 			vivienda.setSprRooms(sprRooms);
 			vivienda.setNoSprooms(noSprooms);
 			vivienda.setNoSproomsReasons(noSproomsReasons);
+			vivienda.setSleep(sleep);
+			vivienda.setNumNets(numNets);
 			vivienda.setPersonasCharlas(personasCharlas);
 			vivienda.setLatitude(latitud);
 			vivienda.setLongitude(longitud);
 			vivienda.setObs(obs);
+			vivienda.setVerified(verified);
 			this.householdService.saveVivienda(vivienda);
 			
 			return createJsonResponse(vivienda);

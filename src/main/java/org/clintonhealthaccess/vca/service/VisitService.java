@@ -174,5 +174,24 @@ public class VisitService {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
+	public List<Visit> getVisitsMovil(String username) {
+		
+		//Set the SQL Query initially
+		String sqlQuery = "from Visit visita where visita.pasive ='0' and "
+				+ "visita.target.household.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0') "
+				+ "and visita.target.irsSeason.pasive ='0'";
+				
+				
+		// Retrieve session from Hibernate
+		Session session = sessionFactory.getCurrentSession();
+		// Create a Hibernate query (HQL)
+		Query query = session.createQuery(sqlQuery);
+		query.setParameter("username",username);
+		// Retrieve all
+		return  query.list();
+	}
+	
+	
 
 }

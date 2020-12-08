@@ -173,6 +173,20 @@ public class SupervisionService {
 		return  query.list();
 	}
 	
-	
+	@SuppressWarnings("unchecked")
+	public List<Supervision> getSupervisionsMovil(String username) {
+		//Set the SQL Query initially
+		String sqlQuery = "from Supervision supervision where supervision.pasive ='0' and "
+				+ "supervision.target.household.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0') "
+				+ "and supervision.target.irsSeason.pasive ='0'";
+				
+		// Retrieve session from Hibernate
+		Session session = sessionFactory.getCurrentSession();
+		// Create a Hibernate query (HQL)
+		Query query = session.createQuery(sqlQuery);
+		query.setParameter("username",username);
+		// Retrieve all
+		return  query.list();
+	}
 
 }

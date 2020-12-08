@@ -82,6 +82,16 @@ return {
         	  return $("#noSprooms").val()>0;
           }
       },
+      latitude: {
+          required: false,
+          min:parseFloat(parametros.latitudMinima),
+          max:parseFloat(parametros.latitudMaxima)
+      },
+      longitude: {
+          required: false,
+          min:parseFloat(parametros.longitudMinima),
+          max:parseFloat(parametros.longitudMaxima)
+      },
       obs: {
           maxlength: 750,
           required: false

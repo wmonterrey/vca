@@ -14,6 +14,8 @@ import org.clintonhealthaccess.vca.domain.Localidad;
 import org.clintonhealthaccess.vca.domain.irs.Brigada;
 import org.clintonhealthaccess.vca.domain.irs.IrsSeason;
 import org.clintonhealthaccess.vca.domain.irs.Personal;
+import org.clintonhealthaccess.vca.domain.mtilds.Ciclo;
+import org.clintonhealthaccess.vca.domain.mtilds.PersonalLlins;
 import org.clintonhealthaccess.vca.service.AreaService;
 import org.clintonhealthaccess.vca.service.BrigadaService;
 import org.clintonhealthaccess.vca.service.CensadorService;
@@ -26,6 +28,8 @@ import org.clintonhealthaccess.vca.service.LocalidadService;
 import org.clintonhealthaccess.vca.service.MessageResourceService;
 import org.clintonhealthaccess.vca.service.PersonalService;
 import org.clintonhealthaccess.vca.service.UsuarioService;
+import org.clintonhealthaccess.vca.service.mtilds.CicloService;
+import org.clintonhealthaccess.vca.service.mtilds.PersonalLlinsService;
 import org.clintonhealthaccess.vca.users.model.GenericResponse;
 import org.clintonhealthaccess.vca.users.model.UserSistema;
 import org.slf4j.Logger;
@@ -95,11 +99,17 @@ public class HomeController {
 	@Resource(name="personalService")
 	private PersonalService personalService;
 	
+	@Resource(name="personalLlinsService")
+	private PersonalLlinsService personalLlinsService;
+	
 	@Resource(name="brigadaService")
 	private BrigadaService brigadaService;
 	
 	@Resource(name="temporadaService")
 	private IrsSeasonService temporadaService;
+	
+	@Resource(name="cicloService")
+	private CicloService cicloService;
 	
 	
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
@@ -139,7 +149,7 @@ public class HomeController {
 	    	model.addAttribute("rociadores", rociadores);
 	    	List<Foco> focos = focoService.getActiveFocos();
 	    	model.addAttribute("focos", focos);
-	    	List<IrsSeason> temporadas = this.temporadaService.getActiveIrsSeasons();
+	    	List<IrsSeason> temporadas = this.temporadaService.getIrsSeasons();
 	    	model.addAttribute("temporadas", temporadas);
 	    	if (temporadas.size()==0) {
 	    		temporadas.add(new IrsSeason("noseasons","noseasons","No hay temporadas"));
@@ -153,6 +163,32 @@ public class HomeController {
     		logger.error(e.getLocalizedMessage());
     	}
     	return "irs/home";
+    }
+    
+    @RequestMapping(value = "/llins/dashboard/", method = RequestMethod.GET)
+    public String homeLlins(Model model) {
+    	try {
+	    	logger.info("vca LLINS Iniciado...");
+	    	List<Area> areas = areaService.getActiveAreas();
+	    	model.addAttribute("areas", areas);
+	    	List<Distrito> distritos = distritoService.getActiveDistricts();
+	    	model.addAttribute("distritos", distritos);
+	    	List<Localidad> localidades = localidadService.getActiveLocalitiesUsuario(SecurityContextHolder.getContext().getAuthentication().getName());
+	    	model.addAttribute("localidades", localidades);
+	    	List<Foco> focos = focoService.getActiveFocos();
+	    	model.addAttribute("focos", focos);
+	    	List<Ciclo> ciclos = this.cicloService.getCiclos();
+	    	model.addAttribute("ciclos", ciclos);
+	    	if (ciclos.size()==0) {
+	    		ciclos.add(new Ciclo("noseasons","noseasons","No hay ciclos"));
+	    	}
+	    	List<PersonalLlins> rrhhs = this.personalLlinsService.getActivePersonalLlinses();
+	    	model.addAttribute("rrhhs", rrhhs);
+    	}
+    	catch(Exception e) {
+    		logger.error(e.getLocalizedMessage());
+    	}
+    	return "llins/home";
     }
     
     @RequestMapping(value="/login", method = RequestMethod.GET)

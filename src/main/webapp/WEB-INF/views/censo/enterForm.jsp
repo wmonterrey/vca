@@ -255,6 +255,23 @@
 	                      </div>
 	                    </div>
 	                    
+	                    <div class="form-group">
+	                      <label><spring:message code="sleep" /></label>
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-window-restore"></i></span>
+	                        <input type="text" id="sleep" name="sleep" value="${vivienda.sleep}" class="form-control" placeholder="<spring:message code="sleep" />">
+	                      </div>
+	                    </div>
+	                    
+	                    
+	                    <div class="form-group">
+	                      <label><spring:message code="numNets" /></label>
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-window-restore"></i></span>
+	                        <input type="text" id="numNets" name="numNets" value="${vivienda.numNets}" class="form-control" placeholder="<spring:message code="numNets" />">
+	                      </div>
+	                    </div>
+	                    
 	                    
 	                    <div class="form-group">
 	                      <label><spring:message code="personasCharlas" /></label>
@@ -355,7 +372,8 @@
 	jQuery(document).ready(function() {
 		var parametros = {saveUrl: "${saveUrl}", successmessage: "${successmessage}",
 				errormessage: "${errormessage}",waitmessage: "${waitmessage}",
-				listUrl: "${listUrl}",opclocaUrl: "${opclocaUrl}" 
+				listUrl: "${listUrl}",opclocaUrl: "${opclocaUrl}" , latitudMinima: "${latitudMinima}", latitudMaxima: "${latitudMaxima}"  
+					, longitudMinima: "${longitudMinima}", longitudMaxima: "${longitudMaxima}" 
 		};
 		ProcessEntity.init(parametros);
 	});

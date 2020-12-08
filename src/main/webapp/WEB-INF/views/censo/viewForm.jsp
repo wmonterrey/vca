@@ -163,6 +163,18 @@
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="sleep" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.sleep}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="numNets" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.numNets}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
 		                      <label class="col-md-6 col-form-label"><spring:message code="personasCharlas" />:</label>
 		                      <div class="col-md-6">
 		                        <p class="form-control-static"><strong><c:out value="${vivienda.personasCharlas}" /></strong></p>
@@ -172,6 +184,12 @@
 		                      <label class="col-md-6 col-form-label"><spring:message code="obs" />:</label>
 		                      <div class="col-md-6">
 		                        <p class="form-control-static"><strong><c:out value="${vivienda.obs}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label">Verificada:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.verified}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
@@ -240,6 +258,46 @@
 				</div>
 	            <!--/.col-->
          	</div>
+         	
+         	<div class="row">
+	            <div class="col-md-12">
+	              <div class="card">
+	                <div class="card-header">
+	                  <i class="icon-people"></i>&nbsp;<strong><spring:message code="strFamily" /></strong>
+	                </div>
+	                <div class="card-body">
+	                	<table id="lista_personas" class="table table-striped table-bordered datatable" width="100%">
+			                <thead>
+			                	<tr>
+									<th><spring:message code="strIdent" /></th>
+									<th><spring:message code="strName" /></th>
+									<th><spring:message code="strSex" /></th>
+									<th><spring:message code="strAge" /></th>
+									<th><spring:message code="strPreg" /></th>
+									<th class="hidden-xs"><spring:message code="pasive" /></th>
+			                    	<th class="hidden-xs"><spring:message code="createdBy" /></th>
+			                   	 	<th class="hidden-xs"><spring:message code="dateCreated" /></th>
+			                	</tr>
+			                </thead>
+			                <tbody>
+							<c:forEach items="${bitacora}" var="cambio">
+								<tr>
+									<td><spring:message code="${cambio.entityClass}" /></td>
+									<td><c:out value="${cambio.entityName}" /></td>
+									<td><c:out value="${cambio.entityProperty}" /></td>
+									<td><c:out value="${cambio.entityPropertyOldValue}" /></td>
+									<td><c:out value="${cambio.entityPropertyNewValue}" /></td>
+									<td><c:out value="${cambio.username}" /></td>
+									<td><c:out value="${cambio.operationDate}" /></td>
+									<td><c:out value="${cambio.operationDate}" /></td>
+								</tr>
+							</c:forEach>
+			                </tbody>
+			            </table>
+	                </div>
+	              </div>
+	            </div>
+            </div>
          	
             <div class="row">
 	            <div class="col-md-12">
