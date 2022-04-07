@@ -145,18 +145,18 @@ public class CensoController {
     @RequestMapping("/{ident}/")
     public ModelAndView showEntity(@PathVariable("ident") String ident) {
     	ModelAndView mav;
-    	Double latitud;
-    	Double longitud;
-    	Integer zoom;
+    	Double latitud=0D;
+    	Double longitud=0D;
+    	Integer zoom = 0;
     	Household vivienda = this.householdService.getVivienda(ident, SecurityContextHolder.getContext().getAuthentication().getName());
         if(vivienda==null){
         	mav = new ModelAndView("403");
         }
         else{
         	mav = new ModelAndView("censo/viewForm");
-        	zoom = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
-        	latitud = Double.parseDouble(parametroService.getParametroByCode("lat").getValue());
-        	longitud = Double.parseDouble(parametroService.getParametroByCode("long").getValue());
+        	if(parametroService.getParametroByCode("zoom")!=null) zoom = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
+        	if(parametroService.getParametroByCode("lat")!=null) latitud = Double.parseDouble(parametroService.getParametroByCode("lat").getValue());
+        	if(parametroService.getParametroByCode("long")!=null) longitud = Double.parseDouble(parametroService.getParametroByCode("long").getValue());
         	if(vivienda.getLatitude()!=null) latitud = vivienda.getLatitude();
         	if(vivienda.getLongitude()!=null) longitud = vivienda.getLongitude();
         	MessageResource mr = null;
@@ -218,10 +218,10 @@ public class CensoController {
 	    	Float latitudMaxima=0F;
 	    	Float longitudMinima=0F;
 	    	Float longitudMaxima=0F;
-			latitudMinima = Float.parseFloat(parametroService.getParametroByCode("latMin").getValue());
-	    	latitudMaxima = Float.parseFloat(parametroService.getParametroByCode("latMax").getValue());
-	    	longitudMinima = Float.parseFloat(parametroService.getParametroByCode("longMin").getValue());
-	    	longitudMaxima = Float.parseFloat(parametroService.getParametroByCode("longMax").getValue());
+	    	if(parametroService.getParametroByCode("latMin")!=null) latitudMinima = Float.parseFloat(parametroService.getParametroByCode("latMin").getValue());
+	    	if(parametroService.getParametroByCode("latMax")!=null) latitudMaxima = Float.parseFloat(parametroService.getParametroByCode("latMax").getValue());
+	    	if(parametroService.getParametroByCode("longMin")!=null) longitudMinima = Float.parseFloat(parametroService.getParametroByCode("longMin").getValue());
+	    	if(parametroService.getParametroByCode("longMax")!=null) longitudMaxima = Float.parseFloat(parametroService.getParametroByCode("longMax").getValue());
 	    	model.addAttribute("latitudMinima", latitudMinima);
 	    	model.addAttribute("latitudMaxima", latitudMaxima);
 	    	model.addAttribute("longitudMinima", longitudMinima);
@@ -298,12 +298,12 @@ public class CensoController {
 		if(vivienda!=null){
 			try {
 				model.addAttribute("vivienda",vivienda);
-				Double latitud;
-				Double longitud;
-		    	Integer zoom;
-		    	zoom = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
-	        	latitud = Double.parseDouble(parametroService.getParametroByCode("lat").getValue());
-	        	longitud = Double.parseDouble(parametroService.getParametroByCode("long").getValue());
+				Double latitud = 0D;
+				Double longitud = 0D;
+		    	Integer zoom = 0;
+		    	if(parametroService.getParametroByCode("zoom")!=null) zoom = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
+	        	if(parametroService.getParametroByCode("lat")!=null) latitud = Double.parseDouble(parametroService.getParametroByCode("lat").getValue());
+	        	if(parametroService.getParametroByCode("long")!=null) longitud = Double.parseDouble(parametroService.getParametroByCode("long").getValue());
 	        	if(vivienda.getLatitude()!=null) latitud = vivienda.getLatitude();
 	        	if(vivienda.getLongitude()!=null) longitud = vivienda.getLongitude();
 	        	model.addAttribute("latitude",latitud);
@@ -313,10 +313,10 @@ public class CensoController {
 		    	Float latitudMaxima=0F;
 		    	Float longitudMinima=0F;
 		    	Float longitudMaxima=0F;
-				latitudMinima = Float.parseFloat(parametroService.getParametroByCode("latMin").getValue());
-		    	latitudMaxima = Float.parseFloat(parametroService.getParametroByCode("latMax").getValue());
-		    	longitudMinima = Float.parseFloat(parametroService.getParametroByCode("longMin").getValue());
-		    	longitudMaxima = Float.parseFloat(parametroService.getParametroByCode("longMax").getValue());
+		    	if(parametroService.getParametroByCode("latMin")!=null) latitudMinima = Float.parseFloat(parametroService.getParametroByCode("latMin").getValue());
+		    	if(parametroService.getParametroByCode("latMax")!=null) latitudMaxima = Float.parseFloat(parametroService.getParametroByCode("latMax").getValue());
+		    	if(parametroService.getParametroByCode("longMin")!=null) longitudMinima = Float.parseFloat(parametroService.getParametroByCode("longMin").getValue());
+		    	if(parametroService.getParametroByCode("longMax")!=null) longitudMaxima = Float.parseFloat(parametroService.getParametroByCode("longMax").getValue());
 		    	model.addAttribute("latitudMinima", latitudMinima);
 		    	model.addAttribute("latitudMaxima", latitudMaxima);
 		    	model.addAttribute("longitudMinima", longitudMinima);

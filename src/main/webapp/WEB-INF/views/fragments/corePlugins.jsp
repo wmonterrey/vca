@@ -27,6 +27,10 @@
 <spring:url value="/resources/vendors/js/Chart.min.js" var="Chart" />
 <script src="${Chart}" type="text/javascript"></script>
 
+<!-- Tipso-->
+<spring:url value="/resources/vendors/js/tipso.js" var="Tipso" />
+<script src="${Tipso}" type="text/javascript"></script>
+
 <!-- jQuery Idle Time Out-->
 <spring:url value="/resources/vendors/js/jquery.idletimeout.js" var="idleTimeout" />
 <script src="${idleTimeout}" type="text/javascript"></script>

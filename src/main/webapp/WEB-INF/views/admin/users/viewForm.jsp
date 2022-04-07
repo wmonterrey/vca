@@ -53,6 +53,7 @@
 		<c:set var="rolDisabledLabel"><spring:message code="rolDisabled" /></c:set>
 		<c:set var="rolAddedLabel"><spring:message code="rolAdded" /></c:set>
 		<c:set var="allRolesLabel"><spring:message code="rolAll" /></c:set>
+		<c:set var="allLocalidadesLabel"><spring:message code="localidadAll" /></c:set>
 		<c:set var="userLockedLabel"><spring:message code="login.accountLocked" /></c:set>
 		<c:set var="userUnlockedLabel"><spring:message code="login.accountNotLocked" /></c:set>
 		<c:set var="habilitar"><spring:message code="enable" /></c:set>

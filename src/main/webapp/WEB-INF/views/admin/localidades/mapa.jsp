@@ -125,7 +125,7 @@
               	<button id="localities_list" onclick="location.href='${fn:escapeXml(viewList)}'" type="button" class="btn btn-outline-primary"><i class="fa fa-list-ul"></i>&nbsp; <spring:message code="list" /></button>
               </div>
               <br><br>
-              <div id="mapid" style="width: 100%; height: 500px;"></div>
+              <div id="mapid" style="width: 100%; height: 600px;"></div>
               
             </div>
           </div>

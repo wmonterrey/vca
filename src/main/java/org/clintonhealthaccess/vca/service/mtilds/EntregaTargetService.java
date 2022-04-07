@@ -176,7 +176,7 @@ public class EntregaTargetService {
 		//Set the SQL Query initially
 		String sqlQuery = "from EntregaTarget tar where tar.pasive ='0' "
 				+ "and tar.household.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0') "
-				+ "and tar.irsSeason.pasive ='0'";
+				+ "and tar.ciclo.pasive ='0'";
 				
 		Session session = sessionFactory.getCurrentSession();
 		// Create a Hibernate query (HQL)

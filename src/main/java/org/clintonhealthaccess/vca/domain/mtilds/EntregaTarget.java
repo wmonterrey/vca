@@ -10,10 +10,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+
 import org.clintonhealthaccess.vca.domain.BaseMetaData;
 import org.clintonhealthaccess.vca.domain.Household;
 import org.clintonhealthaccess.vca.domain.audit.Auditable;
-import org.clintonhealthaccess.vca.domain.irs.Personal;
 import org.hibernate.annotations.ForeignKey;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -44,6 +44,10 @@ public class EntregaTarget extends BaseMetaData implements Auditable{
 	
 	
 	private Integer habitantes;
+	private Integer masculinos;
+	private Integer femeninos;
+	private Integer menores5;
+	private Integer embarazadas;
 	private Integer sitiosDormirCama;
 	private Integer sitiosDormirHamaca;
 	private Integer sitiosDormirSuelo;
@@ -53,7 +57,7 @@ public class EntregaTarget extends BaseMetaData implements Auditable{
 	
 	private String status;
 	private Date lastModified;
-	private Personal assignedTo;
+	private String assignedTo;
 	
 	private String obs;
 	
@@ -108,6 +112,42 @@ public class EntregaTarget extends BaseMetaData implements Auditable{
 
 	public void setHabitantes(Integer habitantes) {
 		this.habitantes = habitantes;
+	}
+	
+	@Column(name = "masculinos", nullable = false)
+	public Integer getMasculinos() {
+		return masculinos;
+	}
+
+	public void setMasculinos(Integer masculinos) {
+		this.masculinos = masculinos;
+	}
+
+	@Column(name = "femeninos", nullable = false)
+	public Integer getFemeninos() {
+		return femeninos;
+	}
+
+	public void setFemeninos(Integer femeninos) {
+		this.femeninos = femeninos;
+	}
+
+	@Column(name = "menores5", nullable = false)
+	public Integer getMenores5() {
+		return menores5;
+	}
+
+	public void setMenores5(Integer menores5) {
+		this.menores5 = menores5;
+	}
+
+	@Column(name = "embarazadas", nullable = false)
+	public Integer getEmbarazadas() {
+		return embarazadas;
+	}
+
+	public void setEmbarazadas(Integer embarazadas) {
+		this.embarazadas = embarazadas;
 	}
 
 	@Column(name = "sitiosDormirCama", nullable = true)
@@ -183,14 +223,11 @@ public class EntregaTarget extends BaseMetaData implements Auditable{
 		this.lastModified = lastModified;
 	}
 
-	@ManyToOne(optional=true)
-	@JoinColumn(name="assignedto")
-    @ForeignKey(name = "FK_TARM_PER")
-	public Personal getAssignedTo() {
+	public String getAssignedTo() {
 		return assignedTo;
 	}
 
-	public void setAssignedTo(Personal assignedTo) {
+	public void setAssignedTo(String assignedTo) {
 		this.assignedTo = assignedTo;
 	}
 

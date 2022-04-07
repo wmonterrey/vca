@@ -138,16 +138,19 @@ return {
 	  //Funcion estado de las metas por temporadas
 	  function estadoTemporada (){		  
 		  $.getJSON(parametros.irsEstadoUrl, $('#filters-form,#temp-form').serialize(), function(data) {
-			  $('#labelTotalMetas').html(data[0][0]);
-			  var porcNovisitadas = ((data[0][1]+data[0][2]+data[0][3])/data[0][0]*100).toFixed(2);
-			  $('#labelNoVisitadas').html(data[0][1]+data[0][2]+data[0][3] + " (" + porcNovisitadas +"%)");
-			  var porcCerradas = (data[0][4]/data[0][0]*100).toFixed(2);
+			  $('#labelTotalMetas').html(data[0][0]-data[0][2]);
+			  $('#labelTotalCasas').html(data[0][0]);
+			  var porcNovisitadas = ((data[0][1]+data[0][3])/(data[0][0]-data[0][2])*100).toFixed(2);
+			  $('#labelNoVisitadas').html(data[0][1]+data[0][3] + " (" + porcNovisitadas +"%)");
+			  var porcDescartadas = ((data[0][2])/data[0][0]*100).toFixed(2);
+			  $('#labelDescartadas').html(data[0][2] + " (" + porcDescartadas +"%)");
+			  var porcCerradas = (data[0][4]/(data[0][0]-data[0][2])*100).toFixed(2);
 			  $('#labelCerradas').html(data[0][4] + " (" + porcCerradas +"%)");
-			  var porcRenuentes = (data[0][5]/data[0][0]*100).toFixed(2);
+			  var porcRenuentes = (data[0][5]/(data[0][0]-data[0][2])*100).toFixed(2);
 			  $('#labelRenuentes').html(data[0][5] + " (" + porcRenuentes +"%)");
-			  var porcparciales = (data[0][6]/data[0][0]*100).toFixed(2);
+			  var porcparciales = (data[0][6]/(data[0][0]-data[0][2])*100).toFixed(2);
 			  $('#labelRociadasParcial').html(data[0][6] + " (" + porcparciales +"%)");
-			  var porccompletas = (data[0][7]/data[0][0]*100).toFixed(2);
+			  var porccompletas = (data[0][7]/(data[0][0]-data[0][2])*100).toFixed(2);
 			  $('#labelRociadas').html(data[0][7] + " (" + porccompletas +"%)");
 			  $('#labelRociables').html(data[0][8]);
 			  rociables = data[0][8];
@@ -466,7 +469,7 @@ return {
 					  theMarker = L.marker([miLat, miLong]).addTo(mymap).setIcon(redIcon);
 				  }
 				  else if(data[row].sprayStatus=='DROPPED'){
-					  theMarker = L.marker([miLat, miLong]).addTo(mymap).setIcon(redIcon);
+					  theMarker = L.marker([miLat, miLong]).addTo(mymap).setIcon(blackIcon);
 				  }
 				  else if(data[row].sprayStatus=='PENDING'){
 					  theMarker = L.marker([miLat, miLong]).addTo(mymap).setIcon(redIcon);
@@ -503,6 +506,7 @@ return {
 				  div.innerHTML += '<i class="icon" style="background-image: url('+parametros.iconPurple+');background-repeat: no-repeat;"></i><span>Renuente</span><br>';
 				  div.innerHTML += '<i class="icon" style="background-image: url('+parametros.iconOrange+');background-repeat: no-repeat;"></i><span>Cerrada</span><br>';
 				  div.innerHTML += '<i class="icon" style="background-image: url('+parametros.iconRed+');background-repeat: no-repeat;"></i><span>Pediente</span><br>';
+				  div.innerHTML += '<i class="icon" style="background-image: url('+parametros.iconBlack+');background-repeat: no-repeat;"></i><span>Destruida/No rociable	</span><br>';
 				  return div;
 			  };
 

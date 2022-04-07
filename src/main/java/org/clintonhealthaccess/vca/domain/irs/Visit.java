@@ -40,6 +40,7 @@ public class Visit extends BaseMetaData implements Auditable{
 	private String visit;
 	private String activity;
 	private String compVisit;
+	private String modCasa;
 	private String reasonNoVisit;
 	private String reasonNoVisitOther;
 	private String reasonReluctant;
@@ -160,6 +161,20 @@ public class Visit extends BaseMetaData implements Auditable{
 	public void setCompVisit(String compVisit) {
 		this.compVisit = compVisit;
 	}
+	
+	
+
+	@Column(name = "modCasa", nullable = true , length = 50)
+	public String getModCasa() {
+		return modCasa;
+	}
+
+
+
+	public void setModCasa(String modCasa) {
+		this.modCasa = modCasa;
+	}
+
 
 
 	@Column(name = "reasonNoVisit", nullable = true , length = 50)

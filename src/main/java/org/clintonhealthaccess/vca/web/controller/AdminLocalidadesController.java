@@ -68,9 +68,14 @@ public class AdminLocalidadesController {
     public String getEntitiesForMap(Model model) throws ParseException { 	
     	logger.debug("Mostrando Localidades en JSP para mapear");
     	try {
-    		Integer zoom = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
-        	Float latitud = Float.parseFloat(parametroService.getParametroByCode("lat").getValue());
-        	Float longitud = Float.parseFloat(parametroService.getParametroByCode("long").getValue());
+    		Double latitud = 0D;
+			Double longitud = 0D;
+	    	Integer zoom = 0;
+        	
+        	if(parametroService.getParametroByCode("zoom")!=null) zoom = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
+        	if(parametroService.getParametroByCode("lat")!=null) latitud = Double.parseDouble(parametroService.getParametroByCode("lat").getValue());
+        	if(parametroService.getParametroByCode("long")!=null) longitud = Double.parseDouble(parametroService.getParametroByCode("long").getValue());
+        	
     		List<Localidad> localidades = localidadService.getLocalities();
     		for(Localidad loc: localidades) {
     			if (loc.getLatitude()== null || loc.getLatitude()==null) {
@@ -102,10 +107,10 @@ public class AdminLocalidadesController {
     	Float longitudMaxima=0F;
     	List <Distrito> distritos = this.distritoService.getActiveDistricts();
     	model.addAttribute("distritos", distritos);
-    	latitudMinima = Float.parseFloat(parametroService.getParametroByCode("latMin").getValue());
-    	latitudMaxima = Float.parseFloat(parametroService.getParametroByCode("latMax").getValue());
-    	longitudMinima = Float.parseFloat(parametroService.getParametroByCode("longMin").getValue());
-    	longitudMaxima = Float.parseFloat(parametroService.getParametroByCode("longMax").getValue());
+    	if(parametroService.getParametroByCode("latMin")!=null) latitudMinima = Float.parseFloat(parametroService.getParametroByCode("latMin").getValue());
+    	if(parametroService.getParametroByCode("latMax")!=null) latitudMaxima = Float.parseFloat(parametroService.getParametroByCode("latMax").getValue());
+    	if(parametroService.getParametroByCode("longMin")!=null) longitudMinima = Float.parseFloat(parametroService.getParametroByCode("longMin").getValue());
+    	if(parametroService.getParametroByCode("longMax")!=null) longitudMaxima = Float.parseFloat(parametroService.getParametroByCode("longMax").getValue());
     	model.addAttribute("latitudMinima", latitudMinima);
     	model.addAttribute("latitudMaxima", latitudMaxima);
     	model.addAttribute("longitudMinima", longitudMinima);
@@ -170,10 +175,10 @@ public class AdminLocalidadesController {
 			List <Distrito> distritos = this.distritoService.getActiveDistricts();
 	    	model.addAttribute("distritos", distritos);
 			model.addAttribute("localidad",localidad);
-			latitudMinima = Float.parseFloat(parametroService.getParametroByCode("latMin").getValue());
-	    	latitudMaxima = Float.parseFloat(parametroService.getParametroByCode("latMax").getValue());
-	    	longitudMinima = Float.parseFloat(parametroService.getParametroByCode("longMin").getValue());
-	    	longitudMaxima = Float.parseFloat(parametroService.getParametroByCode("longMax").getValue());
+			if(parametroService.getParametroByCode("latMin")!=null) latitudMinima = Float.parseFloat(parametroService.getParametroByCode("latMin").getValue());
+			if(parametroService.getParametroByCode("latMax")!=null) latitudMaxima = Float.parseFloat(parametroService.getParametroByCode("latMax").getValue());
+			if(parametroService.getParametroByCode("longMin")!=null) longitudMinima = Float.parseFloat(parametroService.getParametroByCode("longMin").getValue());
+			if(parametroService.getParametroByCode("longMax")!=null) longitudMaxima = Float.parseFloat(parametroService.getParametroByCode("longMax").getValue());
 	    	model.addAttribute("latitudMinima", latitudMinima);
 	    	model.addAttribute("latitudMaxima", latitudMaxima);
 	    	model.addAttribute("longitudMinima", longitudMinima);
@@ -197,12 +202,12 @@ public class AdminLocalidadesController {
 		if(localidad!=null){
 			try {
 				model.addAttribute("localidad",localidad);
-				Double latitud;
-				Double longitud;
-		    	Integer zoom;
-		    	zoom = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
-	        	latitud = Double.parseDouble(parametroService.getParametroByCode("lat").getValue());
-	        	longitud = Double.parseDouble(parametroService.getParametroByCode("long").getValue());
+				Double latitud = 0D;
+				Double longitud = 0D;
+		    	Integer zoom = 0;
+		    	if(parametroService.getParametroByCode("zoom")!=null) zoom = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
+	        	if(parametroService.getParametroByCode("lat")!=null) latitud = Double.parseDouble(parametroService.getParametroByCode("lat").getValue());
+	        	if(parametroService.getParametroByCode("long")!=null) longitud = Double.parseDouble(parametroService.getParametroByCode("long").getValue());
 	        	if(localidad.getLatitude()!=null) latitud = localidad.getLatitude();
 	        	if(localidad.getLongitude()!=null) longitud = localidad.getLongitude();
 	        	if(localidad.getZoom()!=null) zoom = localidad.getZoom();
@@ -213,10 +218,10 @@ public class AdminLocalidadesController {
 		    	Float latitudMaxima=0F;
 		    	Float longitudMinima=0F;
 		    	Float longitudMaxima=0F;
-				latitudMinima = Float.parseFloat(parametroService.getParametroByCode("latMin").getValue());
-		    	latitudMaxima = Float.parseFloat(parametroService.getParametroByCode("latMax").getValue());
-		    	longitudMinima = Float.parseFloat(parametroService.getParametroByCode("longMin").getValue());
-		    	longitudMaxima = Float.parseFloat(parametroService.getParametroByCode("longMax").getValue());
+		    	if(parametroService.getParametroByCode("latMin")!=null) latitudMinima = Float.parseFloat(parametroService.getParametroByCode("latMin").getValue());
+		    	if(parametroService.getParametroByCode("latMax")!=null) latitudMaxima = Float.parseFloat(parametroService.getParametroByCode("latMax").getValue());
+		    	if(parametroService.getParametroByCode("longMin")!=null) longitudMinima = Float.parseFloat(parametroService.getParametroByCode("longMin").getValue());
+		    	if(parametroService.getParametroByCode("longMax")!=null) longitudMaxima = Float.parseFloat(parametroService.getParametroByCode("longMax").getValue());
 		    	model.addAttribute("latitudMinima", latitudMinima);
 		    	model.addAttribute("latitudMaxima", latitudMaxima);
 		    	model.addAttribute("longitudMinima", longitudMinima);

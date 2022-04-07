@@ -169,5 +169,69 @@ public class HouseholdService {
 		return  query.list();
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Household> getHousesMosquiteros(String codeHouse, String ownerName,
+			Long desde, Long hasta, String local, String censusTaker, String recordUser, String username, String pasivo) {
+		//Set the SQL Query initially
+		String sqlQuery = "from Household viv where viv.local.ident in "
+				+ "(Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0') "
+				+ "and viv.ident in (select tar.household.ident FROM EntregaTarget tar where tar.ciclo.pasive ='0')";
+		// if not null set time parameters
+		if(!(desde==null)) {
+			sqlQuery = sqlQuery + " and viv.censusDate between :fechaInicio and :fechaFinal";
+		}
+		if (!(codeHouse==null)) {
+			sqlQuery = sqlQuery + " and viv.code like:codeHouse";
+		}
+		if (!(ownerName==null)) {
+			sqlQuery = sqlQuery + " and viv.ownerName like:ownerName";
+		}
+		if(!local.equals("ALL")) {
+			sqlQuery = sqlQuery + " and viv.local.ident=:local";
+		}
+		if(!censusTaker.equals("ALL")) {
+			sqlQuery = sqlQuery + " and viv.censusTaker.ident=:censusTaker";
+		}
+		if(!recordUser.equals("ALL")) {
+			sqlQuery = sqlQuery + " and viv.recordUser=:recordUser";
+		}
+		
+		if(!(pasivo==null)) {
+			sqlQuery = sqlQuery + " and viv.pasive=:pasivo";
+		}
+		
+		// Retrieve session from Hibernate
+		Session session = sessionFactory.getCurrentSession();
+		// Create a Hibernate query (HQL)
+		Query query = session.createQuery(sqlQuery);
+		query.setParameter("username",username);
+		if(!(desde==null)) {
+			Timestamp timeStampInicio = new Timestamp(desde);
+			Timestamp timeStampFinal = new Timestamp(hasta);
+			query.setTimestamp("fechaInicio", timeStampInicio);
+			query.setTimestamp("fechaFinal", timeStampFinal);
+		}
+		if (!(codeHouse==null)) {
+			query.setParameter("codeHouse", "%" + codeHouse + "%");
+		}
+		if (!(ownerName==null)) {
+			query.setParameter("ownerName", "%" + ownerName + "%");
+		}
+		if(!local.equals("ALL")) {
+			query.setParameter("local", local);
+		}
+		if(!censusTaker.equals("ALL")) {
+			query.setParameter("censusTaker", censusTaker);
+		}
+		if(!recordUser.equals("ALL")) {
+			query.setParameter("recordUser", recordUser);
+		}
+		if(!(pasivo==null)) {
+			query.setParameter("pasivo", pasivo.charAt(0));
+		}
+		// Retrieve all
+		return  query.list();
+	}
+	
 
 }

@@ -1,6 +1,7 @@
 package org.clintonhealthaccess.vca.movil.controller;
 
 import org.clintonhealthaccess.vca.domain.Household;
+import org.clintonhealthaccess.vca.domain.OldHousehold;
 import org.clintonhealthaccess.vca.domain.Person;
 import org.clintonhealthaccess.vca.domain.irs.IrsSeason;
 import org.clintonhealthaccess.vca.domain.irs.Supervision;
@@ -8,6 +9,7 @@ import org.clintonhealthaccess.vca.domain.irs.Target;
 import org.clintonhealthaccess.vca.domain.irs.Visit;
 import org.clintonhealthaccess.vca.service.HouseholdService;
 import org.clintonhealthaccess.vca.service.IrsSeasonService;
+import org.clintonhealthaccess.vca.service.OldHouseholdService;
 import org.clintonhealthaccess.vca.service.PersonService;
 import org.clintonhealthaccess.vca.service.SupervisionService;
 import org.clintonhealthaccess.vca.service.TargetService;
@@ -40,6 +42,8 @@ public class DatosController {
 
     @Resource(name = "householdService")
     private HouseholdService householdService;
+    @Resource(name = "oldHouseholdService")
+    private OldHouseholdService oldHouseholdService;
     @Resource(name = "personService")
     private PersonService personService;
     @Resource(name = "temporadaService")
@@ -122,6 +126,26 @@ public class DatosController {
             }
         }
         return "Datos recibidos!";
+    }
+    
+    
+    /**
+     * Retorna datos. Acepta una solicitud GET para JSON
+     * @return Datos JSON
+     */
+    @RequestMapping(value = "datosviviendasanteriores", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody
+    Datos2 getDatosViviendasAnteriores(){
+        logger.info("Descargando toda la informacion de los datos viviendas anteriores");
+        List<OldHousehold> viviendas = oldHouseholdService.getHousesFiltro(null, null, null, null,"ALL", "ALL", "ALL",SecurityContextHolder.getContext().getAuthentication().getName(), "0");
+        if (viviendas == null){
+        	logger.debug(new Date() + " - Viviendas - Nulo");
+        }
+        
+        //Crea la clase Datos
+        Datos2 datos = new Datos2();
+        datos.setViviendas(viviendas);
+        return  datos;
     }
 
 }

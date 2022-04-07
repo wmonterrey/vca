@@ -45,34 +45,13 @@
 	        </li>
 	        </sec:authorize>
 	        
-	        <sec:authorize url="/llins/">
-	        <li class="nav-item nav-dropdown lenguaje">
-	            <a class="nav-link nav-dropdown-toggle" href="#"><i class="fa fa-bed"></i><spring:message code="strLlins" /></a>
-	            <ul class="nav-dropdown-items">
-	            	<li class="nav-item">
-	                    <a class="nav-link" href="<spring:url value="/llins/dashboard/" htmlEscape="true "/>"><i class="fa fa-signal"></i><spring:message code="dashboard" /></a>
-	                </li>
-	                <sec:authorize url="/llins/season/">
-	                <li class="nav-item">
-	                    <a class="nav-link" href="<spring:url value="/llins/season/" htmlEscape="true "/>"><i class="fa fa-calendar-plus-o"></i><spring:message code="strCycle" /></a>
-	                </li>
-	                <li class="nav-item">	
-	                    <a class="nav-link" href="<spring:url value="/llins/season/targets/" htmlEscape="true "/>"><i class="fa fa-calendar-times-o"></i><spring:message code="strTargets" /></a>
-	                </li>
-	                </sec:authorize>
-	                <sec:authorize url="/llins/delivers/">
-	                <li class="nav-item">
-	                    <a class="nav-link" href="<spring:url value="/llins/delivers/" htmlEscape="true "/>"><i class="fa fa-shield"></i><spring:message code="strDeliver" /></a>
-	                </li>
-	                </sec:authorize>
-	                <sec:authorize url="/llins/evals/">
-	                <li class="nav-item">
-	                    <a class="nav-link" href="<spring:url value="/llins/evals/" htmlEscape="true "/>"><i class="fa fa-wpexplorer"></i><spring:message code="strEvals" /></a>
-	                </li>
-	                </sec:authorize>
-	            </ul>
-	        </li>
-	        </sec:authorize>
+	        
+	        <li class="nav-item">
+                <a class="nav-link" href="<spring:url value="/maps/dashboard/" htmlEscape="true "/>"><i class="icon-globe"></i><spring:message code="mapsmod" /></a>
+            </li>
+                    
+	        
+	        
             
             <sec:authorize url="/admin/">
             <li class="nav-item nav-dropdown administracion">
@@ -98,6 +77,20 @@
 					   </li>
 					  </ul>
 					</li>
+					<li class="nav-item nav-dropdown puntos">
+			            <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-map"></i><spring:message code="maps" /></a>
+			            <ul class="nav-dropdown-items">
+			            	<li class="nav-item">
+			                    <a class="nav-link" href="<spring:url value="/admin/puntos/" htmlEscape="true "/>"><i class="fa fa-medkit"></i><spring:message code="pdxs" /></a>
+			                </li>
+							<li class="nav-item">
+			                    <a class="nav-link" href="<spring:url value="/admin/criaderos/" htmlEscape="true "/>"><i class="fa fa-bug"></i><spring:message code="criaderos" /></a>
+			                </li>
+			                <li class="nav-item">
+			                    <a class="nav-link" href="<spring:url value="/admin/casos/" htmlEscape="true "/>"><i class="fa fa-list"></i><spring:message code="cases" /></a>
+			                </li>
+			            </ul>
+			        </li>
 					<li class="nav-item nav-dropdown">
 					  <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-puzzle"></i></i><spring:message code="sysopts" /></a>
 					  <ul class="nav-dropdown-items">
@@ -129,6 +122,7 @@
 	            </ul>
 	        </li>
 	        </sec:authorize>
+
 	        
 	        <sec:authorize url="/qc/">
 	        <li class="nav-item nav-dropdown lenguaje">

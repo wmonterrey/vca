@@ -137,6 +137,14 @@
 	            <div class="card">
               		<i class="fa fa-sliders bg-primary p-3 font-lg mr-6 float-left"> <spring:message code="sprayStatus" /></i>	
 			  		<ul class="list-group list-group-flush">
+			  			<li class="list-group-item d-flex justify-content-between align-items-center font-lg">
+						    <spring:message code="vivtot" />
+						    <span id="labelTotalCasas" class="badge badge-primary badge-pill"></span>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-center font-lg">
+						    Destruidas/No rociables
+						    <span id="labelDescartadas" class="badge badge-pendientes badge-pill"></span>
+						</li>
 			    		<li class="list-group-item d-flex justify-content-between align-items-center font-lg">
 						    <spring:message code="targets" />
 						    <span id="labelTotalMetas" class="badge badge-primary badge-pill"></span>

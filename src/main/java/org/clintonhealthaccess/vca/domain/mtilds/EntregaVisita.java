@@ -10,7 +10,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.clintonhealthaccess.vca.domain.BaseMetaData;
-import org.clintonhealthaccess.vca.domain.irs.Personal;
 import org.hibernate.annotations.ForeignKey;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -36,7 +35,9 @@ public class EntregaVisita extends BaseMetaData {
 	private String ident;
 	private EntregaTarget target;
 	private Date visitDate;
-	private Personal visitor;
+	private String visitor;
+	
+	private String entrega;
 
 	private Integer mtildEntregadosCama;
 	private Integer mtildEntregadosHamaca;
@@ -48,7 +49,6 @@ public class EntregaVisita extends BaseMetaData {
 
 
 	private String obs;
-	
 	
 
 	public EntregaVisita() {
@@ -68,7 +68,7 @@ public class EntregaVisita extends BaseMetaData {
 
 	@ManyToOne(optional=false)
 	@JoinColumn(name="target")
-    @ForeignKey(name = "FK_DEL_TAR")
+    @ForeignKey(name = "FK_DEL_TAR2")
 	public EntregaTarget getTarget() {
 		return target;
 	}
@@ -92,15 +92,21 @@ public class EntregaVisita extends BaseMetaData {
 	}
 	
 	
-	@ManyToOne(optional=false)
-	@JoinColumn(name="visitor")
-    @ForeignKey(name = "FK_DEL_PER")
-	public Personal getVisitor() {
+	public String getVisitor() {
 		return visitor;
 	}
 
-	public void setVisitor(Personal visitor) {
+	public void setVisitor(String visitor) {
 		this.visitor = visitor;
+	}
+
+	
+	public String getEntrega() {
+		return entrega;
+	}
+
+	public void setEntrega(String entrega) {
+		this.entrega = entrega;
 	}
 
 	@Column(name = "mtildEntregadosCama", nullable = false)

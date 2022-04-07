@@ -165,6 +165,25 @@ public class HomeController {
     	return "irs/home";
     }
     
+    @RequestMapping(value = "/maps/dashboard/", method = RequestMethod.GET)
+    public String homeMaps(Model model) {
+    	try {
+	    	logger.info("vca Iniciado...");
+	    	List<Area> areas = areaService.getActiveAreas();
+	    	model.addAttribute("areas", areas);
+	    	List<Distrito> distritos = distritoService.getActiveDistricts();
+	    	model.addAttribute("distritos", distritos);
+	    	List<Localidad> localidades = localidadService.getActiveLocalitiesUsuario(SecurityContextHolder.getContext().getAuthentication().getName());
+	    	model.addAttribute("localidades", localidades);
+	    	List<Foco> focos = focoService.getActiveFocos();
+	    	model.addAttribute("focos", focos);
+    	}
+    	catch(Exception e) {
+    		logger.error(e.getLocalizedMessage());
+    	}
+    	return "maps/map1";
+    }
+    
     @RequestMapping(value = "/llins/dashboard/", method = RequestMethod.GET)
     public String homeLlins(Model model) {
     	try {

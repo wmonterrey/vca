@@ -18,6 +18,7 @@ return {
 
   $.validator.setDefaults( {
     submitHandler: function () {
+    	$('#datesForm').modal('hide');
     	processEntidad();
     }
   } );
@@ -45,17 +46,17 @@ return {
           required: true
       },
       latitude: {
-          required: false,
+          required: true,
           min:parseFloat(parametros.latitudMinima),
           max:parseFloat(parametros.latitudMaxima)
       },
       zoom:{
-    	  required: false,
+    	  required: true,
     	  min:0,
     	  max:18
       },
       longitude: {
-          required: false,
+          required: true,
           min:parseFloat(parametros.longitudMinima),
           max:parseFloat(parametros.longitudMaxima)
       },
@@ -75,7 +76,51 @@ return {
       value: {
           maxlength: 250,
           required: true
+      },
+      info: {
+          maxlength: 750,
+          required: false
+      },
+      obs: {
+          maxlength: 750,
+          required: false
+      },
+      clave: {
+    	  minlength: 3,
+          maxlength: 500,
+          required: true
+      },
+      local: {
+          required: true
+      },
+      tipo: {
+          required: true
+      },
+      status: {
+          required: true
+      },
+      visitType: {
+          required: true
+      },
+      visitDate: {
+          required: true
+      },
+      fisDate: {
+          required: true
+          
+      },
+      mxDate: {
+          required: true
+      },
+      dateValue: {
+          required: true
+      },
+      size:{
+    	  required: true,
+    	  min:0,
+    	  max:2000
       }
+      
     },
     errorElement: 'em',
     errorPlacement: function ( error, element ) {
