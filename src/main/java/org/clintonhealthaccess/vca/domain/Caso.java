@@ -33,6 +33,9 @@ public class Caso extends BaseMetaData implements Auditable{
 	private String ident;
 	private Localidad local;
 	private String codigo;
+	private String cui;
+	private String casa;
+	private String nombre;
 	private Date fisDate;
 	private Date mxDate;
 	private String inv="0";
@@ -54,7 +57,7 @@ public class Caso extends BaseMetaData implements Auditable{
 	private String info;
 	private Double latitude;
 	private Double longitude;
-	private Integer zoom;
+	private Integer zoom=10;
 	
 	
 	public Caso() {
@@ -92,10 +95,48 @@ public class Caso extends BaseMetaData implements Auditable{
 	}
 
 
+	@Column(name = "cui", nullable = true, length = 100)
+	public String getCui() {
+		return cui;
+	}
+
+
+
+	public void setCui(String cui) {
+		this.cui = cui;
+	}
+
+
+	@Column(name = "casa", nullable = true, length = 100)
+	public String getCasa() {
+		return casa;
+	}
+
+
+
+	public void setCasa(String casa) {
+		this.casa = casa;
+	}
+
+
+	@Column(name = "nombre", nullable = true, length = 500)
+	public String getNombre() {
+		return nombre;
+	}
+
+
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+
 
 	public void setCodigo(String codigo) {
 		this.codigo = codigo;
 	}
+	
+	
 
 	
 	@Column(name = "fisDate", nullable = false)

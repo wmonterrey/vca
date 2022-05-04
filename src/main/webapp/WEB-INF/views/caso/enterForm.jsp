@@ -150,8 +150,26 @@
 	                    </div>
 	                    <div class="form-group">
 	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
+	                        <input type="text" id="cui" name="cui" value="${caso.cui}" class="form-control" placeholder="<spring:message code="cuicase" />">
+	                      </div>
+	                    </div>
+	                    <div class="form-group">
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
+	                        <input type="text" id="casa" name="casa" value="${caso.casa}" class="form-control" placeholder="<spring:message code="housecase" />">
+	                      </div>
+	                    </div>
+	                    <div class="form-group">
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
+	                        <input type="text" id="nombre" name="nombre" value="${caso.nombre}" class="form-control" placeholder="<spring:message code="namecase" />">
+	                      </div>
+	                    </div>
+	                    <div class="form-group">
+	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-sticky-note-o"></i></span>
-	                        <input type="text" id="info" name="info" value="${caso.info}" class="form-control" placeholder="<spring:message code="infopdx" />">
+	                        <input type="text" id="info" name="info" value="${caso.info}" class="form-control" placeholder="<spring:message code="infocase" />">
 	                      </div>
 	                    </div>
                         <div class="form-group">

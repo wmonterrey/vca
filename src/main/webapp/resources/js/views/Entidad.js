@@ -34,6 +34,12 @@ return {
         noSpace:true,
         required: true
       },
+      codigo: {
+      	minlength: 2,
+          maxlength: 15,
+          noSpace:true,
+          required: true
+        },
       name: {
     	  minlength: 3,
           maxlength: 500,
