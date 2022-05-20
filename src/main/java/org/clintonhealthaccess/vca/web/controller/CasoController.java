@@ -304,7 +304,7 @@ public class CasoController {
     		if(!zoom.equals("")) vista = Integer.valueOf(zoom);
     		
     		
-    		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+    		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     		Date fechaMuestra =  null;
     		if (!mxDate.equals("")) fechaMuestra = formatter.parse(mxDate);
     		

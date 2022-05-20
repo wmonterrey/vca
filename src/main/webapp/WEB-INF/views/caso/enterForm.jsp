@@ -113,21 +113,21 @@
 	                      </div>
 	                    </div>
 	                    
-	                    <fmt:formatDate value="${caso.fisDate}" var="fecSintomas" pattern="dd/MM/yyyy" />
+	                    <fmt:formatDate value="${caso.fisDate}" var="fecSintomas" pattern="yyyy-MM-dd" />
 	                    <div class="form-group">
 	                      <label><spring:message code="fisDate" /></label>
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-	                        <input type="text" id="fisDate" name="fisDate" value="${fecSintomas}" class="form-control date-picker" data-date-format="dd/mm/yyyy" data-date-start-date="-90d" data-date-end-date="+0d">
+	                        <input type="text" id="fisDate" name="fisDate" value="${fecSintomas}" class="form-control date-picker" data-date-format="yyyy-mm-dd" data-date-start-date="-90d" data-date-end-date="+0d">
 	                      </div>
 	                    </div> 
 	                    
-	                    <fmt:formatDate value="${caso.mxDate}" var="fecMuestra" pattern="dd/MM/yyyy" />
+	                    <fmt:formatDate value="${caso.mxDate}" var="fecMuestra" pattern="yyyy-MM-dd" />
 	                    <div class="form-group">
 	                      <label><spring:message code="mxDate" /></label>
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-	                        <input type="text" id="mxDate" name="mxDate" value="${fecMuestra}" class="form-control date-picker" data-date-format="dd/mm/yyyy" data-date-start-date="-90d" data-date-end-date="+0d">
+	                        <input type="text" id="mxDate" name="mxDate" value="${fecMuestra}" class="form-control date-picker" data-date-format="yyyy-mm-dd" data-date-start-date="-90d" data-date-end-date="+0d">
 	                      </div>
 	                    </div> 
 	                    <div class="form-group">

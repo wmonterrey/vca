@@ -1,6 +1,7 @@
 package org.clintonhealthaccess.vca.web.controller;
 
 import org.clintonhealthaccess.vca.domain.Parametro;
+import org.clintonhealthaccess.vca.domain.audit.AuditTrail;
 import org.clintonhealthaccess.vca.service.ParametroService;
 import org.clintonhealthaccess.vca.service.AuditTrailService;
 import org.clintonhealthaccess.vca.service.MessageResourceService;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
@@ -82,6 +84,29 @@ public class AdminParametrosController {
 			return "403";
 		}
 	}
+    
+    
+    /**
+     * Custom handler for displaying.
+     *
+     * @param ident the ID to display
+     * @return a ModelMap with the model attributes for the view
+     */
+    @RequestMapping("/{ident}/")
+    public ModelAndView showEntity(@PathVariable("ident") String ident) {
+    	ModelAndView mav;
+    	Parametro parametro = this.parametroService.getParametro(ident);
+        if(parametro==null){
+        	mav = new ModelAndView("403");
+        }
+        else{
+        	mav = new ModelAndView("admin/parametros/viewForm");
+        	mav.addObject("parametro",parametro);
+            List<AuditTrail> bitacora = auditTrailService.getBitacora(ident);
+            mav.addObject("bitacora",bitacora);
+        }
+        return mav;
+    }
 	
     /**
      * Custom handler for saving.

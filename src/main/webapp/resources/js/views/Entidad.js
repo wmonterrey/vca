@@ -26,6 +26,12 @@ return {
   jQuery.validator.addMethod("noSpace", function(value, element) { 
 		  return value.indexOf(" ") < 0 && value != ""; 
 	}, "Invalid");
+  
+  jQuery.validator.addMethod("menorIgualQue", function(value, element, param) { 
+	  return this.optional(element) || value <= $(param).val();
+  }, "Invalid value");
+  
+  
   $( '#add-form' ).validate( {
     rules: {
       code: {
@@ -112,7 +118,8 @@ return {
           required: true
       },
       fisDate: {
-          required: true
+          required: true,
+          menorIgualQue:"#mxDate"
           
       },
       mxDate: {
@@ -168,7 +175,7 @@ return {
 						$('#ident').val(entidad.ident);
 						setTimeout(function() { 
 				            $.unblockUI({ 
-				                onUnblock: function(){ window.location.href = parametros.listUrl; } 
+				                onUnblock: function(){ window.location.href = parametros.listUrl+entidad.ident+ "/"; } 
 				            }); 
 				        }, 1000); 
 					}

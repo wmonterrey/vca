@@ -59,6 +59,10 @@
       	<div class="animated fadeIn">
 		<spring:url value="/admin/casos/saveEntity/" var="saveUrl"></spring:url>
 		<spring:url value="/admin/casos/" var="listUrl"/>
+		<spring:url value="/admin/casos/{id}/"
+                  var="cancelUrl">
+          <spring:param name="id" value="${caso.ident}" />
+      </spring:url>
 
           	<div class="row">
           		<div class="col-md-4">
@@ -86,7 +90,7 @@
 				                      </div>
 				                    </div>  
 				                    
-				                    <fmt:formatDate value="${caso.fisDate}" var="fecSintomas" pattern="dd/MM/yyyy" />
+				                    <fmt:formatDate value="${caso.fisDate}" var="fecSintomas" pattern="yyyy-MM-dd" />
 				                    <div class="form-group" style = "display:none">
 				                      <label><spring:message code="fisDate" /></label>
 				                      <div class="input-group">
@@ -95,7 +99,7 @@
 				                      </div>
 				                    </div> 
 				                    
-				                    <fmt:formatDate value="${caso.mxDate}" var="fecMuestra" pattern="dd/MM/yyyy" />
+				                    <fmt:formatDate value="${caso.mxDate}" var="fecMuestra" pattern="yyyy-MM-dd" />
 				                    <div class="form-group" style = "display:none">
 				                      <label><spring:message code="mxDate" /></label>
 				                      <div class="input-group">
@@ -136,7 +140,7 @@
 				                    </div>
 			                        <div class="form-group">
 			                          <button type="submit" class="btn btn-primary" id="guardar"><i class="fa fa-save"></i>&nbsp;<spring:message code="save" /></button>
-									  <a href="${fn:escapeXml(listUrl)}" class="btn btn-danger"><i class="fa fa-undo"></i>&nbsp;<spring:message code="cancel" /></a>
+									  <a href="${fn:escapeXml(cancelUrl)}" class="btn btn-danger"><i class="fa fa-undo"></i>&nbsp;<spring:message code="cancel" /></a>
 			                        </div>
 			                      </form>
 			                    </div>
