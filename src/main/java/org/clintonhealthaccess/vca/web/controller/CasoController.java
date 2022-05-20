@@ -292,6 +292,10 @@ public class CasoController {
 	        , @RequestParam( value="info", required=false, defaultValue ="" ) String info
 	        , @RequestParam( value="fisDate", required=true ) String fisDate
 	        , @RequestParam( value="mxDate", required=true ) String mxDate
+	        , @RequestParam( value="codE1", required=false ) String codE1
+	        , @RequestParam( value="cui", required=false ) String cui
+	        , @RequestParam( value="casa", required=false ) String casa
+	        , @RequestParam( value="nombre", required=false ) String nombre
 	        )
 	{
     	try{
@@ -335,6 +339,11 @@ public class CasoController {
 			caso.setInfo(info);
 			caso.setMxDate(fechaMuestra);
 			caso.setFisDate(fechaSintomas);
+			caso.setCodE1(codE1);
+			caso.setCasa(casa);
+			caso.setCui(cui);
+			caso.setNombre(nombre);
+			
 			//Actualiza
 			this.casoService.saveCaso(caso);
 			return createJsonResponse(caso);

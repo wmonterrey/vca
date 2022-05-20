@@ -34,6 +34,7 @@ public class Caso extends BaseMetaData implements Auditable{
 	private Localidad local;
 	private String codigo;
 	private String cui;
+	private String codE1;
 	private String casa;
 	private String nombre;
 	private Date fisDate;
@@ -93,6 +94,18 @@ public class Caso extends BaseMetaData implements Auditable{
 	public String getCodigo() {
 		return codigo;
 	}
+
+
+	public String getCodE1() {
+		return codE1;
+	}
+
+
+
+	public void setCodE1(String codE1) {
+		this.codE1 = codE1;
+	}
+
 
 
 	@Column(name = "cui", nullable = true, length = 100)

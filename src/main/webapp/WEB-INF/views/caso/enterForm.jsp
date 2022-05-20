@@ -157,6 +157,12 @@
 	                    <div class="form-group">
 	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
+	                        <input type="text" id="codE1" name="codE1" value="${caso.codE1}" class="form-control" placeholder="<spring:message code="codE1" />">
+	                      </div>
+	                    </div>
+	                    <div class="form-group">
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
 	                        <input type="text" id="casa" name="casa" value="${caso.casa}" class="form-control" placeholder="<spring:message code="housecase" />">
 	                      </div>
 	                    </div>
