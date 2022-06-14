@@ -85,6 +85,7 @@
 	                    <th class="hidden-xs"><spring:message code="locality" /></th>
 	                    <th class="hidden-xs"><spring:message code="fisDate" /></th>
 	                    <th class="hidden-xs"><spring:message code="mxDate" /></th>
+	                    <th class="hidden-xs"><spring:message code="mxType" /></th>
 	                    <th class="hidden-xs"><spring:message code="inv" /></th>
 	                    <th class="hidden-xs"><spring:message code="invDate" /></th>
 	                    <th class="hidden-xs"><spring:message code="tx" /></th>
@@ -97,6 +98,13 @@
 	                    <th class="hidden-xs"><spring:message code="sxResult" /></th>
 	                    <th class="hidden-xs"><spring:message code="sxComp" /></th>
 	                    <th class="hidden-xs"><spring:message code="sxCompDate" /></th>
+	                    <th class="hidden-xs"><spring:message code="sxCompResult" /></th>
+	                    <th class="hidden-xs"><spring:message code="lostFollowUp" /></th>
+	                    <th class="hidden-xs"><spring:message code="lostFollowUpReason" /></th>
+	                    <th class="hidden-xs"><spring:message code="cuicase" /></th>
+	                    <th class="hidden-xs"><spring:message code="code1case" /></th>
+	                    <th class="hidden-xs"><spring:message code="housecase" /></th>
+	                    <th class="hidden-xs"><spring:message code="namecase" /></th>
 	                    <th class="hidden-xs"><spring:message code="infocase" /></th>
 	                    <th><spring:message code="enabled" /></th>
 	                    <th><spring:message code="createdBy" /></th>
@@ -127,6 +135,7 @@
                             <td class="hidden-xs"><c:out value="${caso.local.name}" /></td>
                             <td class="hidden-xs"><c:out value="${fecsintomas}" /></td>
                             <td class="hidden-xs"><c:out value="${fecmuestra}" /></td>
+                            <td class="hidden-xs"><c:out value="${caso.mxType}" /></td>
                             <c:choose>
                                 <c:when test="${caso.inv eq '1'}">
                                     <td><span class="badge badge-success"><spring:message code="CAT_SINO_SI" /></span></td>
@@ -174,6 +183,20 @@
                                 </c:otherwise>
                             </c:choose>
                             <td class="hidden-xs"><c:out value="${fecsx4}" /></td>
+                            <td class="hidden-xs"><c:out value="${caso.sxCompResult}" /></td>
+                            <c:choose>
+                                <c:when test="${caso.lostFollowUp eq '1'}">
+                                    <td><span class="badge badge-success"><spring:message code="CAT_SINO_SI" /></span></td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td><span class="badge badge-danger"><spring:message code="CAT_SINO_NO" /></span></td>
+                                </c:otherwise>
+                            </c:choose>
+                            <td class="hidden-xs"><c:out value="${caso.lostFollowUpReason}" /></td>
+                            <td class="hidden-xs"><c:out value="${caso.cui}" /></td>
+                            <td class="hidden-xs"><c:out value="${caso.codE1}" /></td>
+                            <td class="hidden-xs"><c:out value="${caso.casa}" /></td>
+                            <td class="hidden-xs"><c:out value="${caso.nombre}" /></td>
                             <td class="hidden-xs"><c:out value="${caso.info}" /></td>
                             <c:choose>
                                 <c:when test="${caso.pasive eq '0'.charAt(0)}">

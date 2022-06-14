@@ -129,6 +129,24 @@
 	                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 	                        <input type="text" id="mxDate" name="mxDate" value="${fecMuestra}" class="form-control date-picker" data-date-format="yyyy-mm-dd" data-date-start-date="-90d" data-date-end-date="+0d">
 	                      </div>
+	                    </div>
+	                    <div class="form-group">
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="icon-eye"></i></span>
+	                        <select name="mxType" id="mxType" class="form-control select2-single">
+	                        	<option value=""><spring:message code="mxType" /> - <spring:message code="empty" /></option>
+	                        	<c:forEach items="${tiposPrueba}" var="tiposPrueba">
+									<c:choose> 
+										<c:when test="${tiposPrueba.catKey eq caso.mxType}">
+											<option selected value="${tiposPrueba.catKey}"><spring:message code="${tiposPrueba.messageKey}" /></option>
+										</c:when>
+										<c:otherwise>
+											<option value="${tiposPrueba.catKey}"><spring:message code="${tiposPrueba.messageKey}" /></option>
+										</c:otherwise>
+									</c:choose> 
+								</c:forEach>
+	                        </select>
+	                      </div>
 	                    </div> 
 	                    <div class="form-group">
 	                      <div class="input-group">
@@ -260,7 +278,7 @@
 		ProcessEntity.init(parametros);
 	});
 	
-	$('#local,#estadocaso').select2({
+	$('#local,#estadocaso,#mxType').select2({
 	    theme: "bootstrap",
 	    width: '100%'
 	});

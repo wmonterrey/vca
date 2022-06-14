@@ -39,6 +39,7 @@ public class Caso extends BaseMetaData implements Auditable{
 	private String nombre;
 	private Date fisDate;
 	private Date mxDate;
+	private String mxType;
 	private String inv="0";
 	private Date invDate;
 	private String tx="0";
@@ -180,6 +181,18 @@ public class Caso extends BaseMetaData implements Auditable{
 	
 	
 	
+	@Column(name = "mxType", nullable = false, length = 50)
+	public String getMxType() {
+		return mxType;
+	}
+
+
+
+	public void setMxType(String mxType) {
+		this.mxType = mxType;
+	}
+
+
 
 	@Column(name = "inv", nullable = false, length = 1)
 	public String getInv() {
@@ -328,7 +341,7 @@ public class Caso extends BaseMetaData implements Auditable{
 		this.sxComp = sxComp;
 	}
 	
-	@Column(name = "lostFollowUpReason", nullable = true, length = 750)
+	@Column(name = "lostFollowUpReason", nullable = true, length = 50)
 	public String getLostFollowUpReason() {
 		return lostFollowUpReason;
 	}

@@ -38,7 +38,7 @@ public class CasoService {
 		// Retrieve session from Hibernate
 		Session session = sessionFactory.getCurrentSession();
 		// Create a Hibernate query (HQL)
-		Query query = session.createQuery("FROM Caso");
+		Query query = session.createQuery("FROM Caso c where c.codigo='CASO004'");
 		// Retrieve all
 		return  query.list();
 	}

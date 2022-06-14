@@ -78,6 +78,21 @@ public class CasoController {
         			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
         			caso.setSxResult(descCatalogo);
         		}
+        		mr = this.messageResourceService.getMensaje(caso.getSxCompResult(),"CAT_RES");
+        		if(mr!=null) {
+        			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
+        			caso.setSxCompResult(descCatalogo);
+        		}
+        		mr = this.messageResourceService.getMensaje(caso.getMxType(),"CAT_TIPOPRUEBA");
+        		if(mr!=null) {
+        			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
+        			caso.setMxType(descCatalogo);
+        		}
+        		mr = this.messageResourceService.getMensaje(caso.getLostFollowUpReason(),"CAT_LOSTFOLLOWUP");
+        		if(mr!=null) {
+        			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
+        			caso.setLostFollowUpReason(descCatalogo);
+        		}
         	}
         }
     	model.addAttribute("casos", casos);
@@ -138,6 +153,8 @@ public class CasoController {
     	model.addAttribute("latitudMaxima", latitudMaxima);
     	model.addAttribute("longitudMinima", longitudMinima);
     	model.addAttribute("longitudMaxima", longitudMaxima);
+    	List<MessageResource> tiposPrueba = this.messageResourceService.getCatalogo("CAT_TIPOPRUEBA"); 
+    	model.addAttribute("tiposPrueba", tiposPrueba);
     	return "caso/enterForm";
 	}
     
@@ -167,6 +184,26 @@ public class CasoController {
         			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
         			caso.setEstadocaso(descCatalogo);
         		}
+        		/*mr = this.messageResourceService.getMensaje(caso.getSxResult(),"CAT_RES");
+        		if(mr!=null) {
+        			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
+        			caso.setSxResult(descCatalogo);
+        		}
+        		mr = this.messageResourceService.getMensaje(caso.getSxCompResult(),"CAT_RES");
+        		if(mr!=null) {
+        			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
+        			caso.setSxCompResult(descCatalogo);
+        		}*/
+        		mr = this.messageResourceService.getMensaje(caso.getMxType(),"CAT_TIPOPRUEBA");
+        		if(mr!=null) {
+        			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
+        			caso.setMxType(descCatalogo);
+        		}
+        		mr = this.messageResourceService.getMensaje(caso.getLostFollowUpReason(),"CAT_LOSTFOLLOWUP");
+        		if(mr!=null) {
+        			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
+        			caso.setLostFollowUpReason(descCatalogo);
+        		}
 	        	mav.addObject("caso",caso);
 	        	if(parametroService.getParametroByCode("zoom")!=null) zoom = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
 	        	if(parametroService.getParametroByCode("lat")!=null) latitud = Double.parseDouble(parametroService.getParametroByCode("lat").getValue());
@@ -179,10 +216,10 @@ public class CasoController {
 	        	mav.addObject("zoom",zoom);
 	        	List<AuditTrail> bitacora = auditTrailService.getBitacora(ident);
 	            mav.addObject("bitacora",bitacora);
-	            List<MessageResource> dias = this.messageResourceService.getCatalogo("CAT_DIASSX"); 
-	            mav.addObject("dias",dias);
 	            List<MessageResource> resultados = this.messageResourceService.getCatalogo("CAT_RES"); 
 	            mav.addObject("resultados",resultados);
+	            List<MessageResource> razones = this.messageResourceService.getCatalogo("CAT_LOSTFOLLOWUP"); 
+	            mav.addObject("razones",razones);
 	            
         	}
         	catch (Exception e) {
@@ -209,6 +246,8 @@ public class CasoController {
 	    	Float longitudMaxima=0F;
 	    	List<Localidad> localidades = localidadService.getActiveLocalitiesUsuario(SecurityContextHolder.getContext().getAuthentication().getName());
 	    	model.addAttribute("localidades", localidades);
+	    	List<MessageResource> tiposPrueba = this.messageResourceService.getCatalogo("CAT_TIPOPRUEBA"); 
+	    	model.addAttribute("tiposPrueba", tiposPrueba);
 			model.addAttribute("caso",caso);
 			if(parametroService.getParametroByCode("latMin")!=null) latitudMinima = Float.parseFloat(parametroService.getParametroByCode("latMin").getValue());
 			if(parametroService.getParametroByCode("latMax")!=null) latitudMaxima = Float.parseFloat(parametroService.getParametroByCode("latMax").getValue());
@@ -292,6 +331,7 @@ public class CasoController {
 	        , @RequestParam( value="info", required=false, defaultValue ="" ) String info
 	        , @RequestParam( value="fisDate", required=true ) String fisDate
 	        , @RequestParam( value="mxDate", required=true ) String mxDate
+	        , @RequestParam( value="mxType", required=true ) String mxType
 	        , @RequestParam( value="codE1", required=false ) String codE1
 	        , @RequestParam( value="cui", required=false ) String cui
 	        , @RequestParam( value="casa", required=false ) String casa
@@ -343,6 +383,7 @@ public class CasoController {
 			caso.setCasa(casa);
 			caso.setCui(cui);
 			caso.setNombre(nombre);
+			caso.setMxType(mxType);
 			
 			//Actualiza
 			this.casoService.saveCaso(caso);
@@ -439,6 +480,8 @@ public class CasoController {
     	if(caso!=null){
     		caso.setInv("0");
     		caso.setInvDate(null);
+    		String estado = obtenerEstado(caso);
+    		caso.setEstadocaso(estado);
     		this.casoService.saveCaso(caso);
     		redirectAttributes.addFlashAttribute("completo", true);
     		redirecTo = "redirect:/admin/casos/"+caso.getIdent()+"/";
@@ -464,7 +507,10 @@ public class CasoController {
 		Caso caso = this.casoService.getCaso(ident);
     	if(caso!=null){
     		caso.setTx("0");
+    		caso.setTxSup("No");
     		caso.setTxDate(null);
+    		String estado = obtenerEstado(caso);
+    		caso.setEstadocaso(estado);
     		this.casoService.saveCaso(caso);
     		redirectAttributes.addFlashAttribute("completo", true);
     		redirecTo = "redirect:/admin/casos/"+caso.getIdent()+"/";
@@ -490,6 +536,8 @@ public class CasoController {
     	if(caso!=null){
     		caso.setTxComp("0");
     		caso.setTxCompDate(null);
+    		String estado = obtenerEstado(caso);
+    		caso.setEstadocaso(estado);
     		this.casoService.saveCaso(caso);
     		redirectAttributes.addFlashAttribute("completo", true);
     		redirecTo = "redirect:/admin/casos/"+caso.getIdent()+"/";
@@ -517,6 +565,8 @@ public class CasoController {
     		caso.setSx("0");
     		caso.setSxDate(null);
     		caso.setSxResult(null);
+    		String estado = obtenerEstado(caso);
+    		caso.setEstadocaso(estado);
     		this.casoService.saveCaso(caso);
     		redirectAttributes.addFlashAttribute("completo", true);
     		redirecTo = "redirect:/admin/casos/"+caso.getIdent()+"/";
@@ -544,6 +594,36 @@ public class CasoController {
     		caso.setSxComp("0");
     		caso.setSxCompDate(null);
     		caso.setSxCompResult(null);
+    		String estado = obtenerEstado(caso);
+    		caso.setEstadocaso(estado);
+    		this.casoService.saveCaso(caso);
+    		redirectAttributes.addFlashAttribute("completo", true);
+    		redirecTo = "redirect:/admin/casos/"+caso.getIdent()+"/";
+    	}
+    	else{
+    		redirecTo = "403";
+    	}
+    	return redirecTo;	
+    }
+    
+    
+    /**
+     * Custom handler for disabling.
+     *
+     * @param ident the ID to disable
+     * @param redirectAttributes 
+     * @return a String
+     */
+    @RequestMapping("/lostno/{ident}/")
+    public String lostNo(@PathVariable("ident") String ident, 
+    		RedirectAttributes redirectAttributes) {
+    	String redirecTo="404";
+		Caso caso = this.casoService.getCaso(ident);
+    	if(caso!=null){
+    		caso.setLostFollowUp("0");
+    		caso.setLostFollowUpReason(null);
+    		String estado = obtenerEstado(caso);
+    		caso.setEstadocaso(estado);
     		this.casoService.saveCaso(caso);
     		redirectAttributes.addFlashAttribute("completo", true);
     		redirecTo = "redirect:/admin/casos/"+caso.getIdent()+"/";
@@ -582,6 +662,7 @@ public class CasoController {
 	        , @RequestParam( value="dia13", required=false, defaultValue="" ) String dia13
 	        , @RequestParam( value="dia14", required=false, defaultValue="" ) String dia14
 	        , @RequestParam( value="resultado", required=false, defaultValue="" ) String resultado
+	        , @RequestParam( value="lostFollowUpReason", required=false, defaultValue="" ) String lostFollowUpReason
 	        )
 	{
     	try{
@@ -596,7 +677,7 @@ public class CasoController {
         				caso.setInvDate(valorFecha);
         			}
         			else {
-        				return createJsonResponse("Fecha incorrecta");
+        				return createJsonResponse("Fecha de investigación incorrecta. Tiene que ser mayor a " + caso.getMxDate());
         			}
         		}
         		else if(dataElement.equals("tx")) {
@@ -605,7 +686,7 @@ public class CasoController {
         				caso.setTxDate(valorFecha);
         			}
         			else {
-        				return createJsonResponse("Fecha incorrecta");
+        				return createJsonResponse("Fecha de inicio de tratamiento incorrecta. Tiene que ser mayor " + caso.getMxDate());
         			}
         		}
         		else if(dataElement.equals("txComp")) {
@@ -614,7 +695,7 @@ public class CasoController {
         				caso.setTxCompDate(valorFecha);
         			}
         			else {
-        				return createJsonResponse("Fecha incorrecta");
+        				return createJsonResponse("Fecha de fin de tratamiento incorrecta. Tiene que ser mayor a " + caso.getTxDate());
         			}
         		}
         		else if(dataElement.equals("sx")) {
@@ -624,7 +705,7 @@ public class CasoController {
         				caso.setSxResult(resultado);
         			}
         			else {
-        				return createJsonResponse("Fecha incorrecta");
+        				return createJsonResponse("Fecha de seguimiento incorrecta. Tiene que ser mayor a " + caso.getTxDate());
         			}
         		}
         		else if(dataElement.equals("sxComp")) {
@@ -634,12 +715,19 @@ public class CasoController {
         				caso.setSxCompResult(resultado);
         			}
         			else {
-        				return createJsonResponse("Fecha incorrecta");
+        				return createJsonResponse("Fecha de seguimiento incorrecta. Tiene que ser mayor " + caso.getTxDate());
         			}
         		}
         		else if(dataElement.equals("txSup")) {
-        			caso.setTxSup(dia1 + dia2 + dia3 + dia4 + dia5 + dia6 + dia7 + dia8 + dia9 + dia10 + dia11 + dia12 + dia13 + dia14);
+        			caso.setTxSup(dia1 + " " +dia2 + " " +dia3 + " " +dia4 +" " + dia5 +" " + dia6 +" " + dia7 +" " +
+        						dia8 +" " + dia9 +" " + dia10 +" " + dia11 +" " + dia12 +" " + dia13 +" " + dia14);
         		}
+        		else if(dataElement.equals("lostFollowUp")) {
+        			caso.setLostFollowUp("1");
+        			caso.setLostFollowUpReason(lostFollowUpReason);
+        		}
+        		String estado = obtenerEstado(caso);
+        		caso.setEstadocaso(estado);
         		this.casoService.saveCaso(caso);
         	}
 			return createJsonResponse(caso);
@@ -657,6 +745,37 @@ public class CasoController {
 		}
     	
 	}
+    
+    
+    public String obtenerEstado (Caso caso) {
+    	
+    	if(caso.getLostFollowUp().equals("1")) {
+    		return "SEGINC";
+    	}
+    	else if (caso.getSxCompResult()!= null) {
+    		if (caso.getSxCompResult().equals("NEG")) {
+    			return "SEG4";
+    		}
+    		else {
+    			return "SEGPOS";
+    		}
+    	}
+    	else if (caso.getSxResult()!= null) {
+    		if (caso.getSxResult().equals("NEG")) {
+    			return "SEG2";
+    		}
+    		else {
+    			return "SEGPOS";
+    		}
+    	}
+    	else if (caso.getTxComp().equals("1")) {
+    		return "TRATC";
+    	}
+    	else if (caso.getTx().equals("1")) {
+    		return "TRAT";
+    	}
+    	return "CONF";
+    }
     
     
 

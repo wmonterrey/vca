@@ -107,6 +107,13 @@
 				<spring:param name="id" value="${caso.ident}" />
 			</spring:url>
 			
+			<c:set var="labellostFollowUpsi"><spring:message code="lostFollowUpsi" /> <c:out value="${caso.codigo}" /></c:set>
+			<c:set var="labellostFollowUpno"><spring:message code="lostFollowUpno" /> <c:out value="${caso.codigo}" /></c:set>
+			<c:set var="labellostFollow"><spring:message code="lostFollowUp" /></c:set>
+			<spring:url value="/admin/casos/lostno/{id}/" var="labellostFollowUpnoUrl">
+				<spring:param name="id" value="${caso.ident}" />
+			</spring:url>
+			
 			
           	<div class="row">
 	            <div class="col-md-6">
@@ -118,49 +125,57 @@
 						    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="icon-settings">&nbsp;<spring:message code="actions" /></i></a>
 						    <div class="dropdown-menu">
 						    	
-						    	<c:if test="${caso.inv eq '1'}">
+						    	<c:if test="${caso.inv eq '1' and caso.lostFollowUp eq '0'}">
 						    		<a class="dropdown-item desact" data-nomitem="${labelinvno}" data-toggle="modal" data-whatever="${fn:escapeXml(invnoUrl)}"><i class="fa fa-times"></i> <spring:message code="invno" /></a>
 						    	</c:if>
 						    	
-						    	<c:if test="${caso.inv eq '0'}">
+						    	<c:if test="${caso.inv eq '0' and caso.lostFollowUp eq '0'}">
 						    		<a class="dropdown-item accionsi" data-elemento="inv" data-nomitem="${labelinvsi}" data-pregitem="${labelinvDate}" data-toggle="modal"><i class="fa fa-check"></i> <spring:message code="invsi" /></a>
 						    	</c:if>
 						    	
-						    	<c:if test="${caso.tx eq '1' and caso.txComp eq '0' and caso.sx eq '0' and caso.sxComp eq '0'}">
+						    	<c:if test="${caso.tx eq '1' and caso.txComp eq '0' and caso.lostFollowUp eq '0'}">
 						    		<a class="dropdown-item desact" data-nomitem="${labeltxno}" data-toggle="modal" data-whatever="${fn:escapeXml(txnoUrl)}"><i class="fa fa-times"></i> <spring:message code="txno" /></a>
 						    	</c:if>
 						    	
-						    	<c:if test="${caso.tx eq '0'}">
+						    	<c:if test="${caso.tx eq '0' and caso.lostFollowUp eq '0'}">
 						    		<a class="dropdown-item accionsi" data-elemento="tx" data-nomitem="${labeltxsi}" data-pregitem="${labeltxDate}" data-toggle="modal"><i class="fa fa-check"></i> <spring:message code="txsi" /></a>
 						    	</c:if>
 						    	
-						    	<c:if test="${caso.tx eq '1'}">
+						    	<c:if test="${caso.tx eq '1' and caso.lostFollowUp eq '0'}">
 						    		<a class="dropdown-item acciondiassi" data-elemento="txSup" data-nomitem="${labeltxSupsi}" data-pregitem="${labeltxSupdias}" data-toggle="modal"><i class="fa fa-check"></i> <spring:message code="txSupsi" /></a>
 						    	</c:if>
 						    	
-						    	<c:if test="${caso.txComp eq '1' and caso.sx eq '0' and caso.sxComp eq '0'}">
+						    	<c:if test="${caso.txComp eq '1' and caso.lostFollowUp eq '0'}">
 						    		<a class="dropdown-item desact" data-nomitem="${labeltxCompno}" data-toggle="modal" data-whatever="${fn:escapeXml(txCompnoUrl)}"><i class="fa fa-times"></i> <spring:message code="txCompno" /></a>
 						    	</c:if>
 						    	
-						    	<c:if test="${caso.txComp eq '0' and caso.tx eq '1'}">
+						    	<c:if test="${caso.txComp eq '0' and caso.tx eq '1' and caso.lostFollowUp eq '0'}">
 						    		<a class="dropdown-item accionsi" data-elemento="txComp" data-nomitem="${labeltxCompsi}" data-pregitem="${labeltxCompDate}" data-toggle="modal"><i class="fa fa-check"></i> <spring:message code="txCompsi" /></a>
 						    	</c:if>
 						    	
-						    	<c:if test="${caso.sx eq '1'}">
+						    	<c:if test="${caso.sx eq '1' and caso.lostFollowUp eq '0'}">
 						    		<a class="dropdown-item desact" data-nomitem="${labelsxno}" data-toggle="modal" data-whatever="${fn:escapeXml(sxnoUrl)}"><i class="fa fa-times"></i> <spring:message code="sxno" /></a>
 						    	</c:if>
 						    	
-						    	<c:if test="${caso.sx eq '0' and caso.txComp eq '1'}">
+						    	<c:if test="${caso.sx eq '0' and caso.txComp eq '1' and caso.lostFollowUp eq '0'}">
 						    		<a class="dropdown-item accionressi" data-elemento="sx" data-nomitem="${labelsxsi}" data-pregitem="${labelsxDate}" data-toggle="modal"><i class="fa fa-check"></i> <spring:message code="sxsi" /></a>
 						    	</c:if>
 						    	
-						    	<c:if test="${caso.sxComp eq '1'}">
+						    	<c:if test="${caso.sxComp eq '1' and caso.lostFollowUp eq '0'}">
 						    		<a class="dropdown-item desact" data-nomitem="${labelsxCompno}" data-toggle="modal" data-whatever="${fn:escapeXml(sxCompnoUrl)}"><i class="fa fa-times"></i> <spring:message code="sxCompno" /></a>
 						    	</c:if>
 						    	
-						    	<c:if test="${caso.sxComp eq '0' and caso.txComp eq '1'}">
+						    	<c:if test="${caso.sxComp eq '0' and caso.txComp eq '1' and caso.lostFollowUp eq '0' and caso.sxResult ne 'POS'}">
 						    		<a class="dropdown-item accionressi" data-elemento="sxComp" data-nomitem="${labelsxCompsi}" data-pregitem="${labelsxCompDate}" data-toggle="modal"><i class="fa fa-check"></i> <spring:message code="sxCompsi" /></a>
 						    	</c:if>
+						    	
+						    	<c:if test="${caso.sxComp eq '0' and caso.lostFollowUp eq '0' and caso.sxCompResult ne 'POS' and caso.sxResult ne 'POS'}">
+						    		<a class="dropdown-item accionlostsi" data-elemento="lostFollowUp" data-nomitem="${labellostFollowUpsi}" data-pregitem="${lostFollowUp}" data-toggle="modal"><i class="fa fa-times"></i> <spring:message code="lostFollowUpsi" /></a>
+						    	</c:if>
+						    	<c:if test="${caso.lostFollowUp eq '1'}">
+						    		<a class="dropdown-item desact" data-nomitem="${labellostFollowUpno}" data-toggle="modal" data-whatever="${fn:escapeXml(labellostFollowUpnoUrl)}"><i class="fa fa-check"></i> <spring:message code="lostFollowUpno" /></a>
+						    	</c:if>
+						    	
 						    	
 						    </div>
 						  </li>
@@ -185,18 +200,24 @@
 		                        <p class="form-control-static"><strong><c:out value="${caso.estadocaso}" /></strong></p>
 		                      </div>
 		                    </div>
-		                    <fmt:formatDate value="${caso.fisDate}" var="fecSintomas" pattern="dd/MM/yyyy" />
+		                    <fmt:formatDate value="${caso.fisDate}" var="fecSintomas" pattern="yyyy-MM-dd" />
 		                    <div class="form-group row">
 		                      <label class="col-md-3 col-form-label"><spring:message code="fisDate" />:</label>
 		                      <div class="col-md-9">
 		                        <p class="form-control-static"><strong><c:out value="${fecSintomas}" /></strong></p>
 		                      </div>
 		                    </div>
-		                    <fmt:formatDate value="${caso.mxDate}" var="fecMuestra" pattern="dd/MM/yyyy" />
+		                    <fmt:formatDate value="${caso.mxDate}" var="fecMuestra" pattern="yyyy-MM-dd" />
 		                    <div class="form-group row">
 		                      <label class="col-md-3 col-form-label"><spring:message code="mxDate" />:</label>
 		                      <div class="col-md-9">
 		                        <p class="form-control-static"><strong><c:out value="${fecMuestra}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-3 col-form-label"><spring:message code="mxType" />:</label>
+		                      <div class="col-md-9">
+		                        <p class="form-control-static"><strong><c:out value="${caso.mxType}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
@@ -214,7 +235,7 @@
 								</p>
 		                      </div>
 		                    </div>
-		                    <fmt:formatDate value="${caso.invDate}" var="fecInv" pattern="dd/MM/yyyy" />
+		                    <fmt:formatDate value="${caso.invDate}" var="fecInv" pattern="yyyy-MM-dd" />
 		                    <div class="form-group row">
 		                      <label class="col-md-3 col-form-label"><spring:message code="invDate" />:</label>
 		                      <div class="col-md-9">
@@ -236,7 +257,7 @@
 								</p>
 		                      </div>
 		                    </div>
-		                    <fmt:formatDate value="${caso.txDate}" var="fecIniTx" pattern="dd/MM/yyyy" />
+		                    <fmt:formatDate value="${caso.txDate}" var="fecIniTx" pattern="yyyy-MM-dd" />
 		                    <div class="form-group row">
 		                      <label class="col-md-3 col-form-label"><spring:message code="txDate" />:</label>
 		                      <div class="col-md-9">
@@ -264,7 +285,7 @@
 								</p>
 		                      </div>
 		                    </div>
-		                    <fmt:formatDate value="${caso.txCompDate}" var="fecCompTx" pattern="dd/MM/yyyy" />
+		                    <fmt:formatDate value="${caso.txCompDate}" var="fecCompTx" pattern="yyyy-MM-dd" />
 		                    <div class="form-group row">
 		                      <label class="col-md-3 col-form-label"><spring:message code="txCompDate" />:</label>
 		                      <div class="col-md-9">
@@ -286,7 +307,7 @@
 								</p>
 		                      </div>
 		                    </div>
-		                    <fmt:formatDate value="${caso.sxDate}" var="fecIniSx" pattern="dd/MM/yyyy" />
+		                    <fmt:formatDate value="${caso.sxDate}" var="fecIniSx" pattern="yyyy-MM-dd" />
 		                    <div class="form-group row">
 		                      <label class="col-md-3 col-form-label"><spring:message code="sxDate" />:</label>
 		                      <div class="col-md-9">
@@ -314,11 +335,38 @@
 								</p>
 		                      </div>
 		                    </div>
-		                    <fmt:formatDate value="${caso.sxCompDate}" var="fecCompSx" pattern="dd/MM/yyyy" />
+		                    <fmt:formatDate value="${caso.sxCompDate}" var="fecCompSx" pattern="yyyy-MM-dd" />
 		                    <div class="form-group row">
 		                      <label class="col-md-3 col-form-label"><spring:message code="sxCompDate" />:</label>
 		                      <div class="col-md-9">
 		                        <p class="form-control-static"><strong><c:out value="${fecCompSx}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-3 col-form-label"><spring:message code="sxCompResult" />:</label>
+		                      <div class="col-md-9">
+		                        <p class="form-control-static"><strong><c:out value="${caso.sxCompResult}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-3 col-form-label"><spring:message code="lostFollowUp" />:</label>
+		                      <div class="col-md-9">
+		                        <p class="form-control-static">
+		                        	<c:choose>
+										<c:when test="${caso.lostFollowUp eq '1'}">
+											<strong><spring:message code="CAT_SINO_SI" /></strong>
+										</c:when>
+										<c:otherwise>
+											<strong><spring:message code="CAT_SINO_NO" /></strong>
+										</c:otherwise>
+									</c:choose>
+								</p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-3 col-form-label"><spring:message code="lostFollowUpReason" />:</label>
+		                      <div class="col-md-9">
+		                        <p class="form-control-static"><strong><c:out value="${caso.lostFollowUpReason}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
@@ -343,6 +391,30 @@
 		                      <label class="col-md-3 col-form-label"><spring:message code="location" />:</label>
 		                      <div class="col-md-9">
 		                        <p class="form-control-static"><strong><c:out value="${caso.latitude}" /> , <c:out value="${caso.longitude}" />, <c:out value="${caso.zoom}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-3 col-form-label"><spring:message code="cuicase" />:</label>
+		                      <div class="col-md-9">
+		                        <p class="form-control-static"><strong><c:out value="${caso.cui}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-3 col-form-label"><spring:message code="code1case" />:</label>
+		                      <div class="col-md-9">
+		                        <p class="form-control-static"><strong><c:out value="${caso.codE1}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-3 col-form-label"><spring:message code="housecase" />:</label>
+		                      <div class="col-md-9">
+		                        <p class="form-control-static"><strong><c:out value="${caso.casa}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-3 col-form-label"><spring:message code="namecase" />:</label>
+		                      <div class="col-md-9">
+		                        <p class="form-control-static"><strong><c:out value="${caso.nombre}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
@@ -517,13 +589,72 @@
 		                		<label>Día 2</label>
 		                		<input type="checkbox" id="dia2" name="dia2" class="form-control" value="2">
 		                	</div>
+		                	<div class="input-group">
+		                		<label>Día 3</label>
+		                		<input type="checkbox" id="dia3" name="dia3" class="form-control" value="3">
+		                	</div>
+		                	<div class="input-group">
+		                		<label>Día 4</label>
+		                		<input type="checkbox" id="dia4" name="dia4" class="form-control" value="4">
+		                	</div>
+		                	<div class="input-group">
+		                		<label>Día 5</label>
+		                		<input type="checkbox" id="dia5" name="dia5" class="form-control" value="5">
+		                	</div>
+		                	<div class="input-group">
+		                		<label>Día 6</label>
+		                		<input type="checkbox" id="dia6" name="dia6" class="form-control" value="6">
+		                	</div>
+		                	<div class="input-group">
+		                		<label>Día 7</label>
+		                		<input type="checkbox" id="dia7" name="dia7" class="form-control" value="7">
+		                	</div>
+		                	<div class="input-group">
+		                		<label>Día 8</label>
+		                		<input type="checkbox" id="dia8" name="dia8" class="form-control" value="8">
+		                	</div>
+		                	<div class="input-group">
+		                		<label>Día 8</label>
+		                		<input type="checkbox" id="dia9" name="dia9" class="form-control" value="9">
+		                	</div>
+		                	<div class="input-group">
+		                		<label>Día 10</label>
+		                		<input type="checkbox" id="dia10" name="dia10" class="form-control" value="10">
+		                	</div>
+		                	<div class="input-group">
+		                		<label>Día 11</label>
+		                		<input type="checkbox" id="dia11" name="dia11" class="form-control" value="11">
+		                	</div>
+		                	<div class="input-group">
+		                		<label>Día 12</label>
+		                		<input type="checkbox" id="dia12" name="dia12" class="form-control" value="12">
+		                	</div>
+		                	<div class="input-group">
+		                		<label>Día 13</label>
+		                		<input type="checkbox" id="dia13" name="dia13" class="form-control" value="13">
+		                	</div>
+		                	<div class="input-group">
+		                		<label>Día 14</label>
+		                		<input type="checkbox" id="dia14" name="dia14" class="form-control" value="14">
+		                	</div>
 		                </div>
 		                <div class="form-group resultado">
 		                	<i class="fa fa-map-o"></i>
 		                    <label><spring:message code="sxResult" /></label>
 		                    <select id="resultado" name="resultado" class="form-control select2-single">
+		                      <option value=""><spring:message code="empty" /></option>	
 		                      <c:forEach items="${resultados}" var="resultado">
-		                      	<option selected value="${resultado.catKey}"><spring:message code="${resultado.messageKey}" /></option>
+		                      	<option value="${resultado.catKey}"><spring:message code="${resultado.messageKey}" /></option>
+		                      </c:forEach>
+		                    </select>
+		                </div>
+		                <div class="form-group razon">
+		                	<i class="fa fa-map-o"></i>
+		                    <label><spring:message code="lostFollowUpReason" /></label>
+		                    <select id="lostFollowUpReason" name="lostFollowUpReason" class="form-control select2-single">
+		                      <option value=""><spring:message code="empty" /></option>	
+		                      <c:forEach items="${razones}" var="razon">
+		                      	<option value="${razon.catKey}"><spring:message code="${razon.messageKey}" /></option>
 		                      </c:forEach>
 		                    </select>
 		                </div>
@@ -600,10 +731,7 @@
   <spring:url value="/admin/casos/dateValue/saveEntity/" var="saveUrl"></spring:url>
   <spring:url value="/admin/casos/" var="listUrl"/>	
   
-  <spring:url value="/admin/casos/{id}/"
-              var="listUrl">
-      <spring:param name="id" value="${caso.ident}" />
-  </spring:url>
+
       
   <c:set var="successmessage"><spring:message code="process.success" /></c:set>
   <c:set var="errormessage"><spring:message code="process.errors" /></c:set>
@@ -631,7 +759,10 @@
 	});
     
 
-   
+	$('#resultado,#lostFollowUpReason').select2({
+	    theme: "bootstrap",
+	    width: '100%'
+	});
     
     if ("${entidadHabilitada}"){
 		toastr.info("${entityEnabledLabel}", "${nombreEntidad}", {
@@ -674,6 +805,8 @@
     	$('#dataElement').val(elemento);
     	$('.dias').hide();
     	$('.resultado').hide();
+    	$('.fecha').show();
+    	$('.razon').hide();
     	$('#datesForm').modal('show');
     });
 	
@@ -688,6 +821,8 @@
     	$('#dataElement').val(elemento);
     	$('.fecha').hide();
     	$('.resultado').hide();
+    	$('.dias').show();
+    	$('.razon').hide();
     	$('#datesForm').modal('show');
     });
 	
@@ -701,6 +836,26 @@
     	$('#elemento').html('<h5>'+ nombreElemento +'</h5>');
     	$('#dataElement').val(elemento);
     	$('.dias').hide();
+    	$('.fecha').show();
+    	$('.resultado').show();
+    	$('.razon').hide();
+    	$('#datesForm').modal('show');
+    });
+	
+	
+	$(".accionlostsi").click(function(){ 
+    	var nombreItem = $(this).data('nomitem');
+    	var nombreElemento = $(this).data('pregitem');
+    	var elemento = $(this).data('elemento');
+    	$('#accionUrl').val($(this).data('whatever'));
+    	$('#titulo').html('<h2 class="modal-title">'+"${confirmar}"+'</h2>');
+    	$('#encabezado').html('<h3>'+ nombreItem +'?</h3>');
+    	$('#elemento').html('<h5>'+ nombreElemento +'</h5>');
+    	$('#dataElement').val(elemento);
+    	$('.dias').hide();
+    	$('.fecha').hide();
+    	$('.resultado').hide();
+    	$('.razon').show();
     	$('#datesForm').modal('show');
     });
 	

@@ -25,11 +25,15 @@ return {
   
   jQuery.validator.addMethod("noSpace", function(value, element) { 
 		  return value.indexOf(" ") < 0 && value != ""; 
-	}, "Invalid");
+	}, "Inválido");
   
   jQuery.validator.addMethod("menorIgualQue", function(value, element, param) { 
 	  return this.optional(element) || value <= $(param).val();
-  }, "Invalid value");
+  }, "Valor no válido");
+  
+  jQuery.validator.addMethod("mayorIgualQue", function(value, element, param) { 
+	  return this.optional(element) || value >= $(param).val();
+  }, "Valor no válido");
   
   
   $( '#add-form' ).validate( {
@@ -125,6 +129,12 @@ return {
       mxDate: {
           required: true
       },
+      mxType: {
+          required: true
+      },
+      resultado: {
+          required: true
+      },
       dateValue: {
           required: true
       },
@@ -132,6 +142,9 @@ return {
     	  required: true,
     	  min:0,
     	  max:2000
+      },
+      lostFollowUpReason: {
+          required: true
       }
       
     },

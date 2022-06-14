@@ -568,7 +568,7 @@ return {
 			  
 			  var PointIcon = L.Icon.extend({
 				    options: {
-				        iconSize:     [8, 8]
+				        iconSize:     [10, 10]
 				    }
 				});
 			  
@@ -625,7 +625,8 @@ return {
 				  if(data.casos[row].sxDate!=null){
 					  d6 = " <br> Fec seg 2 sem:" + (new Date(data.casos[row].sxDate)).yyyymmdd();
 				  }
-				  var subtitulo ="Codigo:"+ data.casos[row].codigo+ " <br> FIS:" +d1+ " <br> Fec Mx:" +d2+ " <br> Inv:" +data.casos[row].inv + d3+ " <br> Trat iniciado:" +data.casos[row].tx + d4+ " <br> Trat completo:" +data.casos[row].txComp + d5+ " <br> Seg 2 semanas:" +data.casos[row].sx + d6;
+				  var subtitulo ="Codigo:"+ data.casos[row].codigo+ " <br> FIS:" +d1+ " <br> Fec Mx:" +d2+ " <br> Inv:" +data.casos[row].inv + d3+ " <br> Trat iniciado:" +data.casos[row].tx + d4 + " <br> Tratamiento supervisaso:" +data.casos[row].txSup  + " <br> Trat completo:" +data.casos[row].txComp + d5 
+				  					+ " <br> Seg 2 semanas:" +data.casos[row].sx + d6;
 				  if(data.casos[row].estadocaso=='CONF'){
 					  theMarker = L.marker([miLat, miLong],{url: parametros.censusUrl+"/"+data.casos[row].ident+"/"}).addTo(mymap).setIcon(redIcon).on('click', onClick);
 				  }
@@ -663,7 +664,7 @@ return {
 			  legend.onAdd = function(map) {
 				  var div = L.DomUtil.create("div", "legend");
 				  div.innerHTML += "<h4>Casos en seguimiento</h4>";
-				  div.innerHTML += '<i class="icon" style="background-image: url('+parametros.iconRed+');background-repeat: no-repeat;"></i><span>Positivo</span><br>';
+				  div.innerHTML += '<i class="icon" style="background-image: url('+parametros.iconRed+');background-repeat: no-repeat;"></i><span>Confirmado</span><br>';
 				  div.innerHTML += '<i class="icon" style="background-image: url('+parametros.iconOrange+');background-repeat: no-repeat;"></i><span>En tratamiento</span><br>';
 				  div.innerHTML += '<i class="icon" style="background-image: url('+parametros.iconBlue+');background-repeat: no-repeat;"></i><span>Tratamiento completo</span><br>';
 				  div.innerHTML += '<i class="icon" style="background-image: url('+parametros.iconGreen+');background-repeat: no-repeat;"></i><span>Seguimiento negativo 2 semanas</span><br>';
