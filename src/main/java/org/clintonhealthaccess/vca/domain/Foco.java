@@ -29,6 +29,7 @@ public class Foco extends BaseMetaData implements Auditable{
 	private String ident;
 	private String code;
 	private String name;
+	private String coordinates;
 	
 	
 	public Foco() {
@@ -70,14 +71,27 @@ public class Foco extends BaseMetaData implements Auditable{
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	
+
+	@Column(name = "coordinates", nullable = true)
+	public String getCoordinates() {
+		return coordinates;
+	}
+
+
+	public void setCoordinates(String coordinates) {
+		this.coordinates = coordinates;
+	}
 
 
 	@Override
 	public boolean isFieldAuditable(String fieldname) {
 		return true;
 	}
-	
-	
+
+
+
 	@Override
 	public String toString(){
 		return this.getCode();

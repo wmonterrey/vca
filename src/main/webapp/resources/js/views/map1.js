@@ -5,7 +5,7 @@ return {
   //main function to initiate the module
   init: function (parametros) {
 	  
-	  $('#area,#district,#localidad,#foci,#tipoou,#tiempo').select2({
+	  $('#area,#district,#localidad,#foci,#tipoou,#tiempo,#estado').select2({
 			theme: "bootstrap"
 		});
 	  
@@ -130,12 +130,16 @@ return {
 		  var txcompleto = [];
 		  var sx2sem = [];
 		  var sx4sem = [];
+		  var supervisados = [];
+		  var lost = [];
 		  var totalCasos=0;
 		  var totalInvestigados=0;
 		  var totalTxIniciado=0;
 		  var totalTxCompleto=0;
 		  var totalSx2Sem=0;
 		  var totalSx4Sem=0;
+		  var totalSupervisados=0;
+		  var totalLost=0;
 		  $.getJSON(parametros.casosPorDiaUrl, $('#filters-form').serialize(), function(data) {
 			  var table1 = $('#daytable').DataTable({
 				  dom: 'lBfrtip',
@@ -182,9 +186,14 @@ return {
 				  totalSx2Sem = totalSx2Sem + data[row][6];
 				  sx4sem.push([data[row][7]]);
 				  totalSx4Sem = totalSx4Sem + data[row][7];
+				  supervisados.push([data[row][8]]);
+				  totalSupervisados = totalSupervisados + data[row][8];
+				  lost.push([data[row][9]]);
+				  totalLost = totalLost + data[row][9];
 				  table1.row.add([d1, data[row][2], data[row][3],(data[row][3]/data[row][2]*100).toFixed(2)
-					  , data[row][4],(data[row][4]/data[row][2]*100).toFixed(2), data[row][5],(data[row][5]/data[row][4]*100).toFixed(2)
-					  , data[row][6],(data[row][6]/data[row][4]*100).toFixed(2), data[row][7],(data[row][7]/data[row][4]*100).toFixed(2)]);
+					  , data[row][4],(data[row][4]/data[row][2]*100).toFixed(2), data[row][5],(data[row][5]/data[row][4]*100).toFixed(2), data[row][4]-data[row][8],(data[row][8]/data[row][4]*100).toFixed(2)
+					  , data[row][6],(data[row][6]/data[row][4]*100).toFixed(2), data[row][7],(data[row][7]/data[row][4]*100).toFixed(2)
+					  , data[row][9],(data[row][9]/data[row][2]*100).toFixed(2)]);
 			  }
 			  var porcInv = (totalInvestigados/totalCasos*100).toFixed(2);
 			  $('#labelTotCas').html(totalCasos);
@@ -197,6 +206,12 @@ return {
 			  $('#labelPorSx').html(totalSx2Sem + " (" + porcSx +"%)");
 			  var porcSxComp = (totalSx4Sem/totalTxIniciado*100).toFixed(2);
 			  $('#labelPorSxCom').html(totalSx4Sem + " (" + porcSxComp +"%)");
+			  
+			  var porcTxSup = (totalSupervisados/totalTxIniciado*100).toFixed(2);
+			  $('#labelPorTxSup').html(totalSupervisados + " (" + porcTxSup +"%)");
+			  
+			  var porcLost = (totalLost/totalCasos*100).toFixed(2);
+			  $('#labelPorLost').html(totalLost + " (" + porcLost +"%)");
 			  
 			  var optionsLine = {
 					  responsive: true,
@@ -315,6 +330,8 @@ return {
 		  var txcompleto = [];
 		  var seg2sem = [];
 		  var seg4sem = [];
+		  var supervisados = [];
+		  var lost = [];
 		  $.getJSON(parametros.casosPorOUUrl, $('#filters-form').serialize(), function(data) {
 			  var table2 = $('#outable').DataTable({
 				  dom: 'lBfrtip',
@@ -349,9 +366,12 @@ return {
 				  txcompleto.push([data[row][4]]);
 				  seg2sem.push([data[row][5]]);
 				  seg4sem.push([data[row][6]]);
+				  supervisados.push([data[row][7]]);
+				  lost.push([data[row][8]]);
+				  
 				  table2.row.add([data[row][0], data[row][1], data[row][2], (data[row][2]/data[row][1]*100).toFixed(2),
-					   data[row][3], (data[row][3]/data[row][1]*100).toFixed(2),data[row][4], (data[row][4]/data[row][3]*100).toFixed(2)
-					   ,data[row][5], (data[row][5]/data[row][3]*100).toFixed(2),data[row][6], (data[row][6]/data[row][3]*100).toFixed(2)]);
+					   data[row][3], (data[row][3]/data[row][1]*100).toFixed(2),data[row][4], (data[row][4]/data[row][3]*100).toFixed(2),data[row][7], (data[row][7]/data[row][3]*100).toFixed(2)
+					   ,data[row][5], (data[row][5]/data[row][3]*100).toFixed(2),data[row][6], (data[row][6]/data[row][3]*100).toFixed(2),data[row][8], (data[row][8]/data[row][1]*100).toFixed(2)]);
 			  }
 			  table2.draw();
 			  
@@ -433,6 +453,8 @@ return {
 		  var completos = [];
 		  var seg2sem = [];
 		  var seg4sem = [];
+		  var recaidas = [];
+		  var perdidos = [];
 		  $.getJSON(parametros.casosPorEstadoUrl, $('#filters-form').serialize(), function(data) {
 			  var table3 = $('#esttable').DataTable({
 				  dom: 'lBfrtip',
@@ -467,9 +489,12 @@ return {
 				  completos.push([(data[row][4]/data[row][1]*100).toFixed(2)]);
 				  seg2sem.push([(data[row][5]/data[row][1]*100).toFixed(2)]);
 				  seg4sem.push([(data[row][6]/data[row][1]*100).toFixed(2)]);
+				  recaidas.push([(data[row][7]/data[row][1]*100).toFixed(2)]);
+				  perdidos.push([(data[row][8]/data[row][1]*100).toFixed(2)]);
 				  table3.row.add([data[row][0], data[row][1], data[row][2], (data[row][2]/data[row][1]*100).toFixed(2)
 					  , data[row][3], (data[row][3]/data[row][1]*100).toFixed(2), data[row][4], (data[row][4]/data[row][1]*100).toFixed(2)
-					  , data[row][5], (data[row][5]/data[row][1]*100).toFixed(2), data[row][6], (data[row][6]/data[row][1]*100).toFixed(2)]);
+					  , data[row][5], (data[row][5]/data[row][1]*100).toFixed(2), data[row][6], (data[row][6]/data[row][1]*100).toFixed(2)
+					  , data[row][7], (data[row][7]/data[row][1]*100).toFixed(2), data[row][8], (data[row][8]/data[row][1]*100).toFixed(2)]);
 			  }
 			  table3.draw();
 			  
@@ -498,25 +523,33 @@ return {
 			  var barChartData = {
 						labels: ous,
 						datasets: [{
-							label: parametros.casostot,
+							label: parametros.EST1,
 							backgroundColor: '#F07B7B',
 							data: positivos
 						}, {
-							label: parametros.tx,
+							label: parametros.EST2,
 							backgroundColor: '#f5c01c',
 							data:tratados
 						}, {
-							label: parametros.txComp,
+							label: parametros.EST3,
 							backgroundColor: '#71b9fc',
 							data:completos
 						}, {
-							label: parametros.sx,
+							label: parametros.EST4,
 							backgroundColor: '#08DD8F',
 							data:seg2sem
 						}, {
-							label: parametros.sxComp,
+							label: parametros.EST5,
 							backgroundColor: '#2E6D56',
 							data:seg4sem
+						}, {
+							label: parametros.EST6,
+							backgroundColor: '#d847f5',
+							data:recaidas
+						}, {
+							label: parametros.EST7,
+							backgroundColor: '#000000',
+							data:perdidos
 						}]
 
 					};
@@ -566,12 +599,6 @@ return {
 				    }
 				});
 			  
-			  var PointIcon = L.Icon.extend({
-				    options: {
-				        iconSize:     [10, 10]
-				    }
-				});
-			  
 			  var PointIconPdx = L.Icon.extend({
 				    options: {
 				        iconSize:     [16, 16]
@@ -579,13 +606,80 @@ return {
 				});
 
 				
-			  var blueIcon = new PointIcon({iconUrl: parametros.iconBlue});
-			  var redIcon = new PointIcon({iconUrl: parametros.iconRed});
-			  var orangeIcon = new PointIcon({iconUrl: parametros.iconOrange});
-			  var greenIcon = new PointIcon({iconUrl: parametros.iconGreen});
-			  var darkGreenIcon = new PointIcon({iconUrl: parametros.iconDarkGreen});
 			  var pdxsIcon = new PointIconPdx({iconUrl: parametros.iconPdxs});
 			  var crIcon = new PointIconPdx({iconUrl: parametros.iconCr});
+			  
+			  var redIcon = new L.Icon({
+				  iconUrl: parametros.iconRed,
+				  shadowUrl: parametros.iconShadow,
+				  iconSize: [25, 41],
+				  iconAnchor: [12, 41],
+				  popupAnchor: [1, -34],
+				  shadowSize: [41, 41]
+				});
+			  
+			  var orangeIcon = new L.Icon({
+				  iconUrl: parametros.iconOrange,
+				  shadowUrl: parametros.iconShadow,
+				  iconSize: [25, 41],
+				  iconAnchor: [12, 41],
+				  popupAnchor: [1, -34],
+				  shadowSize: [41, 41]
+				});
+			  
+			  var blueIcon = new L.Icon({
+				  iconUrl: parametros.iconBlue,
+				  shadowUrl: parametros.iconShadow,
+				  iconSize: [25, 41],
+				  iconAnchor: [12, 41],
+				  popupAnchor: [1, -34],
+				  shadowSize: [41, 41]
+				});
+			  
+			  var yellowIcon = new L.Icon({
+				  iconUrl: parametros.iconYellow,
+				  shadowUrl: parametros.iconShadow,
+				  iconSize: [25, 41],
+				  iconAnchor: [12, 41],
+				  popupAnchor: [1, -34],
+				  shadowSize: [41, 41]
+				});
+			  
+			  var greenIcon = new L.Icon({
+				  iconUrl: parametros.iconGreen,
+				  shadowUrl: parametros.iconShadow,
+				  iconSize: [25, 41],
+				  iconAnchor: [12, 41],
+				  popupAnchor: [1, -34],
+				  shadowSize: [41, 41]
+				});
+			  
+			  var purpleIcon = new L.Icon({
+				  iconUrl: parametros.iconPurple,
+				  shadowUrl: parametros.iconShadow,
+				  iconSize: [25, 41],
+				  iconAnchor: [12, 41],
+				  popupAnchor: [1, -34],
+				  shadowSize: [41, 41]
+				});
+			  
+			  var grayIcon = new L.Icon({
+				  iconUrl: parametros.iconGray,
+				  shadowUrl: parametros.iconShadow,
+				  iconSize: [25, 41],
+				  iconAnchor: [12, 41],
+				  popupAnchor: [1, -34],
+				  shadowSize: [41, 41]
+				});
+			  
+			  var blackIcon = new L.Icon({
+				  iconUrl: parametros.iconBlack,
+				  shadowUrl: parametros.iconShadow,
+				  iconSize: [25, 41],
+				  iconAnchor: [12, 41],
+				  popupAnchor: [1, -34],
+				  shadowSize: [41, 41]
+				});
 			  
 			  for (var row in data.puntoDiagnosticos) {
 				  var miLat = data.puntoDiagnosticos[row].latitude;
@@ -623,21 +717,40 @@ return {
 				  }
 				  var d6 = "";
 				  if(data.casos[row].sxDate!=null){
-					  d6 = " <br> Fec seg 2 sem:" + (new Date(data.casos[row].sxDate)).yyyymmdd();
+					  d6 = " <br> Fec primer seg:" + (new Date(data.casos[row].sxDate)).yyyymmdd();
 				  }
-				  var subtitulo ="Codigo:"+ data.casos[row].codigo+ " <br> FIS:" +d1+ " <br> Fec Mx:" +d2+ " <br> Inv:" +data.casos[row].inv + d3+ " <br> Trat iniciado:" +data.casos[row].tx + d4 + " <br> Tratamiento supervisaso:" +data.casos[row].txSup  + " <br> Trat completo:" +data.casos[row].txComp + d5 
-				  					+ " <br> Seg 2 semanas:" +data.casos[row].sx + d6;
+				  var d7 = "";
+				  if(data.casos[row].sxCompDate!=null){
+					  d7 = " <br> Fec segundo seg:" + (new Date(data.casos[row].sxCompDate)).yyyymmdd();
+				  }
+				  var subtitulo ="Codigo:"+ data.casos[row].codigo+ " <br> FIS:" +d1+ " <br> Fec Mx:" +d2 
+				  					+ " <br> " + parametros.inv +": " +data.casos[row].inv + d3 
+				  					+ " <br> " + parametros.tx +": " +data.casos[row].tx + d4 
+				  					+ " <br> " + parametros.txSup +": " +data.casos[row].txSup  
+				  					+ " <br> " + parametros.txComp +": " +data.casos[row].txComp + d5 
+				  					+ " <br> " + parametros.sx +": " +data.casos[row].sx + d6
+				  					+ " <br> " + parametros.sxComp +": " +data.casos[row].sxComp + d7
+				  					+ " <br> " + parametros.lostFollowUp +": " +data.casos[row].lostFollowUp;
 				  if(data.casos[row].estadocaso=='CONF'){
-					  theMarker = L.marker([miLat, miLong],{url: parametros.censusUrl+"/"+data.casos[row].ident+"/"}).addTo(mymap).setIcon(redIcon).on('click', onClick);
+					  theMarker = L.marker([miLat, miLong],{url: parametros.verCasoUrl+"/"+data.casos[row].ident+"/"}).addTo(mymap).setIcon(redIcon).on('click', onClick);
 				  }
 				  else if(data.casos[row].estadocaso=='TRAT') {
-					  theMarker = L.marker([miLat, miLong],{url: parametros.censusUrl+"/"+data.casos[row].ident+"/"}).addTo(mymap).setIcon(orangeIcon).on('click', onClick);
+					  theMarker = L.marker([miLat, miLong],{url: parametros.verCasoUrl+"/"+data.casos[row].ident+"/"}).addTo(mymap).setIcon(orangeIcon).on('click', onClick);
 				  }
 				  else if(data.casos[row].estadocaso=='TRATC') {
-					  theMarker = L.marker([miLat, miLong],{url: parametros.censusUrl+"/"+data.casos[row].ident+"/"}).addTo(mymap).setIcon(blueIcon).on('click', onClick);
+					  theMarker = L.marker([miLat, miLong],{url: parametros.verCasoUrl+"/"+data.casos[row].ident+"/"}).addTo(mymap).setIcon(blueIcon).on('click', onClick);
 				  }
 				  else if(data.casos[row].estadocaso=='SEG2') {
-					  theMarker = L.marker([miLat, miLong],{url: parametros.censusUrl+"/"+data.casos[row].ident+"/"}).addTo(mymap).setIcon(greenIcon).on('click', onClick);
+					  theMarker = L.marker([miLat, miLong],{url: parametros.verCasoUrl+"/"+data.casos[row].ident+"/"}).addTo(mymap).setIcon(yellowIcon).on('click', onClick);
+				  }
+				  else if(data.casos[row].estadocaso=='SEG4') {
+					  theMarker = L.marker([miLat, miLong],{url: parametros.verCasoUrl+"/"+data.casos[row].ident+"/"}).addTo(mymap).setIcon(greenIcon).on('click', onClick);
+				  }
+				  else if(data.casos[row].estadocaso=='SEGPOS') {
+					  theMarker = L.marker([miLat, miLong],{url: parametros.verCasoUrl+"/"+data.casos[row].ident+"/"}).addTo(mymap).setIcon(purpleIcon).on('click', onClick);
+				  }
+				  else if(data.casos[row].estadocaso=='SEGINC') {
+					  theMarker = L.marker([miLat, miLong],{url: parametros.verCasoUrl+"/"+data.casos[row].ident+"/"}).addTo(mymap).setIcon(grayIcon).on('click', onClick);
 				  }
 				  theMarker.addTo(locMarkers);
 				  theMarker.bindTooltip(subtitulo);
@@ -664,10 +777,20 @@ return {
 			  legend.onAdd = function(map) {
 				  var div = L.DomUtil.create("div", "legend");
 				  div.innerHTML += "<h4>Casos en seguimiento</h4>";
-				  div.innerHTML += '<i class="icon" style="background-image: url('+parametros.iconRed+');background-repeat: no-repeat;"></i><span>Confirmado</span><br>';
-				  div.innerHTML += '<i class="icon" style="background-image: url('+parametros.iconOrange+');background-repeat: no-repeat;"></i><span>En tratamiento</span><br>';
-				  div.innerHTML += '<i class="icon" style="background-image: url('+parametros.iconBlue+');background-repeat: no-repeat;"></i><span>Tratamiento completo</span><br>';
-				  div.innerHTML += '<i class="icon" style="background-image: url('+parametros.iconGreen+');background-repeat: no-repeat;"></i><span>Seguimiento negativo 2 semanas</span><br>';
+				  div.innerHTML += '<i class="icon" style="background-image: url('+parametros.iconRed+');background-repeat: no-repeat;"></i><span>'
+				  div.innerHTML +=  parametros.EST1 +'</span><br>';
+				  div.innerHTML += '<i class="icon" style="background-image: url('+parametros.iconOrange+');background-repeat: no-repeat;"></i><span>';
+				  div.innerHTML +=  parametros.EST2 +'</span><br>';
+				  div.innerHTML += '<i class="icon" style="background-image: url('+parametros.iconBlue+');background-repeat: no-repeat;"></i><span>';
+				  div.innerHTML +=  parametros.EST3 +'</span><br>';
+				  div.innerHTML += '<i class="icon" style="background-image: url('+parametros.iconYellow+');background-repeat: no-repeat;"></i><span>';
+				  div.innerHTML +=  parametros.EST4 +'</span><br>';
+				  div.innerHTML += '<i class="icon" style="background-image: url('+parametros.iconGreen+');background-repeat: no-repeat;"></i><span>';
+				  div.innerHTML +=  parametros.EST5 +'</span><br>';
+				  div.innerHTML += '<i class="icon" style="background-image: url('+parametros.iconPurple+');background-repeat: no-repeat;"></i><span>';
+				  div.innerHTML +=  parametros.EST6 +'</span><br>';
+				  div.innerHTML += '<i class="icon" style="background-image: url('+parametros.iconGray+');background-repeat: no-repeat;"></i><span>';
+				  div.innerHTML +=  parametros.EST7 +'</span><br>';
 				  return div;
 			  };
 			  
@@ -688,9 +811,18 @@ return {
 				  div.innerHTML += '<i class="icon" style="background-image: url('+parametros.iconCr+');background-repeat: no-repeat;"></i><span>criaderos</span><br>';
 				  return div;
 			  };
+			  /*Legend specific foco 5b*/
+			  var legend5B = L.control({ position: "bottomright" });
+
+			  legend5B.onAdd = function(map) {
+				  var div = L.DomUtil.create("div", "legend");
+				  div.innerHTML += '<i style="width:10px;height:10px;border:2px solid #0000FF;"></i><span>Foco 5B</span><br>';
+				  return div;
+			  };
 
 			  legendCr.addTo(mymap);
 			  legendDx.addTo(mymap);
+			  legend5B.addTo(mymap);
 			  legend.addTo(mymap);
 			  
 			  
@@ -704,9 +836,115 @@ return {
 			    "Puntos Dx": pdxMarkers,
 			    "Criaderos": crMarkers
 			  };
+			  
+			  L.control.layers(baseMaps, overlayMaps).addTo(mymap);
+			  
+			  // Initialise the FeatureGroup to store editable layers
+			  var editableLayers = new L.FeatureGroup();
+			  mymap.addLayer(editableLayers);
+			  
+			  var drawPluginOptions = {
+					  position: 'topright',
+					  draw: {
+					    polygon: {
+					      allowIntersection: false, // Restricts shapes to simple polygons
+					      drawError: {
+					        color: '#e1e100', // Color the shape will turn when intersects
+					        message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
+					      },
+					      shapeOptions: {
+					        color: '#97009c'
+					      }
+					    },
+					    // disable toolbar item by setting it to false
+					    polyline: true,
+					    circle: false, // Turns off this drawing tool
+					    rectangle: false,
+					    marker: false,
+					    circlemarker: false,
+					    },
+					  edit: {
+					    featureGroup: editableLayers, //REQUIRED!!
+					    remove: false
+					  }
+					};
+
+					// Initialise the draw control and pass it the FeatureGroup of editable layers
+					var drawControl = new L.Control.Draw(drawPluginOptions);
+					mymap.addControl(drawControl);
+
+					var editableLayers = new L.FeatureGroup();
+					mymap.addLayer(editableLayers);
+
+					mymap.on('draw:created', function(e) {
+
+					  var type = e.layerType,
+					    layer = e.layer;
+					    //alert(layer._latlngs[0][0].lat);
+
+					  if (type === 'marker') {
+					    layer.bindPopup('A popup!');
+					  }
+
+					  editableLayers.addLayer(layer);
+					});
+			  
+			  var focos = [{
+				    "type": "Feature",
+				    "properties": {"name": "Foco 5B",
+				    	"popupContent": "Este es el foco 5B en Escuintla"},
+				    "geometry": {
+				        "type": "Polygon",
+				        "coordinates": [[
+				        	[
+		                        -90.98106073162097,
+		                        14.06970588409319
+		                    ],
+		                    [
+		                        -91.01825426186795,
+		                        14.15160974394258
+		                    ],
+		                    [
+		                        -91.08504937640963,
+		                        14.10131645396643
+		                    ],
+		                    [
+		                        -91.10908402087547,
+		                        14.01062176994429
+		                    ],
+		                    [
+		                        -91.09471641696476,
+		                        14.01021614759252
+		                    ],
+		                    [
+		                        -91.08597241135674,
+		                        14.03341882286139
+		                    ],
+		                    [
+		                        -91.01764472834456,
+		                        14.02696734494108
+		                    ],
+		                    [
+		                        -90.99930033432138,
+		                        14.02338372119652
+		                    ],
+		                    [
+		                        -90.98106073162097,
+		                        14.06970588409319
+		                    ]
+				        ]]
+				    }
+				}];
 			
 		  
-			  L.control.layers(baseMaps, overlayMaps).addTo(mymap);
+			  L.geoJSON(focos, {
+				    style: function(feature) {
+				        switch (feature.properties.name) {
+				            case 'Foco 5B': return {color: "#0000FF"};
+				            //case 'Democrat':   return {color: "#0000ff"};
+				        }
+				    }
+				}).addTo(mymap);
 			  
 			  mymap.on('overlayadd', function (eventLayer) {
 				    if (eventLayer.name === 'Casos') {

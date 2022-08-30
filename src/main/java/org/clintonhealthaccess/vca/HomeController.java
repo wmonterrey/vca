@@ -16,6 +16,7 @@ import org.clintonhealthaccess.vca.domain.irs.IrsSeason;
 import org.clintonhealthaccess.vca.domain.irs.Personal;
 import org.clintonhealthaccess.vca.domain.mtilds.Ciclo;
 import org.clintonhealthaccess.vca.domain.mtilds.PersonalLlins;
+import org.clintonhealthaccess.vca.language.MessageResource;
 import org.clintonhealthaccess.vca.service.AreaService;
 import org.clintonhealthaccess.vca.service.BrigadaService;
 import org.clintonhealthaccess.vca.service.CensadorService;
@@ -177,6 +178,8 @@ public class HomeController {
 	    	model.addAttribute("localidades", localidades);
 	    	List<Foco> focos = focoService.getActiveFocos();
 	    	model.addAttribute("focos", focos);
+	    	List<MessageResource> estados = this.messageResourceService.getCatalogo("CAT_ESTADOCASO"); 
+	    	model.addAttribute("estados", estados);
     	}
     	catch(Exception e) {
     		logger.error(e.getLocalizedMessage());

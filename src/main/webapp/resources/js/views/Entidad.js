@@ -122,9 +122,18 @@ return {
           required: true
       },
       fisDate: {
-          required: true,
+          required : function(element) {
+              var sint = $("#sint").val();
+              if(sint == "1") { 
+                  return true;
+              } else {
+                  return false;
+              }
+          },
           menorIgualQue:"#mxDate"
-          
+      },
+      sint: {
+          required: true
       },
       mxDate: {
           required: true
@@ -145,8 +154,10 @@ return {
       },
       lostFollowUpReason: {
           required: true
+      },
+      diaTx: {
+          required: true
       }
-      
     },
     errorElement: 'em',
     errorPlacement: function ( error, element ) {
@@ -200,6 +211,16 @@ return {
 		  		});
 	}
   
+  $('#sint').change(
+		    function(){
+		    if ($(this).val()=="1") {
+		        $('#fisDate').show();
+		    }
+		    else {
+		    	$('#fisDate').val("");
+		        $('#fisDate').hide();
+		    }
+		});
   
   $(document).on('keypress','form input',function(event)
   		{                

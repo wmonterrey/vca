@@ -117,6 +117,44 @@
 				                    <div class="form-group" style = "display:none">
 				                      <div class="input-group">
 				                        <span class="input-group-addon"><i class="fa fa-address-book"></i></span>
+				                        <input type="text" id="cui" name="cui" readonly value="${caso.cui}" class="form-control" placeholder="<spring:message code="cui" />">
+				                      </div>
+				                    </div>
+				                    <div class="form-group" style = "display:none">
+				                      <div class="input-group">
+				                        <span class="input-group-addon"><i class="fa fa-address-book"></i></span>
+				                        <input type="text" id="codE1" name="codE1" readonly value="${caso.codE1}" class="form-control" placeholder="<spring:message code="codE1" />">
+				                      </div>
+				                    </div>
+				                    <div class="form-group" style = "display:none">
+				                      <div class="input-group">
+				                        <span class="input-group-addon"><i class="fa fa-address-book"></i></span>
+				                        <input type="text" id="casa" name="casa" readonly value="${caso.casa}" class="form-control" placeholder="<spring:message code="casa" />">
+				                      </div>
+				                    </div>
+				                    <div class="form-group" style = "display:none">
+				                      <div class="input-group">
+				                        <span class="input-group-addon"><i class="fa fa-address-book"></i></span>
+				                        <input type="text" id="nombre" name="nombre" readonly value="${caso.nombre}" class="form-control" placeholder="<spring:message code="nombre" />">
+				                      </div>
+				                    </div>
+				                    <div class="form-group" style = "display:none">
+				                      <div class="input-group">
+				                        <span class="input-group-addon"><i class="fa fa-address-book"></i></span>
+				                        <input type="text" id="sint" name="sint" readonly value="${caso.sint}" class="form-control" placeholder="<spring:message code="sint" />">
+				                      </div>
+				                    </div>
+				                    
+				                    
+				                    <div class="form-group" style = "display:none">
+				                      <div class="input-group">
+				                        <span class="input-group-addon"><i class="fa fa-address-book"></i></span>
+				                        <input type="text" id="mxType" name="mxType" readonly value="${caso.mxType}" class="form-control" placeholder="<spring:message code="mxType" />">
+				                      </div>
+				                    </div>
+				                    <div class="form-group" style = "display:none">
+				                      <div class="input-group">
+				                        <span class="input-group-addon"><i class="fa fa-address-book"></i></span>
 				                        <input type="text" id="local" name="local" readonly value="${caso.local.ident}" class="form-control" placeholder="<spring:message code="local" />">
 				                      </div>
 				                    </div>

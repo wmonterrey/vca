@@ -83,11 +83,6 @@ public class CasoController {
         			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
         			caso.setSxCompResult(descCatalogo);
         		}
-        		mr = this.messageResourceService.getMensaje(caso.getMxType(),"CAT_TIPOPRUEBA");
-        		if(mr!=null) {
-        			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
-        			caso.setMxType(descCatalogo);
-        		}
         		mr = this.messageResourceService.getMensaje(caso.getLostFollowUpReason(),"CAT_LOSTFOLLOWUP");
         		if(mr!=null) {
         			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
@@ -143,18 +138,29 @@ public class CasoController {
     	Float latitudMaxima=0F;
     	Float longitudMinima=0F;
     	Float longitudMaxima=0F;
+    	Double latitudDef=0D;
+    	Double longitudDef=0D;
+    	Integer zoomDef=1;
     	List<Localidad> localidades = localidadService.getActiveLocalitiesUsuario(SecurityContextHolder.getContext().getAuthentication().getName());
     	model.addAttribute("localidades", localidades);
     	if(parametroService.getParametroByCode("latMin")!=null) latitudMinima = Float.parseFloat(parametroService.getParametroByCode("latMin").getValue());
     	if(parametroService.getParametroByCode("latMax")!=null) latitudMaxima = Float.parseFloat(parametroService.getParametroByCode("latMax").getValue());
     	if(parametroService.getParametroByCode("longMin")!=null) longitudMinima = Float.parseFloat(parametroService.getParametroByCode("longMin").getValue());
     	if(parametroService.getParametroByCode("longMax")!=null) longitudMaxima = Float.parseFloat(parametroService.getParametroByCode("longMax").getValue());
+    	if(parametroService.getParametroByCode("zoom")!=null) zoomDef = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
+    	if(parametroService.getParametroByCode("lat")!=null) latitudDef = Double.parseDouble(parametroService.getParametroByCode("lat").getValue());
+    	if(parametroService.getParametroByCode("long")!=null) longitudDef = Double.parseDouble(parametroService.getParametroByCode("long").getValue());
     	model.addAttribute("latitudMinima", latitudMinima);
     	model.addAttribute("latitudMaxima", latitudMaxima);
     	model.addAttribute("longitudMinima", longitudMinima);
     	model.addAttribute("longitudMaxima", longitudMaxima);
+    	model.addAttribute("latitudDef", latitudDef);
+    	model.addAttribute("longitudDef", longitudDef);
+    	model.addAttribute("zoomDef", zoomDef);
     	List<MessageResource> tiposPrueba = this.messageResourceService.getCatalogo("CAT_TIPOPRUEBA"); 
     	model.addAttribute("tiposPrueba", tiposPrueba);
+    	List<MessageResource> siNo = this.messageResourceService.getCatalogo("CAT_SINO"); 
+    	model.addAttribute("siNo", siNo);
     	return "caso/enterForm";
 	}
     
@@ -168,9 +174,9 @@ public class CasoController {
     public ModelAndView showEntity(@PathVariable("ident") String ident) {
     	ModelAndView mav;
     	Caso caso = this.casoService.getCaso(ident);
-    	Double latitud=0D;
-    	Double longitud=0D;
-    	Integer zoom=0;
+    	Double latitudDef=0D;
+    	Double longitudDef=0D;
+    	Integer zoomDef=0;
         if(caso==null){
         	mav = new ModelAndView("403");
         }
@@ -184,42 +190,26 @@ public class CasoController {
         			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
         			caso.setEstadocaso(descCatalogo);
         		}
-        		/*mr = this.messageResourceService.getMensaje(caso.getSxResult(),"CAT_RES");
-        		if(mr!=null) {
-        			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
-        			caso.setSxResult(descCatalogo);
-        		}
-        		mr = this.messageResourceService.getMensaje(caso.getSxCompResult(),"CAT_RES");
-        		if(mr!=null) {
-        			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
-        			caso.setSxCompResult(descCatalogo);
-        		}*/
-        		mr = this.messageResourceService.getMensaje(caso.getMxType(),"CAT_TIPOPRUEBA");
-        		if(mr!=null) {
-        			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
-        			caso.setMxType(descCatalogo);
-        		}
         		mr = this.messageResourceService.getMensaje(caso.getLostFollowUpReason(),"CAT_LOSTFOLLOWUP");
         		if(mr!=null) {
         			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
         			caso.setLostFollowUpReason(descCatalogo);
         		}
 	        	mav.addObject("caso",caso);
-	        	if(parametroService.getParametroByCode("zoom")!=null) zoom = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
-	        	if(parametroService.getParametroByCode("lat")!=null) latitud = Double.parseDouble(parametroService.getParametroByCode("lat").getValue());
-	        	if(parametroService.getParametroByCode("long")!=null) longitud = Double.parseDouble(parametroService.getParametroByCode("long").getValue());
-	        	if(caso.getLatitude()!=null) latitud = caso.getLatitude();
-	        	if(caso.getLongitude()!=null) longitud = caso.getLongitude();
-	        	if(caso.getZoom()!=null) zoom = caso.getZoom();
-	        	mav.addObject("latitude",latitud);
-	        	mav.addObject("longitude",longitud);
-	        	mav.addObject("zoom",zoom);
+	        	if(parametroService.getParametroByCode("zoom")!=null) zoomDef = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
+	        	if(parametroService.getParametroByCode("lat")!=null) latitudDef = Double.parseDouble(parametroService.getParametroByCode("lat").getValue());
+	        	if(parametroService.getParametroByCode("long")!=null) longitudDef = Double.parseDouble(parametroService.getParametroByCode("long").getValue());
+	        	mav.addObject("latitudDef",latitudDef);
+	        	mav.addObject("longitudDef",longitudDef);
+	        	mav.addObject("zoomDef",zoomDef);
 	        	List<AuditTrail> bitacora = auditTrailService.getBitacora(ident);
 	            mav.addObject("bitacora",bitacora);
 	            List<MessageResource> resultados = this.messageResourceService.getCatalogo("CAT_RES"); 
 	            mav.addObject("resultados",resultados);
 	            List<MessageResource> razones = this.messageResourceService.getCatalogo("CAT_LOSTFOLLOWUP"); 
 	            mav.addObject("razones",razones);
+	            List<MessageResource> diasTx = this.messageResourceService.getCatalogo("CAT_DIASSX"); 
+	            mav.addObject("diasTx",diasTx);
 	            
         	}
         	catch (Exception e) {
@@ -244,19 +234,30 @@ public class CasoController {
 	    	Float latitudMaxima=0F;
 	    	Float longitudMinima=0F;
 	    	Float longitudMaxima=0F;
+	    	Double latitudDef=0D;
+	    	Double longitudDef=0D;
+	    	Integer zoomDef=1;
 	    	List<Localidad> localidades = localidadService.getActiveLocalitiesUsuario(SecurityContextHolder.getContext().getAuthentication().getName());
 	    	model.addAttribute("localidades", localidades);
 	    	List<MessageResource> tiposPrueba = this.messageResourceService.getCatalogo("CAT_TIPOPRUEBA"); 
 	    	model.addAttribute("tiposPrueba", tiposPrueba);
+	    	List<MessageResource> siNo = this.messageResourceService.getCatalogo("CAT_SINO"); 
+	    	model.addAttribute("siNo", siNo);
 			model.addAttribute("caso",caso);
 			if(parametroService.getParametroByCode("latMin")!=null) latitudMinima = Float.parseFloat(parametroService.getParametroByCode("latMin").getValue());
 			if(parametroService.getParametroByCode("latMax")!=null) latitudMaxima = Float.parseFloat(parametroService.getParametroByCode("latMax").getValue());
 			if(parametroService.getParametroByCode("longMin")!=null) longitudMinima = Float.parseFloat(parametroService.getParametroByCode("longMin").getValue());
 			if(parametroService.getParametroByCode("longMax")!=null) longitudMaxima = Float.parseFloat(parametroService.getParametroByCode("longMax").getValue());
+			if(parametroService.getParametroByCode("zoom")!=null) zoomDef = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
+        	if(parametroService.getParametroByCode("lat")!=null) latitudDef = Double.parseDouble(parametroService.getParametroByCode("lat").getValue());
+        	if(parametroService.getParametroByCode("long")!=null) longitudDef = Double.parseDouble(parametroService.getParametroByCode("long").getValue());
 	    	model.addAttribute("latitudMinima", latitudMinima);
 	    	model.addAttribute("latitudMaxima", latitudMaxima);
 	    	model.addAttribute("longitudMinima", longitudMinima);
 	    	model.addAttribute("longitudMaxima", longitudMaxima);
+	    	model.addAttribute("latitudDef", latitudDef);
+	    	model.addAttribute("longitudDef", longitudDef);
+	    	model.addAttribute("zoomDef", zoomDef);
 			return "caso/enterForm";
 		}
 		else{
@@ -329,13 +330,17 @@ public class CasoController {
 	        , @RequestParam( value="zoom", required=false, defaultValue ="" ) String zoom
 	        , @RequestParam( value="status", required=true, defaultValue ="" ) String status
 	        , @RequestParam( value="info", required=false, defaultValue ="" ) String info
-	        , @RequestParam( value="fisDate", required=true ) String fisDate
+	        , @RequestParam( value="sint", required=false ) String sint
+	        , @RequestParam( value="fisDate", required=false ) String fisDate
 	        , @RequestParam( value="mxDate", required=true ) String mxDate
 	        , @RequestParam( value="mxType", required=true ) String mxType
 	        , @RequestParam( value="codE1", required=false ) String codE1
 	        , @RequestParam( value="cui", required=false ) String cui
 	        , @RequestParam( value="casa", required=false ) String casa
 	        , @RequestParam( value="nombre", required=false ) String nombre
+	        , @RequestParam( value="latitudeOrigin", required=false, defaultValue ="" ) String latitudeOrigin
+	        , @RequestParam( value="longitudeOrigin", required=false, defaultValue ="" ) String longitudeOrigin
+	        , @RequestParam( value="zoomOrigin", required=false, defaultValue ="" ) String zoomOrigin
 	        )
 	{
     	try{
@@ -343,14 +348,23 @@ public class CasoController {
     		Double longitud = null;
     		Integer vista= null;
     		
+    		
+    		Double latitudOrigen = null;
+    		Double longitudOrigen = null;
+    		Integer vistaOrigen= null;
+    		
     		if(!latitude.equals("")) latitud = Double.valueOf(latitude);
     		if(!longitude.equals("")) longitud = Double.valueOf(longitude);
     		if(!zoom.equals("")) vista = Integer.valueOf(zoom);
+    		if(!latitudeOrigin.equals("")) latitudOrigen = Double.valueOf(latitudeOrigin);
+    		if(!longitudeOrigin.equals("")) longitudOrigen = Double.valueOf(longitudeOrigin);
+    		if(!zoomOrigin.equals("")) vistaOrigen = Integer.valueOf(zoomOrigin);
     		
     		
     		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-    		Date fechaMuestra =  null;
+    		Date fechaMuestra =  null;    		
     		if (!mxDate.equals("")) fechaMuestra = formatter.parse(mxDate);
+    		
     		
     		Date fechaSintomas =  null;
     		if (!fisDate.equals("")) fechaSintomas = formatter.parse(fisDate);
@@ -379,11 +393,15 @@ public class CasoController {
 			caso.setInfo(info);
 			caso.setMxDate(fechaMuestra);
 			caso.setFisDate(fechaSintomas);
+			caso.setSint(sint);
 			caso.setCodE1(codE1);
 			caso.setCasa(casa);
 			caso.setCui(cui);
 			caso.setNombre(nombre);
 			caso.setMxType(mxType);
+			caso.setLatitudeOrigin(latitudOrigen);
+			caso.setLongitudeOrigin(longitudOrigen);
+			caso.setZoomOrigin(vistaOrigen);
 			
 			//Actualiza
 			this.casoService.saveCaso(caso);
@@ -509,6 +527,22 @@ public class CasoController {
     		caso.setTx("0");
     		caso.setTxSup("No");
     		caso.setTxDate(null);
+    		caso.setDayTx01(null);
+    		caso.setDayTx02(null);
+    		caso.setDayTx03(null);
+    		caso.setDayTx04(null);
+    		caso.setDayTx05(null);
+    		caso.setDayTx06(null);
+    		caso.setDayTx07(null);
+    		caso.setDayTx08(null);
+    		caso.setDayTx09(null);
+    		caso.setDayTx10(null);
+    		caso.setDayTx11(null);
+    		caso.setDayTx12(null);
+    		caso.setDayTx13(null);
+    		caso.setDayTx14(null);
+    		caso.setTxComp("0");
+    		caso.setTxCompDate(null);
     		String estado = obtenerEstado(caso);
     		caso.setEstadocaso(estado);
     		this.casoService.saveCaso(caso);
@@ -647,80 +681,270 @@ public class CasoController {
 	public ResponseEntity<String> processInvDateEntity( @RequestParam(value="ident", required=false, defaultValue="" ) String ident
 			, @RequestParam( value="dataElement", required=true ) String dataElement
 	        , @RequestParam( value="dateValue", required=false, defaultValue="" ) String dateValue
-	        , @RequestParam( value="dia1", required=false, defaultValue="" ) String dia1
-	        , @RequestParam( value="dia2", required=false, defaultValue="" ) String dia2
-	        , @RequestParam( value="dia3", required=false, defaultValue="" ) String dia3
-	        , @RequestParam( value="dia4", required=false, defaultValue="" ) String dia4
-	        , @RequestParam( value="dia5", required=false, defaultValue="" ) String dia5
-	        , @RequestParam( value="dia6", required=false, defaultValue="" ) String dia6
-	        , @RequestParam( value="dia7", required=false, defaultValue="" ) String dia7
-	        , @RequestParam( value="dia8", required=false, defaultValue="" ) String dia8
-	        , @RequestParam( value="dia9", required=false, defaultValue="" ) String dia9
-	        , @RequestParam( value="dia10", required=false, defaultValue="" ) String dia10
-	        , @RequestParam( value="dia11", required=false, defaultValue="" ) String dia11
-	        , @RequestParam( value="dia12", required=false, defaultValue="" ) String dia12
-	        , @RequestParam( value="dia13", required=false, defaultValue="" ) String dia13
-	        , @RequestParam( value="dia14", required=false, defaultValue="" ) String dia14
+	        , @RequestParam( value="diaTx", required=false, defaultValue="" ) String diaTx
 	        , @RequestParam( value="resultado", required=false, defaultValue="" ) String resultado
 	        , @RequestParam( value="lostFollowUpReason", required=false, defaultValue="" ) String lostFollowUpReason
 	        )
 	{
     	try{
     		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+    		SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
     		Date valorFecha =  null;
     		if (!dateValue.equals("")) valorFecha = formatter.parse(dateValue);
+    		String fechaIngresada = "";
+    		if (valorFecha!=null) fechaIngresada=formatter2.format(valorFecha);
     		Caso caso = this.casoService.getCaso(ident);
         	if(caso!=null){
         		if(dataElement.equals("inv")) {
-        			if(valorFecha.after(caso.getMxDate())) {
+        			if(fechaIngresada.compareTo(formatter2.format(caso.getMxDate()))>=0) {
         				caso.setInv("1");
         				caso.setInvDate(valorFecha);
         			}
         			else {
-        				return createJsonResponse("Fecha de investigación incorrecta. Tiene que ser mayor a " + caso.getMxDate());
+        				return createJsonResponse("Fecha de investigación incorrecta. Tiene que ser mayor o igual a " + formatter.format(caso.getMxDate()));
         			}
         		}
         		else if(dataElement.equals("tx")) {
-        			if(valorFecha.after(caso.getMxDate())) {
+        			if(fechaIngresada.compareTo(formatter2.format(caso.getMxDate()))>=0) {
         				caso.setTx("1");
         				caso.setTxDate(valorFecha);
         			}
         			else {
-        				return createJsonResponse("Fecha de inicio de tratamiento incorrecta. Tiene que ser mayor " + caso.getMxDate());
+        				return createJsonResponse("Fecha de inicio de tratamiento incorrecta. Tiene que ser mayor o igual a " + formatter.format(caso.getMxDate()));
         			}
         		}
         		else if(dataElement.equals("txComp")) {
-        			if(valorFecha.after(caso.getMxDate()) && valorFecha.after(caso.getTxDate())) {
+        			if(fechaIngresada.compareTo(formatter2.format(caso.getTxDate()))>0) {
         				caso.setTxComp("1");
         				caso.setTxCompDate(valorFecha);
         			}
         			else {
-        				return createJsonResponse("Fecha de fin de tratamiento incorrecta. Tiene que ser mayor a " + caso.getTxDate());
+        				return createJsonResponse("Fecha de fin de tratamiento incorrecta. Tiene que ser mayor a " + formatter.format(caso.getTxDate()));
         			}
         		}
         		else if(dataElement.equals("sx")) {
-        			if(valorFecha.after(caso.getMxDate()) && valorFecha.after(caso.getTxDate())) {
+        			if(fechaIngresada.compareTo(formatter2.format(caso.getTxDate()))>0) {
         				caso.setSx("1");
         				caso.setSxDate(valorFecha);
         				caso.setSxResult(resultado);
         			}
         			else {
-        				return createJsonResponse("Fecha de seguimiento incorrecta. Tiene que ser mayor a " + caso.getTxDate());
+        				return createJsonResponse("Fecha de seguimiento incorrecta. Tiene que ser mayor a " + formatter.format(caso.getTxDate()));
         			}
         		}
         		else if(dataElement.equals("sxComp")) {
-        			if(valorFecha.after(caso.getMxDate()) && valorFecha.after(caso.getTxDate())) {
+        			if(fechaIngresada.compareTo(formatter2.format(caso.getTxDate()))>0) {
         				caso.setSxComp("1");
         				caso.setSxCompDate(valorFecha);
         				caso.setSxCompResult(resultado);
         			}
         			else {
-        				return createJsonResponse("Fecha de seguimiento incorrecta. Tiene que ser mayor " + caso.getTxDate());
+        				return createJsonResponse("Fecha de seguimiento incorrecta. Tiene que ser mayor " + formatter.format(caso.getTxDate()));
         			}
         		}
         		else if(dataElement.equals("txSup")) {
-        			caso.setTxSup(dia1 + " " +dia2 + " " +dia3 + " " +dia4 +" " + dia5 +" " + dia6 +" " + dia7 +" " +
-        						dia8 +" " + dia9 +" " + dia10 +" " + dia11 +" " + dia12 +" " + dia13 +" " + dia14);
+        			if(fechaIngresada.compareTo(formatter2.format(caso.getTxDate()))>=0) {
+	        			caso.setTxSup("Si");
+	        			if(diaTx.equals("1")) {
+	        				if(validarFechaMenor(fechaIngresada,caso.getDayTx02()) && validarFechaMenor(fechaIngresada,caso.getDayTx03())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx04()) && validarFechaMenor(fechaIngresada,caso.getDayTx05())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx06()) && validarFechaMenor(fechaIngresada,caso.getDayTx07())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx08()) && validarFechaMenor(fechaIngresada,caso.getDayTx09())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx10()) && validarFechaMenor(fechaIngresada,caso.getDayTx11())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx12()) && validarFechaMenor(fechaIngresada,caso.getDayTx13())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx14())) {
+	        					caso.setDayTx01(valorFecha);
+	        				}
+	        				else {
+	        					return createJsonResponse("Fecha de tratamiento supervisado es incorrecta");
+	        				}
+	        			}
+	        			else if(diaTx.equals("2")) {
+	        				if(validarFechaMayor(fechaIngresada,caso.getDayTx01()) && validarFechaMenor(fechaIngresada,caso.getDayTx03())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx04()) && validarFechaMenor(fechaIngresada,caso.getDayTx05())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx06()) && validarFechaMenor(fechaIngresada,caso.getDayTx07())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx08()) && validarFechaMenor(fechaIngresada,caso.getDayTx09())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx10()) && validarFechaMenor(fechaIngresada,caso.getDayTx11())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx12()) && validarFechaMenor(fechaIngresada,caso.getDayTx13())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx14())) {
+	        					caso.setDayTx02(valorFecha);
+	        				}
+	        				else {
+	        					return createJsonResponse("Fecha de tratamiento supervisado es incorrecta");
+	        				}
+	        			}
+	        			else if(diaTx.equals("3")) {
+	        				if(validarFechaMayor(fechaIngresada,caso.getDayTx01()) && validarFechaMayor(fechaIngresada,caso.getDayTx02())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx04()) && validarFechaMenor(fechaIngresada,caso.getDayTx05())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx06()) && validarFechaMenor(fechaIngresada,caso.getDayTx07())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx08()) && validarFechaMenor(fechaIngresada,caso.getDayTx09())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx10()) && validarFechaMenor(fechaIngresada,caso.getDayTx11())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx12()) && validarFechaMenor(fechaIngresada,caso.getDayTx13())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx14())) {
+	        					caso.setDayTx03(valorFecha);
+	        				}
+	        				else {
+	        					return createJsonResponse("Fecha de tratamiento supervisado es incorrecta");
+	        				}
+	        			}
+	        			else if(diaTx.equals("4")) {
+	        				if(validarFechaMayor(fechaIngresada,caso.getDayTx01()) && validarFechaMayor(fechaIngresada,caso.getDayTx02())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx03()) && validarFechaMenor(fechaIngresada,caso.getDayTx05())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx06()) && validarFechaMenor(fechaIngresada,caso.getDayTx07())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx08()) && validarFechaMenor(fechaIngresada,caso.getDayTx09())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx10()) && validarFechaMenor(fechaIngresada,caso.getDayTx11())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx12()) && validarFechaMenor(fechaIngresada,caso.getDayTx13())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx14())) {
+	        					caso.setDayTx04(valorFecha);
+	        				}
+	        				else {
+	        					return createJsonResponse("Fecha de tratamiento supervisado es incorrecta");
+	        				}
+	        			}
+	        			else if(diaTx.equals("5")) {
+	        				if(validarFechaMayor(fechaIngresada,caso.getDayTx01()) && validarFechaMayor(fechaIngresada,caso.getDayTx02())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx03()) && validarFechaMayor(fechaIngresada,caso.getDayTx04())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx06()) && validarFechaMenor(fechaIngresada,caso.getDayTx07())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx08()) && validarFechaMenor(fechaIngresada,caso.getDayTx09())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx10()) && validarFechaMenor(fechaIngresada,caso.getDayTx11())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx12()) && validarFechaMenor(fechaIngresada,caso.getDayTx13())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx14())) {
+	        					caso.setDayTx05(valorFecha);
+	        				}
+	        				else {
+	        					return createJsonResponse("Fecha de tratamiento supervisado es incorrecta");
+	        				}
+	        			}
+	        			else if(diaTx.equals("6")) {
+	        				if(validarFechaMayor(fechaIngresada,caso.getDayTx01()) && validarFechaMayor(fechaIngresada,caso.getDayTx02())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx03()) && validarFechaMayor(fechaIngresada,caso.getDayTx04())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx05()) && validarFechaMenor(fechaIngresada,caso.getDayTx07())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx08()) && validarFechaMenor(fechaIngresada,caso.getDayTx09())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx10()) && validarFechaMenor(fechaIngresada,caso.getDayTx11())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx12()) && validarFechaMenor(fechaIngresada,caso.getDayTx13())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx14())) {
+	        					caso.setDayTx06(valorFecha);
+	        				}
+	        				else {
+	        					return createJsonResponse("Fecha de tratamiento supervisado es incorrecta");
+	        				}
+	        			}
+	        			else if(diaTx.equals("7")) {
+	        				if(validarFechaMayor(fechaIngresada,caso.getDayTx01()) && validarFechaMayor(fechaIngresada,caso.getDayTx02())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx03()) && validarFechaMayor(fechaIngresada,caso.getDayTx04())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx05()) && validarFechaMayor(fechaIngresada,caso.getDayTx06())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx08()) && validarFechaMenor(fechaIngresada,caso.getDayTx09())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx10()) && validarFechaMenor(fechaIngresada,caso.getDayTx11())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx12()) && validarFechaMenor(fechaIngresada,caso.getDayTx13())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx14())) {
+	        					caso.setDayTx07(valorFecha);
+	        				}
+	        				else {
+	        					return createJsonResponse("Fecha de tratamiento supervisado es incorrecta");
+	        				}
+	        			}
+	        			else if(diaTx.equals("8")) {
+	        				if(validarFechaMayor(fechaIngresada,caso.getDayTx01()) && validarFechaMayor(fechaIngresada,caso.getDayTx02())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx03()) && validarFechaMayor(fechaIngresada,caso.getDayTx04())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx05()) && validarFechaMayor(fechaIngresada,caso.getDayTx06())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx07()) && validarFechaMenor(fechaIngresada,caso.getDayTx09())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx10()) && validarFechaMenor(fechaIngresada,caso.getDayTx11())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx12()) && validarFechaMenor(fechaIngresada,caso.getDayTx13())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx14())) {
+	        					caso.setDayTx08(valorFecha);
+	        				}
+	        				else {
+	        					return createJsonResponse("Fecha de tratamiento supervisado es incorrecta");
+	        				}
+	        			}
+	        			else if(diaTx.equals("9")) {
+	        				if(validarFechaMayor(fechaIngresada,caso.getDayTx01()) && validarFechaMayor(fechaIngresada,caso.getDayTx02())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx03()) && validarFechaMayor(fechaIngresada,caso.getDayTx04())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx05()) && validarFechaMayor(fechaIngresada,caso.getDayTx06())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx07()) && validarFechaMayor(fechaIngresada,caso.getDayTx08())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx10()) && validarFechaMenor(fechaIngresada,caso.getDayTx11())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx12()) && validarFechaMenor(fechaIngresada,caso.getDayTx13())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx14())) {
+	        					caso.setDayTx09(valorFecha);
+	        				}
+	        				else {
+	        					return createJsonResponse("Fecha de tratamiento supervisado es incorrecta");
+	        				}
+	        			}
+	        			else if(diaTx.equals("10")) {
+	        				if(validarFechaMayor(fechaIngresada,caso.getDayTx01()) && validarFechaMayor(fechaIngresada,caso.getDayTx02())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx03()) && validarFechaMayor(fechaIngresada,caso.getDayTx04())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx05()) && validarFechaMayor(fechaIngresada,caso.getDayTx06())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx07()) && validarFechaMayor(fechaIngresada,caso.getDayTx08())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx09()) && validarFechaMenor(fechaIngresada,caso.getDayTx11())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx12()) && validarFechaMenor(fechaIngresada,caso.getDayTx13())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx14())) {
+	        					caso.setDayTx10(valorFecha);
+	        				}
+	        				else {
+	        					return createJsonResponse("Fecha de tratamiento supervisado es incorrecta");
+	        				}
+	        			}
+	        			else if(diaTx.equals("11")) {
+	        				if(validarFechaMayor(fechaIngresada,caso.getDayTx01()) && validarFechaMayor(fechaIngresada,caso.getDayTx02())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx03()) && validarFechaMayor(fechaIngresada,caso.getDayTx04())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx05()) && validarFechaMayor(fechaIngresada,caso.getDayTx06())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx07()) && validarFechaMayor(fechaIngresada,caso.getDayTx08())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx09()) && validarFechaMayor(fechaIngresada,caso.getDayTx10())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx12()) && validarFechaMenor(fechaIngresada,caso.getDayTx13())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx14())) {
+	        					caso.setDayTx11(valorFecha);
+	        				}
+	        				else {
+	        					return createJsonResponse("Fecha de tratamiento supervisado es incorrecta");
+	        				}
+	        			}
+	        			else if(diaTx.equals("12")) {
+	        				if(validarFechaMayor(fechaIngresada,caso.getDayTx01()) && validarFechaMayor(fechaIngresada,caso.getDayTx02())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx03()) && validarFechaMayor(fechaIngresada,caso.getDayTx04())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx05()) && validarFechaMayor(fechaIngresada,caso.getDayTx06())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx07()) && validarFechaMayor(fechaIngresada,caso.getDayTx08())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx09()) && validarFechaMayor(fechaIngresada,caso.getDayTx10())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx11()) && validarFechaMenor(fechaIngresada,caso.getDayTx13())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx14())) {
+	        					caso.setDayTx12(valorFecha);
+	        				}
+	        				else {
+	        					return createJsonResponse("Fecha de tratamiento supervisado es incorrecta");
+	        				}
+	        			}
+	        			else if(diaTx.equals("13")) {
+	        				if(validarFechaMayor(fechaIngresada,caso.getDayTx01()) && validarFechaMayor(fechaIngresada,caso.getDayTx02())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx03()) && validarFechaMayor(fechaIngresada,caso.getDayTx04())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx05()) && validarFechaMayor(fechaIngresada,caso.getDayTx06())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx07()) && validarFechaMayor(fechaIngresada,caso.getDayTx08())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx09()) && validarFechaMayor(fechaIngresada,caso.getDayTx10())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx11()) && validarFechaMayor(fechaIngresada,caso.getDayTx12())
+	        						&& validarFechaMenor(fechaIngresada,caso.getDayTx14())) {
+	        					caso.setDayTx13(valorFecha);
+	        				}
+	        				else {
+	        					return createJsonResponse("Fecha de tratamiento supervisado es incorrecta");
+	        				}
+	        			}
+	        			else if(diaTx.equals("14")) {
+	        				if(validarFechaMayor(fechaIngresada,caso.getDayTx01()) && validarFechaMayor(fechaIngresada,caso.getDayTx02())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx03()) && validarFechaMayor(fechaIngresada,caso.getDayTx04())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx05()) && validarFechaMayor(fechaIngresada,caso.getDayTx06())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx07()) && validarFechaMayor(fechaIngresada,caso.getDayTx08())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx09()) && validarFechaMayor(fechaIngresada,caso.getDayTx10())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx11()) && validarFechaMayor(fechaIngresada,caso.getDayTx12())
+	        						&& validarFechaMayor(fechaIngresada,caso.getDayTx13())) {
+	        					caso.setDayTx14(valorFecha);
+	        				}
+	        				else {
+	        					return createJsonResponse("Fecha de tratamiento supervisado es incorrecta");
+	        				}
+	        			}
+        			}
+        			else {
+        				return createJsonResponse("Fecha de tx supervisado incorrecta. Tiene que ser mayor o igual a " + formatter.format(caso.getTxDate()));
+        			}
         		}
         		else if(dataElement.equals("lostFollowUp")) {
         			caso.setLostFollowUp("1");
@@ -777,6 +1001,31 @@ public class CasoController {
     	return "CONF";
     }
     
+    public boolean validarFechaMenor(String fechaIngresada, Date fechaOtra) {
+    	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    	if(fechaOtra==null) {
+    		return true;
+    	}
+    	else if(fechaIngresada.compareTo(formatter.format(fechaOtra))<0) {
+    		return true;
+    	}
+    	else {
+    		return false;
+    	}
+    }
+    
+    public boolean validarFechaMayor(String fechaIngresada, Date fechaOtra) {
+    	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    	if(fechaOtra==null) {
+    		return true;
+    	}
+    	else if(fechaIngresada.compareTo(formatter.format(fechaOtra))>0) {
+    		return true;
+    	}
+    	else {
+    		return false;
+    	}
+    }
     
 
 	

@@ -37,6 +37,11 @@ public class Caso extends BaseMetaData implements Auditable{
 	private String codE1;
 	private String casa;
 	private String nombre;
+	private String sexo;
+	private Integer edad;
+	private String embarazada;
+	private String menor6meses;
+	private String sint="1";
 	private Date fisDate;
 	private Date mxDate;
 	private String mxType;
@@ -60,6 +65,26 @@ public class Caso extends BaseMetaData implements Auditable{
 	private Double latitude;
 	private Double longitude;
 	private Integer zoom=10;
+	
+	
+	private Date dayTx01;
+	private Date dayTx02;
+	private Date dayTx03;
+	private Date dayTx04;
+	private Date dayTx05;
+	private Date dayTx06;
+	private Date dayTx07;
+	private Date dayTx08;
+	private Date dayTx09;
+	private Date dayTx10;
+	private Date dayTx11;
+	private Date dayTx12;
+	private Date dayTx13;
+	private Date dayTx14;
+	
+	private Double latitudeOrigin;
+	private Double longitudeOrigin;
+	private Integer zoomOrigin=10;
 	
 	
 	public Caso() {
@@ -95,8 +120,12 @@ public class Caso extends BaseMetaData implements Auditable{
 	public String getCodigo() {
 		return codigo;
 	}
+	
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
 
-
+	@Column(name = "codE1", nullable = true, length = 100)
 	public String getCodE1() {
 		return codE1;
 	}
@@ -146,14 +175,20 @@ public class Caso extends BaseMetaData implements Auditable{
 
 
 
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
+	@Column(name = "sint", nullable = false, length = 1)
+	public String getSint() {
+		return sint;
 	}
-	
-	
 
-	
-	@Column(name = "fisDate", nullable = false)
+
+
+	public void setSint(String sint) {
+		this.sint = sint;
+	}
+
+
+
+	@Column(name = "fisDate", nullable = true)
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	public Date getFisDate() {
 		return fisDate;
@@ -416,6 +451,44 @@ public class Caso extends BaseMetaData implements Auditable{
 	}
 	
 	
+	
+	@Column(name = "latitudeOrigin", nullable = true)
+	public Double getLatitudeOrigin() {
+		return latitudeOrigin;
+	}
+
+
+
+	public void setLatitudeOrigin(Double latitudeOrigin) {
+		this.latitudeOrigin = latitudeOrigin;
+	}
+
+
+	@Column(name = "longitudeOrigin", nullable = true)
+	public Double getLongitudeOrigin() {
+		return longitudeOrigin;
+	}
+
+
+
+	public void setLongitudeOrigin(Double longitudeOrigin) {
+		this.longitudeOrigin = longitudeOrigin;
+	}
+
+
+	@Column(name = "zoomOrigin", nullable = true)
+	public Integer getZoomOrigin() {
+		return zoomOrigin;
+	}
+
+
+
+	public void setZoomOrigin(Integer zoomOrigin) {
+		this.zoomOrigin = zoomOrigin;
+	}
+
+
+
 	@Column(name = "sxResult", nullable = true, length = 50)
 	public String getSxResult() {
 		return sxResult;
@@ -437,6 +510,236 @@ public class Caso extends BaseMetaData implements Auditable{
 
 	public void setSxCompResult(String sxCompResult) {
 		this.sxCompResult = sxCompResult;
+	}
+
+	
+	
+
+	@Column(name = "tx1Date", nullable = true)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	public Date getDayTx01() {
+		return dayTx01;
+	}
+
+
+
+	public void setDayTx01(Date dayTx01) {
+		this.dayTx01 = dayTx01;
+	}
+
+
+	@Column(name = "tx2Date", nullable = true)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	public Date getDayTx02() {
+		return dayTx02;
+	}
+
+
+
+	public void setDayTx02(Date dayTx02) {
+		this.dayTx02 = dayTx02;
+	}
+
+
+	@Column(name = "tx3Date", nullable = true)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	public Date getDayTx03() {
+		return dayTx03;
+	}
+
+
+
+	public void setDayTx03(Date dayTx03) {
+		this.dayTx03 = dayTx03;
+	}
+
+
+	@Column(name = "tx4Date", nullable = true)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	public Date getDayTx04() {
+		return dayTx04;
+	}
+
+
+
+	public void setDayTx04(Date dayTx04) {
+		this.dayTx04 = dayTx04;
+	}
+
+
+	@Column(name = "tx5Date", nullable = true)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	public Date getDayTx05() {
+		return dayTx05;
+	}
+
+
+
+	public void setDayTx05(Date dayTx05) {
+		this.dayTx05 = dayTx05;
+	}
+
+
+	@Column(name = "tx6Date", nullable = true)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	public Date getDayTx06() {
+		return dayTx06;
+	}
+
+
+
+	public void setDayTx06(Date dayTx06) {
+		this.dayTx06 = dayTx06;
+	}
+
+
+	@Column(name = "tx7Date", nullable = true)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	public Date getDayTx07() {
+		return dayTx07;
+	}
+
+
+
+	public void setDayTx07(Date dayTx07) {
+		this.dayTx07 = dayTx07;
+	}
+
+
+	@Column(name = "tx8Date", nullable = true)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	public Date getDayTx08() {
+		return dayTx08;
+	}
+
+
+
+	public void setDayTx08(Date dayTx08) {
+		this.dayTx08 = dayTx08;
+	}
+
+
+	@Column(name = "tx9Date", nullable = true)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	public Date getDayTx09() {
+		return dayTx09;
+	}
+
+
+
+	public void setDayTx09(Date dayTx09) {
+		this.dayTx09 = dayTx09;
+	}
+
+
+	@Column(name = "tx10Date", nullable = true)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	public Date getDayTx10() {
+		return dayTx10;
+	}
+
+
+
+	public void setDayTx10(Date dayTx10) {
+		this.dayTx10 = dayTx10;
+	}
+
+
+	@Column(name = "tx11Date", nullable = true)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	public Date getDayTx11() {
+		return dayTx11;
+	}
+
+
+
+	public void setDayTx11(Date dayTx11) {
+		this.dayTx11 = dayTx11;
+	}
+
+
+	@Column(name = "tx12Date", nullable = true)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	public Date getDayTx12() {
+		return dayTx12;
+	}
+
+
+
+	public void setDayTx12(Date dayTx12) {
+		this.dayTx12 = dayTx12;
+	}
+
+
+	@Column(name = "tx13Date", nullable = true)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	public Date getDayTx13() {
+		return dayTx13;
+	}
+
+
+
+	public void setDayTx13(Date dayTx13) {
+		this.dayTx13 = dayTx13;
+	}
+
+
+	@Column(name = "tx14Date", nullable = true)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	public Date getDayTx14() {
+		return dayTx14;
+	}
+
+
+
+	public void setDayTx14(Date dayTx14) {
+		this.dayTx14 = dayTx14;
+	}
+	
+	@Column(name = "sexo", nullable = true, length = 50)
+	public String getSexo() {
+		return sexo;
+	}
+
+
+
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
+	}
+
+
+	@Column(name = "edad", nullable = true)
+	public Integer getEdad() {
+		return edad;
+	}
+
+
+
+	public void setEdad(Integer edad) {
+		this.edad = edad;
+	}
+
+
+	@Column(name = "embarazada", nullable = false, length = 50)
+	public String getEmbarazada() {
+		return embarazada;
+	}
+
+
+
+	public void setEmbarazada(String embarazada) {
+		this.embarazada = embarazada;
+	}
+
+	@Column(name = "menor6meses", nullable = false, length = 50)
+	public String getMenor6meses() {
+		return menor6meses;
+	}
+
+
+
+	public void setMenor6meses(String menor6meses) {
+		this.menor6meses = menor6meses;
 	}
 
 

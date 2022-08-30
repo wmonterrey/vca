@@ -131,6 +131,7 @@ public class AdminFocosController {
 	public ResponseEntity<String> processEntity( @RequestParam(value="ident", required=false, defaultValue="" ) String ident
 	        , @RequestParam( value="code", required=true ) String code
 	        , @RequestParam( value="name", required=true ) String name
+	        , @RequestParam( value="coordinates", required=true ) String coordinates
 	        , @RequestParam( value="localidades", required=false, defaultValue="") List<String> localidades
 	        )
 	{
@@ -144,6 +145,7 @@ public class AdminFocosController {
 				foco.setIdent(ident);
 				foco.setCode(code);
 				foco.setName(name);
+				foco.setCoordinates(coordinates);
 				foco.setRecordUser(SecurityContextHolder.getContext().getAuthentication().getName());
 				foco.setRecordDate(new Date());
 				//Guardar nuevo
@@ -155,6 +157,7 @@ public class AdminFocosController {
 				foco = focoService.getFoco(ident);
 				foco.setCode(code);
 				foco.setName(name);
+				foco.setCoordinates(coordinates);
 				//Actualiza
 				this.focoService.saveFoco(foco);
 			}

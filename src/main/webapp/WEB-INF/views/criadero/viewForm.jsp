@@ -80,7 +80,7 @@
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
-		                      <label class="col-md-3 col-form-label"><spring:message code="tipo" />:</label>
+		                      <label class="col-md-3 col-form-label"><spring:message code="criadtipo" />:</label>
 		                      <div class="col-md-9">
 		                        <p class="form-control-static"><strong><c:out value="${criadero.tipo}" /></strong></p>
 		                      </div>

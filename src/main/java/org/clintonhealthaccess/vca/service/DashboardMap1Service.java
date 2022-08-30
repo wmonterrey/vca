@@ -33,7 +33,7 @@ public class DashboardMap1Service {
 	 * @return lista de objetos
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Object> getDatosCasosxFecha(String area, String district, String foci, String localidad,Long desde, Long hasta,String tiempo, String username) {
+	public List<Object> getDatosCasosxFecha(String area, String district, String foci, String localidad,Long desde, Long hasta,String tiempo, String username, String estado) {
 		// Retrieve session from Hibernate
 		String sqlQueryTiempo = "";
 		String sqlQueryEnd = "";
@@ -51,7 +51,8 @@ public class DashboardMap1Service {
 		
 		
 		String sqlQueryStart = " COUNT(caso.ident) AS Total,  SUM( CASE inv WHEN '1' THEN 1 ELSE 0 END ) as Investigados,  SUM( CASE tx WHEN '1' THEN 1 ELSE 0 END ) as TxIni"
-				+ ",  SUM( CASE txComp WHEN '1' THEN 1 ELSE 0 END ) as TxComp,  SUM( CASE sx WHEN '1' THEN 1 ELSE 0 END ) as seg2sem,  SUM( CASE sxComp WHEN '1' THEN 1 ELSE 0 END ) as seg4sem";
+				+ ",  SUM( CASE txComp WHEN '1' THEN 1 ELSE 0 END ) as TxComp,  SUM( CASE sx WHEN '1' THEN 1 ELSE 0 END ) as seg2sem,  SUM( CASE sxComp WHEN '1' THEN 1 ELSE 0 END ) as seg4sem"
+				+ ",  SUM( CASE WHEN txSup is not 'No' THEN 1 ELSE 0 END ) as TxSup,  SUM( CASE lostFollowUp WHEN '1' THEN 1 ELSE 0 END ) as lostFollowUp";
 		String sqlQueryFilter = " from Caso caso where caso.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0') ";
 		
 		if(!area.equals("ALL")) {
@@ -65,6 +66,9 @@ public class DashboardMap1Service {
 		}
 		if(!localidad.equals("ALL")) {
 			sqlQueryFilter = sqlQueryFilter + " and caso.local.ident=:localidad";
+		}
+		if(!estado.equals("ALL")) {
+			sqlQueryFilter = sqlQueryFilter + " and caso.estadocaso=:estado";
 		}
 		if(!(desde==null)) {
 			sqlQueryFilter = sqlQueryFilter + " and caso.mxDate between :fechaInicio and :fechaFinal";
@@ -85,6 +89,9 @@ public class DashboardMap1Service {
 		if(!localidad.equals("ALL")) {
 			query.setParameter("localidad", localidad);
 		}
+		if(!estado.equals("ALL")) {
+			query.setParameter("estado", estado);
+		}
 		if(!(desde==null)) {
 			Timestamp timeStampInicio = new Timestamp(desde);
 			Timestamp timeStampFinal = new Timestamp(hasta);
@@ -102,7 +109,7 @@ public class DashboardMap1Service {
 	 * @return lista de objetos
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Object> getDatosCasosxOU(String area, String district, String foci, String localidad, Long desde, Long hasta, String tipoOU, String username) {
+	public List<Object> getDatosCasosxOU(String area, String district, String foci, String localidad, Long desde, Long hasta, String tipoOU, String username, String estado) {
 		// Retrieve session from Hibernate
 		String sqlQueryTipoOU = "";
 		String sqlQueryEnd = "";
@@ -120,7 +127,8 @@ public class DashboardMap1Service {
 		
 		String sqlQueryStart = " COUNT(caso.ident) AS Total, "
 				+ "SUM( CASE inv WHEN '1' THEN 1 ELSE 0 END ) AS Investigados, SUM( CASE tx WHEN '1' THEN 1 ELSE 0 END ) AS IniTrat"
-				+ ",  SUM( CASE txComp WHEN '1' THEN 1 ELSE 0 END ) as TxComp,  SUM( CASE sx WHEN '1' THEN 1 ELSE 0 END ) as seg2sem,  SUM( CASE sxComp WHEN '1' THEN 1 ELSE 0 END ) as seg4sem ";
+				+ ",  SUM( CASE txComp WHEN '1' THEN 1 ELSE 0 END ) as TxComp,  SUM( CASE sx WHEN '1' THEN 1 ELSE 0 END ) as seg2sem,  SUM( CASE sxComp WHEN '1' THEN 1 ELSE 0 END ) as seg4sem "
+				+ ",  SUM( CASE WHEN txSup is not 'No' THEN 1 ELSE 0 END ) as TxSup,  SUM( CASE lostFollowUp WHEN '1' THEN 1 ELSE 0 END ) as lostFollowUp";
 		String sqlQueryFilter = " from Caso caso where caso.pasive = '0' and caso.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0') ";
 		
 		if(!area.equals("ALL")) {
@@ -134,6 +142,9 @@ public class DashboardMap1Service {
 		}
 		if(!localidad.equals("ALL")) {
 			sqlQueryFilter = sqlQueryFilter + " and caso.local.ident=:localidad";
+		}
+		if(!estado.equals("ALL")) {
+			sqlQueryFilter = sqlQueryFilter + " and caso.estadocaso=:estado";
 		}
 		if(!(desde==null)) {
 			sqlQueryFilter = sqlQueryFilter + " and caso.mxDate between :fechaInicio and :fechaFinal";
@@ -153,6 +164,9 @@ public class DashboardMap1Service {
 		}
 		if(!localidad.equals("ALL")) {
 			query.setParameter("localidad", localidad);
+		}
+		if(!estado.equals("ALL")) {
+			query.setParameter("estado", estado);
 		}
 		if(!(desde==null)) {
 			Timestamp timeStampInicio = new Timestamp(desde);
@@ -189,7 +203,8 @@ public class DashboardMap1Service {
 		
 		String sqlQueryStart = " COUNT(caso.ident) AS Total, "
 				+ "SUM( CASE estadocaso WHEN 'CONF' THEN 1 ELSE 0 END ) AS Positivos, SUM( CASE estadocaso WHEN 'TRAT' THEN 1 ELSE 0 END ) AS EnTratamiento "
-				+ ", SUM( CASE estadocaso WHEN 'TRATC' THEN 1 ELSE 0 END ) AS TratamientoComp, SUM( CASE estadocaso WHEN 'SEG2' THEN 1 ELSE 0 END ) AS seg2sem, SUM( CASE estadocaso WHEN 'SEG4' THEN 1 ELSE 0 END ) AS seg4sem ";
+				+ ", SUM( CASE estadocaso WHEN 'TRATC' THEN 1 ELSE 0 END ) AS TratamientoComp, SUM( CASE estadocaso WHEN 'SEG2' THEN 1 ELSE 0 END ) AS seg2sem, SUM( CASE estadocaso WHEN 'SEG4' THEN 1 ELSE 0 END ) AS seg4sem "
+				+ ", SUM( CASE estadocaso WHEN 'SEGPOS' THEN 1 ELSE 0 END ) AS nocurado, SUM( CASE estadocaso WHEN 'SEGINC' THEN 1 ELSE 0 END ) AS lostfollowup ";
 		String sqlQueryFilter = " from Caso caso where caso.pasive = '0' and caso.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0') ";
 		
 		if(!area.equals("ALL")) {

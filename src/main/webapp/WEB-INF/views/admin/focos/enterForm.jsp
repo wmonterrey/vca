@@ -104,6 +104,13 @@
 		                    </select>
 		                 </fieldset>
 		                 
+		                 <div class="form-group">
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-address-book"></i></span>
+	                        <input type="text" id="coordinates" name="coordinates" value="${foco.coordinates}" class="form-control" placeholder="<spring:message code="coordinates" />">
+	                      </div>
+	                    </div>
+		                 
                         <div class="form-group">
                           <button type="submit" class="btn btn-primary" id="guardar"><i class="fa fa-save"></i>&nbsp;<spring:message code="save" /></button>
 						  <a href="${fn:escapeXml(listUrl)}" class="btn btn-danger"><i class="fa fa-undo"></i>&nbsp;<spring:message code="cancel" /></a>

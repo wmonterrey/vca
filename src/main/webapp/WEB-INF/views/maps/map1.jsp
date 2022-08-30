@@ -23,6 +23,8 @@
 <link href="${leafletCSS}" rel="stylesheet" type="text/css"/>
 <spring:url value="/resources/vendors/css/Control.FullScreen.css" var="ControlFullScreenCSS" />
 <link href="${ControlFullScreenCSS}" rel="stylesheet" type="text/css"/>
+<spring:url value="/resources/vendors/css/leaflet.draw.css" var="leafletDrawCSS" />
+<link href="${leafletDrawCSS}" rel="stylesheet" type="text/css"/>
 <style>
 
 /*Legend specific*/
@@ -148,10 +150,10 @@
 	            <div class="col-6 col-lg-3">
 		            <div class="card">
 			            <div class="card-body p-3 clearfix">
+			            	<div class="text-uppercase text-muted font-weight-bold font-xs text-left mb-0 mt-2 tipso" data-tipso="<spring:message code="casostratsdesc" />"><spring:message code="txSup" /></div>
+				            <div class="h3 text-right"><label id="labelPorTxSup"></label></div>
 				            <div class="text-uppercase text-muted font-weight-bold font-xs text-left mb-0 mt-2 tipso" data-tipso="<spring:message code="casossegdesc" />"><spring:message code="sx" /></div>
 				            <div class="h3 text-right"><label id="labelPorSx"></label></div>
-				            <div class="text-uppercase text-muted font-weight-bold font-xs text-left mb-0 mt-2 tipso" data-tipso="<spring:message code="casossegcdesc" />"><spring:message code="sxComp" /></div>
-				            <div class="h3 text-right"><label id="labelPorSxCom"></label></div>
 			            </div>
 			            <div class="card-footer px-3 py-2">
 			            </div>
@@ -160,10 +162,10 @@
 	            <div class="col-6 col-lg-3">
 		            <div class="card">
 			            <div class="card-body p-3 clearfix">
-				            <div class="text-uppercase text-muted font-weight-bold font-xs text-left mb-0 mt-2 tipso" data-tipso="<spring:message code="casossegdesc" />"><spring:message code="sxPos" /></div>
-				            <div class="h3 text-right"><label id="labelPorSx"></label></div>
-				            <div class="text-uppercase text-muted font-weight-bold font-xs text-left mb-0 mt-2 tipso" data-tipso="<spring:message code="casossegcdesc" />">Sin Seguimiento</div>
-				            <div class="h3 text-right"><label id="labelPorSxCom"> 34 (13%)</label></div>
+			            	<div class="text-uppercase text-muted font-weight-bold font-xs text-left mb-0 mt-2 tipso" data-tipso="<spring:message code="casossegcdesc" />"><spring:message code="sxComp" /></div>
+				            <div class="h3 text-right"><label id="labelPorSxCom"></label></div>
+				            <div class="text-uppercase text-muted font-weight-bold font-xs text-left mb-0 mt-2 tipso" data-tipso="<spring:message code="casoslostdesc" />"><spring:message code="lostFollowUp" /></div>
+				            <div class="h3 text-right"><label id="labelPorLost"> </label></div>
 			            </div>
 			            <div class="card-footer px-3 py-2">
 			            </div>
@@ -176,15 +178,6 @@
 					<div class="card">
 						<div id="mapCard" class="card-body">
 							<div id="mapid" style="width: 100%; height: 480px;"></div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-12 col-lg-12">
-					<div class="card">
-						<div id="mapCard2" class="card-body">
-							<div id="mapid2" style="width: 100%; height: 480px;"></div>
 						</div>
 					</div>
 				</div>
@@ -212,7 +205,7 @@
 			             			</div>
 			         			</div>
 			         			<div class="tab-pane" id="day-table" role="tabpanel">
-				           			<div class="chart-wrapper daytable">
+				           			<div class="chart-wrapper daytable table-responsive">
 				                 		<table id="daytable" class="table table-striped table-bordered datatable" width="100%">
 							                <thead> 
 							                	<tr>
@@ -224,9 +217,13 @@
 							                		<th><spring:message code="%" /></th>
 							                		<th><spring:message code="txComp" /></th>
 							                		<th><spring:message code="%" /></th>
+							                		<th><spring:message code="txSup" /></th>
+							                		<th><spring:message code="%" /></th>
 							                		<th><spring:message code="sx" /></th>
 							                		<th><spring:message code="%" /></th>
 							                		<th><spring:message code="sxComp" /></th>
+							                		<th><spring:message code="%" /></th>
+							                		<th><spring:message code="lostFollowUp" /></th>
 							                		<th><spring:message code="%" /></th>
 							                	</tr>
 							                </thead>
@@ -262,7 +259,7 @@
 			             			</div>
 			         			</div>
 			         			<div class="tab-pane" id="ou-table" role="tabpanel">
-				           			<div class="chart-wrapper outable">
+				           			<div class="chart-wrapper outable table-responsive">
 				                 		<table id="outable" class="table table-striped table-bordered datatable" width="100%">
 							                <thead>
 							                	<tr>
@@ -274,9 +271,13 @@
 							                		<th><spring:message code="%" /></th>
 							                		<th><spring:message code="txComp" /></th>
 							                		<th><spring:message code="%" /></th>
+							                		<th><spring:message code="txSup" /></th>
+							                		<th><spring:message code="%" /></th>
 							                		<th><spring:message code="sx" /></th>
 							                		<th><spring:message code="%" /></th>
 							                		<th><spring:message code="sxComp" /></th>
+							                		<th><spring:message code="%" /></th>
+							                		<th><spring:message code="lostFollowUp" /></th>
 							                		<th><spring:message code="%" /></th>
 							                	</tr>
 							                </thead>
@@ -312,7 +313,7 @@
 			             			</div>
 			         			</div>
 			         			<div class="tab-pane" id="est-table" role="tabpanel">
-				           			<div class="chart-wrapper outable">
+				           			<div class="chart-wrapper outable table-responsive">
 				                 		<table id="esttable" class="table table-striped table-bordered datatable" width="100%">
 							                <thead>
 							                	<tr>
@@ -327,6 +328,10 @@
 								                    <th class="hidden-xs"><spring:message code="CAT_ESTADOCASO_4" /></th>
 								                    <th class="hidden-xs" >%</th>
 								                    <th class="hidden-xs"><spring:message code="CAT_ESTADOCASO_5" /></th>
+								                    <th class="hidden-xs" >%</th>
+								                    <th class="hidden-xs"><spring:message code="CAT_ESTADOCASO_6" /></th>
+								                    <th class="hidden-xs" >%</th>
+								                    <th class="hidden-xs"><spring:message code="CAT_ESTADOCASO_7" /></th>
 								                    <th class="hidden-xs" >%</th>
 							                	</tr>
 							                </thead>
@@ -414,6 +419,19 @@
 	            <div class="input-group">
                    <input id="fecMuestraRange" name="fecMuestraRange" class="form-control" type="text">
                  </div>
+	          </div>
+	          
+	          <hr class="mx-3 my-0">
+	          <div class="callout callout-success m-0 py-2">
+	            <div>
+	              <strong><spring:message code="caseState" /></strong>
+	            </div>
+	            <select name="estado" id="estado" class="form-control select2-single">
+	            	<option value="ALL"><spring:message code="all"/></option>
+					<c:forEach items="${estados}" var="estado">
+						<option value="${estado.catKey}"><spring:message code="${estado.messageKey}" /></option>
+					</c:forEach>
+				</select>
 	          </div>
 	          
 	          <hr class="mx-3 my-0">
@@ -514,6 +532,8 @@
   <script src="${leafletJS}" type="text/javascript"></script>
   <spring:url value="/resources/vendors/js/Control.FullScreen.js" var="ControlFullScreenJS" />
   <script src="${ControlFullScreenJS}" type="text/javascript"></script>
+  <spring:url value="/resources/vendors/js/Leaflet.draw.js" var="leafletDrawJS" />
+  <script src="${leafletDrawJS}" type="text/javascript"></script>    
   
   <!-- Custom scripts required by this view -->
   <spring:url value="/resources/js/views/map1.js" var="ProcessMapDashboard" />
@@ -526,22 +546,37 @@
   <spring:url value="/view/maps/porubi/2/" var="casosPorUbiUrl2"/>
   <spring:url value="/view/maps/porestado/" var="casosPorEstadoUrl"/>
   
+  <spring:url value="/view/maps/case" var="verCasoUrl"/>
   
-  <spring:url value="/resources/img/icons-maps/blue.png" var="iconBlue" />
-  <spring:url value="/resources/img/icons-maps/green.png" var="iconGreen" />
-  <spring:url value="/resources/img/icons-maps/darkgreen.png" var="iconDarkGreen" />
-  <spring:url value="/resources/img/icons-maps/red.png" var="iconRed" />
-  <spring:url value="/resources/img/icons-maps/orange.png" var="iconOrange" />
+  
+  <spring:url value="/resources/img/icons-maps/marker-icon-blue.png" var="iconBlue" />
+  <spring:url value="/resources/img/icons-maps/marker-icon-yellow.png" var="iconYellow" />
+  <spring:url value="/resources/img/icons-maps/marker-icon-green.png" var="iconGreen" />
+  <spring:url value="/resources/img/icons-maps/marker-icon-red.png" var="iconRed" />
+  <spring:url value="/resources/img/icons-maps/marker-icon-orange.png" var="iconOrange" />
+  <spring:url value="/resources/img/icons-maps/marker-icon-violet.png" var="iconPurple" />
+  <spring:url value="/resources/img/icons-maps/marker-icon-grey.png" var="iconGray" />
+  <spring:url value="/resources/img/icons-maps/marker-icon-black.png" var="iconBlack" />
   <spring:url value="/resources/img/icons-maps/pdxs.png" var="iconPdxs" />
   <spring:url value="/resources/img/icons-maps/criadero.png" var="iconCr" />
+  <spring:url value="/resources/img/icons-maps/marker-shadow.png" var="iconShadow" />
   
   <c:set var="casostot"><spring:message code="casostot" /></c:set>
   <c:set var="conf"><spring:message code="conf" /></c:set>
   <c:set var="inv"><spring:message code="inv" /></c:set>
   <c:set var="tx"><spring:message code="tx" /></c:set>
+  <c:set var="txSup"><spring:message code="txSup" /></c:set>
   <c:set var="txComp"><spring:message code="txComp" /></c:set>
   <c:set var="sx"><spring:message code="sx" /></c:set>
   <c:set var="sxComp"><spring:message code="sxComp" /></c:set>
+  <c:set var="lostFollowUp"><spring:message code="lostFollowUp" /></c:set>
+  <c:set var="EST1"><spring:message code="CAT_ESTADOCASO_1" /></c:set>
+  <c:set var="EST2"><spring:message code="CAT_ESTADOCASO_2" /></c:set>
+  <c:set var="EST3"><spring:message code="CAT_ESTADOCASO_3" /></c:set>
+  <c:set var="EST4"><spring:message code="CAT_ESTADOCASO_4" /></c:set>
+  <c:set var="EST5"><spring:message code="CAT_ESTADOCASO_5" /></c:set>
+  <c:set var="EST6"><spring:message code="CAT_ESTADOCASO_6" /></c:set>
+  <c:set var="EST7"><spring:message code="CAT_ESTADOCASO_7" /></c:set>
   
   <c:set var="successmessage"><spring:message code="process.success" /></c:set>
   <c:set var="errormessage"><spring:message code="process.errors" /></c:set>
@@ -556,11 +591,12 @@ jQuery(document).ready(function() {
 		background: 'rgba(0,0,0,0.8)',
 		useTitle: false
 	});
-	var parametros = {casosPorDiaUrl: "${casosPorDiaUrl}", casosPorOUUrl: "${casosPorOUUrl}", casosPorUbiUrl1: "${casosPorUbiUrl1}", casosPorUbiUrl2: "${casosPorUbiUrl2}", casosPorEstadoUrl: "${casosPorEstadoUrl}", 
-			successmessage: "${successmessage}",
-			errormessage: "${errormessage}",waitmessage: "${waitmessage}",iconBlue: "${iconBlue}",iconGreen: "${iconGreen}",iconRed: "${iconRed}",iconOrange: "${iconOrange}",iconDarkGreen: "${iconDarkGreen}",
-			iconPdxs: "${iconPdxs}",iconCr: "${iconCr}",
-			sxComp: "${sxComp}",sx: "${sx}",txComp: "${txComp}",tx: "${tx}",conf: "${conf}",inv: "${inv}",casostot: "${casostot}",dataTablesLang: "${dataTablesLang}"};
+	var parametros = {casosPorDiaUrl: "${casosPorDiaUrl}", casosPorOUUrl: "${casosPorOUUrl}", casosPorUbiUrl1: "${casosPorUbiUrl1}", casosPorUbiUrl2: "${casosPorUbiUrl2}", 
+			casosPorEstadoUrl: "${casosPorEstadoUrl}",EST1: "${EST1}",EST2: "${EST2}", EST3: "${EST3}", EST4: "${EST4}", EST5: "${EST5}", EST6: "${EST6}", EST7: "${EST7}",  
+			successmessage: "${successmessage}",successmessage: "${successmessage}",verCasoUrl: "${verCasoUrl}",
+			errormessage: "${errormessage}",waitmessage: "${waitmessage}",iconBlue: "${iconBlue}",iconYellow: "${iconYellow}",iconRed: "${iconRed}",iconOrange: "${iconOrange}",iconGreen: "${iconGreen}",
+			iconPdxs: "${iconPdxs}",iconCr: "${iconCr}",iconPurple: "${iconPurple}",iconGray: "${iconGray}",iconBlack: "${iconBlack}",iconShadow: "${iconShadow}",
+			sxComp: "${sxComp}",sx: "${sx}",txComp: "${txComp}",tx: "${tx}",txSup: "${txSup}",lostFollowUp: "${lostFollowUp}",conf: "${conf}",inv: "${inv}",casostot: "${casostot}",dataTablesLang: "${dataTablesLang}"};
 	ProcessMapDashboard.init(parametros);
 });
 
