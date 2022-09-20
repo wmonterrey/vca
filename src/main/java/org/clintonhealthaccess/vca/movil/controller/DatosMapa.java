@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.clintonhealthaccess.vca.domain.Caso;
-import org.clintonhealthaccess.vca.domain.Criadero;
+import org.clintonhealthaccess.vca.domain.PoligonCriadero;
+import org.clintonhealthaccess.vca.domain.PoligonFoco;
 import org.clintonhealthaccess.vca.domain.PuntoDiagnostico;
 
 
@@ -17,7 +18,8 @@ public class DatosMapa implements Serializable {
 	private static final long serialVersionUID = 1L;
 	List<Caso> casos;
 	List<PuntoDiagnostico> puntoDiagnosticos;
-	List<Criadero> criaderos;
+	List<PoligonCriadero> criaderos;
+	List<PoligonFoco> focos;
 
 	
 
@@ -54,18 +56,29 @@ public class DatosMapa implements Serializable {
 
 
 
-	public List<Criadero> getCriaderos() {
+	public List<PoligonCriadero> getCriaderos() {
 		return criaderos;
 	}
 
 
 
-	public void setCriaderos(List<Criadero> criaderos) {
+	public void setCriaderos(List<PoligonCriadero> criaderos) {
 		this.criaderos = criaderos;
 	}
-	
-	
-	
+
+
+
+	public List<PoligonFoco> getFocos() {
+		return focos;
+	}
+
+
+
+	public void setFocos(List<PoligonFoco> focos) {
+		this.focos = focos;
+	}
+
+
 
 
 }

@@ -6,7 +6,9 @@ import javax.annotation.Resource;
 
 import org.clintonhealthaccess.vca.domain.Foco;
 import org.clintonhealthaccess.vca.domain.Localidad;
+import org.clintonhealthaccess.vca.domain.PuntosFoco;
 import org.clintonhealthaccess.vca.domain.relationships.FocoLocalidad;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -128,6 +130,40 @@ public class FocoService {
 		query.setParameter("localidad",localidad);
 		FocoLocalidad fl = (FocoLocalidad) query.uniqueResult();
 		return fl;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<PuntosFoco> getPuntosFocos(String foco) {
+		// Retrieve session from Hibernate
+		Session session = sessionFactory.getCurrentSession();
+		// Create a Hibernate query (HQL)
+		Query query = session.createQuery("FROM PuntosFoco pf where pf.foco.ident =:foco order by pf.order");
+		query.setParameter("foco",foco);
+		// Retrieve all
+		return  query.list();
+	}
+	
+	
+	public int removePuntosFocos(String foco) {
+		int deletedRows = 0;
+		// Retrieve session from Hibernate
+		Session session = sessionFactory.getCurrentSession();
+		// Create a Hibernate query (HQL)
+		try {
+			Query query = session.createQuery("Delete FROM PuntosFoco pf where pf.foco.ident =:foco");
+			query.setParameter("foco",foco);
+			deletedRows = query.executeUpdate();
+		} catch (javax.persistence.NoResultException e) {
+			return deletedRows;
+		} catch (HibernateException he) {
+			throw he;
+		}
+		return deletedRows;
+	}
+	
+	public void savePuntosFoco(PuntosFoco pf) {
+		Session session = sessionFactory.getCurrentSession();
+		session.saveOrUpdate(pf);
 	}
 	
 

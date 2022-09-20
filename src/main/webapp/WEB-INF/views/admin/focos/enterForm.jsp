@@ -93,6 +93,12 @@
 	                        <input type="text" id="name" name="name" value="${foco.name}" class="form-control" placeholder="<spring:message code="name" />">
 	                      </div>
 	                    </div>
+	                    <div class="form-group">
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-address-book"></i></span>
+	                        <input type="text" id="color" name="color" value="${foco.color}" class="form-control" placeholder="<spring:message code="color" />">
+	                      </div>
+	                    </div>
 	                    
 	                    <fieldset class="form-group">
 		                 	<i class="fa fa-map-o"></i>
@@ -103,13 +109,6 @@
 		                      </c:forEach>
 		                    </select>
 		                 </fieldset>
-		                 
-		                 <div class="form-group">
-	                      <div class="input-group">
-	                        <span class="input-group-addon"><i class="fa fa-address-book"></i></span>
-	                        <input type="text" id="coordinates" name="coordinates" value="${foco.coordinates}" class="form-control" placeholder="<spring:message code="coordinates" />">
-	                      </div>
-	                    </div>
 		                 
                         <div class="form-group">
                           <button type="submit" class="btn btn-primary" id="guardar"><i class="fa fa-save"></i>&nbsp;<spring:message code="save" /></button>

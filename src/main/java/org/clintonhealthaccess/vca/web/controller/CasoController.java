@@ -161,6 +161,9 @@ public class CasoController {
     	model.addAttribute("tiposPrueba", tiposPrueba);
     	List<MessageResource> siNo = this.messageResourceService.getCatalogo("CAT_SINO"); 
     	model.addAttribute("siNo", siNo);
+    	
+    	List<MessageResource> sexo = this.messageResourceService.getCatalogo("CAT_SEXO"); 
+    	model.addAttribute("sexo", sexo);
     	return "caso/enterForm";
 	}
     
@@ -243,6 +246,8 @@ public class CasoController {
 	    	model.addAttribute("tiposPrueba", tiposPrueba);
 	    	List<MessageResource> siNo = this.messageResourceService.getCatalogo("CAT_SINO"); 
 	    	model.addAttribute("siNo", siNo);
+	    	List<MessageResource> sexo = this.messageResourceService.getCatalogo("CAT_SEXO"); 
+	    	model.addAttribute("sexo", sexo);
 			model.addAttribute("caso",caso);
 			if(parametroService.getParametroByCode("latMin")!=null) latitudMinima = Float.parseFloat(parametroService.getParametroByCode("latMin").getValue());
 			if(parametroService.getParametroByCode("latMax")!=null) latitudMaxima = Float.parseFloat(parametroService.getParametroByCode("latMax").getValue());
@@ -265,53 +270,7 @@ public class CasoController {
 		}
 	}
     
-    /**
-     * Custom handler for editing.
-     * @param model Modelo enlazado a la vista
-     * @param ident the ID to edit
-     * @return a ModelMap with the model attributes for the view
-     */
-    @RequestMapping(value = "/enterLocation/{ident}/", method = RequestMethod.GET)
-	public String enterLocation(@PathVariable("ident") String ident, Model model) {
-		Caso caso = this.casoService.getCaso(ident);
-		if(caso!=null){
-			try {
-				model.addAttribute("caso",caso);
-				Double latitud = 0D;
-				Double longitud = 0D;
-		    	Integer zoom = 0;
-		    	if(parametroService.getParametroByCode("zoom")!=null) zoom = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
-	        	if(parametroService.getParametroByCode("lat")!=null) latitud = Double.parseDouble(parametroService.getParametroByCode("lat").getValue());
-	        	if(parametroService.getParametroByCode("long")!=null) longitud = Double.parseDouble(parametroService.getParametroByCode("long").getValue());
-	        	if(caso.getLatitude()!=null) latitud = caso.getLatitude();
-	        	if(caso.getLongitude()!=null) longitud = caso.getLongitude();
-	        	if(caso.getZoom()!=null) zoom = caso.getZoom();
-	        	model.addAttribute("latitude",latitud);
-	        	model.addAttribute("longitude",longitud);
-	        	model.addAttribute("zoom",zoom);
-	        	Float latitudMinima=0F;
-		    	Float latitudMaxima=0F;
-		    	Float longitudMinima=0F;
-		    	Float longitudMaxima=0F;
-		    	if(parametroService.getParametroByCode("latMin")!=null) latitudMinima = Float.parseFloat(parametroService.getParametroByCode("latMin").getValue());
-		    	if(parametroService.getParametroByCode("latMax")!=null) latitudMaxima = Float.parseFloat(parametroService.getParametroByCode("latMax").getValue());
-		    	if(parametroService.getParametroByCode("longMin")!=null) longitudMinima = Float.parseFloat(parametroService.getParametroByCode("longMin").getValue());
-		    	if(parametroService.getParametroByCode("longMax")!=null) longitudMaxima = Float.parseFloat(parametroService.getParametroByCode("longMax").getValue());
-		    	model.addAttribute("latitudMinima", latitudMinima);
-		    	model.addAttribute("latitudMaxima", latitudMaxima);
-		    	model.addAttribute("longitudMinima", longitudMinima);
-		    	model.addAttribute("longitudMaxima", longitudMaxima);
-				return "caso/enterLocation";
-			}
-        	catch (Exception e) {
-        		model.addAttribute("errormsg","Error: " + e.getLocalizedMessage());
-        		return "505";
-        	}
-		}
-		else{
-			return "403";
-		}
-	}
+    
 	
     /**
      * Custom handler for saving.
@@ -331,6 +290,10 @@ public class CasoController {
 	        , @RequestParam( value="status", required=true, defaultValue ="" ) String status
 	        , @RequestParam( value="info", required=false, defaultValue ="" ) String info
 	        , @RequestParam( value="sint", required=false ) String sint
+	        , @RequestParam( value="sexo", required=false ) String sexo
+	        , @RequestParam( value="edad", required=false ) Integer edad
+	        , @RequestParam( value="embarazada", required=false ) String embarazada
+	        , @RequestParam( value="menor6meses", required=false ) String menor6meses
 	        , @RequestParam( value="fisDate", required=false ) String fisDate
 	        , @RequestParam( value="mxDate", required=true ) String mxDate
 	        , @RequestParam( value="mxType", required=true ) String mxType
@@ -399,9 +362,14 @@ public class CasoController {
 			caso.setCui(cui);
 			caso.setNombre(nombre);
 			caso.setMxType(mxType);
+			caso.setEdad(edad);
+			caso.setSexo(sexo);
+			caso.setEmbarazada(embarazada);
+			caso.setMenor6meses(menor6meses);
 			caso.setLatitudeOrigin(latitudOrigen);
 			caso.setLongitudeOrigin(longitudOrigen);
 			caso.setZoomOrigin(vistaOrigen);
+			caso.setEstado('2');
 			
 			//Actualiza
 			this.casoService.saveCaso(caso);

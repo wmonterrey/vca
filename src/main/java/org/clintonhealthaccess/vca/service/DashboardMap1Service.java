@@ -53,7 +53,7 @@ public class DashboardMap1Service {
 		String sqlQueryStart = " COUNT(caso.ident) AS Total,  SUM( CASE inv WHEN '1' THEN 1 ELSE 0 END ) as Investigados,  SUM( CASE tx WHEN '1' THEN 1 ELSE 0 END ) as TxIni"
 				+ ",  SUM( CASE txComp WHEN '1' THEN 1 ELSE 0 END ) as TxComp,  SUM( CASE sx WHEN '1' THEN 1 ELSE 0 END ) as seg2sem,  SUM( CASE sxComp WHEN '1' THEN 1 ELSE 0 END ) as seg4sem"
 				+ ",  SUM( CASE WHEN txSup is not 'No' THEN 1 ELSE 0 END ) as TxSup,  SUM( CASE lostFollowUp WHEN '1' THEN 1 ELSE 0 END ) as lostFollowUp";
-		String sqlQueryFilter = " from Caso caso where caso.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0') ";
+		String sqlQueryFilter = " from Caso caso where caso.pasive='0' and caso.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0') ";
 		
 		if(!area.equals("ALL")) {
 			sqlQueryFilter = sqlQueryFilter + " and caso.local.district.area.ident=:area";
@@ -259,7 +259,7 @@ public class DashboardMap1Service {
 	public List<Caso> getDatosCasosxUbi(String area, String district, String foci, String localidad,Long desde, Long hasta, String username, List<String> estadocaso) {
 		// Retrieve session from Hibernate
 		
-		String sqlQueryFilter = "from Caso caso where caso.latitude is not null and caso.longitude is not null and caso.latitude <> 0 and caso.longitude <> 0 and "
+		String sqlQueryFilter = "from Caso caso where caso.pasive = '0' and caso.latitude is not null and caso.longitude is not null and caso.latitude <> 0 and caso.longitude <> 0 and "
 				+ "caso.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0') and "
 				+ "caso.estadocaso in :estadocaso ";
 		

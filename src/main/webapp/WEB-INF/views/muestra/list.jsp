@@ -3,12 +3,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 <head>
 <jsp:include page="../fragments/headTag.jsp" />
 <!-- Styles required by this views -->
 <spring:url value="/resources/vendors/css/dataTables.bootstrap4.min.css" var="dataTablesCSS" />
 <link href="${dataTablesCSS}" rel="stylesheet" type="text/css"/>
+<spring:url value="/resources/vendors/css/responsive.dataTables.min.css" var="dataTablesResponsiveCSS" />
+<link href="${dataTablesResponsiveCSS}" rel="stylesheet" type="text/css"/>
+<spring:url value="/resources/vendors/css/buttons.dataTables.min.css" var="dataTablesButtonCSS" />
+<link href="${dataTablesButtonCSS}" rel="stylesheet" type="text/css"/>
 
 </head>
 <!-- BODY options, add following classes to body to change options
@@ -50,7 +55,7 @@
       <!-- Breadcrumb -->
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<spring:url value="/" htmlEscape="true "/>"><spring:message code="home" /></a></li>
-        <li class="breadcrumb-item active"><spring:message code="criaderos" /></li>
+        <li class="breadcrumb-item active"><spring:message code="tests" /></li>
         
       </ol>
 	  <!-- Container -->
@@ -58,54 +63,57 @@
       <div class="animated fadeIn">
           <div class="card">
             <div class="card-header">
-              <i class="fa fa-bug"></i> <spring:message code="criaderos" />
+              <i class="fa fa-list"></i> <spring:message code="tests" />
               <div class="card-actions">
               </div>
             </div>
             <div class="card-body">
-              <spring:url value="/admin/criaderos/newEntity/"	var="newEntity"/>
-              <spring:url value="/admin/criaderos/map/"	var="viewMap"/>
-              <button id="lista_criaderos_new" onclick="location.href='${fn:escapeXml(newEntity)}'" type="button" class="btn btn-outline-primary"><i class="fa fa-plus"></i>&nbsp; <spring:message code="add" /></button>
-              
+              <spring:url value="/admin/tests/newEntity/"	var="newEntity"/>
+              <spring:url value="/admin/tests/map/"	var="viewMap"/>
+              <button id="lista_tests_new" onclick="location.href='${fn:escapeXml(newEntity)}'" type="button" class="btn btn-outline-primary"><i class="fa fa-plus"></i>&nbsp; <spring:message code="add" /></button>
+              <div class="row float-right mr-4" >
+              	<button id="tests_map" onclick="location.href='${fn:escapeXml(viewMap)}'" type="button" class="btn btn-outline-primary"><i class="icon-globe"></i>&nbsp; <spring:message code="map" /></button>
+              </div>
               
               <br><br><br><br>	
-              <table id="lista_criaderos" class="table table-striped table-bordered datatable" width="100%">
+              <table id="lista_tests" class="table table-striped table-bordered datatable" width="100%">
                 <thead>
                 	<tr>
+                		<th></th>
+                		<th class="hidden-xs"><spring:message code="code1case" /></th>
 	                    <th class="hidden-xs"><spring:message code="locality" /></th>
-	                    <th class="hidden-xs"><spring:message code="criadtipo" /></th>
-	                    <th class="hidden-xs"><spring:message code="criadinfo" /></th>
+	                    <th class="hidden-xs"><spring:message code="mxDate" /></th>
 	                    <th><spring:message code="enabled" /></th>
 	                    <th><spring:message code="createdBy" /></th>
 	                    <th><spring:message code="dateCreated" /></th>
-	                    <th></th>
                 	</tr>
                 </thead>
                 <tbody>
-                	<c:forEach items="${criaderos}" var="criadero">
+                	<c:forEach items="${muestras}" var="muestra">
+                		<fmt:formatDate value="${muestra.mxDate}" var="fecmuestra" pattern="yyyy-MM-dd" />
                 		<tr>
-                			<spring:url value="/admin/criaderos/{id}/"
+                			<spring:url value="/admin/tests/{id}/"
                                         var="idUrl">
-                                <spring:param name="id" value="${criadero.ident}" />
+                                <spring:param name="id" value="${muestra.ident}" />
                             </spring:url>
-                            <spring:url value="/admin/criaderos/editEntity/{id}/"
+                            <spring:url value="/admin/tests/editEntity/{id}/"
                                         var="editUrl">
-                                <spring:param name="id" value="${criadero.ident}" />
+                                <spring:param name="id" value="${muestra.ident}" />
                             </spring:url>
-                            <td class="hidden-xs"><a href="${fn:escapeXml(idUrl)}"><c:out value="${criadero.local.name}" /></a></td>
-                            <td class="hidden-xs"><c:out value="${criadero.tipo}" /></td>
-                            <td class="hidden-xs"><c:out value="${criadero.info}" /></td>
+                            <td><a href="${fn:escapeXml(editUrl)}" class="btn btn-outline-primary btn-sm"><i class="fa fa-pencil"></i></a></td>
+                            <td><a href="${fn:escapeXml(idUrl)}"><c:out value="${muestra.codE1}" /></a></td>
+                            <td class="hidden-xs"><c:out value="${muestra.local.name}" /></td>
+                            <td class="hidden-xs"><c:out value="${fecmuestra}" /></td>
                             <c:choose>
-                                <c:when test="${criadero.pasive eq '0'.charAt(0)}">
+                                <c:when test="${muestra.pasive eq '0'.charAt(0)}">
                                     <td><span class="badge badge-success"><spring:message code="CAT_SINO_SI" /></span></td>
                                 </c:when>
                                 <c:otherwise>
                                     <td><span class="badge badge-danger"><spring:message code="CAT_SINO_NO" /></span></td>
                                 </c:otherwise>
                             </c:choose>
-                            <td><c:out value="${criadero.recordUser}" /></td>
-                            <td><c:out value="${criadero.recordDate}" /></td>
-                            <td><a href="${fn:escapeXml(idUrl)}" class="btn btn-outline-primary btn-sm"><i class="fa fa-search"></i></a><a href="${fn:escapeXml(editUrl)}" class="btn btn-outline-primary btn-sm"><i class="fa fa-pencil"></i></a></td>
+                            <td><c:out value="${muestra.recordUser}" /></td>
+                            <td><c:out value="${muestra.recordDate}" /></td>
                 		</tr>
                 	</c:forEach>
                 </tbody>
@@ -147,15 +155,42 @@
   <script src="${dataTablesSc}" type="text/javascript"></script>
   <spring:url value="/resources/vendors/js/dataTables.bootstrap4.min.js" var="dataTablesBsSc" />
   <script src="${dataTablesBsSc}" type="text/javascript"></script>
+  <spring:url value="/resources/vendors/js/dataTables.responsive.min.js" var="dataTablesResponsive" />
+  <script src="${dataTablesResponsive}" type="text/javascript"></script>
+  <spring:url value="/resources/vendors/js/dataTables.buttons.min.js" var="dataTablesButtons" />
+  <script src="${dataTablesButtons}" type="text/javascript"></script>
+  <spring:url value="/resources/vendors/js/buttons.flash.min.js" var="dataTablesButtonsFlash" />
+  <script src="${dataTablesButtonsFlash}" type="text/javascript"></script>
+  <spring:url value="/resources/vendors/js/jszip.min.js" var="dataTablesButtonsZip" />
+  <script src="${dataTablesButtonsZip}" type="text/javascript"></script>
+  <spring:url value="/resources/vendors/js/pdfmake.min.js" var="dataTablesButtonsPdfMake" />
+  <script src="${dataTablesButtonsPdfMake}" type="text/javascript"></script>
+  <spring:url value="/resources/vendors/js/vfs_fonts.js" var="dataTablesButtonsPdfFonts" />
+  <script src="${dataTablesButtonsPdfFonts}" type="text/javascript"></script>
+  <spring:url value="/resources/vendors/js/buttons.html5.min.js" var="dataTablesButtonsHTML5" />
+  <script src="${dataTablesButtonsHTML5}" type="text/javascript"></script>
+  <spring:url value="/resources/vendors/js/buttons.print.min.js" var="dataTablesButtonsPrint" />
+  <script src="${dataTablesButtonsPrint}" type="text/javascript"></script>  
   
   <!-- Custom scripts required by this view -->
   <script>
   	$(function(){
 	  $('.datatable').DataTable({
+		  dom: 'lBfrtip',
           "oLanguage": {
               "sUrl": "${dataTablesLang}"
           },
-          "scrollX": true
+          "responsive": true,
+          "buttons": [
+              {
+                  extend: 'excel'
+              },
+              {
+                  extend: 'pdfHtml5',
+                  orientation: 'portrait',
+                  pageSize: 'LETTER'
+              }
+          ]
       });
 	  $('.datatable').attr('style', 'border-collapse: collapse !important');
 	});

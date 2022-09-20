@@ -13,6 +13,62 @@
 
 <spring:url value="/resources/vendors/css/leaflet.css" var="leafletCSS" />
 <link href="${leafletCSS}" rel="stylesheet" type="text/css"/>
+<spring:url value="/resources/vendors/css/Control.FullScreen.css" var="ControlFullScreenCSS" />
+<link href="${ControlFullScreenCSS}" rel="stylesheet" type="text/css"/>
+<spring:url value="/resources/vendors/css/leaflet.draw.css" var="leafletDrawCSS" />
+<link href="${leafletDrawCSS}" rel="stylesheet" type="text/css"/>
+
+<style>
+
+/*Legend specific*/
+.legend {
+  padding: 6px 8px;
+  font: 11px Arial, Helvetica, sans-serif;
+  background: white;
+  background: rgba(255, 255, 255, 0.8);
+  /*box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);*/
+  /*border-radius: 5px;*/
+  line-height: 24px;
+  color: #555;
+}
+.legend h4 {
+  text-align: center;
+  font-size: 12px;
+  margin: 2px 12px 8px;
+  color: #777;
+}
+
+.legend span {
+  position: relative;
+  bottom: 3px;
+}
+
+.legend i {
+  width: 16px;
+  height: 16px;
+  float: left;
+  margin: 0 8px 0 0;
+  opacity: 0.7;
+}
+
+.legend i.icon {
+  background-size: 16px;
+  background-color: rgba(255, 255, 255, 1);
+}
+.info {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+.info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
+</style>
+
 </head>
 <!-- BODY options, add following classes to body to change options
 
@@ -113,12 +169,6 @@
 		                      <label class="col-md-3 col-form-label"><spring:message code="criadespecie" />:</label>
 		                      <div class="col-md-9">
 		                        <p class="form-control-static"><strong><c:out value="${criadero.especie}" /></strong></p>
-		                      </div>
-		                    </div>
-		                    <div class="form-group row">
-		                      <label class="col-md-3 col-form-label"><spring:message code="location" />:</label>
-		                      <div class="col-md-9">
-		                        <p class="form-control-static"><strong><c:out value="${criadero.latitude}" /> , <c:out value="${criadero.longitude}" />, <c:out value="${criadero.zoom}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
@@ -336,8 +386,10 @@
           "scrollX": true,
           "lengthMenu": [[5,10, 25, 50], [5,10, 25, 50]]
       });
-	  $('.datatable').attr('style', 'border-collapse: collapse !important');
+	  
 	});
+    
+    $('.datatable').attr('style', 'border-collapse: collapse !important');
     
     if ("${entidadHabilitada}"){
 		toastr.info("${entityEnabledLabel}", "${nombreEntidad}", {
@@ -352,8 +404,21 @@
 		  });
 	}
 	
-	var mymap = L.map('mapid').setView([${latitude}, ${longitude}], ${zoom});
-
+	//Presenta el mapa
+	var latDef = "${latitudDef}";
+	var lonDef = "${longitudDef}";
+	var zoomDef = "${zoomDef}";
+	var mymap = L.map('mapid', {
+	    center: [latDef, lonDef],
+	    zoom: zoomDef,
+	    fullscreenControl: true,
+	    fullscreenControlOptions: {
+	      position: 'topleft'
+	    }
+	});
+	var coordinates = [];
+	var puntos = [];
+	
 	L.tileLayer('http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
 		maxZoom: 18,
 		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
@@ -362,15 +427,102 @@
 		id: 'mapbox.streets'
 	}).addTo(mymap);
 	
-	var miLat = "${criadero.latitude}";
-	var miLong = "${criadero.longitude}";
+	// Initialise the FeatureGroup to store editable layers
+	var editableLayers = new L.FeatureGroup();
+	mymap.addLayer(editableLayers);
 	
-	if(!(miLat == "" || miLong == "")){
-		var marker = L.marker([${criadero.latitude}, ${criadero.longitude}]).addTo(mymap);
-		marker.bindTooltip("${criadero.info}");
-	}
+	var drawPluginOptions = {
+		  position: 'topright',
+		  draw: {
+		    polygon: {
+		      allowIntersection: false, // Restricts shapes to simple polygons
+		      drawError: {
+		        color: '#e1e100', // Color the shape will turn when intersects
+		        message: '<strong>Ay caray!<strong> No se puede dibujar esto!' // Message that will show when intersect
+		      },
+		      shapeOptions: {
+		        color: '#97009c'
+		      }
+		    },
+		    // disable toolbar item by setting it to false
+		    polyline: true,
+		    circle: false, // Turns off this drawing tool
+		    rectangle: false,
+		    marker: false,
+		    circlemarker: false,
+		    },
+		  edit: {
+		    featureGroup: editableLayers, //REQUIRED!!
+		    remove: false
+		  }
+		};
+
+		// Initialise the draw control and pass it the FeatureGroup of editable layers
+		var drawControl = new L.Control.Draw(drawPluginOptions);
+		mymap.addControl(drawControl);
+
+		var editableLayers = new L.FeatureGroup();
+		mymap.addLayer(editableLayers);
+
+		mymap.on('draw:created', function(e) {
+
+		  var type = e.layerType,
+		    layer = e.layer;
+		    //alert(layer._latlngs[0][0].lat);
+
+		  if (type === 'marker') {
+		    layer.bindPopup('A popup!');
+		  }
+
+		  editableLayers.addLayer(layer);
+		});
 	
-	var popup = L.popup();
+	
+		<c:forEach var="punto" items="${puntos}">
+			var miLat = "${punto.latitude}";
+			var miLong = "${punto.longitude}";
+			if(!(miLat == "" || miLong == "")){
+				var punto = [];
+				punto.push(miLong);
+				punto.push(miLat);
+				puntos.push(punto);
+			}
+		</c:forEach>
+		coordinates.push(puntos);
+		
+		var foco = [{
+		    "type": "Feature",
+		    "properties": {"name": "${foco.name}",
+		    	"popupContent": "${foco.name}"},
+		    "geometry": {
+		        "type": "Polygon",
+		        "coordinates": coordinates
+		    }
+		}];
+	
+	
+	  var focoLayer = L.geoJSON(foco, {
+		    style: function(feature) {
+		        switch (feature.properties.name) {
+		            case "${foco.name}": return {color: "#0000FF"};
+		        }
+		    }
+		});
+	  
+	  focoLayer.addTo(mymap);
+	  
+	  mymap.fitBounds(focoLayer.getBounds());
+	  
+	  /*Legend specific foco 5b*/
+	  var legend = L.control({ position: "bottomleft" });
+	
+	  legend.onAdd = function(map) {
+		  var div = L.DomUtil.create("div", "legend");
+		  div.innerHTML += '<i style="width:10px;height:10px;border:2px solid #0000FF;"></i><span>'+"${foco.name}"+'</span><br>';
+		  return div;
+	  };
+	  
+	  legend.addTo(mymap);
 
   </script>
 </body>

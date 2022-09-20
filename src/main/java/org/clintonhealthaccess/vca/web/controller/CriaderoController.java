@@ -84,38 +84,6 @@ public class CriaderoController {
     	return "criadero/list";
 	}
 	
-	@RequestMapping(value = "/map/", method = RequestMethod.GET)
-    public String getEntitiesForMap(Model model) throws ParseException { 	
-    	logger.debug("Mostrando Criaderos en JSP para mapear");
-    	try {
-    		Double latitud = 0D;
-			Double longitud = 0D;
-	    	Integer zoom = 0;
-        	
-        	if(parametroService.getParametroByCode("zoom")!=null) zoom = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
-        	if(parametroService.getParametroByCode("lat")!=null) latitud = Double.parseDouble(parametroService.getParametroByCode("lat").getValue());
-        	if(parametroService.getParametroByCode("long")!=null) longitud = Double.parseDouble(parametroService.getParametroByCode("long").getValue());
-        	
-    		List<Criadero> criaderos = criaderoService.getCriaderos();
-    		for(Criadero loc: criaderos) {
-    			if (loc.getLatitude()== null || loc.getLatitude()==null) {
-    				criaderos.remove(loc);
-    			}
-    			if (criaderos.size()==0) {
-    				break;
-    			}
-    		}
-        	model.addAttribute("criaderos", criaderos);
-        	model.addAttribute("latitude",latitud);
-        	model.addAttribute("longitude",longitud);
-        	model.addAttribute("zoom",zoom);
-        	return "criadero/mapa";
-    	}
-    	catch (Exception e) {
-    		model.addAttribute("errormsg",e.getLocalizedMessage());
-    		return "505";
-    	}
-	}
 	
 	/**
      * Custom handler for adding.
@@ -155,9 +123,9 @@ public class CriaderoController {
     public ModelAndView showEntity(@PathVariable("ident") String ident) {
     	ModelAndView mav;
     	Criadero criadero = this.criaderoService.getCriadero(ident);
-    	Double latitud=0D;
-    	Double longitud=0D;
-    	Integer zoom=0;
+    	Double latitudDef=0D;
+    	Double longitudDef=0D;
+    	Integer zoomDef=0;
         if(criadero==null){
         	mav = new ModelAndView("403");
         }
@@ -172,15 +140,12 @@ public class CriaderoController {
 	    			criadero.setTipo(descCatalogo);
 	    		}
 	        	mav.addObject("criadero",criadero);
-	        	if(parametroService.getParametroByCode("zoom")!=null) zoom = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
-	        	if(parametroService.getParametroByCode("lat")!=null) latitud = Double.parseDouble(parametroService.getParametroByCode("lat").getValue());
-	        	if(parametroService.getParametroByCode("long")!=null) longitud = Double.parseDouble(parametroService.getParametroByCode("long").getValue());
-	        	if(criadero.getLatitude()!=null) latitud = criadero.getLatitude();
-	        	if(criadero.getLongitude()!=null) longitud = criadero.getLongitude();
-	        	if(criadero.getZoom()!=null) zoom = criadero.getZoom();
-	        	mav.addObject("latitude",latitud);
-	        	mav.addObject("longitude",longitud);
-	        	mav.addObject("zoom",zoom);
+	        	if(parametroService.getParametroByCode("zoom")!=null) zoomDef = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
+	        	if(parametroService.getParametroByCode("lat")!=null) latitudDef = Double.parseDouble(parametroService.getParametroByCode("lat").getValue());
+	        	if(parametroService.getParametroByCode("long")!=null) longitudDef = Double.parseDouble(parametroService.getParametroByCode("long").getValue());
+	        	mav.addObject("latitudDef",latitudDef);
+	        	mav.addObject("longitudDef",longitudDef);
+	        	mav.addObject("zoomDef",zoomDef);
 	        	List<AuditTrail> bitacora = auditTrailService.getBitacora(ident);
 	            mav.addObject("bitacora",bitacora);
 	            List<CriaderoTx> visitas = criaderoTxService.getCriaderoTxs(ident);
@@ -249,30 +214,15 @@ public class CriaderoController {
 		if(criadero!=null){
 			try {
 				model.addAttribute("criadero",criadero);
-				Double latitud = 0D;
-				Double longitud = 0D;
-		    	Integer zoom = 0;
-		    	if(parametroService.getParametroByCode("zoom")!=null) zoom = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
-	        	if(parametroService.getParametroByCode("lat")!=null) latitud = Double.parseDouble(parametroService.getParametroByCode("lat").getValue());
-	        	if(parametroService.getParametroByCode("long")!=null) longitud = Double.parseDouble(parametroService.getParametroByCode("long").getValue());
-	        	if(criadero.getLatitude()!=null) latitud = criadero.getLatitude();
-	        	if(criadero.getLongitude()!=null) longitud = criadero.getLongitude();
-	        	if(criadero.getZoom()!=null) zoom = criadero.getZoom();
-	        	model.addAttribute("latitude",latitud);
-	        	model.addAttribute("longitude",longitud);
-	        	model.addAttribute("zoom",zoom);
-	        	Float latitudMinima=0F;
-		    	Float latitudMaxima=0F;
-		    	Float longitudMinima=0F;
-		    	Float longitudMaxima=0F;
-		    	if(parametroService.getParametroByCode("latMin")!=null) latitudMinima = Float.parseFloat(parametroService.getParametroByCode("latMin").getValue());
-		    	if(parametroService.getParametroByCode("latMax")!=null) latitudMaxima = Float.parseFloat(parametroService.getParametroByCode("latMax").getValue());
-		    	if(parametroService.getParametroByCode("longMin")!=null) longitudMinima = Float.parseFloat(parametroService.getParametroByCode("longMin").getValue());
-		    	if(parametroService.getParametroByCode("longMax")!=null) longitudMaxima = Float.parseFloat(parametroService.getParametroByCode("longMax").getValue());
-		    	model.addAttribute("latitudMinima", latitudMinima);
-		    	model.addAttribute("latitudMaxima", latitudMaxima);
-		    	model.addAttribute("longitudMinima", longitudMinima);
-		    	model.addAttribute("longitudMaxima", longitudMaxima);
+				Double latitudDef=0D;
+		    	Double longitudDef=0D;
+		    	Integer zoomDef=0;
+		    	if(parametroService.getParametroByCode("zoom")!=null) zoomDef = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
+	        	if(parametroService.getParametroByCode("lat")!=null) latitudDef = Double.parseDouble(parametroService.getParametroByCode("lat").getValue());
+	        	if(parametroService.getParametroByCode("long")!=null) longitudDef = Double.parseDouble(parametroService.getParametroByCode("long").getValue());
+		    	model.addAttribute("zoomDef", zoomDef);
+		    	model.addAttribute("latitudDef", latitudDef);
+		    	model.addAttribute("longitudDef", longitudDef);
 				return "criadero/enterLocation";
 			}
         	catch (Exception e) {
@@ -297,23 +247,14 @@ public class CriaderoController {
 	public ResponseEntity<String> processEntity( @RequestParam(value="ident", required=false, defaultValue="" ) String ident
 	        , @RequestParam( value="tipo", required=true ) String tipo
 	        , @RequestParam( value="local", required=true) String local
-	        , @RequestParam( value="latitude", required=false, defaultValue ="" ) String latitude
-	        , @RequestParam( value="longitude", required=false, defaultValue ="" ) String longitude
-	        , @RequestParam( value="zoom", required=false, defaultValue ="" ) String zoom
 	        , @RequestParam( value="size", required=false, defaultValue ="" ) String size
 	        , @RequestParam( value="info", required=false, defaultValue ="" ) String info
 	        , @RequestParam( value="especie", required=false, defaultValue ="" ) String especie
 	        )
 	{
     	try{
-    		Double latitud = null;
-    		Double longitud = null;
-    		Integer vista= null;
     		Double tam =null;
     		
-    		if(!latitude.equals("")) latitud = Double.valueOf(latitude);
-    		if(!longitude.equals("")) longitud = Double.valueOf(longitude);
-    		if(!zoom.equals("")) vista = Integer.valueOf(zoom);
     		if(!size.equals("")) tam = Double.valueOf(size);
     		
     		Localidad disLoc = this.localidadService.getLocal(local);
@@ -332,13 +273,11 @@ public class CriaderoController {
 				criadero = criaderoService.getCriadero(ident);
 			}
 			criadero.setLocal(disLoc);
-			criadero.setLatitude(latitud);
-			criadero.setLongitude(longitud);
-			criadero.setZoom(vista);
 			criadero.setTipo(tipo);
 			criadero.setInfo(info);
 			criadero.setSize(tam);
 			criadero.setEspecie(especie);
+			criadero.setEstado('2');
 			//Actualiza
 			this.criaderoService.saveCriadero(criadero);
 			return createJsonResponse(criadero);

@@ -5,6 +5,8 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.clintonhealthaccess.vca.domain.Criadero;
+import org.clintonhealthaccess.vca.domain.PuntosCriadero;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -142,6 +144,45 @@ public class CriaderoService {
 		}
 		// Retrieve all
 		return  query.list();
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public List<PuntosCriadero> getPuntosFocos(String criadero) {
+		// Retrieve session from Hibernate
+		Session session = sessionFactory.getCurrentSession();
+		// Create a Hibernate query (HQL)
+		Query query = session.createQuery("FROM PuntosCriadero pc where pc.criadero.ident =:criadero order by pc.order");
+		query.setParameter("criadero",criadero);
+		// Retrieve all
+		return  query.list();
+	}
+	
+	public int removePuntosCriaderos(String criadero) {
+		int deletedRows = 0;
+		// Retrieve session from Hibernate
+		Session session = sessionFactory.getCurrentSession();
+		// Create a Hibernate query (HQL)
+		try {
+			Query query = session.createQuery("Delete FROM PuntosCriadero pc where pc.criadero.ident =:criadero");
+			query.setParameter("criadero",criadero);
+			deletedRows = query.executeUpdate();
+		} catch (javax.persistence.NoResultException e) {
+			return deletedRows;
+		} catch (HibernateException he) {
+			throw he;
+		}
+		return deletedRows;
+	}
+	
+	/**
+	 * Guarda un Punto Criadero
+	 * @param pc 
+	 * 
+	 */
+	public void savePuntosCriadero(PuntosCriadero pc) {
+		Session session = sessionFactory.getCurrentSession();
+		session.saveOrUpdate(pc);
 	}
 
 }

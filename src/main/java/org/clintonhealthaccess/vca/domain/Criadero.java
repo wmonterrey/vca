@@ -32,9 +32,6 @@ public class Criadero extends BaseMetaData implements Auditable{
 	private String info;
 	private Double size;
 	private String especie;
-	private Double latitude;
-	private Double longitude;
-	private Integer zoom;
 	
 	
 	public Criadero() {
@@ -86,42 +83,6 @@ public class Criadero extends BaseMetaData implements Auditable{
 
 	public void setInfo(String info) {
 		this.info = info;
-	}
-
-	@Column(name = "latitude", nullable = true)
-	public Double getLatitude() {
-		return latitude;
-	}
-
-
-
-	public void setLatitude(Double latitude) {
-		this.latitude = latitude;
-	}
-
-
-	@Column(name = "longitude", nullable = true)
-	public Double getLongitude() {
-		return longitude;
-	}
-
-
-
-	public void setLongitude(Double longitude) {
-		this.longitude = longitude;
-	}
-	
-	
-	
-	@Column(name = "zoom", nullable = true)
-	public Integer getZoom() {
-		return zoom;
-	}
-
-
-
-	public void setZoom(Integer zoom) {
-		this.zoom = zoom;
 	}
 	
 	

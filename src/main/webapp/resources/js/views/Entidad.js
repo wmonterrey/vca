@@ -157,6 +157,41 @@ return {
       },
       diaTx: {
           required: true
+      },
+      edad:{
+    	  required: true,
+    	  min:0,
+    	  max:99
+      },
+      sexo: {
+          required: true
+      },
+      busqueda: {
+          required: true
+      },
+      embarazada: {
+          required: function(element) {
+              var sex = $("#sexo").val();
+              var edad = parseInt($("#edad").val());
+              if(sex == 'F' && edad>12 && edad <50) { 
+                  return true;
+              } else {
+                  return false;
+              }
+          }
+      },
+      menor6meses: {
+          required: function(element) {
+              var edad = $("#edad").val();
+              if(edad < 1) { 
+                  return true;
+              } else {
+                  return false;
+              }
+          }
+      },
+      color: {
+          required: true
       }
     },
     errorElement: 'em',
@@ -219,6 +254,39 @@ return {
 		    else {
 		    	$('#fisDate').val("");
 		        $('#fisDate').hide();
+		    }
+		});
+  
+  
+  $('#sexo').change(
+		    function(){
+		    if ($(this).val()=="F" && parseInt($("#edad").val()) > 12 && parseInt($("#edad").val()) <50) {
+		        $('#divemb').show();
+		    }
+		    else {
+		    	$('#embarazada').val('').trigger('change');
+		    	
+		        $('#divemb').hide();
+		    }
+		});
+  
+  $('#edad').change(
+		    function(){
+		    if ($('#sexo').val()=="F" && parseInt($(this).val()) > 12 && parseInt($(this).val()) <50) {
+		        $('#divemb').show();
+		    }
+		    else {
+		    	$('#embarazada').val('').trigger('change');
+		    	
+		        $('#divemb').hide();
+		    }
+		    if (parseInt($(this).val()) <1) {
+		    	$('#div6meses').show();
+		    }
+		    else{
+		    	$('#menor6meses').val('').trigger('change');
+		    	
+		        $('#div6meses').hide();
 		    }
 		});
   

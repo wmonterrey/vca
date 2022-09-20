@@ -579,7 +579,6 @@ return {
 			  var theMarker = {};
 			  var locMarkers = new L.FeatureGroup();
 			  var pdxMarkers = new L.FeatureGroup();
-			  var crMarkers = new L.FeatureGroup();
 			  
 			  var baseLayer = L.tileLayer('http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
 					maxZoom: 18,
@@ -592,7 +591,7 @@ return {
 			  var mymap = L.map('mapid', {
 				    center: [14.4474, -90.9388],
 				    zoom: 10,
-				    layers: [baseLayer, locMarkers, pdxMarkers, crMarkers],
+				    layers: [baseLayer, locMarkers, pdxMarkers],
 				    fullscreenControl: true,
 				    fullscreenControlOptions: {
 				      position: 'topleft'
@@ -607,7 +606,6 @@ return {
 
 				
 			  var pdxsIcon = new PointIconPdx({iconUrl: parametros.iconPdxs});
-			  var crIcon = new PointIconPdx({iconUrl: parametros.iconCr});
 			  
 			  var redIcon = new L.Icon({
 				  iconUrl: parametros.iconRed,
@@ -687,14 +685,6 @@ return {
 				  var subtitulo = "Localidad: "+ data.puntoDiagnosticos[row].local.name+ " <br> Tipo:" +data.puntoDiagnosticos[row].tipo+ " <br> Clave:" +data.puntoDiagnosticos[row].clave+ " <br> Info:" +data.puntoDiagnosticos[row].info;
 				  theMarker = L.marker([miLat, miLong],{url: parametros.censusUrl+"/"+data.puntoDiagnosticos[row].ident+"/"}).addTo(mymap).setIcon(pdxsIcon).on('click', onClick);
 				  theMarker.addTo(pdxMarkers);
-				  theMarker.bindTooltip(subtitulo);
-			  }
-			  for (var row in data.criaderos) {
-				  var miLat = data.criaderos[row].latitude;
-				  var miLong = data.criaderos[row].longitude;
-				  var subtitulo = "Localidad: "+ data.criaderos[row].local.name+ " <br> Tipo:" +data.criaderos[row].tipo+ " <br> Info:" +data.criaderos[row].info;
-				  theMarker = L.marker([miLat, miLong],{url: parametros.censusUrl+"/"+data.criaderos[row].ident+"/"}).addTo(mymap).setIcon(crIcon).on('click', onClick);
-				  theMarker.addTo(crMarkers);
 				  theMarker.bindTooltip(subtitulo);
 			  }
 			  
@@ -803,26 +793,7 @@ return {
 				  return div;
 			  };
 			  
-			  /*Legend specific criaderos*/
-			  var legendCr = L.control({ position: "bottomright" });
-
-			  legendCr.onAdd = function(map) {
-				  var div = L.DomUtil.create("div", "legend");
-				  div.innerHTML += '<i class="icon" style="background-image: url('+parametros.iconCr+');background-repeat: no-repeat;"></i><span>criaderos</span><br>';
-				  return div;
-			  };
-			  /*Legend specific foco 5b*/
-			  var legend5B = L.control({ position: "bottomright" });
-
-			  legend5B.onAdd = function(map) {
-				  var div = L.DomUtil.create("div", "legend");
-				  div.innerHTML += '<i style="width:10px;height:10px;border:2px solid #0000FF;"></i><span>Foco 5B</span><br>';
-				  return div;
-			  };
-
-			  legendCr.addTo(mymap);
 			  legendDx.addTo(mymap);
-			  legend5B.addTo(mymap);
 			  legend.addTo(mymap);
 			  
 			  
@@ -834,117 +805,53 @@ return {
 			  var overlayMaps = {
 			    "Casos": locMarkers,
 			    "Puntos Dx": pdxMarkers,
-			    "Criaderos": crMarkers
 			  };
 			  
 			  L.control.layers(baseMaps, overlayMaps).addTo(mymap);
 			  
-			  // Initialise the FeatureGroup to store editable layers
-			  var editableLayers = new L.FeatureGroup();
-			  mymap.addLayer(editableLayers);
 			  
-			  var drawPluginOptions = {
-					  position: 'topright',
-					  draw: {
-					    polygon: {
-					      allowIntersection: false, // Restricts shapes to simple polygons
-					      drawError: {
-					        color: '#e1e100', // Color the shape will turn when intersects
-					        message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
-					      },
-					      shapeOptions: {
-					        color: '#97009c'
-					      }
-					    },
-					    // disable toolbar item by setting it to false
-					    polyline: true,
-					    circle: false, // Turns off this drawing tool
-					    rectangle: false,
-					    marker: false,
-					    circlemarker: false,
-					    },
-					  edit: {
-					    featureGroup: editableLayers, //REQUIRED!!
-					    remove: false
-					  }
-					};
-
-					// Initialise the draw control and pass it the FeatureGroup of editable layers
-					var drawControl = new L.Control.Draw(drawPluginOptions);
-					mymap.addControl(drawControl);
-
-					var editableLayers = new L.FeatureGroup();
-					mymap.addLayer(editableLayers);
-
-					mymap.on('draw:created', function(e) {
-
-					  var type = e.layerType,
-					    layer = e.layer;
-					    //alert(layer._latlngs[0][0].lat);
-
-					  if (type === 'marker') {
-					    layer.bindPopup('A popup!');
-					  }
-
-					  editableLayers.addLayer(layer);
-					});
+			  for (var row in data.focos) {
+				  var coordinates = [];
+				  var puntos = [];
+				  for(var punto in data.focos[row].coordinates){
+					var miLat = data.focos[row].coordinates[punto].lat;
+					var miLong = data.focos[row].coordinates[punto].lng;
+					if(!(miLat == "" || miLong == "")){
+						var punto = [];
+						punto.push(miLong);
+						punto.push(miLat);
+						puntos.push(punto);
+					}
+				  }
+				  coordinates.push(puntos);
+				  var poligonFoco = [{
+					    "type": "Feature",
+					    "properties": {"name": data.focos[row].name,
+					    	"popupContent": data.focos[row].name},
+					    "geometry": {
+					        "type": "Polygon",
+					        "coordinates": coordinates
+					    }
+					}];
+				
 			  
-			  var focos = [{
-				    "type": "Feature",
-				    "properties": {"name": "Foco 5B",
-				    	"popupContent": "Este es el foco 5B en Escuintla"},
-				    "geometry": {
-				        "type": "Polygon",
-				        "coordinates": [[
-				        	[
-		                        -90.98106073162097,
-		                        14.06970588409319
-		                    ],
-		                    [
-		                        -91.01825426186795,
-		                        14.15160974394258
-		                    ],
-		                    [
-		                        -91.08504937640963,
-		                        14.10131645396643
-		                    ],
-		                    [
-		                        -91.10908402087547,
-		                        14.01062176994429
-		                    ],
-		                    [
-		                        -91.09471641696476,
-		                        14.01021614759252
-		                    ],
-		                    [
-		                        -91.08597241135674,
-		                        14.03341882286139
-		                    ],
-		                    [
-		                        -91.01764472834456,
-		                        14.02696734494108
-		                    ],
-		                    [
-		                        -90.99930033432138,
-		                        14.02338372119652
-		                    ],
-		                    [
-		                        -90.98106073162097,
-		                        14.06970588409319
-		                    ]
-				        ]]
-				    }
-				}];
-			
-		  
-			  L.geoJSON(focos, {
-				    style: function(feature) {
-				        switch (feature.properties.name) {
-				            case 'Foco 5B': return {color: "#0000FF"};
-				            //case 'Democrat':   return {color: "#0000ff"};
-				        }
-				    }
-				}).addTo(mymap);
+				  L.geoJSON(poligonFoco, {
+					    style: function(feature) {
+					        switch (feature.properties.name) {
+					            case data.focos[row].name: return {color: data.focos[row].color};
+					        }
+					    }
+					}).addTo(mymap);
+				  
+				  var legendFoco = L.control({ position: "bottomright" });
+
+				  legendFoco.onAdd = function(map) {
+					  var div = L.DomUtil.create("div", "legend");
+					  div.innerHTML += '<i style="width:10px;height:10px;border:2px solid '+data.focos[row].color+';"></i><span>'+data.focos[row].name+'</span><br>';
+					  return div;
+				  };
+				  legendFoco.addTo(mymap);
+			  }
 			  
 			  mymap.on('overlayadd', function (eventLayer) {
 				    if (eventLayer.name === 'Casos') {
@@ -952,9 +859,6 @@ return {
 				    }
 				    else if (eventLayer.name === 'Puntos Dx') {
 				    	legendDx.addTo(this);
-				    }
-				    else if (eventLayer.name === 'Criaderos') {
-				    	legendCr.addTo(this);
 				    }
 				});
 			  
@@ -964,9 +868,6 @@ return {
 				    }
 				    else if (eventLayer.name === 'Puntos Dx') {
 				    	this.removeControl(legendDx);
-				    }
-				    else if (eventLayer.name === 'Criaderos') {
-				    	this.removeControl(legendCr);
 				    }
 				});
 

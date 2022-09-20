@@ -64,6 +64,8 @@ public class Caso extends BaseMetaData implements Auditable{
 	private String info;
 	private Double latitude;
 	private Double longitude;
+	private Float exactitud;
+	private Double altitud;
 	private Integer zoom=10;
 	
 	
@@ -696,7 +698,7 @@ public class Caso extends BaseMetaData implements Auditable{
 		this.dayTx14 = dayTx14;
 	}
 	
-	@Column(name = "sexo", nullable = true, length = 50)
+	@Column(name = "sexo", nullable = false, length = 50)
 	public String getSexo() {
 		return sexo;
 	}
@@ -708,7 +710,7 @@ public class Caso extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "edad", nullable = true)
+	@Column(name = "edad", nullable = false)
 	public Integer getEdad() {
 		return edad;
 	}
@@ -720,7 +722,7 @@ public class Caso extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "embarazada", nullable = false, length = 50)
+	@Column(name = "embarazada", nullable = true, length = 50)
 	public String getEmbarazada() {
 		return embarazada;
 	}
@@ -731,7 +733,7 @@ public class Caso extends BaseMetaData implements Auditable{
 		this.embarazada = embarazada;
 	}
 
-	@Column(name = "menor6meses", nullable = false, length = 50)
+	@Column(name = "menor6meses", nullable = true, length = 50)
 	public String getMenor6meses() {
 		return menor6meses;
 	}
@@ -740,6 +742,31 @@ public class Caso extends BaseMetaData implements Auditable{
 
 	public void setMenor6meses(String menor6meses) {
 		this.menor6meses = menor6meses;
+	}
+	
+	
+
+	@Column(name = "exactitud", nullable = true)
+	public Float getExactitud() {
+		return exactitud;
+	}
+
+
+
+	public void setExactitud(Float exactitud) {
+		this.exactitud = exactitud;
+	}
+
+
+	@Column(name = "altitud", nullable = true)
+	public Double getAltitud() {
+		return altitud;
+	}
+
+
+
+	public void setAltitud(Double altitud) {
+		this.altitud = altitud;
 	}
 
 

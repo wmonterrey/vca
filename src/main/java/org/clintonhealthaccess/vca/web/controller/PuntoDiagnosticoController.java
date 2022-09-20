@@ -348,6 +348,7 @@ public class PuntoDiagnosticoController {
 			puntoDiagnostico.setStatus(status);
 			puntoDiagnostico.setTipo(tipo);
 			puntoDiagnostico.setInfo(info);
+			puntoDiagnostico.setEstado('2');
 			//Actualiza
 			this.puntoDiagnosticoService.savePuntoDiagnostico(puntoDiagnostico);
 			return createJsonResponse(puntoDiagnostico);

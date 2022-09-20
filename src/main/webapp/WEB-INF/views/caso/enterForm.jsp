@@ -223,6 +223,66 @@
 	                    </div>
 	                    <div class="form-group">
 	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="icon-eye"></i></span>
+	                        <select name="sexo" id="sexo" class="form-control select2-single">
+	                        	<option value=""><spring:message code="sex" /> - <spring:message code="empty" /></option>
+	                        	<c:forEach items="${sexo}" var="sex">
+									<c:choose> 
+										<c:when test="${sex.catKey eq caso.sexo}">
+											<option selected value="${sex.catKey}"><spring:message code="${sex.messageKey}" /></option>
+										</c:when>
+										<c:otherwise>
+											<option value="${sex.catKey}"><spring:message code="${sex.messageKey}" /></option>
+										</c:otherwise>
+									</c:choose> 
+								</c:forEach>
+	                        </select>
+	                      </div>
+	                    </div>
+	                    <div class="form-group">
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-location-arrow"></i></span>
+	                        <input type="text" id="edad" name="edad" value="${caso.edad}" class="form-control" placeholder="<spring:message code="edad" />">
+	                      </div>
+	                    </div>
+	                    <div class="form-group" id="divemb">
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="icon-eye"></i></span>
+	                        <select name="embarazada" id="embarazada" class="form-control select2-single">
+	                        	<option value=""><spring:message code="pregnant" /> - <spring:message code="empty" /></option>
+	                        	<c:forEach items="${siNo}" var="sn">
+									<c:choose> 
+										<c:when test="${sn.catKey eq caso.embarazada}">
+											<option selected value="${sn.catKey}"><spring:message code="${sn.messageKey}" /></option>
+										</c:when>
+										<c:otherwise>
+											<option value="${sn.catKey}"><spring:message code="${sn.messageKey}" /></option>
+										</c:otherwise>
+									</c:choose> 
+								</c:forEach>
+	                        </select>
+	                      </div>
+	                    </div>
+	                    <div class="form-group" id="div6meses">
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="icon-eye"></i></span>
+	                        <select name="menor6meses" id="menor6meses" class="form-control select2-single">
+	                        	<option value=""><spring:message code="menor6meses" /> - <spring:message code="empty" /></option>
+	                        	<c:forEach items="${siNo}" var="sn">
+									<c:choose> 
+										<c:when test="${sn.catKey eq caso.menor6meses}">
+											<option selected value="${sn.catKey}"><spring:message code="${sn.messageKey}" /></option>
+										</c:when>
+										<c:otherwise>
+											<option value="${sn.catKey}"><spring:message code="${sn.messageKey}" /></option>
+										</c:otherwise>
+									</c:choose> 
+								</c:forEach>
+	                        </select>
+	                      </div>
+	                    </div>
+	                    <div class="form-group">
+	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="fa fa-sticky-note-o"></i></span>
 	                        <input type="text" id="info" name="info" value="${caso.info}" class="form-control" placeholder="<spring:message code="infocase" />">
 	                      </div>
@@ -366,7 +426,7 @@
 	
 	var ubicacionSeleccionada = 0;
 	
-	$('#local,#estadocaso,#mxType,#sint').select2({
+	$('#local,#estadocaso,#mxType,#sint,#menor6meses,#embarazada,#sexo').select2({
 	    theme: "bootstrap",
 	    width: '100%'
 	});
@@ -393,6 +453,23 @@
     }
     else {
         $('#fisDate').hide();
+    }
+	
+	if ($('#sexo').val()=="F" && parseInt($("#edad").val()) > 12 && parseInt($("#edad").val()) <50) {
+        $('#divemb').show();
+    }
+    else {
+    	$('#embarazada').val('').trigger('change');
+        $('#divemb').hide();
+    }
+	
+    if (parseInt($("#edad").val()) <1) {
+    	$('#div6meses').show();
+    }
+    else{
+    	$("#menor6meses").val('').trigger('change');
+    	
+        $('#div6meses').hide();
     }
 	
 	var latDef = "${latitudDef}";

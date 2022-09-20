@@ -8,7 +8,11 @@ import javax.annotation.Resource;
 
 import org.clintonhealthaccess.vca.domain.Caso;
 import org.clintonhealthaccess.vca.domain.Criadero;
+import org.clintonhealthaccess.vca.domain.Foco;
+import org.clintonhealthaccess.vca.domain.PoligonFoco;
+import org.clintonhealthaccess.vca.domain.Punto;
 import org.clintonhealthaccess.vca.domain.PuntoDiagnostico;
+import org.clintonhealthaccess.vca.domain.PuntosFoco;
 import org.clintonhealthaccess.vca.domain.audit.AuditTrail;
 import org.clintonhealthaccess.vca.language.MessageResource;
 import org.clintonhealthaccess.vca.movil.controller.DatosMapa;
@@ -16,6 +20,7 @@ import org.clintonhealthaccess.vca.service.AuditTrailService;
 import org.clintonhealthaccess.vca.service.CasoService;
 import org.clintonhealthaccess.vca.service.CriaderoService;
 import org.clintonhealthaccess.vca.service.DashboardMap1Service;
+import org.clintonhealthaccess.vca.service.FocoService;
 import org.clintonhealthaccess.vca.service.MessageResourceService;
 import org.clintonhealthaccess.vca.service.ParametroService;
 import org.clintonhealthaccess.vca.service.PuntoDiagnosticoService;
@@ -45,6 +50,8 @@ public class Mapas1Controller {
 	private CriaderoService criaderoService;
 	@Resource(name="casoService")
 	private CasoService casoService;
+	@Resource(name="focoService")
+	private FocoService focoService;
 	@Resource(name="parametroService")
 	private ParametroService parametroService;
 	@Resource(name="auditTrailService")
@@ -176,10 +183,21 @@ public class Mapas1Controller {
     		}
     	}
         
+        List<PoligonFoco> poligonosFoco = new ArrayList<PoligonFoco>();
+        List<Foco> focos = this.focoService.getActiveFocos();
+        for(Foco foco:focos) {
+        	List<PuntosFoco> puntosFoco = this.focoService.getPuntosFocos(foco.getIdent());
+        	List<Punto> puntoCoordenadas = new ArrayList<Punto>();
+        	for(PuntosFoco pf:puntosFoco) {
+        		puntoCoordenadas.add(new Punto (pf.getLatitude(),pf.getLongitude()));
+        	}
+        	poligonosFoco.add(new PoligonFoco(foco.getName(),puntoCoordenadas,foco.getColor()));
+        }
+        
         DatosMapa datosMapa = new DatosMapa();
         datosMapa.setCasos(datos);
         datosMapa.setPuntoDiagnosticos(puntos);
-        datosMapa.setCriaderos(criaderos);
+        datosMapa.setFocos(poligonosFoco);
         
         return datosMapa;
     }

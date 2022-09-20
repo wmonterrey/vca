@@ -480,6 +480,30 @@
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
+		                      <label class="col-md-3 col-form-label"><spring:message code="sex" />:</label>
+		                      <div class="col-md-9">
+		                        <p class="form-control-static"><strong><c:out value="${caso.sexo}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-3 col-form-label"><spring:message code="edad" />:</label>
+		                      <div class="col-md-9">
+		                        <p class="form-control-static"><strong><c:out value="${caso.edad}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-3 col-form-label"><spring:message code="pregnant" />:</label>
+		                      <div class="col-md-9">
+		                        <p class="form-control-static"><strong><c:out value="${caso.embarazada}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-3 col-form-label"><spring:message code="menor6meses" />:</label>
+		                      <div class="col-md-9">
+		                        <p class="form-control-static"><strong><c:out value="${caso.menor6meses}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
 		                      <label class="col-md-3 col-form-label"><spring:message code="infopdx" />:</label>
 		                      <div class="col-md-9">
 		                        <p class="form-control-static"><strong><c:out value="${caso.info}" /></strong></p>

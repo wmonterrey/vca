@@ -89,6 +89,9 @@
 			                <li class="nav-item">
 			                    <a class="nav-link" href="<spring:url value="/admin/casos/" htmlEscape="true "/>"><i class="fa fa-list"></i><spring:message code="cases" /></a>
 			                </li>
+			                <li class="nav-item">
+			                    <a class="nav-link" href="<spring:url value="/admin/tests/" htmlEscape="true "/>"><i class="fa fa-tag"></i><spring:message code="tests" /></a>
+			                </li>
 			            </ul>
 			        </li>
 					<li class="nav-item nav-dropdown">
