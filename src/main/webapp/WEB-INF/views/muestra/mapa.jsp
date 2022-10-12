@@ -201,7 +201,7 @@
 					theMarker = L.marker(["${muestra.latitude}", "${muestra.longitude}"],{url: "${viewList}"+"/"+"${muestra.ident}"+"/"}).addTo(mymap).setIcon(blueIcon).on('click', onClick);
 				}
 				theMarker.addTo(locMarkers);
-				theMarker.bindTooltip("${muestra.codE1}");
+				theMarker.bindTooltip("${muestra.casa} Proactivas: ${muestra.mxProactiva} Reactivas: ${muestra.mxReactiva}");
 			}
 		</c:forEach>
 		

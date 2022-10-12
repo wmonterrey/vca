@@ -114,6 +114,13 @@
 				<spring:param name="id" value="${caso.ident}" />
 			</spring:url>
 			
+			<c:set var="labeltxSuspsi"><spring:message code="txSuspsi" /> <c:out value="${caso.codigo}" /></c:set>
+			<c:set var="labeltxSuspno"><spring:message code="txSuspno" /> <c:out value="${caso.codigo}" /></c:set>
+			<c:set var="labeltxSusp"><spring:message code="txSusp" /></c:set>
+			<spring:url value="/admin/casos/txSuspno/{id}/" var="labeltxSuspnoUrl">
+				<spring:param name="id" value="${caso.ident}" />
+			</spring:url>
+			
 			
           	<div class="row">
 	            <div class="col-md-6">
@@ -130,7 +137,7 @@
 						    	</c:if>
 						    	
 						    	<c:if test="${caso.inv eq '0' and caso.lostFollowUp eq '0'}">
-						    		<a class="dropdown-item accionsi" data-elemento="inv" data-nomitem="${labelinvsi}" data-pregitem="${labelinvDate}" data-toggle="modal"><i class="fa fa-check"></i> <spring:message code="invsi" /></a>
+						    		<a class="dropdown-item accioninvsi" data-elemento="inv" data-nomitem="${labelinvsi}" data-pregitem="${labelinvDate}" data-toggle="modal"><i class="fa fa-check"></i> <spring:message code="invsi" /></a>
 						    	</c:if>
 						    	
 						    	<c:if test="${caso.tx eq '1' and caso.txComp eq '0' and caso.lostFollowUp eq '0'}">
@@ -138,11 +145,19 @@
 						    	</c:if>
 						    	
 						    	<c:if test="${caso.tx eq '0' and caso.lostFollowUp eq '0'}">
-						    		<a class="dropdown-item accionsi" data-elemento="tx" data-nomitem="${labeltxsi}" data-pregitem="${labeltxDate}" data-toggle="modal"><i class="fa fa-check"></i> <spring:message code="txsi" /></a>
+						    		<a class="dropdown-item acciontxsi" data-elemento="tx" data-nomitem="${labeltxsi}" data-pregitem="${labeltxDate}" data-toggle="modal"><i class="fa fa-check"></i> <spring:message code="txsi" /></a>
 						    	</c:if>
 						    	
 						    	<c:if test="${caso.tx eq '1' and caso.lostFollowUp eq '0'}">
 						    		<a class="dropdown-item acciondiassi" data-elemento="txSup" data-nomitem="${labeltxSupsi}" data-pregitem="${labeltxSupdias}" data-toggle="modal"><i class="fa fa-check"></i> <spring:message code="txSupsi" /></a>
+						    	</c:if>
+						    	
+						    	<c:if test="${caso.tx eq '1' and caso.lostFollowUp eq '0' and caso.txComp eq '0'  and caso.txSusp eq '0'}">
+						    		<a class="dropdown-item acciontxsuspsi" data-elemento="txSusp" data-nomitem="${labeltxSuspsi}" data-pregitem="${labeltxSusp}" data-toggle="modal"><i class="fa fa-times"></i> <spring:message code="txSuspsi" /></a>
+						    	</c:if>
+						    	
+						    	<c:if test="${caso.txSusp eq '1' and caso.lostFollowUp eq '0'}">
+						    		<a class="dropdown-item desact" data-nomitem="${labeltxSuspno}" data-toggle="modal" data-whatever="${fn:escapeXml(labeltxSuspnoUrl)}"><i class="fa fa-check"></i> <spring:message code="txSuspno" /></a>
 						    	</c:if>
 						    	
 						    	<c:if test="${caso.txComp eq '1' and caso.lostFollowUp eq '0'}">
@@ -153,7 +168,7 @@
 						    		<a class="dropdown-item accionsi" data-elemento="txComp" data-nomitem="${labeltxCompsi}" data-pregitem="${labeltxCompDate}" data-toggle="modal"><i class="fa fa-check"></i> <spring:message code="txCompsi" /></a>
 						    	</c:if>
 						    	
-						    	<c:if test="${caso.sx eq '1' and caso.lostFollowUp eq '0'}">
+						    	<c:if test="${caso.sx eq '1' and caso.sxComp eq '0' and caso.lostFollowUp eq '0'}">
 						    		<a class="dropdown-item desact" data-nomitem="${labelsxno}" data-toggle="modal" data-whatever="${fn:escapeXml(sxnoUrl)}"><i class="fa fa-times"></i> <spring:message code="sxno" /></a>
 						    	</c:if>
 						    	
@@ -165,7 +180,7 @@
 						    		<a class="dropdown-item desact" data-nomitem="${labelsxCompno}" data-toggle="modal" data-whatever="${fn:escapeXml(sxCompnoUrl)}"><i class="fa fa-times"></i> <spring:message code="sxCompno" /></a>
 						    	</c:if>
 						    	
-						    	<c:if test="${caso.sxComp eq '0' and caso.txComp eq '1' and caso.lostFollowUp eq '0' and caso.sxResult ne 'POS'}">
+						    	<c:if test="${caso.sxComp eq '0' and caso.txComp eq '1' and caso.sx eq '1' and caso.lostFollowUp eq '0' and caso.sxResult ne 'POS'}">
 						    		<a class="dropdown-item accionressi" data-elemento="sxComp" data-nomitem="${labelsxCompsi}" data-pregitem="${labelsxCompDate}" data-toggle="modal"><i class="fa fa-check"></i> <spring:message code="sxCompsi" /></a>
 						    	</c:if>
 						    	
@@ -248,6 +263,13 @@
 		                        <p class="form-control-static"><strong><c:out value="${fecInv}" /></strong></p>
 		                      </div>
 		                    </div>
+		                    <fmt:formatDate value="${caso.invCompDate}" var="fecInvComp" pattern="dd-MMM-yyyy" />
+		                    <div class="form-group row">
+		                      <label class="col-md-3 col-form-label"><spring:message code="invCompDate" />:</label>
+		                      <div class="col-md-9">
+		                        <p class="form-control-static"><strong><c:out value="${fecInvComp}" /></strong></p>
+		                      </div>
+		                    </div>
 		                    <div class="form-group row">
 		                      <label class="col-md-3 col-form-label"><spring:message code="tx" />:</label>
 		                      <div class="col-md-9">
@@ -268,6 +290,12 @@
 		                      <label class="col-md-3 col-form-label"><spring:message code="txDate" />:</label>
 		                      <div class="col-md-9">
 		                        <p class="form-control-static"><strong><c:out value="${fecIniTx}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-3 col-form-label"><spring:message code="txResultType" />:</label>
+		                      <div class="col-md-9">
+		                        <p class="form-control-static"><strong><c:out value="${caso.txResultType}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
@@ -330,6 +358,40 @@
 		                        	<fmt:formatDate value="${caso.dayTx14}" var="dayTx14" pattern="dd-MMM-yyyy" />
 		                        	<spring:message code="dayTx14" /><p class="form-control-static"><strong><c:out value="${dayTx14}" /></strong></p>
 		                        </c:if>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-3 col-form-label"><spring:message code="txSusp" />:</label>
+		                      <div class="col-md-9">
+		                        <p class="form-control-static">
+		                        	<c:choose>
+										<c:when test="${caso.txSusp eq '1'}">
+											<strong><spring:message code="CAT_SINO_SI" /></strong>
+										</c:when>
+										<c:otherwise>
+											<strong><spring:message code="CAT_SINO_NO" /></strong>
+										</c:otherwise>
+									</c:choose>
+								</p>
+		                      </div>
+		                    </div>
+		                    <fmt:formatDate value="${caso.txSuspDate}" var="fecSuspTx" pattern="dd-MMM-yyyy" />
+		                    <div class="form-group row">
+		                      <label class="col-md-3 col-form-label"><spring:message code="txSuspDate" />:</label>
+		                      <div class="col-md-9">
+		                        <p class="form-control-static"><strong><c:out value="${fecSuspTx}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-3 col-form-label"><spring:message code="txSuspReason" />:</label>
+		                      <div class="col-md-9">
+		                        <p class="form-control-static"><strong><c:out value="${caso.txSuspReason}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-3 col-form-label"><spring:message code="txSuspOtherReason" />:</label>
+		                      <div class="col-md-9">
+		                        <p class="form-control-static"><strong><c:out value="${caso.txSuspOtherReason}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
@@ -687,6 +749,14 @@
 	                        <input type="text" id="dateValue" name="dateValue"  class="form-control date-picker" data-date-format="dd/mm/yyyy" data-date-start-date="-180d" data-date-end-date="+0d">
 	                      </div>
 	                    </div>
+	                    
+	                    <div class="form-group fecha2">
+	                      <div class="input-group">
+	                        <label class="col-md-3 col-form-label"><spring:message code="invCompDate" />:</label>
+	                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+	                        <input type="text" id="dateValue2" name="dateValue2"  class="form-control date-picker" data-date-format="dd/mm/yyyy" data-date-start-date="-180d" data-date-end-date="+0d">
+	                      </div>
+	                    </div>
 		                <div class="form-group resultado">
 		                	<i class="fa fa-map-o"></i>
 		                    <label><spring:message code="sxResult" /></label>
@@ -694,6 +764,16 @@
 		                      <option value=""><spring:message code="empty" /></option>	
 		                      <c:forEach items="${resultados}" var="resultado">
 		                      	<option value="${resultado.catKey}"><spring:message code="${resultado.messageKey}" /></option>
+		                      </c:forEach>
+		                    </select>
+		                </div>
+		                <div class="form-group txResultType">
+		                	<i class="fa fa-map-o"></i>
+		                    <label><spring:message code="txResultType" /></label>
+		                    <select id="txResultType" name="txResultType" class="form-control select2-single">
+		                      <option value=""><spring:message code="empty" /></option>	
+		                      <c:forEach items="${tiposResultados}" var="tipoResultado">
+		                      	<option value="${tipoResultado.catKey}"><spring:message code="${tipoResultado.messageKey}" /></option>
 		                      </c:forEach>
 		                    </select>
 		                </div>
@@ -707,6 +787,28 @@
 		                      </c:forEach>
 		                    </select>
 		                </div>
+		                <div class="form-group razonotra">
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-location-arrow"></i></span>
+	                        <input type="text" id="lostFollowUpOtherReason" name="lostFollowUpOtherReason" class="form-control" placeholder="<spring:message code="lostFollowUpOtherReason" />">
+	                      </div>
+	                    </div>
+	                    <div class="form-group suspendido">
+		                	<i class="fa fa-map-o"></i>
+		                    <label><spring:message code="txSuspReason" /></label>
+		                    <select id="txSuspReason" name="txSuspReason" class="form-control select2-single">
+		                      <option value=""><spring:message code="empty" /></option>	
+		                      <c:forEach items="${razonesSusp}" var="razonSusp">
+		                      	<option value="${razonSusp.catKey}"><spring:message code="${razonSusp.messageKey}" /></option>
+		                      </c:forEach>
+		                    </select>
+		                </div>
+		                <div class="form-group suspendidootra">
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-location-arrow"></i></span>
+	                        <input type="text" id="txSuspOtherReason" name="txSuspOtherReason" class="form-control" placeholder="<spring:message code="txSuspOtherReason" />">
+	                      </div>
+	                    </div>
 	                    <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="cancel" /></button>
 						<button type="submit" id="buttonAgregarData" class="btn btn-info"><spring:message code="ok" /></button>
 	                    </form>
@@ -813,7 +915,7 @@
 	});
     
 
-	$('#resultado,#lostFollowUpReason,#diaTx').select2({
+	$('#resultado,#lostFollowUpReason,#diaTx,#txResultType,#txSuspReason').select2({
 	    theme: "bootstrap",
 	    width: '100%'
 	});
@@ -860,7 +962,55 @@
     	$('.dias').hide();
     	$('.resultado').hide();
     	$('.fecha').show();
+    	$('.fecha2').hide();
     	$('.razon').hide();
+    	$('.razonotra').hide();
+    	$('.txResultType').hide();
+    	$('.suspendido').hide();
+    	$('.suspendidootra').hide();
+    	$('#datesForm').modal('show');
+    });
+	
+	
+	$(".accioninvsi").click(function(){ 
+    	var nombreItem = $(this).data('nomitem');
+    	var nombreElemento = $(this).data('pregitem');
+    	var elemento = $(this).data('elemento');
+    	$('#accionUrl').val($(this).data('whatever'));
+    	$('#titulo').html('<h2 class="modal-title">'+"${confirmar}"+'</h2>');
+    	$('#encabezado').html('<h3>'+ nombreItem +'?</h3>');
+    	$('#elemento').html('<h5>'+ nombreElemento +'</h5>');
+    	$('#dataElement').val(elemento);
+    	$('.dias').hide();
+    	$('.resultado').hide();
+    	$('.fecha').show();
+    	$('.fecha2').show();
+    	$('.razon').hide();
+    	$('.razonotra').hide();
+    	$('.txResultType').hide();
+    	$('.suspendido').hide();
+    	$('.suspendidootra').hide();
+    	$('#datesForm').modal('show');
+    });
+	
+	$(".acciontxsi").click(function(){ 
+    	var nombreItem = $(this).data('nomitem');
+    	var nombreElemento = $(this).data('pregitem');
+    	var elemento = $(this).data('elemento');
+    	$('#accionUrl').val($(this).data('whatever'));
+    	$('#titulo').html('<h2 class="modal-title">'+"${confirmar}"+'</h2>');
+    	$('#encabezado').html('<h3>'+ nombreItem +'?</h3>');
+    	$('#elemento').html('<h5>'+ nombreElemento +'</h5>');
+    	$('#dataElement').val(elemento);
+    	$('.dias').hide();
+    	$('.resultado').hide();
+    	$('.fecha').show();
+    	$('.fecha2').hide();
+    	$('.razon').hide();
+    	$('.razonotra').hide();
+    	$('.txResultType').show();
+    	$('.suspendido').hide();
+    	$('.suspendidootra').hide();
     	$('#datesForm').modal('show');
     });
 	
@@ -874,9 +1024,14 @@
     	$('#elemento').html('<h5>'+ nombreElemento +'</h5>');
     	$('#dataElement').val(elemento);
     	$('.fecha').show();
+    	$('.fecha2').hide();
     	$('.resultado').hide();
     	$('.dias').show();
     	$('.razon').hide();
+    	$('.razonotra').hide();
+    	$('.txResultType').hide();
+    	$('.suspendido').hide();
+    	$('.suspendidootra').hide();
     	$('#datesForm').modal('show');
     });
 	
@@ -891,8 +1046,13 @@
     	$('#dataElement').val(elemento);
     	$('.dias').hide();
     	$('.fecha').show();
+    	$('.fecha2').hide();
     	$('.resultado').show();
     	$('.razon').hide();
+    	$('.razonotra').hide();
+    	$('.txResultType').hide();
+    	$('.suspendido').hide();
+    	$('.suspendidootra').hide();
     	$('#datesForm').modal('show');
     });
 	
@@ -908,8 +1068,35 @@
     	$('#dataElement').val(elemento);
     	$('.dias').hide();
     	$('.fecha').hide();
+    	$('.fecha2').hide();
     	$('.resultado').hide();
     	$('.razon').show();
+    	$('.razonotra').hide();
+    	$('.txResultType').hide();
+    	$('.suspendido').hide();
+    	$('.suspendidootra').hide();
+    	$('#datesForm').modal('show');
+    });
+	
+	
+	$(".acciontxsuspsi").click(function(){ 
+    	var nombreItem = $(this).data('nomitem');
+    	var nombreElemento = $(this).data('pregitem');
+    	var elemento = $(this).data('elemento');
+    	$('#accionUrl').val($(this).data('whatever'));
+    	$('#titulo').html('<h2 class="modal-title">'+"${confirmar}"+'</h2>');
+    	$('#encabezado').html('<h3>'+ nombreItem +'?</h3>');
+    	$('#elemento').html('<h5>'+ nombreElemento +'</h5>');
+    	$('#dataElement').val(elemento);
+    	$('.dias').hide();
+    	$('.fecha').show();
+    	$('.fecha2').hide();
+    	$('.resultado').hide();
+    	$('.razon').hide();
+    	$('.razonotra').hide();
+    	$('.txResultType').hide();
+    	$('.suspendido').show();
+    	$('.suspendidootra').hide();
     	$('#datesForm').modal('show');
     });
 	

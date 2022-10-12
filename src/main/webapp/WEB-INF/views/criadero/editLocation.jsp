@@ -5,7 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <html>
 <head>
-<jsp:include page="../../fragments/headTag.jsp" />
+<jsp:include page="../fragments/headTag.jsp" />
 <!-- Styles required by this views -->
 <spring:url value="/resources/vendors/css/dataTables.bootstrap4.min.css" var="dataTablesCSS" />
 <link href="${dataTablesCSS}" rel="stylesheet" type="text/css"/>
@@ -45,17 +45,17 @@
 -->
 <body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
   <!-- Header -->
-  <jsp:include page="../../fragments/bodyHeader.jsp" />
+  <jsp:include page="../fragments/bodyHeader.jsp" />
   <div class="app-body">
   	<!-- Navigation -->
-  	<jsp:include page="../../fragments/sideBar.jsp" />
+  	<jsp:include page="../fragments/sideBar.jsp" />
     <!-- Main content -->
     <main class="main">
       <!-- Breadcrumb -->
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<spring:url value="/" htmlEscape="true "/>"><spring:message code="home" /></a></li>
-        <li class="breadcrumb-item"><a href="<spring:url value="/admin/foci/" htmlEscape="true "/>"><spring:message code="foci" /></a></li>
-        <li class="breadcrumb-item active"><c:out value="${foco.code}" /></li>
+        <li class="breadcrumb-item"><a href="<spring:url value="/admin/criaderos/" htmlEscape="true "/>"><spring:message code="criaderos" /></a></li>
+        <li class="breadcrumb-item active"><c:out value="${criadero.info}" /></li>
         
       </ol>
 	  <!-- Container -->
@@ -65,18 +65,18 @@
          		<div class="col-md-12">
 					<div class="card">
 						<div class="card-header">
-							<strong><spring:message code="location" /></strong> <i class="icon-graph"></i>&nbsp;<strong><c:out value="${foco.name}" /></strong>
+							<strong><spring:message code="location" /></strong> <i class="icon-graph"></i>&nbsp;<strong><c:out value="${criadero.info}" /></strong>
 						</div>
 						<div class="card-body">
 							<div id="mapid" style="width: 100%; height: 600px;"></div>
 						</div>
-						<spring:url value="/admin/foci/{ident}/" var="focoUrl">
-                        	<spring:param name="ident" value="${foco.ident}" />
+						<spring:url value="/admin/criaderos/{ident}/" var="criaderoUrl">
+                        	<spring:param name="ident" value="${criadero.ident}" />
                          </spring:url>
 						<div class="card-header">
 	          				<div class="row float-right mr-4" >
 	          					<button type="submit" class="btn btn-primary" onclick="processEntidad()" id="guardar"><i class="fa fa-save"></i>&nbsp;<spring:message code="save" /></button>
-						  		<a href="${fn:escapeXml(focoUrl)}" class="btn btn-danger"><i class="fa fa-undo"></i>&nbsp;<spring:message code="cancel" /></a>
+						  		<a href="${fn:escapeXml(criaderoUrl)}" class="btn btn-danger"><i class="fa fa-undo"></i>&nbsp;<spring:message code="cancel" /></a>
 	          				</div>
 	            		</div>
 					</div>
@@ -88,11 +88,11 @@
     </main>
   </div>
   <!-- Pie de p�gina -->
-  <jsp:include page="../../fragments/bodyFooter.jsp" />
+  <jsp:include page="../fragments/bodyFooter.jsp" />
 
   <!-- Bootstrap and necessary plugins -->
-  <jsp:include page="../../fragments/corePlugins.jsp" />
-  <jsp:include page="../../fragments/bodyUtils.jsp" />
+  <jsp:include page="../fragments/corePlugins.jsp" />
+  <jsp:include page="../fragments/bodyUtils.jsp" />
 
   <!-- GenesisUI main scripts -->
   <spring:url value="/resources/js/app.js" var="App" />
@@ -130,7 +130,7 @@
   <spring:url value="/resources/vendors/js/Leaflet.draw.js" var="leafletDrawJS" />
   <script src="${leafletDrawJS}" type="text/javascript"></script>    
   
-  <spring:url value="/admin/foci/saveEntityPolygon/" var="saveUrl"></spring:url>
+  <spring:url value="/admin/criaderos/saveEntityPolygon/" var="saveUrl"></spring:url>
   <c:set var="successmessage"><spring:message code="process.success" /></c:set>
 	<c:set var="errormessage"><spring:message code="process.errors" /></c:set>
 	<c:set var="waitmessage"><spring:message code="process.wait" /></c:set>
@@ -162,41 +162,6 @@
 		id: 'mapbox.streets'
 	}).addTo(mymap);
 	
-	
-	<c:forEach var="pf" items="${poligonosFoco}">
-		var coordPoly = [];
-		var ptsPoly = [];
-		<c:forEach var="pt" items="${pf.coordinates}">
-			var miLt = "${pt.lat}";
-			var miLg = "${pt.lng}";
-			if(!(miLt == "" || miLg == "")){
-				var ptArray = [];
-				ptArray.push(miLg);
-				ptArray.push(miLt);
-				ptsPoly.push(ptArray);
-			}
-		</c:forEach>
-		coordPoly.push(ptsPoly);
-		
-		var polyfoco = [{
-		    "type": "Feature",
-		    "properties": {"name": "${pf.name}",
-		    	"popupContent": "${pf.name}"},
-		    "geometry": {
-		        "type": "Polygon",
-		        "coordinates": coordPoly
-		    }
-		}];
-		
-		L.geoJSON(polyfoco, {
-		    style: function(feature) {
-		        switch (feature.properties.name) {
-		            case "${pf.name}": return {color: "${pf.color}"};
-		        }
-		    }
-		}).addTo(mymap).bindTooltip("${pf.name}");
-		
-	</c:forEach>
 	
 	
 	
@@ -274,8 +239,8 @@
 	
 	var foco = [{
 	    "type": "Feature",
-	    "properties": {"name": "${foco.name}",
-	    	"popupContent": "${foco.name}"},
+	    "properties": {"name": "${criadero.info}",
+	    	"popupContent": "${criadero.info}"},
 	    "geometry": {
 	        "type": "Polygon",
 	        "coordinates": coordinates
@@ -286,7 +251,7 @@
   var focoLayer = L.geoJSON(foco, {
 	    style: function(feature) {
 	        switch (feature.properties.name) {
-	            case "${foco.name}": return {color: "#0000FF"};
+	            case "${criadero.info}": return {color: "#0000FF"};
 	        }
 	    }
 	});
@@ -302,7 +267,7 @@
   function processEntidad(){
 	  $.blockUI({ message: "${waitmessage}" });
 	    $.post( "${saveUrl}"
-	            , {"ident":"${foco.ident}", "coordinates":JSON.stringify(coordinates[0])}
+	            , {"ident":"${criadero.ident}", "coordinates":JSON.stringify(coordinates[0])}
 	            , function( data )
 	            {
 	    			entidad = JSON.parse(data);
@@ -318,7 +283,7 @@
 						$.blockUI({ message: "${successmessage}" });
 						setTimeout(function() { 
 				           $.unblockUI({ 
-				                onUnblock: function(){ window.location.href = "${focoUrl}"; } 
+				                onUnblock: function(){ window.location.href = "${criaderoUrl}"; } 
 				            }); 
 				        }, 1000); 
 					}

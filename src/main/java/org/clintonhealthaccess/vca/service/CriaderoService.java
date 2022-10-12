@@ -148,7 +148,7 @@ public class CriaderoService {
 	
 	
 	@SuppressWarnings("unchecked")
-	public List<PuntosCriadero> getPuntosFocos(String criadero) {
+	public List<PuntosCriadero> getPuntosCriaderos(String criadero) {
 		// Retrieve session from Hibernate
 		Session session = sessionFactory.getCurrentSession();
 		// Create a Hibernate query (HQL)

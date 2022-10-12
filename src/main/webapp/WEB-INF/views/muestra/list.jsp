@@ -80,9 +80,11 @@
                 <thead>
                 	<tr>
                 		<th></th>
-                		<th class="hidden-xs"><spring:message code="code1case" /></th>
+                		<th class="hidden-xs"><spring:message code="housecase" /></th>
 	                    <th class="hidden-xs"><spring:message code="locality" /></th>
 	                    <th class="hidden-xs"><spring:message code="mxDate" /></th>
+	                    <th class="hidden-xs"><spring:message code="mxProactiva" /></th>
+	                    <th class="hidden-xs"><spring:message code="mxReactiva" /></th>
 	                    <th><spring:message code="enabled" /></th>
 	                    <th><spring:message code="createdBy" /></th>
 	                    <th><spring:message code="dateCreated" /></th>
@@ -101,9 +103,11 @@
                                 <spring:param name="id" value="${muestra.ident}" />
                             </spring:url>
                             <td><a href="${fn:escapeXml(editUrl)}" class="btn btn-outline-primary btn-sm"><i class="fa fa-pencil"></i></a></td>
-                            <td><a href="${fn:escapeXml(idUrl)}"><c:out value="${muestra.codE1}" /></a></td>
+                            <td><a href="${fn:escapeXml(idUrl)}"><c:out value="${muestra.casa}" /></a></td>
                             <td class="hidden-xs"><c:out value="${muestra.local.name}" /></td>
                             <td class="hidden-xs"><c:out value="${fecmuestra}" /></td>
+                            <td class="hidden-xs"><c:out value="${muestra.mxProactiva}" /></td>
+                            <td class="hidden-xs"><c:out value="${muestra.mxReactiva}" /></td>
                             <c:choose>
                                 <c:when test="${muestra.pasive eq '0'.charAt(0)}">
                                     <td><span class="badge badge-success"><spring:message code="CAT_SINO_SI" /></span></td>

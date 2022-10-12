@@ -47,12 +47,18 @@ public class Caso extends BaseMetaData implements Auditable{
 	private String mxType;
 	private String inv="0";
 	private Date invDate;
+	private Date invCompDate;
 	private String tx="0";
+	private String txResultType;
 	private String txSup="No";
 	private Date txDate;
 	private String txComp="0";
 	private Date txCompDate;
 	private String sx="0";
+	private String txSusp="0";
+	private Date txSuspDate;
+	private String txSuspReason;
+	private String txSuspOtherReason;
 	private Date sxDate;
 	private String sxResult;
 	private String sxComp="0";
@@ -60,6 +66,7 @@ public class Caso extends BaseMetaData implements Auditable{
 	private String sxCompResult;
 	private String lostFollowUp="0";
 	private String lostFollowUpReason;
+	private String lostFollowUpOtherReason;
 	private String estadocaso="CONF";
 	private String info;
 	private Double latitude;
@@ -254,6 +261,21 @@ public class Caso extends BaseMetaData implements Auditable{
 	public void setInvDate(Date invDate) {
 		this.invDate = invDate;
 	}
+	
+	
+
+	@Column(name = "invCompDate", nullable = true)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	public Date getInvCompDate() {
+		return invCompDate;
+	}
+
+
+
+	public void setInvCompDate(Date invCompDate) {
+		this.invCompDate = invCompDate;
+	}
+
 
 
 	@Column(name = "tx", nullable = false, length = 1)
@@ -266,6 +288,20 @@ public class Caso extends BaseMetaData implements Auditable{
 	public void setTx(String tx) {
 		this.tx = tx;
 	}
+	
+	
+
+	@Column(name = "txResultType", nullable = true, length = 5)
+	public String getTxResultType() {
+		return txResultType;
+	}
+
+
+
+	public void setTxResultType(String txResultType) {
+		this.txResultType = txResultType;
+	}
+
 
 
 	@Column(name = "txSup", nullable = false, length = 100)
@@ -316,6 +352,57 @@ public class Caso extends BaseMetaData implements Auditable{
 	public void setTxCompDate(Date txCompDate) {
 		this.txCompDate = txCompDate;
 	}
+	
+	
+	
+
+	@Column(name = "txSusp", nullable = false, length = 1)
+	public String getTxSusp() {
+		return txSusp;
+	}
+
+
+
+	public void setTxSusp(String txSusp) {
+		this.txSusp = txSusp;
+	}
+
+
+	@Column(name = "txSuspDate", nullable = true)
+	public Date getTxSuspDate() {
+		return txSuspDate;
+	}
+
+
+
+	public void setTxSuspDate(Date txSuspDate) {
+		this.txSuspDate = txSuspDate;
+	}
+
+
+	@Column(name = "txSuspReason", nullable = true, length = 50)
+	public String getTxSuspReason() {
+		return txSuspReason;
+	}
+
+
+
+	public void setTxSuspReason(String txSuspReason) {
+		this.txSuspReason = txSuspReason;
+	}
+
+
+	@Column(name = "txSuspOtherReason", nullable = true, length = 500)
+	public String getTxSuspOtherReason() {
+		return txSuspOtherReason;
+	}
+
+
+
+	public void setTxSuspOtherReason(String txSuspOtherReason) {
+		this.txSuspOtherReason = txSuspOtherReason;
+	}
+
 
 
 	@Column(name = "sx", nullable = false, length = 1)
@@ -388,6 +475,21 @@ public class Caso extends BaseMetaData implements Auditable{
 	public void setLostFollowUpReason(String lostFollowUpReason) {
 		this.lostFollowUpReason = lostFollowUpReason;
 	}
+	
+	
+	
+
+	@Column(name = "lostFollowUpOtherReason", nullable = true, length = 500)
+	public String getLostFollowUpOtherReason() {
+		return lostFollowUpOtherReason;
+	}
+
+
+
+	public void setLostFollowUpOtherReason(String lostFollowUpOtherReason) {
+		this.lostFollowUpOtherReason = lostFollowUpOtherReason;
+	}
+
 
 
 	@Column(name = "info", nullable = true, length = 750)

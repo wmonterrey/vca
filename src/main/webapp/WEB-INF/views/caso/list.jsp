@@ -90,6 +90,7 @@
 	                    <th class="hidden-xs"><spring:message code="invDate" /></th>
 	                    <th class="hidden-xs"><spring:message code="tx" /></th>
 	                    <th class="hidden-xs"><spring:message code="txDate" /></th>
+	                    <th class="hidden-xs"><spring:message code="txResultType" /></th>
 	                    <th class="hidden-xs"><spring:message code="txSup" /></th>
 	                    <th class="hidden-xs"><spring:message code="txComp" /></th>
 	                    <th class="hidden-xs"><spring:message code="txCompDate" /></th>
@@ -154,6 +155,7 @@
                                 </c:otherwise>
                             </c:choose>
                             <td class="hidden-xs"><c:out value="${fecinitx}" /></td>
+                            <td class="hidden-xs"><c:out value="${caso.txResultType}" /></td>
                             <td class="hidden-xs"><c:out value="${caso.txSup}" /></td>
                             <c:choose>
                                 <c:when test="${caso.txComp eq '1'}">

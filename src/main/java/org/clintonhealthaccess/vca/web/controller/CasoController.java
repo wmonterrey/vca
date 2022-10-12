@@ -198,6 +198,11 @@ public class CasoController {
         			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
         			caso.setLostFollowUpReason(descCatalogo);
         		}
+        		mr = this.messageResourceService.getMensaje(caso.getTxSuspReason(),"CAT_TXSUSP");
+        		if(mr!=null) {
+        			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
+        			caso.setTxSuspReason(descCatalogo);
+        		}
 	        	mav.addObject("caso",caso);
 	        	if(parametroService.getParametroByCode("zoom")!=null) zoomDef = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
 	        	if(parametroService.getParametroByCode("lat")!=null) latitudDef = Double.parseDouble(parametroService.getParametroByCode("lat").getValue());
@@ -213,6 +218,10 @@ public class CasoController {
 	            mav.addObject("razones",razones);
 	            List<MessageResource> diasTx = this.messageResourceService.getCatalogo("CAT_DIASSX"); 
 	            mav.addObject("diasTx",diasTx);
+	            List<MessageResource> tiposResultados = this.messageResourceService.getCatalogo("CAT_TIPORESULTADO"); 
+	            mav.addObject("tiposResultados",tiposResultados);
+	            List<MessageResource> razonesSusp = this.messageResourceService.getCatalogo("CAT_TXSUSP"); 
+	            mav.addObject("razonesSusp",razonesSusp);
 	            
         	}
         	catch (Exception e) {
@@ -466,6 +475,7 @@ public class CasoController {
     	if(caso!=null){
     		caso.setInv("0");
     		caso.setInvDate(null);
+    		caso.setInvCompDate(null);
     		String estado = obtenerEstado(caso);
     		caso.setEstadocaso(estado);
     		this.casoService.saveCaso(caso);
@@ -511,6 +521,7 @@ public class CasoController {
     		caso.setDayTx14(null);
     		caso.setTxComp("0");
     		caso.setTxCompDate(null);
+    		caso.setTxResultType(null);
     		String estado = obtenerEstado(caso);
     		caso.setEstadocaso(estado);
     		this.casoService.saveCaso(caso);
@@ -538,6 +549,35 @@ public class CasoController {
     	if(caso!=null){
     		caso.setTxComp("0");
     		caso.setTxCompDate(null);
+    		String estado = obtenerEstado(caso);
+    		caso.setEstadocaso(estado);
+    		this.casoService.saveCaso(caso);
+    		redirectAttributes.addFlashAttribute("completo", true);
+    		redirecTo = "redirect:/admin/casos/"+caso.getIdent()+"/";
+    	}
+    	else{
+    		redirecTo = "403";
+    	}
+    	return redirecTo;	
+    }
+    
+    /**
+     * Custom handler for disabling.
+     *
+     * @param ident the ID to disable
+     * @param redirectAttributes 
+     * @return a String
+     */
+    @RequestMapping("/txSuspno/{ident}/")
+    public String txSuspNo(@PathVariable("ident") String ident, 
+    		RedirectAttributes redirectAttributes) {
+    	String redirecTo="404";
+		Caso caso = this.casoService.getCaso(ident);
+    	if(caso!=null){
+    		caso.setTxSusp("0");
+    		caso.setTxSuspDate(null);
+    		caso.setTxSuspReason(null);
+    		caso.setTxSuspOtherReason(null);
     		String estado = obtenerEstado(caso);
     		caso.setEstadocaso(estado);
     		this.casoService.saveCaso(caso);
@@ -624,6 +664,7 @@ public class CasoController {
     	if(caso!=null){
     		caso.setLostFollowUp("0");
     		caso.setLostFollowUpReason(null);
+    		caso.setLostFollowUpOtherReason(null);
     		String estado = obtenerEstado(caso);
     		caso.setEstadocaso(estado);
     		this.casoService.saveCaso(caso);
@@ -649,23 +690,36 @@ public class CasoController {
 	public ResponseEntity<String> processInvDateEntity( @RequestParam(value="ident", required=false, defaultValue="" ) String ident
 			, @RequestParam( value="dataElement", required=true ) String dataElement
 	        , @RequestParam( value="dateValue", required=false, defaultValue="" ) String dateValue
+	        , @RequestParam( value="dateValue2", required=false, defaultValue="" ) String dateValue2
 	        , @RequestParam( value="diaTx", required=false, defaultValue="" ) String diaTx
 	        , @RequestParam( value="resultado", required=false, defaultValue="" ) String resultado
+	        , @RequestParam( value="txResultType", required=false, defaultValue="" ) String txResultType
 	        , @RequestParam( value="lostFollowUpReason", required=false, defaultValue="" ) String lostFollowUpReason
+	        , @RequestParam( value="lostFollowUpOtherReason", required=false, defaultValue="" ) String lostFollowUpOtherReason
+	        , @RequestParam( value="txSuspReason", required=false, defaultValue="" ) String txSuspReason
+	        , @RequestParam( value="txSuspOtherReason", required=false, defaultValue="" ) String txSuspOtherReason
 	        )
 	{
     	try{
     		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
     		SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
     		Date valorFecha =  null;
+    		Date valorFecha2 =  null;
     		if (!dateValue.equals("")) valorFecha = formatter.parse(dateValue);
+    		if (!dateValue2.equals("")) valorFecha2 = formatter.parse(dateValue2);
     		String fechaIngresada = "";
-    		if (valorFecha!=null) fechaIngresada=formatter2.format(valorFecha);
+    		if (valorFecha!=null) fechaIngresada=formatter2.format(valorFecha);    		
     		Caso caso = this.casoService.getCaso(ident);
         	if(caso!=null){
         		if(dataElement.equals("inv")) {
         			if(fechaIngresada.compareTo(formatter2.format(caso.getMxDate()))>=0) {
-        				caso.setInv("1");
+        				if(valorFecha2!=null) {
+        					caso.setInv("1");
+        					caso.setInvCompDate(valorFecha2);
+        				}
+        				else {
+        					caso.setInv("0");
+        				}
         				caso.setInvDate(valorFecha);
         			}
         			else {
@@ -676,6 +730,7 @@ public class CasoController {
         			if(fechaIngresada.compareTo(formatter2.format(caso.getMxDate()))>=0) {
         				caso.setTx("1");
         				caso.setTxDate(valorFecha);
+        				caso.setTxResultType(txResultType);
         			}
         			else {
         				return createJsonResponse("Fecha de inicio de tratamiento incorrecta. Tiene que ser mayor o igual a " + formatter.format(caso.getMxDate()));
@@ -691,23 +746,23 @@ public class CasoController {
         			}
         		}
         		else if(dataElement.equals("sx")) {
-        			if(fechaIngresada.compareTo(formatter2.format(caso.getTxDate()))>0) {
+        			if(fechaIngresada.compareTo(formatter2.format(caso.getTxCompDate()))>0) {
         				caso.setSx("1");
         				caso.setSxDate(valorFecha);
         				caso.setSxResult(resultado);
         			}
         			else {
-        				return createJsonResponse("Fecha de seguimiento incorrecta. Tiene que ser mayor a " + formatter.format(caso.getTxDate()));
+        				return createJsonResponse("Fecha de seguimiento incorrecta. Tiene que ser mayor a " + formatter.format(caso.getTxCompDate()));
         			}
         		}
         		else if(dataElement.equals("sxComp")) {
-        			if(fechaIngresada.compareTo(formatter2.format(caso.getTxDate()))>0) {
+        			if(fechaIngresada.compareTo(formatter2.format(caso.getSxDate()))>0) {
         				caso.setSxComp("1");
         				caso.setSxCompDate(valorFecha);
         				caso.setSxCompResult(resultado);
         			}
         			else {
-        				return createJsonResponse("Fecha de seguimiento incorrecta. Tiene que ser mayor " + formatter.format(caso.getTxDate()));
+        				return createJsonResponse("Fecha de seguimiento incorrecta. Tiene que ser mayor " + formatter.format(caso.getSxDate()));
         			}
         		}
         		else if(dataElement.equals("txSup")) {
@@ -917,6 +972,13 @@ public class CasoController {
         		else if(dataElement.equals("lostFollowUp")) {
         			caso.setLostFollowUp("1");
         			caso.setLostFollowUpReason(lostFollowUpReason);
+        			caso.setLostFollowUpOtherReason(lostFollowUpOtherReason);
+        		}
+        		else if(dataElement.equals("txSusp")) {
+        			caso.setTxSusp("1");
+        			caso.setTxSuspDate(valorFecha);
+        			caso.setTxSuspReason(txSuspReason);
+        			caso.setTxSuspOtherReason(txSuspOtherReason);
         		}
         		String estado = obtenerEstado(caso);
         		caso.setEstadocaso(estado);

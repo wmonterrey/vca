@@ -752,15 +752,24 @@ return {
 			  else if(data.puntoDiagnosticos.length > 0){
 				  mymap.fitBounds(pdxMarkers.getBounds());  
 			  }
-			  else if(data.criaderos.length > 0){
-				  mymap.fitBounds(crMarkers.getBounds());  
-			  }
 			  
 			  
 			  var popup = L.popup();
 			  function onClick(e) {
 				window.location.href = this.options.url;
 			  }
+			  
+			  var legendCriadero = L.control({ position: "bottomleft" });
+
+			  legendCriadero.onAdd = function(map) {
+				  var div = L.DomUtil.create("div", "legend");
+				  div.innerHTML += "<h4>Criaderos</h4>";
+				  div.innerHTML += '<i style="width:10px;height:10px;border:2px solid #e02222;"></i><span> Productivos </span><br>';
+				  div.innerHTML += '<i style="width:10px;height:10px;border:2px solid #ebbc21;"></i><span> Potenciales </span><br>';
+				  return div;
+			  };
+			  legendCriadero.addTo(mymap);
+			  
 			  /*Legend specific*/
 			  var legend = L.control({ position: "bottomleft" });
 
@@ -841,7 +850,7 @@ return {
 					            case data.focos[row].name: return {color: data.focos[row].color};
 					        }
 					    }
-					}).addTo(mymap);
+					}).addTo(mymap).bindTooltip(data.focos[row].name);
 				  
 				  var legendFoco = L.control({ position: "bottomright" });
 
@@ -852,6 +861,43 @@ return {
 				  };
 				  legendFoco.addTo(mymap);
 			  }
+			  
+			  
+			  for (var row in data.criaderos) {
+				  var coordinates = [];
+				  var puntos = [];
+				  for(var punto in data.criaderos[row].coordinates){
+					var miLat = data.criaderos[row].coordinates[punto].lat;
+					var miLong = data.criaderos[row].coordinates[punto].lng;
+					if(!(miLat == "" || miLong == "")){
+						var punto = [];
+						punto.push(miLong);
+						punto.push(miLat);
+						puntos.push(punto);
+					}
+				  }
+				  coordinates.push(puntos);
+				  var poligonCriadero = [{
+					    "type": "Feature",
+					    "properties": {"name": data.criaderos[row].name,
+					    	"popupContent": data.criaderos[row].name},
+					    "geometry": {
+					        "type": "Polygon",
+					        "coordinates": coordinates
+					    }
+					}];
+				
+			  
+				  L.geoJSON(poligonCriadero, {
+					    style: function(feature) {
+					        switch (feature.properties.name) {
+					            case data.criaderos[row].name: return {color: data.criaderos[row].color};
+					        }
+					    }
+					}).addTo(mymap).bindTooltip(data.criaderos[row].name);
+				  
+			  }
+			  
 			  
 			  mymap.on('overlayadd', function (eventLayer) {
 				    if (eventLayer.name === 'Casos') {

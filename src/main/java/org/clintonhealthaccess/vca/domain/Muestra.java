@@ -24,7 +24,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @since       1.0
  */
 @Entity
-@Table(name = "muestras", catalog = "vca", uniqueConstraints={@UniqueConstraint(columnNames = {"codE1","pasive"})})
+@Table(name = "muestras", catalog = "vca", uniqueConstraints={@UniqueConstraint(columnNames = {"local","casa","mxDate","pasive"})})
 public class Muestra extends BaseMetaData implements Auditable{
 	/**
 	 * 
@@ -32,8 +32,9 @@ public class Muestra extends BaseMetaData implements Auditable{
 	private static final long serialVersionUID = 1L;
 	private String ident;
 	private Localidad local;
-	private String codE1;
-	private String busqueda;
+	private String casa;
+	private Integer mxProactiva=0;
+	private Integer mxReactiva=0;
 	private Date mxDate;
 	private Double latitude;
 	private Double longitude;
@@ -69,15 +70,15 @@ public class Muestra extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "codE1", nullable = false, length = 100)
-	public String getCodE1() {
-		return codE1;
+	@Column(name = "casa", nullable = false, length = 100)
+	public String getCasa() {
+		return casa;
 	}
 
 
 
-	public void setCodE1(String codE1) {
-		this.codE1 = codE1;
+	public void setCasa(String casa) {
+		this.casa = casa;
 	}
 
 
@@ -92,8 +93,27 @@ public class Muestra extends BaseMetaData implements Auditable{
 	public void setMxDate(Date mxDate) {
 		this.mxDate = mxDate;
 	}
-
 	
+	
+
+	@Column(name = "mxProactiva", nullable = false)
+	public Integer getMxProactiva() {
+		return mxProactiva;
+	}
+
+	public void setMxProactiva(Integer mxProactiva) {
+		this.mxProactiva = mxProactiva;
+	}
+
+	@Column(name = "mxReactiva", nullable = false)
+	public Integer getMxReactiva() {
+		return mxReactiva;
+	}
+
+	public void setMxReactiva(Integer mxReactiva) {
+		this.mxReactiva = mxReactiva;
+	}
+
 	@Column(name = "latitude", nullable = true)
 	public Double getLatitude() {
 		return latitude;
@@ -117,16 +137,6 @@ public class Muestra extends BaseMetaData implements Auditable{
 		this.longitude = longitude;
 	}
 	
-	
-	
-	@Column(name = "busqueda", nullable = false)
-	public String getBusqueda() {
-		return busqueda;
-	}
-
-	public void setBusqueda(String busqueda) {
-		this.busqueda = busqueda;
-	}
 	
 	@Column(name = "exactitud", nullable = true)
 	public Float getExactitud() {
@@ -169,7 +179,7 @@ public class Muestra extends BaseMetaData implements Auditable{
 	
 	@Override
 	public String toString(){
-		return this.getCodE1();
+		return this.getCasa();
 	}
 	
 	@Override

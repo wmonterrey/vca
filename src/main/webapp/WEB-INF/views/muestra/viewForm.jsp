@@ -59,7 +59,7 @@
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<spring:url value="/" htmlEscape="true "/>"><spring:message code="home" /></a></li>
         <li class="breadcrumb-item"><a href="<spring:url value="/admin/tests/" htmlEscape="true "/>"><spring:message code="tests" /></a></li>
-        <li class="breadcrumb-item active"><c:out value="${muestra.codE1}" /></li>
+        <li class="breadcrumb-item active"><c:out value="${muestra.casa}" /></li>
         
       </ol>
 	  <!-- Container -->
@@ -72,7 +72,7 @@
 	            <div class="col-md-6">
 	              <div class="card">
 		               	<div class="card-header">
-		                  <i class="icon-compass"></i>&nbsp;<strong><c:out value="${muestra.codE1}" /></strong>
+		                  <i class="icon-compass"></i>&nbsp;<strong><c:out value="${muestra.casa}" /></strong>
 		                </div>
 	                	<div class="card-body">
 	                		<div class="form-group row">
@@ -82,9 +82,9 @@
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
-		                      <label class="col-md-3 col-form-label"><spring:message code="code1case" />:</label>
+		                      <label class="col-md-3 col-form-label"><spring:message code="housecase" />:</label>
 		                      <div class="col-md-9">
-		                        <p class="form-control-static"><strong><c:out value="${muestra.codE1}" /></strong></p>
+		                        <p class="form-control-static"><strong><c:out value="${muestra.casa}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <fmt:formatDate value="${muestra.mxDate}" var="fecMuestra" pattern="dd-MMM-yyyy" />
@@ -95,9 +95,15 @@
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
-		                      <label class="col-md-3 col-form-label"><spring:message code="detection" />:</label>
+		                      <label class="col-md-3 col-form-label"><spring:message code="mxProactiva" />:</label>
 		                      <div class="col-md-9">
-		                        <p class="form-control-static"><strong><c:out value="${muestra.busqueda}" /></strong></p>
+		                        <p class="form-control-static"><strong><c:out value="${muestra.mxProactiva}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-3 col-form-label"><spring:message code="mxReactiva" />:</label>
+		                      <div class="col-md-9">
+		                        <p class="form-control-static"><strong><c:out value="${muestra.mxReactiva}" /></strong></p>
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
@@ -463,7 +469,7 @@
 	if(!(miLat == "" || miLong == "")){
 		mymap.setView([miLat, miLong], zoomDef);
 		var markerDet = L.marker([miLat, miLong]).addTo(mymap);
-		markerDet.bindTooltip("${detectionLocation}" + " ${muestra.codE1}");		
+		markerDet.bindTooltip("${detectionLocation}" + " ${muestra.casa}");		
 	}
 	
 	

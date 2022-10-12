@@ -2,6 +2,7 @@ package org.clintonhealthaccess.vca.web.controller;
 
 import org.clintonhealthaccess.vca.domain.Foco;
 import org.clintonhealthaccess.vca.domain.Localidad;
+import org.clintonhealthaccess.vca.domain.PoligonFoco;
 import org.clintonhealthaccess.vca.domain.Punto;
 import org.clintonhealthaccess.vca.domain.PuntosFoco;
 import org.clintonhealthaccess.vca.domain.audit.AuditTrail;
@@ -32,6 +33,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.google.gson.Gson;
 import javax.annotation.Resource;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -157,6 +159,19 @@ public class AdminFocosController {
         	model.addAttribute("latitudDef",latitudDef);
         	model.addAttribute("longitudDef",longitudDef);
         	model.addAttribute("zoomDef",zoomDef);
+        	List<PoligonFoco> poligonosFoco = new ArrayList<PoligonFoco>();
+            List<Foco> focos = this.focoService.getActiveFocos();
+            for(Foco ofoco:focos) {
+            	if(!ofoco.getIdent().matches(foco.getIdent())) {
+	            	List<PuntosFoco> puntosFoco = this.focoService.getPuntosFocos(ofoco.getIdent());
+	            	List<Punto> puntoCoordenadas = new ArrayList<Punto>();
+	            	for(PuntosFoco pf:puntosFoco) {
+	            		puntoCoordenadas.add(new Punto (pf.getLatitude(),pf.getLongitude()));
+	            	}
+	            	poligonosFoco.add(new PoligonFoco(ofoco.getName(),puntoCoordenadas,ofoco.getColor()));
+            	}
+            }
+            model.addAttribute("poligonosFoco", poligonosFoco);
 			return "admin/focos/editLocation";
 		}
 		else{

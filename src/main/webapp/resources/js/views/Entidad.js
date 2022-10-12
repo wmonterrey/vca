@@ -192,6 +192,19 @@ return {
       },
       color: {
           required: true
+      },
+      txResultType: {
+          required: true
+      },
+      mxProactiva:{
+    	  required: true,
+    	  min:0,
+    	  max:20
+      },
+      mxReactiva:{
+    	  required: true,
+    	  min:0,
+    	  max:20
       }
     },
     errorElement: 'em',
@@ -256,6 +269,28 @@ return {
 		        $('#fisDate').hide();
 		    }
 		});
+  
+  $('#txSuspReason').change(
+		    function(){
+		    if ($(this).val()=="SUSPOTRO") {
+		    	$('.suspendidootra').show();
+		    }
+		    else {
+		    	$('#txSuspOtherReason').val("");
+		    	$('.suspendidootra').hide();
+		    }
+		});
+  
+  $('#lostFollowUpReason').change(
+		    function(){
+		    if ($(this).val()=="OTHER") {
+		    	$('.razonotra').show();
+		    }
+		    else {
+		    	$('#lostFollowUpOtherReason').val("");
+		    	$('.razonotra').hide();
+		    }
+		});  
   
   
   $('#sexo').change(

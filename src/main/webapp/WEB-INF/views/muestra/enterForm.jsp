@@ -91,14 +91,6 @@
 	                    </div>	
 	                    <div class="form-group">
 	                      <div class="input-group">
-	                        <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
-	                        <input type="text" id="codE1" name="codE1" value="${muestra.codE1}" class="form-control" placeholder="<spring:message code="code1case" />">
-	                      </div>
-	                    </div>  
-	                    
-	                    
-	                    <div class="form-group">
-	                      <div class="input-group">
 	                        <span class="input-group-addon"><i class="icon-layers"></i></span>
 	                        <select name="local" id="local" class="form-control select2-single">
 	                        	<option value=""><spring:message code="locality" /> - <spring:message code="empty" /></option>
@@ -115,7 +107,12 @@
 	                        </select>
 	                      </div>
 	                    </div>
-	                    
+	                    <div class="form-group">
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
+	                        <input type="text" id="casa" name="casa" value="${muestra.casa}" class="form-control" placeholder="<spring:message code="housecase" />">
+	                      </div>
+	                    </div>
 	                    <fmt:formatDate value="${muestra.mxDate}" var="fecMuestra" pattern="yyyy-MM-dd" />
 	                    <div class="form-group">
 	                      <label><spring:message code="mxDate" /></label>
@@ -127,26 +124,21 @@
 	                    
 	                    <div class="form-group">
 	                      <div class="input-group">
-	                        <span class="input-group-addon"><i class="icon-layers"></i></span>
-	                        <select name="busqueda" id="busqueda" class="form-control select2-single">
-	                        	<option value=""><spring:message code="detection" /> - <spring:message code="empty" /></option>
-	                        	<c:forEach items="${catBusq}" var="cat">
-									<c:choose> 
-										<c:when test="${cat.catKey eq muestra.busqueda}">
-											<option selected value="${cat.catKey}"><spring:message code="${cat.messageKey}" /></option>
-										</c:when>
-										<c:otherwise>
-											<option value="${cat.catKey}"><spring:message code="${cat.messageKey}" /></option>
-										</c:otherwise>
-									</c:choose> 
-								</c:forEach>
-	                        </select>
+	                        <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
+	                        <input type="text" id="mxProactiva" name="mxProactiva" value="${muestra.mxProactiva}" class="form-control" placeholder="<spring:message code="mxProactiva" />">
 	                      </div>
 	                    </div>
 	                    
 	                    <div class="form-group">
 	                      <div class="input-group">
-	                        <a href="#" class="btn btn-secondary modalmap"><i class="fa fa-location-arrow"></i>&nbsp;<spring:message code="detectionLocation" /></a>
+	                        <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
+	                        <input type="text" id="mxReactiva" name="mxReactiva" value="${muestra.mxReactiva}" class="form-control" placeholder="<spring:message code="mxReactiva" />">
+	                      </div>
+	                    </div>
+	                    
+	                    <div class="form-group">
+	                      <div class="input-group">
+	                        <a href="#" class="btn btn-secondary modalmap"><i class="fa fa-location-arrow"></i>&nbsp;<spring:message code="location" /></a>
 	                      </div>
 	                    </div>
 	                    

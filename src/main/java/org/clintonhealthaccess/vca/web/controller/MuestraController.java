@@ -3,7 +3,6 @@ package org.clintonhealthaccess.vca.web.controller;
 import org.clintonhealthaccess.vca.domain.Localidad;
 import org.clintonhealthaccess.vca.domain.Muestra;
 import org.clintonhealthaccess.vca.domain.audit.AuditTrail;
-import org.clintonhealthaccess.vca.language.MessageResource;
 import org.clintonhealthaccess.vca.service.LocalidadService;
 import org.clintonhealthaccess.vca.service.MessageResourceService;
 import org.clintonhealthaccess.vca.service.MuestraService;
@@ -130,8 +129,6 @@ public class MuestraController {
     	model.addAttribute("latitudDef", latitudDef);
     	model.addAttribute("longitudDef", longitudDef);
     	model.addAttribute("zoomDef", zoomDef);
-    	List<MessageResource> catBusq = this.messageResourceService.getCatalogo("CAT_BUSQUEDA"); 
-    	model.addAttribute("catBusq", catBusq);
     	return "muestra/enterForm";
 	}
     
@@ -207,8 +204,6 @@ public class MuestraController {
 	    	model.addAttribute("latitudDef", latitudDef);
 	    	model.addAttribute("longitudDef", longitudDef);
 	    	model.addAttribute("zoomDef", zoomDef);
-	    	List<MessageResource> catBusq = this.messageResourceService.getCatalogo("CAT_BUSQUEDA"); 
-	    	model.addAttribute("catBusq", catBusq);
 			return "muestra/enterForm";
 		}
 		else{
@@ -230,9 +225,10 @@ public class MuestraController {
 	        , @RequestParam( value="local", required=true) String local
 	        , @RequestParam( value="latitude", required=false, defaultValue ="" ) String latitude
 	        , @RequestParam( value="longitude", required=false, defaultValue ="" ) String longitude
+	        , @RequestParam( value="casa", required=true ) String casa
 	        , @RequestParam( value="mxDate", required=true ) String mxDate
-	        , @RequestParam( value="codE1", required=true ) String codE1
-	        , @RequestParam( value="busqueda", required=true ) String busqueda
+	        , @RequestParam( value="mxProactiva", required=true ) Integer mxProactiva
+	        , @RequestParam( value="mxReactiva", required=true ) Integer mxReactiva
 	        )
 	{
     	try{
@@ -266,8 +262,9 @@ public class MuestraController {
 			muestra.setLatitude(latitud);
 			muestra.setLongitude(longitud);
 			muestra.setMxDate(fechaMuestra);
-			muestra.setCodE1(codE1);
-			muestra.setBusqueda(busqueda);
+			muestra.setCasa(casa);
+			muestra.setMxProactiva(mxProactiva);
+			muestra.setMxReactiva(mxReactiva);
 			muestra.setEstado('2');
 			//Actualiza
 			this.muestraService.saveMuestra(muestra);
@@ -303,7 +300,7 @@ public class MuestraController {
     		muestra.setPasive('1');
     		this.muestraService.saveMuestra(muestra);
     		redirectAttributes.addFlashAttribute("entidadDeshabilitada", true);
-    		redirectAttributes.addFlashAttribute("nombreEntidad", muestra.getCodE1());
+    		redirectAttributes.addFlashAttribute("nombreEntidad", muestra.getCasa());
     		redirecTo = "redirect:/admin/tests/"+muestra.getIdent()+"/";
     	}
     	else{
@@ -329,7 +326,7 @@ public class MuestraController {
     		muestra.setPasive('0');
     		this.muestraService.saveMuestra(muestra);
     		redirectAttributes.addFlashAttribute("entidadHabilitada", true);
-    		redirectAttributes.addFlashAttribute("nombreEntidad", muestra.getCodE1());
+    		redirectAttributes.addFlashAttribute("nombreEntidad", muestra.getCasa());
     		redirecTo = "redirect:/admin/tests/"+muestra.getIdent()+"/";
     	}
     	else{

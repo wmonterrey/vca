@@ -93,12 +93,13 @@
 	                        <input type="text" id="name" name="name" value="${foco.name}" class="form-control" placeholder="<spring:message code="name" />">
 	                      </div>
 	                    </div>
-	                    <div class="form-group">
-	                      <div class="input-group">
-	                        <span class="input-group-addon"><i class="fa fa-address-book"></i></span>
-	                        <input type="text" id="color" name="color" value="${foco.color}" class="form-control" placeholder="<spring:message code="color" />">
-	                      </div>
-	                    </div>
+	                    
+	                    <div>
+						    <input type="color" id="color" name="color"
+						           value="${foco.color}">
+						    <label for="color"><spring:message code="color" /></label>
+						</div>
+							                    
 	                    
 	                    <fieldset class="form-group">
 		                 	<i class="fa fa-map-o"></i>

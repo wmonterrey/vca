@@ -1,5 +1,7 @@
 package org.clintonhealthaccess.vca.domain;
 
+import java.util.List;
+
 /**
  * 
  * Punto es la clase que representa un punto en el sistema.
@@ -16,13 +18,33 @@ public class PoligonCriadero {
 	 */
 	
 	private String name;
-	private String coordinates;
+	private List<Punto> coordinates;
+	private String color;
 
 	
 	
 	public PoligonCriadero() {
 		super();
 	}
+	
+	
+
+
+
+
+
+
+	public PoligonCriadero(String name, List<Punto> coordinates, String color) {
+		super();
+		this.name = name;
+		this.coordinates = coordinates;
+		this.color = color;
+	}
+
+
+
+
+
 
 
 
@@ -38,19 +60,50 @@ public class PoligonCriadero {
 
 
 
-	public String getCoordinates() {
+
+
+
+
+
+	public List<Punto> getCoordinates() {
 		return coordinates;
 	}
 
 
 
-	public void setCoordinates(String coordinates) {
+
+
+
+
+
+	public void setCoordinates(List<Punto> coordinates) {
 		this.coordinates = coordinates;
 	}
 
 
 
-	
+
+
+
+
+
+	public String getColor() {
+		return color;
+	}
+
+
+
+
+
+
+
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+
+
 
 	
 

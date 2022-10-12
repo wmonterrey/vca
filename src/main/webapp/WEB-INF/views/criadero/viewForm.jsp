@@ -207,13 +207,14 @@
                           	<spring:url value="/admin/criaderos/enableEntity/{ident}/" var="enableUrl">
                               	<spring:param name="ident" value="${criadero.ident}" />
                           	</spring:url>
-                          	<spring:url value="/admin/criaderos/enterLocation/{ident}/" var="locationUrl">
+                          	<spring:url value="/admin/criaderos/editEntityPolygon/{ident}/" var="editPolUrl">
                               	<spring:param name="ident" value="${criadero.ident}" />
                           	</spring:url>
 						</div>
 						<div class="card-header">
           				<div class="row float-right mr-4" >
           					<button id="edit_entity" onclick="location.href='${fn:escapeXml(editUrl)}'" type="button" class="btn btn-outline-primary"><i class="fa fa-pencil"></i>&nbsp; <spring:message code="edit" /></button>
+          					<button id="edit_poligon" onclick="location.href='${fn:escapeXml(editPolUrl)}'" type="button" class="btn btn-outline-primary"><i class="fa fa-map"></i>&nbsp; <spring:message code="editpol" /></button>
           					<c:choose>
 								<c:when test="${criadero.pasive=='0'.charAt(0)}">
 									<button id="disable_entity" onclick="location.href='${fn:escapeXml(disableUrl)}'" type="button" class="btn btn-outline-danger"><i class="fa fa-close"></i>&nbsp; <spring:message code="disable" /></button>
@@ -222,7 +223,6 @@
 									<button id="enable_entity" onclick="location.href='${fn:escapeXml(enableUrl)}'" type="button" class="btn btn-outline-primary"><i class="fa fa-check"></i>&nbsp; <spring:message code="enable" /></button>
 								</c:otherwise>
 						 	</c:choose>
-						 	<button id="location_button" onclick="location.href='${fn:escapeXml(locationUrl)}'" type="button" class="btn btn-outline-primary"><i class="fa fa-location-arrow"></i>&nbsp; <spring:message code="location" /></button>
           					<button id="back_button" onclick="location.href='<spring:url value="/admin/criaderos/" htmlEscape="true "/>'" type="button" class="btn btn-outline-primary"><i class="fa fa-undo"></i>&nbsp; <spring:message code="back" /></button>
           				</div>
             			</div>
@@ -372,6 +372,10 @@
   
   <spring:url value="/resources/vendors/js/leaflet.js" var="leafletJS" />
   <script src="${leafletJS}" type="text/javascript"></script>
+    <spring:url value="/resources/vendors/js/Control.FullScreen.js" var="ControlFullScreenJS" />
+  <script src="${ControlFullScreenJS}" type="text/javascript"></script>
+    <spring:url value="/resources/vendors/js/Leaflet.draw.js" var="leafletDrawJS" />
+  <script src="${leafletDrawJS}" type="text/javascript"></script>    
   
   <c:set var="entityEnabledLabel"><spring:message code="enabled" /></c:set>
   <c:set var="entityDisabledLabel"><spring:message code="disabled" /></c:set>
@@ -427,55 +431,8 @@
 		id: 'mapbox.streets'
 	}).addTo(mymap);
 	
-	// Initialise the FeatureGroup to store editable layers
-	var editableLayers = new L.FeatureGroup();
-	mymap.addLayer(editableLayers);
-	
-	var drawPluginOptions = {
-		  position: 'topright',
-		  draw: {
-		    polygon: {
-		      allowIntersection: false, // Restricts shapes to simple polygons
-		      drawError: {
-		        color: '#e1e100', // Color the shape will turn when intersects
-		        message: '<strong>Ay caray!<strong> No se puede dibujar esto!' // Message that will show when intersect
-		      },
-		      shapeOptions: {
-		        color: '#97009c'
-		      }
-		    },
-		    // disable toolbar item by setting it to false
-		    polyline: true,
-		    circle: false, // Turns off this drawing tool
-		    rectangle: false,
-		    marker: false,
-		    circlemarker: false,
-		    },
-		  edit: {
-		    featureGroup: editableLayers, //REQUIRED!!
-		    remove: false
-		  }
-		};
 
-		// Initialise the draw control and pass it the FeatureGroup of editable layers
-		var drawControl = new L.Control.Draw(drawPluginOptions);
-		mymap.addControl(drawControl);
 
-		var editableLayers = new L.FeatureGroup();
-		mymap.addLayer(editableLayers);
-
-		mymap.on('draw:created', function(e) {
-
-		  var type = e.layerType,
-		    layer = e.layer;
-		    //alert(layer._latlngs[0][0].lat);
-
-		  if (type === 'marker') {
-		    layer.bindPopup('A popup!');
-		  }
-
-		  editableLayers.addLayer(layer);
-		});
 	
 	
 		<c:forEach var="punto" items="${puntos}">
@@ -490,10 +447,10 @@
 		</c:forEach>
 		coordinates.push(puntos);
 		
-		var foco = [{
+		var criadero = [{
 		    "type": "Feature",
-		    "properties": {"name": "${foco.name}",
-		    	"popupContent": "${foco.name}"},
+		    "properties": {"name": "${criadero.info}",
+		    	"popupContent": "${criadero.info}"},
 		    "geometry": {
 		        "type": "Polygon",
 		        "coordinates": coordinates
@@ -501,24 +458,24 @@
 		}];
 	
 	
-	  var focoLayer = L.geoJSON(foco, {
+	  var criaderoLayer = L.geoJSON(criadero, {
 		    style: function(feature) {
-		        switch (feature.properties.name) {
-		            case "${foco.name}": return {color: "#0000FF"};
+		        switch (feature.properties.info) {
+		            case "${criadero.info}": return {color: "#0000FF"};
 		        }
 		    }
 		});
 	  
-	  focoLayer.addTo(mymap);
+	  criaderoLayer.addTo(mymap);
 	  
-	  mymap.fitBounds(focoLayer.getBounds());
+	  mymap.fitBounds(criaderoLayer.getBounds());
 	  
-	  /*Legend specific foco 5b*/
+	  /*Legend specific criadero*/
 	  var legend = L.control({ position: "bottomleft" });
 	
 	  legend.onAdd = function(map) {
 		  var div = L.DomUtil.create("div", "legend");
-		  div.innerHTML += '<i style="width:10px;height:10px;border:2px solid #0000FF;"></i><span>'+"${foco.name}"+'</span><br>';
+		  div.innerHTML += '<i style="width:10px;height:10px;border:2px solid #0000FF;"></i><span>'+"${criadero.info}"+'</span><br>';
 		  return div;
 	  };
 	  

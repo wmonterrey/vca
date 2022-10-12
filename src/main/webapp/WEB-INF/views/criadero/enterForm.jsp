@@ -144,24 +144,7 @@
 		                      </c:forEach>
 		                    </select>
 		                 </fieldset>
-	                    <div class="form-group">
-	                      <div class="input-group">
-	                        <span class="input-group-addon"><i class="fa fa-location-arrow"></i></span>
-	                        <input type="text" id="latitude" name="latitude" value="${criadero.latitude}" class="form-control" placeholder="<spring:message code="latitude" />">
-	                      </div>
-	                    </div>
-	                    <div class="form-group">
-	                      <div class="input-group">
-	                        <span class="input-group-addon"><i class="fa fa-location-arrow"></i></span>
-	                        <input type="text" id="longitude" name="longitude" value="${criadero.longitude}" class="form-control" placeholder="<spring:message code="longitude" />">
-	                      </div>
-	                    </div>
-	                    <div class="form-group">
-	                      <div class="input-group">
-	                        <span class="input-group-addon"><i class="fa fa-location-arrow"></i></span>
-	                        <input type="text" id="zoom" name="zoom" value="${criadero.zoom}" class="form-control" placeholder="<spring:message code="zoom" />">
-	                      </div>
-	                    </div>
+
                         <div class="form-group">
                           <button type="submit" class="btn btn-primary" id="guardar"><i class="fa fa-save"></i>&nbsp;<spring:message code="save" /></button>
 						  <a href="${fn:escapeXml(listUrl)}" class="btn btn-danger"><i class="fa fa-undo"></i>&nbsp;<spring:message code="cancel" /></a>

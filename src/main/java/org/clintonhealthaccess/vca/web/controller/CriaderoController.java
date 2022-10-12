@@ -1,6 +1,8 @@
 package org.clintonhealthaccess.vca.web.controller;
 
 import org.clintonhealthaccess.vca.domain.Localidad;
+import org.clintonhealthaccess.vca.domain.Punto;
+import org.clintonhealthaccess.vca.domain.PuntosCriadero;
 import org.clintonhealthaccess.vca.domain.CriaderoTx;
 import org.clintonhealthaccess.vca.domain.Criadero;
 import org.clintonhealthaccess.vca.domain.audit.AuditTrail;
@@ -33,6 +35,7 @@ import com.google.gson.Gson;
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -157,6 +160,8 @@ public class CriaderoController {
 	        		}
 	        	}
 	            mav.addObject("visitas",visitas);
+	            List<PuntosCriadero> puntos = criaderoService.getPuntosCriaderos(ident);
+	            mav.addObject("puntos", puntos);
         	}
         	catch (Exception e) {
         		mav = new ModelAndView("505");
@@ -202,38 +207,36 @@ public class CriaderoController {
 		}
 	}
     
+
+    
     /**
      * Custom handler for editing.
      * @param model Modelo enlazado a la vista
      * @param ident the ID to edit
      * @return a ModelMap with the model attributes for the view
      */
-    @RequestMapping(value = "/enterLocation/{ident}/", method = RequestMethod.GET)
-	public String enterLocation(@PathVariable("ident") String ident, Model model) {
+    @RequestMapping(value = "/editEntityPolygon/{ident}/", method = RequestMethod.GET)
+	public String editEntityPolygon(@PathVariable("ident") String ident, Model model) {
+    	Double latitudDef=0D;
+    	Double longitudDef=0D;
+    	Integer zoomDef=0;
 		Criadero criadero = this.criaderoService.getCriadero(ident);
 		if(criadero!=null){
-			try {
-				model.addAttribute("criadero",criadero);
-				Double latitudDef=0D;
-		    	Double longitudDef=0D;
-		    	Integer zoomDef=0;
-		    	if(parametroService.getParametroByCode("zoom")!=null) zoomDef = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
-	        	if(parametroService.getParametroByCode("lat")!=null) latitudDef = Double.parseDouble(parametroService.getParametroByCode("lat").getValue());
-	        	if(parametroService.getParametroByCode("long")!=null) longitudDef = Double.parseDouble(parametroService.getParametroByCode("long").getValue());
-		    	model.addAttribute("zoomDef", zoomDef);
-		    	model.addAttribute("latitudDef", latitudDef);
-		    	model.addAttribute("longitudDef", longitudDef);
-				return "criadero/enterLocation";
-			}
-        	catch (Exception e) {
-        		model.addAttribute("errormsg","Error: " + e.getLocalizedMessage());
-        		return "505";
-        	}
+			model.addAttribute("criadero",criadero);
+			List<PuntosCriadero> puntos = criaderoService.getPuntosCriaderos(ident);
+			model.addAttribute("puntos", puntos);
+            if(parametroService.getParametroByCode("zoom")!=null) zoomDef = Integer.parseInt(parametroService.getParametroByCode("zoom").getValue());
+        	if(parametroService.getParametroByCode("lat")!=null) latitudDef = Double.parseDouble(parametroService.getParametroByCode("lat").getValue());
+        	if(parametroService.getParametroByCode("long")!=null) longitudDef = Double.parseDouble(parametroService.getParametroByCode("long").getValue());
+        	model.addAttribute("latitudDef",latitudDef);
+        	model.addAttribute("longitudDef",longitudDef);
+        	model.addAttribute("zoomDef",zoomDef);
+			return "criadero/editLocation";
 		}
 		else{
 			return "403";
 		}
-	}
+	}  
 	
     /**
      * Custom handler for saving.
@@ -281,6 +284,55 @@ public class CriaderoController {
 			//Actualiza
 			this.criaderoService.saveCriadero(criadero);
 			return createJsonResponse(criadero);
+    	}
+		catch (DataIntegrityViolationException e){
+			String message = e.getMostSpecificCause().getMessage();
+			Gson gson = new Gson();
+		    String json = gson.toJson(message);
+		    return createJsonResponse(json);
+		}
+		catch(Exception e){
+			Gson gson = new Gson();
+		    String json = gson.toJson(e.toString());
+		    return createJsonResponse(json);
+		}
+    	
+	}
+    
+    /**
+     * Custom handler for saving.
+     * 
+     * @param ident Identificador unico
+     * @param code codigo
+     * @param name nombre
+     * @return a ModelMap with the model attributes for the view
+     */
+    @RequestMapping( value="/saveEntityPolygon/", method=RequestMethod.POST)
+	public ResponseEntity<String> processPolygon( @RequestParam(value="ident", required=true) String ident
+	        , @RequestParam( value="coordinates", required=true ) String coordinates
+	        )
+	{
+    	try{
+			Criadero criadero = criaderoService.getCriadero(ident);
+			Gson gson = new Gson();
+			Punto[] puntoArray = gson.fromJson(coordinates, Punto[].class);  
+			if(puntoArray.length>0) {
+				if (this.criaderoService.removePuntosCriaderos(ident)>0) {
+					logger.debug("Eliminados " + this.criaderoService.removePuntosCriaderos(ident) + " puntos");
+				}
+				for(Punto punto : puntoArray) {
+					PuntosCriadero pf = new PuntosCriadero();
+					String identCriadero = new UUID(SecurityContextHolder.getContext().getAuthentication().getName().hashCode(),new Date().hashCode()).toString();
+					pf.setIdent(identCriadero);
+					pf.setCriadero(criadero);
+					pf.setLatitude(punto.getLat());
+					pf.setLongitude(punto.getLng());
+					pf.setOrder(Arrays.asList(puntoArray).indexOf(punto)+1);
+					this.criaderoService.savePuntosCriadero(pf);
+				}
+			}
+			logger.debug("Agregados " + puntoArray.length + " puntos");
+			return createJsonResponse(criadero); 
     	}
 		catch (DataIntegrityViolationException e){
 			String message = e.getMostSpecificCause().getMessage();

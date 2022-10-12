@@ -9,9 +9,11 @@ import javax.annotation.Resource;
 import org.clintonhealthaccess.vca.domain.Caso;
 import org.clintonhealthaccess.vca.domain.Criadero;
 import org.clintonhealthaccess.vca.domain.Foco;
+import org.clintonhealthaccess.vca.domain.PoligonCriadero;
 import org.clintonhealthaccess.vca.domain.PoligonFoco;
 import org.clintonhealthaccess.vca.domain.Punto;
 import org.clintonhealthaccess.vca.domain.PuntoDiagnostico;
+import org.clintonhealthaccess.vca.domain.PuntosCriadero;
 import org.clintonhealthaccess.vca.domain.PuntosFoco;
 import org.clintonhealthaccess.vca.domain.audit.AuditTrail;
 import org.clintonhealthaccess.vca.language.MessageResource;
@@ -172,16 +174,7 @@ public class Mapas1Controller {
     			punto.setStatus(descCatalogo);
     		}
     	}
-        List<Criadero> criaderos = criaderoService.getActiveCriaderos();
-        for (Criadero criadero:criaderos) {
-    		MessageResource mr = null;
-    		String descCatalogo = null;
-    		mr = this.messageResourceService.getMensaje(criadero.getTipo(),"CAT_TIPOPCR");
-    		if(mr!=null) {
-    			descCatalogo = (LocaleContextHolder.getLocale().getLanguage().equals("en")) ? mr.getEnglish(): mr.getSpanish();
-    			criadero.setTipo(descCatalogo);
-    		}
-    	}
+
         
         List<PoligonFoco> poligonosFoco = new ArrayList<PoligonFoco>();
         List<Foco> focos = this.focoService.getActiveFocos();
@@ -194,10 +187,29 @@ public class Mapas1Controller {
         	poligonosFoco.add(new PoligonFoco(foco.getName(),puntoCoordenadas,foco.getColor()));
         }
         
+        List<PoligonCriadero> poligonosCriadero = new ArrayList<PoligonCriadero>();
+        List<Criadero> criaderos = criaderoService.getActiveCriaderos();
+        for(Criadero criadero:criaderos) {
+        	List<PuntosCriadero> puntosCriadero = this.criaderoService.getPuntosCriaderos(criadero.getIdent());
+        	List<Punto> puntoCoordenadas = new ArrayList<Punto>();
+        	for(PuntosCriadero pf:puntosCriadero) {
+        		puntoCoordenadas.add(new Punto (pf.getLatitude(),pf.getLongitude()));
+        	}
+        	String colorCriadero = "#0000FF";
+        	if(criadero.getTipo().matches("PR")) {
+        		colorCriadero = "#e02222";
+        	}
+        	else if(criadero.getTipo().matches("PT")) {
+        		colorCriadero = "#ebbc21";
+        	}
+        	poligonosCriadero.add(new PoligonCriadero(criadero.getInfo(),puntoCoordenadas,colorCriadero));
+        }
+        
         DatosMapa datosMapa = new DatosMapa();
         datosMapa.setCasos(datos);
         datosMapa.setPuntoDiagnosticos(puntos);
         datosMapa.setFocos(poligonosFoco);
+        datosMapa.setCriaderos(poligonosCriadero);
         
         return datosMapa;
     }
