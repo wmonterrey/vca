@@ -19,7 +19,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 /**
  * 
  *  
- * @author      William Avilés Monterrey
+ * @author      William Avilés
  * @version     1.0
  * @since       1.0
  */
