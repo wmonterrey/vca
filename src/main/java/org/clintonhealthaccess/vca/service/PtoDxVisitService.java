@@ -60,6 +60,22 @@ public class PtoDxVisitService {
 	}
 	
 	/**
+	 * Regresa todas las PtoDxVisits activas  para móvil
+	 * 
+	 * @return una lista de <code>PtoDxVisit</code>(s)
+	 */
+
+	@SuppressWarnings("unchecked")
+	public List<PtoDxVisit> getActivePtoDxVisitsMovil() {
+		// Retrieve session from Hibernate
+		Session session = sessionFactory.getCurrentSession();
+		// Create a Hibernate query (HQL)
+		Query query = session.createQuery("FROM PtoDxVisit visit where visit.pasive ='0'");
+		// Retrieve all
+		return  query.list();
+	}
+	
+	/**
 	 * Regresa todas las visits de un punto
 	 * 
 	 * @return una lista de <code>PtoDxVisit</code>(s)

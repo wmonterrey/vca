@@ -60,6 +60,22 @@ public class CriaderoTxService {
 	}
 	
 	/**
+	 * Regresa todas las CriaderoTxs activas para móvil
+	 * 
+	 * @return una lista de <code>CriaderoTx</code>(s)
+	 */
+
+	@SuppressWarnings("unchecked")
+	public List<CriaderoTx> getActiveCriaderoTxsMovil() {
+		// Retrieve session from Hibernate
+		Session session = sessionFactory.getCurrentSession();
+		// Create a Hibernate query (HQL)
+		Query query = session.createQuery("FROM CriaderoTx ct where ct.pasive ='0'");
+		// Retrieve all
+		return  query.list();
+	}
+	
+	/**
 	 * Regresa todas las visits de un criadero
 	 * 
 	 * @return una lista de <code>CriaderoTx</code>(s)

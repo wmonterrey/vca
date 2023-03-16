@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.clintonhealthaccess.vca.domain.Area;
+import org.clintonhealthaccess.vca.domain.Localidad;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -86,6 +87,17 @@ public class AreaService {
 		Session session = sessionFactory.getCurrentSession();
 		session.saveOrUpdate(area);
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	public List<Localidad> getLocalidadesArea(String area) {
+		// Retrieve session from Hibernate
+		Session session = sessionFactory.getCurrentSession();
+		// Create a Hibernate query (HQL)
+		Query query = session.createQuery("FROM Localidad loc " +
+				"where (loc.pasive ='0' and loc.district.area.ident =:area)");
+		query.setParameter("area",area);
+		// Retrieve all
+		return  query.list();
+	}
 
 }

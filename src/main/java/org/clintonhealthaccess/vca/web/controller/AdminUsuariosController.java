@@ -2,14 +2,18 @@ package org.clintonhealthaccess.vca.web.controller;
 
 import com.google.gson.Gson;
 
-
-
+import org.clintonhealthaccess.vca.domain.Area;
+import org.clintonhealthaccess.vca.domain.Distrito;
+import org.clintonhealthaccess.vca.domain.Foco;
 import org.clintonhealthaccess.vca.domain.Localidad;
 import org.clintonhealthaccess.vca.domain.audit.AuditTrail;
 import org.clintonhealthaccess.vca.domain.relationships.UsuarioLocalidad;
 import org.clintonhealthaccess.vca.domain.relationships.UsuarioLocalidadId;
 import org.clintonhealthaccess.vca.language.MessageResource;
+import org.clintonhealthaccess.vca.service.AreaService;
 import org.clintonhealthaccess.vca.service.AuditTrailService;
+import org.clintonhealthaccess.vca.service.DistritoService;
+import org.clintonhealthaccess.vca.service.FocoService;
 import org.clintonhealthaccess.vca.service.LocalidadService;
 import org.clintonhealthaccess.vca.service.MessageResourceService;
 import org.clintonhealthaccess.vca.service.UsuarioService;
@@ -38,6 +42,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -56,6 +61,12 @@ public class AdminUsuariosController {
 	private AuditTrailService auditTrailService;
 	@Resource(name="messageResourceService")
 	private MessageResourceService messageResourceService;
+	@Resource(name="areaService")
+	private AreaService areaService;
+	@Resource(name="distritoService")
+	private DistritoService distritoService;
+	@Resource(name="focoService")
+	private FocoService focoService;
 	@Resource(name="localidadService")
 	private LocalidadService localidadService;
     
@@ -77,10 +88,10 @@ public class AdminUsuariosController {
     @RequestMapping(value = "/newUser/", method = RequestMethod.GET)
 	public String initAddUserForm(Model model) {
     	List<Rol> roles = usuarioService.getRoles();
-    	List<Localidad> localidades = localidadService.getActiveLocalities();
-	    model.addAttribute("roles", roles);
-	    model.addAttribute("localidades", localidades);
-		return "admin/users/newForm";
+    	model.addAttribute("roles", roles);
+    	List<Localidad> localidades = this.localidadService.getActiveLocalities();
+    	model.addAttribute("localidades", localidades);
+	    return "admin/users/newForm";
 	}
     
     
@@ -113,6 +124,12 @@ public class AdminUsuariosController {
             mav.addObject("localidadesusuario", localidadesusuario);
             List<Localidad> localidades = this.usuarioService.getLocalidadesNoTieneUsuario(username);
             mav.addObject("localidades", localidades);
+            List<Area> areas = this.areaService.getActiveAreas();
+            mav.addObject("areas", areas);
+            List<Distrito> distritos = this.distritoService.getActiveDistricts();
+            mav.addObject("distritos", distritos);
+            List<Foco> focos = this.focoService.getActiveFocos();
+            mav.addObject("focos", focos);
         }
         return mav;
     }
@@ -536,24 +553,36 @@ public class AdminUsuariosController {
      * @param localidad Localidad a agregar
      * @return a String
      */
-    @RequestMapping("/addLocalidad/{username}/{localidad}/")
+    @RequestMapping("/addLocalidad/{username}/{region}/{ident}/")
     public String addLocalidad(@PathVariable("username") String username, 
-    		@PathVariable("localidad") String localidad, RedirectAttributes redirectAttributes) {
-    	String redirecTo="404";
+    		@PathVariable("region") String region, 
+    		@PathVariable("ident") String ident,
+    		RedirectAttributes redirectAttributes) {
+    	String redirecTo = "redirect:/admin/users/{username}/";
     	UserSistema usuarioActual = this.usuarioService.getUser(SecurityContextHolder.getContext().getAuthentication().getName());
-		UsuarioLocalidad localidadUser = this.usuarioService.getUsuarioLocalidad(username, localidad);
-    	if(localidadUser==null){
-    		localidadUser = new UsuarioLocalidad();
-    		localidadUser.setUsuarioLocalidadId(new UsuarioLocalidadId(username, localidad));
-    		localidadUser.setRecordUser(usuarioActual.getUsername());
-    		localidadUser.setRecordDate(new Date());
-    		this.usuarioService.saveUsuarioLocalidad(localidadUser);
-    		redirecTo = "redirect:/admin/users/{username}/";
-    		redirectAttributes.addFlashAttribute("localidadAgregada", true);
+    	List<Localidad> localidades = new ArrayList<Localidad>();
+    	
+    	if (region.matches("1")) {
+    		localidades = this.areaService.getLocalidadesArea(ident);
+    	} else if (region.matches("2")) {
+    		localidades = this.distritoService.getLocalidadesDistrito(ident);
+    	} else if (region.matches("3")) {
+    		localidades = this.focoService.getLocalidadesFoco(ident);
+    	}else if (region.matches("4")) {
+			localidades.add(this.localidadService.getLocal(ident));
     	}
-    	else{
-    		redirecTo = "403";
-    	}
+    	
+    	for(Localidad loc:localidades) {
+			UsuarioLocalidad localidadUser = this.usuarioService.getUsuarioLocalidad(username, loc.getIdent());
+	    	if(localidadUser==null){
+	    		localidadUser = new UsuarioLocalidad();
+	    		localidadUser.setUsuarioLocalidadId(new UsuarioLocalidadId(username, loc.getIdent()));
+	    		localidadUser.setRecordUser(usuarioActual.getUsername());
+	    		localidadUser.setRecordDate(new Date());
+	    	}
+	    	this.usuarioService.saveUsuarioLocalidad(localidadUser);
+		}
+		redirectAttributes.addFlashAttribute("localidadAgregada", true);
     	return redirecTo;	
     }
     

@@ -38,6 +38,7 @@ public class Localidad extends BaseMetaData implements Auditable{
 	private Integer population;
 	private String pattern;
 	private String obs;
+	private boolean tieneAcceso = false;
 	
 	public Localidad() {
 		super();
@@ -165,6 +166,18 @@ public class Localidad extends BaseMetaData implements Auditable{
 
 	public void setObs(String obs) {
 		this.obs = obs;
+	}
+
+
+	@Column(name = "acceso", nullable = false)
+	public boolean isTieneAcceso() {
+		return tieneAcceso;
+	}
+
+
+
+	public void setTieneAcceso(boolean tieneAcceso) {
+		this.tieneAcceso = tieneAcceso;
 	}
 
 

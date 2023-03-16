@@ -61,7 +61,24 @@ public class CasoService {
 	
 	
 	/**
-	 * Regresa una Caso
+	 * Regresa todos los Caso activos para móvil
+	 * 
+	 * @return una lista de <code>Caso</code>(s)
+	 */
+
+	@SuppressWarnings("unchecked")
+	public List<Caso> getActiveCasosMovil() {
+		// Retrieve session from Hibernate
+		Session session = sessionFactory.getCurrentSession();
+		// Create a Hibernate query (HQL)
+		Query query = session.createQuery("FROM Caso pd where pd.pasive ='0'");
+		// Retrieve all
+		return  query.list();
+	}
+	
+	
+	/**
+	 * Regresa una Caso 
 	 * @param id Identificador del Caso 
 	 * @return un <code>Caso</code>
 	 */

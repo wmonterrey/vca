@@ -328,6 +328,7 @@ public class CriaderoController {
 					pf.setLatitude(punto.getLat());
 					pf.setLongitude(punto.getLng());
 					pf.setOrder(Arrays.asList(puntoArray).indexOf(punto)+1);
+					pf.setEstado('2');
 					this.criaderoService.savePuntosCriadero(pf);
 				}
 			}
@@ -463,8 +464,10 @@ public class CriaderoController {
 			criaderoVisit.setTxDate(fechaVisita);
 			criaderoVisit.setTxType(txType);
 			criaderoVisit.setObs(obs);
+			criaderoVisit.setEstado('2');
 			//Actualiza
 			this.criaderoTxService.saveCriaderoTx(criaderoVisit);
+			criaderoVisit.setIdent(criaderoVisit.getCriadero().getIdent());
 			return createJsonResponse(criaderoVisit);
     	}
 		catch (DataIntegrityViolationException e){

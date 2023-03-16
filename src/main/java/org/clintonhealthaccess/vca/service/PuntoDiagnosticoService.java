@@ -60,6 +60,22 @@ public class PuntoDiagnosticoService {
 		return  query.list();
 	}
 	
+	/**
+	 * Regresa todos los PuntoDiagnostico activos para móvil
+	 * 
+	 * @return una lista de <code>PuntoDiagnostico</code>(s)
+	 */
+
+	@SuppressWarnings("unchecked")
+	public List<PuntoDiagnostico> getActivePuntoDiagnosticosMovil() {
+		// Retrieve session from Hibernate
+		Session session = sessionFactory.getCurrentSession();
+		// Create a Hibernate query (HQL)
+		Query query = session.createQuery("FROM PuntoDiagnostico pd where pd.pasive ='0'");
+		// Retrieve all
+		return  query.list();
+	}
+	
 	
 	/**
 	 * Regresa una PuntoDiagnostico

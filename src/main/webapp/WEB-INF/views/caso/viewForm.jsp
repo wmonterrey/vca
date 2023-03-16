@@ -566,7 +566,7 @@
 		                      </div>
 		                    </div>
 		                    <div class="form-group row">
-		                      <label class="col-md-3 col-form-label"><spring:message code="infopdx" />:</label>
+		                      <label class="col-md-3 col-form-label"><spring:message code="infocase" />:</label>
 		                      <div class="col-md-9">
 		                        <p class="form-control-static"><strong><c:out value="${caso.info}" /></strong></p>
 		                      </div>

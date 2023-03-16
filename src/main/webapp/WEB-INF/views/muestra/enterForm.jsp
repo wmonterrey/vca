@@ -61,7 +61,7 @@
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<spring:url value="/" htmlEscape="true "/>"><spring:message code="home" /></a></li>
         <li class="breadcrumb-item"><a href="<spring:url value="/admin/tests/" htmlEscape="true "/>"><spring:message code="tests" /></a></li>
-        <li class="breadcrumb-item active"><c:out value="${muestra.codE1}" /></li>
+        <li class="breadcrumb-item active"><c:out value="${muestra.casa}" /></li>
         
       </ol>
 	  <!-- Container -->
@@ -306,7 +306,7 @@
 	
 	
 	if(!(miLat == "" || miLong == "")){
-		theMarker = L.marker([miLat, miLong],{title: "${muestra.codE1}", draggable: true}).addTo(mymap).on('dragend', function() {
+		theMarker = L.marker([miLat, miLong],{title: "${muestra.casa}", draggable: true}).addTo(mymap).on('dragend', function() {
 			$("#latitude").val(theMarker.getLatLng().lat);
 			$("#longitude").val(theMarker.getLatLng().lng);
 		});
@@ -325,7 +325,7 @@
 	       	mymap.removeLayer(theMarker);
 	    };
 
-	    theMarker = L.marker([lat, lon],{title: "${muestra.codE1}", draggable: true}).addTo(mymap).on('dragend', function() {
+	    theMarker = L.marker([lat, lon],{title: "${muestra.casa}", draggable: true}).addTo(mymap).on('dragend', function() {
 	    	$("#latitude").val(theMarker.getLatLng().lat);
 			$("#longitude").val(theMarker.getLatLng().lng);
 	    	

@@ -24,7 +24,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @since       1.0
  */
 @Entity
-@Table(name = "muestras", catalog = "vca", uniqueConstraints={@UniqueConstraint(columnNames = {"local","casa","mxDate","pasive"})})
+@Table(name = "muestras", catalog = "vca", uniqueConstraints={@UniqueConstraint(columnNames = {"casa","mxDate","local","pasive"})})
 public class Muestra extends BaseMetaData implements Auditable{
 	/**
 	 * 

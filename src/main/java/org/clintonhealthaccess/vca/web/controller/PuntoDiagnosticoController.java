@@ -482,8 +482,10 @@ public class PuntoDiagnosticoController {
 			puntoDiagnosticoVisit.setVisitDate(fechaVisita);
 			puntoDiagnosticoVisit.setVisitType(visitType);
 			puntoDiagnosticoVisit.setObs(obs);
+			puntoDiagnosticoVisit.setEstado('2');
 			//Actualiza
 			this.ptoDxVisitService.savePtoDxVisit(puntoDiagnosticoVisit);
+			puntoDiagnosticoVisit.setIdent(puntoDiagnosticoVisit.getPunto().getIdent());
 			return createJsonResponse(puntoDiagnosticoVisit);
     	}
 		catch (DataIntegrityViolationException e){

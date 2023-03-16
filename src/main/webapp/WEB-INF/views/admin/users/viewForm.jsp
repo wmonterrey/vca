@@ -384,6 +384,8 @@
 			                <thead>
 			                	<tr>
 				                    <th><spring:message code="userlocs" /></th>
+				                    <th><spring:message code="district" /></th>
+				                    <th><spring:message code="area" /></th>
 									<th><spring:message code="enabled" /></th>
 									<th><spring:message code="addedBy" /></th>
 									<th><spring:message code="dateAdded" /></th>
@@ -402,6 +404,8 @@
 		                               <spring:param name="localidad" value="${localidadusuario.usuarioLocalidadId.localidad}" />
 		                            </spring:url>
 									<td><c:out value="${localidadusuario.localidad.name}" /></td>
+									<td><c:out value="${localidadusuario.localidad.district.name}" /></td>
+									<td><c:out value="${localidadusuario.localidad.district.area.name}" /></td>
 									<c:choose>
 										<c:when test="${localidadusuario.pasive=='0'.charAt(0)}">
 											<td><span class="badge badge-success"><spring:message code="CAT_SINO_SI" /></span></td>
@@ -569,13 +573,46 @@
 				<div class="modal-body">
 					<input type="hidden" id="inputAddLocalidadUrl"/>
 					<div id="cuerpo">
-		                 	<i class="fa fa-map-o"></i>
+							<i class="fa fa-check"></i>
+		                 	<label><spring:message code="select" /></label>
+		                    <select id="region" name="region" class="form-control select2-single">
+		                      <option value="1">Área de salud</option>
+		                      <option value="2">Distrito</option>
+		                      <option value="3">Foco</option>
+		                      <option selected value="4">Localidad</option>
+		                    </select>
+		                    <div id="areadiv">
+		                 	<label><spring:message code="area" /></label>
+		                    <select id="area" name="area" class="form-control select2-single">
+		                      <c:forEach items="${areas}" var="area">
+		                      	<option value="${area.ident}">${area.name}</option>
+		                      </c:forEach>
+		                    </select>
+		                    </div>
+		                    <div id="distdiv">
+		                 	<label><spring:message code="districts" /></label>
+		                    <select id="distrito" name="distrito" class="form-control select2-single">
+		                      <c:forEach items="${distritos}" var="distrito">
+		                      	<option value="${distrito.ident}">${distrito.name}-${distrito.area.name}</option>
+		                      </c:forEach>
+		                    </select>
+		                    </div>
+		                    <div id="focidiv">
+		                    <label><spring:message code="foci" /></label>
+		                    <select id="foco" name="foco" class="form-control select2-single">
+		                      <c:forEach items="${focos}" var="foco">
+		                      	<option value="${foco.ident}">${foco.name}</option>
+		                      </c:forEach>
+		                    </select>
+		                    </div>
+		                    <div id="locdiv">
 		                    <label><spring:message code="userlocs" /></label>
 		                    <select id="localidades" name="localidades" class="form-control select2-single">
 		                      <c:forEach items="${localidades}" var="localidad">
 		                      	<option value="${localidad.ident}">${localidad.name}-${localidad.district.name}-${localidad.district.area.name}</option>
 		                      </c:forEach>
 		                    </select>
+		                    </div>
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -778,15 +815,75 @@
     });
     
     $('#localidadesForm').on('shown.bs.modal', function () {
-        $('#localidades').select2({
+        $('#localidades,#area,#distrito,#foco,#region').select2({
         	dropdownParent: $("#localidadesForm"),
         	theme: "bootstrap"
     	});
     })
     
+    $('#areadiv').hide();
+    $('#distdiv').hide();
+    $('#focidiv').hide();
+    $('#locdiv').show();
+    
     function ejecutarAgregarLocalidad() {
-		window.location.href = $('#inputAddLocalidadUrl').val()+$('#localidades').val()+'/';		
+    	if ($('#region').val()=="1") {
+    		window.location.href = $('#inputAddLocalidadUrl').val()+$('#region').val()+'/'+$('#area').val()+'/';
+    	}
+    	else if ($('#region').val()=="2") {
+    		window.location.href = $('#inputAddLocalidadUrl').val()+$('#region').val()+'/'+$('#distrito').val()+'/';
+    	}
+    	else if ($('#region').val()=="3") {
+    		window.location.href = $('#inputAddLocalidadUrl').val()+$('#region').val()+'/'+$('#foco').val()+'/';
+    	}
+    	if ($('#region').val()=="4") {
+    		window.location.href = $('#inputAddLocalidadUrl').val()+$('#region').val()+'/'+$('#localidades').val()+'/';
+    	}	
 	}
+    
+    $('#region').change(
+		    function(){
+		    if ($('#region').val()=="1") {
+		        $('#areadiv').show();
+		        $('#distdiv').hide();
+		        $('#focidiv').hide();
+		        $('#locdiv').hide();
+		        $('#area').select2({
+		        	dropdownParent: $("#localidadesForm"),
+		        	theme: "bootstrap"
+		    	});
+		    }
+		    else if ($('#region').val()=="2") {
+		        $('#areadiv').hide();
+		        $('#distdiv').show();
+		        $('#focidiv').hide();
+		        $('#locdiv').hide();
+		        $('#distrito').select2({
+		        	dropdownParent: $("#localidadesForm"),
+		        	theme: "bootstrap"
+		    	});
+		    }
+		    else if ($('#region').val()=="3") {
+		        $('#areadiv').hide();
+		        $('#distdiv').hide();
+		        $('#focidiv').show();
+		        $('#locdiv').hide();
+		        $('#foco').select2({
+		        	dropdownParent: $("#localidadesForm"),
+		        	theme: "bootstrap"
+		    	});
+		    }
+		    else if ($('#region').val()=="4") {
+		        $('#areadiv').hide();
+		        $('#distdiv').hide();
+		        $('#focidiv').hide();
+		        $('#locdiv').show();
+		        $('#localidades').select2({
+		        	dropdownParent: $("#localidadesForm"),
+		        	theme: "bootstrap"
+		    	});
+		    }
+		});
 	
   </script>
 </body>

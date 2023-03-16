@@ -46,9 +46,7 @@
     <!-- Main content -->
     <main class="main">
 	  <spring:url value="/admin/users/saveEditedUser/" var="saveUserUrl"></spring:url>
-  	  <spring:url value="/admin/users/{username}/" var="usuarioUrl">
-	  	<spring:param name="username" value="${user.username}" />
-	  </spring:url>	
+  	  <spring:url value="/admin/users/" var="usuarioUrl"></spring:url>	
       <!-- Breadcrumb -->
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<spring:url value="/" htmlEscape="true "/>"><spring:message code="home" /></a></li>

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.clintonhealthaccess.vca.domain.Distrito;
+import org.clintonhealthaccess.vca.domain.Localidad;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -85,6 +86,19 @@ public class DistritoService {
 	public void saveDistrict(Distrito district) {
 		Session session = sessionFactory.getCurrentSession();
 		session.saveOrUpdate(district);
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public List<Localidad> getLocalidadesDistrito(String distrito) {
+		// Retrieve session from Hibernate
+		Session session = sessionFactory.getCurrentSession();
+		// Create a Hibernate query (HQL)
+		Query query = session.createQuery("FROM Localidad loc " +
+				"where (loc.pasive ='0' and loc.district.ident =:distrito)");
+		query.setParameter("distrito",distrito);
+		// Retrieve all
+		return  query.list();
 	}
 	
 

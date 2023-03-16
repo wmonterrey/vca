@@ -44,6 +44,22 @@ public class MuestraService {
 	}
 	
 	/**
+	 * Regresa todos los Muestra activos para móvil
+	 * 
+	 * @return una lista de <code>Muestra</code>(s)
+	 */
+
+	@SuppressWarnings("unchecked")
+	public List<Muestra> getActiveMuestrasMovil() {
+		// Retrieve session from Hibernate
+		Session session = sessionFactory.getCurrentSession();
+		// Create a Hibernate query (HQL)
+		Query query = session.createQuery("FROM Muestra m where m.pasive ='0'");
+		// Retrieve all
+		return  query.list();
+	}
+	
+	/**
 	 * Regresa todos los Muestra activos
 	 * 
 	 * @return una lista de <code>Muestra</code>(s)

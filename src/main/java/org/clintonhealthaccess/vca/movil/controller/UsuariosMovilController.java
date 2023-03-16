@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.clintonhealthaccess.vca.domain.Localidad;
+import org.clintonhealthaccess.vca.domain.relationships.UsuarioLocalidad;
 import org.clintonhealthaccess.vca.service.LocalidadService;
 import org.clintonhealthaccess.vca.service.UsuarioService;
 import org.clintonhealthaccess.vca.users.model.Authority;
@@ -76,10 +77,21 @@ public class UsuariosMovilController {
     @RequestMapping(value = "localidades/{username}", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody List<Localidad> descargarLocalidadesUsuario(@PathVariable String username) {
         logger.info("Descargando toda la informacion de los datos de las localidades para el usuario "+username);
-        List<Localidad> localidades = usuarioService.getLocalidadesUsuario(username);
+        List<Localidad> localidades = localidadService.getLocalities();
         if (localidades == null){
         	logger.debug(new Date() + " - Nulo");
+        }else {
+        	for(Localidad localidad:localidades) {
+        		UsuarioLocalidad uloc = usuarioService.getUsuarioLocalidad(username, localidad.getIdent());
+        		if (uloc==null) {
+        			localidad.setTieneAcceso(false);
+        		}
+        		else {
+        			localidad.setTieneAcceso(true);
+        		}
+        	}
         }
+        
         return localidades;	
     }
        

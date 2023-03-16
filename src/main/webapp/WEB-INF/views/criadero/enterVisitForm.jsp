@@ -51,9 +51,11 @@
 	  <spring:url value="/admin/criaderos/visits/saveEntity/" var="saveUrl"></spring:url>
 	  
 	  <spring:url value="/admin/criaderos/{id}/"
-                  var="listUrl">
+                  var="cancelUrl">
           <spring:param name="id" value="${criadero.ident}" />
       </spring:url>
+      
+      <spring:url value="/admin/criaderos/" var="listUrl"/>	
       
       <!-- Breadcrumb -->
       <ol class="breadcrumb">
@@ -127,7 +129,7 @@
 	                    </div>
                         <div class="form-group">
                           <button type="submit" class="btn btn-primary" id="guardar"><i class="fa fa-save"></i>&nbsp;<spring:message code="save" /></button>
-						  <a href="${fn:escapeXml(listUrl)}" class="btn btn-danger"><i class="fa fa-undo"></i>&nbsp;<spring:message code="cancel" /></a>
+						  <a href="${fn:escapeXml(cancelUrl)}" class="btn btn-danger"><i class="fa fa-undo"></i>&nbsp;<spring:message code="cancel" /></a>
                         </div>
                       </form>
                     </div>

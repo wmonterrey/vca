@@ -64,6 +64,23 @@ public class CriaderoService {
 	
 	
 	/**
+	 * Regresa todos los Criadero activos para móvil
+	 * 
+	 * @return una lista de <code>Criadero</code>(s)
+	 */
+
+	@SuppressWarnings("unchecked")
+	public List<Criadero> getActiveCriaderosMovil() {
+		// Retrieve session from Hibernate
+		Session session = sessionFactory.getCurrentSession();
+		// Create a Hibernate query (HQL)
+		Query query = session.createQuery("FROM Criadero c where c.pasive ='0'");
+		// Retrieve all
+		return  query.list();
+	}
+	
+	
+	/**
 	 * Regresa una Criadero
 	 * @param id Identificador del Criadero 
 	 * @return un <code>Criadero</code>
@@ -148,11 +165,31 @@ public class CriaderoService {
 	
 	
 	@SuppressWarnings("unchecked")
+	public List<PuntosCriadero> getActivePuntosCriaderos() {
+		// Retrieve session from Hibernate
+		Session session = sessionFactory.getCurrentSession();
+		// Create a Hibernate query (HQL)
+		Query query = session.createQuery("FROM PuntosCriadero pc where pc.pasive ='0'");
+		// Retrieve all
+		return  query.list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<PuntosCriadero> getActivePuntosCriaderosMovil() {
+		// Retrieve session from Hibernate
+		Session session = sessionFactory.getCurrentSession();
+		// Create a Hibernate query (HQL)
+		Query query = session.createQuery("FROM PuntosCriadero pc where pc.pasive ='0'");
+		// Retrieve all
+		return  query.list();
+	}
+	
+	@SuppressWarnings("unchecked")
 	public List<PuntosCriadero> getPuntosCriaderos(String criadero) {
 		// Retrieve session from Hibernate
 		Session session = sessionFactory.getCurrentSession();
 		// Create a Hibernate query (HQL)
-		Query query = session.createQuery("FROM PuntosCriadero pc where pc.criadero.ident =:criadero order by pc.order");
+		Query query = session.createQuery("FROM PuntosCriadero pc where pc.criadero.ident =:criadero and pc.pasive ='0'order by pc.order");
 		query.setParameter("criadero",criadero);
 		// Retrieve all
 		return  query.list();

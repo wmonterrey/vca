@@ -91,7 +91,7 @@ return {
 						$('#username').val(usuario.username);
 						setTimeout(function() { 
 				            $.unblockUI({ 
-				                onUnblock: function(){ window.location.href = parametros.usuarioUrl; } 
+				                onUnblock: function(){ window.location.href = parametros.usuarioUrl+usuario.username+"/"; } 
 				            }); 
 				        }, 1000); 
 					}
