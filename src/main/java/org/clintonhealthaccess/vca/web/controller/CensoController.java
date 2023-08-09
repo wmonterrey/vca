@@ -358,14 +358,28 @@ public class CensoController {
 	        , @RequestParam( value="noSprooms", required=false) Integer noSprooms
 	        , @RequestParam( value="noSproomsReasons", required=false) String noSproomsReasons
 	        , @RequestParam( value="sleep", required=false) Integer sleep
-	        , @RequestParam( value="numNets", required=false) Integer numNets
+	        , @RequestParam( value="mosqSinInsecticida", required=false) Integer mosqSinInsecticida
 	        , @RequestParam( value="personasCharlas", required=false) Integer personasCharlas
 	        , @RequestParam( value="latitude", required=false, defaultValue ="" ) String latitude
 	        , @RequestParam( value="longitude", required=false, defaultValue ="" ) String longitude
 	        , @RequestParam( value="obs", required=false, defaultValue ="" ) String obs
 	        , @RequestParam( value="verified", required=false, defaultValue ="" ) String verified
+	        
+	        , @RequestParam( value="masculinos", required=false) Integer masculinos
+	        , @RequestParam( value="femeninos", required=false) Integer femeninos
+	        , @RequestParam( value="menores5", required=false) Integer menores5
+	        , @RequestParam( value="menores5masc", required=false) Integer menores5masc
+	        , @RequestParam( value="menores5fem", required=false) Integer menores5fem
+	        , @RequestParam( value="embarazadas", required=false) Integer embarazadas
+	        , @RequestParam( value="sitiosDormirCama", required=false) Integer sitiosDormirCama
+	        , @RequestParam( value="sitiosDormirHamaca", required=false) Integer sitiosDormirHamaca
+	        , @RequestParam( value="sitiosDormirSuelo", required=false) Integer sitiosDormirSuelo
+	        , @RequestParam( value="sitiosDormirOtro", required=false) Integer sitiosDormirOtro
+	        , @RequestParam( value="mtildExistentes", required=false) Integer mtildExistentes
+	        
 	        )
 	{
+
     	try{
     		Double latitud = null;
     		Double longitud = null;
@@ -391,12 +405,28 @@ public class CensoController {
 			vivienda.setNoSprooms(noSprooms);
 			vivienda.setNoSproomsReasons(noSproomsReasons);
 			vivienda.setSleep(sleep);
-			vivienda.setNumNets(numNets);
+			//vivienda.setNumNets(numNets);
+			vivienda.setMosqSinInsecticida(mosqSinInsecticida);
 			vivienda.setPersonasCharlas(personasCharlas);
 			vivienda.setLatitude(latitud);
 			vivienda.setLongitude(longitud);
 			vivienda.setObs(obs);
 			vivienda.setVerified(verified);
+			
+			vivienda.setMasculinos(masculinos);
+			vivienda.setFemeninos(femeninos);
+			vivienda.setMenores5(menores5);
+			vivienda.setMenores5masc(menores5masc);
+			vivienda.setMenores5fem(menores5fem);
+			vivienda.setEmbarazadas(embarazadas);
+			vivienda.setSitiosDormirCama(sitiosDormirCama);
+			vivienda.setSitiosDormirHamaca(sitiosDormirHamaca);
+			vivienda.setSitiosDormirSuelo(sitiosDormirSuelo);
+			vivienda.setSitiosDormirOtro(sitiosDormirOtro);
+			vivienda.setMosqSinInsecticida(mosqSinInsecticida);
+			vivienda.setMtildExistentes(mtildExistentes);
+			
+			
 			this.householdService.saveVivienda(vivienda);
 			
 			return createJsonResponse(vivienda);

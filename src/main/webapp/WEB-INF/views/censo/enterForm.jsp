@@ -264,13 +264,7 @@
 	                    </div>
 	                    
 	                    
-	                    <div class="form-group">
-	                      <label><spring:message code="numNets" /></label>
-	                      <div class="input-group">
-	                        <span class="input-group-addon"><i class="fa fa-window-restore"></i></span>
-	                        <input type="text" id="numNets" name="numNets" value="${vivienda.numNets}" class="form-control" placeholder="<spring:message code="numNets" />">
-	                      </div>
-	                    </div>
+	                    
 	                    
 	                    
 	                    <div class="form-group">
@@ -304,6 +298,105 @@
 	                        <input type="text" id="obs" name="obs" value="${vivienda.obs}" class="form-control" placeholder="<spring:message code="obs" />">
 	                      </div>
 	                    </div>
+	                    
+	                    <div class="form-group">
+	                      <label><spring:message code="masculinos" /></label>
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-window-restore"></i></span>
+	                        <input type="text" id="masculinos" name="masculinos" value="${vivienda.masculinos}" class="form-control" placeholder="<spring:message code="masculinos" />">
+	                      </div>
+	                    </div>
+	                    
+	                    <div class="form-group">
+	                      <label><spring:message code="femeninos" /></label>
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-window-restore"></i></span>
+	                        <input type="text" id="femeninos" name="femeninos" value="${vivienda.femeninos}" class="form-control" placeholder="<spring:message code="femeninos" />">
+	                      </div>
+	                    </div>
+	                    
+	                    <div class="form-group">
+	                      <label><spring:message code="menores5" /></label>
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-window-restore"></i></span>
+	                        <input type="text" id="menores5" name="menores5" value="${vivienda.menores5}" class="form-control" placeholder="<spring:message code="menores5" />">
+	                      </div>
+	                    </div>
+	                    
+	                    <div class="form-group">
+	                      <label><spring:message code="menores5masc" /></label>
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-window-restore"></i></span>
+	                        <input type="text" id="menores5masc" name="menores5masc" value="${vivienda.menores5masc}" class="form-control" placeholder="<spring:message code="menores5masc" />">
+	                      </div>
+	                    </div>
+	                    
+	                    <div class="form-group">
+	                      <label><spring:message code="menores5fem" /></label>
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-window-restore"></i></span>
+	                        <input type="text" id="menores5fem" name="menores5fem" value="${vivienda.menores5fem}" class="form-control" placeholder="<spring:message code="menores5fem" />">
+	                      </div>
+	                    </div>
+	                    
+	                    <div class="form-group">
+	                      <label><spring:message code="embarazadas" /></label>
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-window-restore"></i></span>
+	                        <input type="text" id="embarazadas" name="embarazadas" value="${vivienda.embarazadas}" class="form-control" placeholder="<spring:message code="embarazadas" />">
+	                      </div>
+	                    </div>
+	                    
+	                    <div class="form-group">
+	                      <label><spring:message code="sitiosDormirCama" /></label>
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-window-restore"></i></span>
+	                        <input type="text" id="sitiosDormirCama" name="sitiosDormirCama" value="${vivienda.sitiosDormirCama}" class="form-control" placeholder="<spring:message code="sitiosDormirCama" />">
+	                      </div>
+	                    </div>
+	                    
+	                    <div class="form-group">
+	                      <label><spring:message code="sitiosDormirHamaca" /></label>
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-window-restore"></i></span>
+	                        <input type="text" id="sitiosDormirHamaca" name="sitiosDormirHamaca" value="${vivienda.sitiosDormirHamaca}" class="form-control" placeholder="<spring:message code="sitiosDormirHamaca" />">
+	                      </div>
+	                    </div>
+	                    
+	                    <div class="form-group">
+	                      <label><spring:message code="sitiosDormirSuelo" /></label>
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-window-restore"></i></span>
+	                        <input type="text" id="sitiosDormirSuelo" name="sitiosDormirSuelo" value="${vivienda.sitiosDormirSuelo}" class="form-control" placeholder="<spring:message code="sitiosDormirSuelo" />">
+	                      </div>
+	                    </div>
+	                    
+	                    <div class="form-group">
+	                      <label><spring:message code="sitiosDormirOtro" /></label>
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-window-restore"></i></span>
+	                        <input type="text" id="sitiosDormirOtro" name="sitiosDormirOtro" value="${vivienda.sitiosDormirOtro}" class="form-control" placeholder="<spring:message code="sitiosDormirOtro" />">
+	                      </div>
+	                    </div>
+	                    
+	                    
+	                    <div class="form-group">
+	                      <label><spring:message code="mtildExistentes" /></label>
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-window-restore"></i></span>
+	                        <input type="text" id="mtildExistentes" name="mtildExistentes" value="${vivienda.mtildExistentes}" class="form-control" placeholder="<spring:message code="mtildExistentes" />">
+	                      </div>
+	                    </div>
+	                    
+	                    <div class="form-group">
+	                      <label><spring:message code="mosqSinInsecticida" /></label>
+	                      <div class="input-group">
+	                        <span class="input-group-addon"><i class="fa fa-window-restore"></i></span>
+	                        <input type="text" id="mosqSinInsecticida" name="mosqSinInsecticida" value="${vivienda.mosqSinInsecticida}" class="form-control" placeholder="<spring:message code="mosqSinInsecticida" />">
+	                      </div>
+	                    </div>
+	                    
+	                    
                         <div class="form-group">
                           <button type="submit" class="btn btn-primary" id="guardar"><i class="fa fa-save"></i>&nbsp;<spring:message code="save" /></button>
 						  <a href="${fn:escapeXml(viviendaUrl)}" class="btn btn-danger"><i class="fa fa-undo"></i>&nbsp;<spring:message code="cancel" /></a>

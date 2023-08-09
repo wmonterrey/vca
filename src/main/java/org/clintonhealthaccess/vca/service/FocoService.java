@@ -133,6 +133,19 @@ public class FocoService {
 	}
 	
 	@SuppressWarnings("unchecked")
+	public List<Foco> getFocosLocalidad(String localidad) {
+		// Retrieve session from Hibernate
+		Session session = sessionFactory.getCurrentSession();
+		// Create a Hibernate query (HQL)
+		Query query = session.createQuery("FROM Foco foco " +
+				"where (foco.pasive ='0' and foco.ident in (Select floc.focoLocalidadId.foco from FocoLocalidad floc "
+				+ "where floc.focoLocalidadId.localidad =:localidad and floc.pasive ='0'))");
+		query.setParameter("localidad",localidad);
+		// Retrieve all
+		return  query.list();
+	}
+	
+	@SuppressWarnings("unchecked")
 	public List<PuntosFoco> getPuntosFocos(String foco) {
 		// Retrieve session from Hibernate
 		Session session = sessionFactory.getCurrentSession();

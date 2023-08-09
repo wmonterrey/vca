@@ -347,6 +347,17 @@ public class UsuarioService {
 		return  (UsuarioLocalidad) query.uniqueResult();
 	}
 	
+	public UsuarioLocalidad getUsuarioLocalidadActivo(String username, String localidad) {
+		// Retrieve session from Hibernate
+		Session session = sessionFactory.getCurrentSession();
+		// Create a Hibernate query (HQL)
+		Query query = session.createQuery("FROM UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.usuarioLocalidadId.localidad =:localidad and uloc.pasive = '0'");
+		query.setParameter("username",username);
+		query.setParameter("localidad",localidad);
+		// Retrieve all
+		return  (UsuarioLocalidad) query.uniqueResult();
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Localidad> getLocalidadesUsuario(String username) {
 		// Retrieve session from Hibernate

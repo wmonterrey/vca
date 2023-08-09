@@ -52,6 +52,19 @@ public class Household extends BaseMetaData implements Auditable{
 	private String obs;
 	private String verified;
 	
+	private Integer masculinos;
+	private Integer femeninos;
+	private Integer menores5;
+	private Integer menores5masc;
+	private Integer menores5fem;
+	private Integer embarazadas;
+	private Integer sitiosDormirCama;
+	private Integer sitiosDormirHamaca;
+	private Integer sitiosDormirSuelo;
+	private Integer sitiosDormirOtro;
+	private Integer mtildExistentes;
+	private Integer mosqSinInsecticida;
+	
 	public Household() {
 		super();
 	}
@@ -242,7 +255,7 @@ public class Household extends BaseMetaData implements Auditable{
 	}
 
 
-	@Column(name = "numNets", nullable = true)
+	/*@Column(name = "numNets", nullable = true)
 	public Integer getNumNets() {
 		return numNets;
 	}
@@ -251,7 +264,7 @@ public class Household extends BaseMetaData implements Auditable{
 
 	public void setNumNets(Integer numNets) {
 		this.numNets = numNets;
-	}
+	}*/
 
 
 
@@ -327,6 +340,165 @@ public class Household extends BaseMetaData implements Auditable{
 
 	public void setVerified(String verified) {
 		this.verified = verified;
+	}
+
+	
+
+	@Column(name = "masculinos", nullable = true)
+	public Integer getMasculinos() {
+		return masculinos;
+	}
+
+
+
+	public void setMasculinos(Integer masculinos) {
+		this.masculinos = masculinos;
+	}
+
+
+
+	public Integer getFemeninos() {
+		return femeninos;
+	}
+
+
+
+	public void setFemeninos(Integer femeninos) {
+		this.femeninos = femeninos;
+	}
+
+
+
+	public Integer getMenores5() {
+		return menores5;
+	}
+
+
+
+	public void setMenores5(Integer menores5) {
+		this.menores5 = menores5;
+	}
+
+
+
+	public Integer getMenores5masc() {
+		return menores5masc;
+	}
+
+
+
+	public void setMenores5masc(Integer menores5masc) {
+		this.menores5masc = menores5masc;
+	}
+
+
+
+	public Integer getMenores5fem() {
+		return menores5fem;
+	}
+
+
+
+	public void setMenores5fem(Integer menores5fem) {
+		this.menores5fem = menores5fem;
+	}
+
+
+
+	public Integer getEmbarazadas() {
+		return embarazadas;
+	}
+
+
+
+	public void setEmbarazadas(Integer embarazadas) {
+		this.embarazadas = embarazadas;
+	}
+
+
+
+	public Integer getSitiosDormirCama() {
+		return sitiosDormirCama;
+	}
+
+
+
+	public void setSitiosDormirCama(Integer sitiosDormirCama) {
+		this.sitiosDormirCama = sitiosDormirCama;
+	}
+
+
+
+	public Integer getSitiosDormirHamaca() {
+		return sitiosDormirHamaca;
+	}
+
+
+
+	public void setSitiosDormirHamaca(Integer sitiosDormirHamaca) {
+		this.sitiosDormirHamaca = sitiosDormirHamaca;
+	}
+
+
+
+	public Integer getSitiosDormirSuelo() {
+		return sitiosDormirSuelo;
+	}
+
+
+
+	public void setSitiosDormirSuelo(Integer sitiosDormirSuelo) {
+		this.sitiosDormirSuelo = sitiosDormirSuelo;
+	}
+
+
+
+	public Integer getSitiosDormirOtro() {
+		return sitiosDormirOtro;
+	}
+
+
+
+	public void setSitiosDormirOtro(Integer sitiosDormirOtro) {
+		this.sitiosDormirOtro = sitiosDormirOtro;
+	}
+
+
+
+	public Integer getMtildExistentes() {
+		return mtildExistentes;
+	}
+
+
+
+	public void setMtildExistentes(Integer mtildExistentes) {
+		this.mtildExistentes = mtildExistentes;
+	}
+
+
+
+	public Integer getMosqSinInsecticida() {
+		return mosqSinInsecticida;
+	}
+
+
+
+	public void setMosqSinInsecticida(Integer mosqSinInsecticida) {
+		this.mosqSinInsecticida = mosqSinInsecticida;
+	}
+	
+	
+
+
+
+	public Integer getNumNets() {
+		return numNets;
+	}
+
+
+
+	public void setNumNets(Integer numNets) {
+		this.numNets = numNets;
 	}
 
 

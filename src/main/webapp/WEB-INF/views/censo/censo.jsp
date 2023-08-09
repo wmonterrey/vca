@@ -159,7 +159,7 @@
 			                    <th class="hidden-xs"><spring:message code="noSprooms" /></th>
 			                    <th class="hidden-xs"><spring:message code="noSproomsReasons" /></th>
 			                    <th class="hidden-xs"><spring:message code="sleep" /></th>
-			                    <th class="hidden-xs"><spring:message code="numNets" /></th>
+			                    <th class="hidden-xs"><spring:message code="mosqSinInsecticida" /></th>
 			                    <th class="hidden-xs"><spring:message code="latitude" /></th>
 			                    <th class="hidden-xs"><spring:message code="longitude" /></th>
 			                    <th class="hidden-xs"><spring:message code="altitud" /></th>

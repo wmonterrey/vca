@@ -4,8 +4,10 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
 
+import org.clintonhealthaccess.vca.domain.Foco;
 import org.clintonhealthaccess.vca.domain.Localidad;
 import org.clintonhealthaccess.vca.domain.relationships.UsuarioLocalidad;
+import org.clintonhealthaccess.vca.service.FocoService;
 import org.clintonhealthaccess.vca.service.LocalidadService;
 import org.clintonhealthaccess.vca.service.UsuarioService;
 import org.clintonhealthaccess.vca.users.model.Authority;
@@ -34,6 +36,8 @@ public class UsuariosMovilController {
 	private UsuarioService usuarioService;
 	@Resource(name="localidadService")
 	private LocalidadService localidadService;
+	@Resource(name="focoService")
+	private FocoService focoService;
 	private static final Logger logger = LoggerFactory.getLogger(UsuariosMovilController.class);
 	
 	/**
@@ -82,12 +86,24 @@ public class UsuariosMovilController {
         	logger.debug(new Date() + " - Nulo");
         }else {
         	for(Localidad localidad:localidades) {
-        		UsuarioLocalidad uloc = usuarioService.getUsuarioLocalidad(username, localidad.getIdent());
+        		UsuarioLocalidad uloc = usuarioService.getUsuarioLocalidadActivo(username, localidad.getIdent());
         		if (uloc==null) {
         			localidad.setTieneAcceso(false);
         		}
         		else {
         			localidad.setTieneAcceso(true);
+        		}
+        		List<Foco> focos = focoService.getFocosLocalidad(localidad.getIdent());
+        		String foco = "";
+        		for (Foco foc: focos) {
+        			if(!foco.matches("")) {
+        				foco = foco + " - " + foc.getName();
+        			}else {
+        				foco = foc.getName();
+        			}
+        		}
+        		if(!foco.matches("")) {
+        			localidad.setName(localidad.getName() + " - " + foco);
         		}
         	}
         }

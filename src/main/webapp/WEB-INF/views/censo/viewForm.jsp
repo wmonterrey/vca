@@ -168,12 +168,7 @@
 		                        <p class="form-control-static"><strong><c:out value="${vivienda.sleep}" /></strong></p>
 		                      </div>
 		                    </div>
-		                    <div class="form-group row">
-		                      <label class="col-md-6 col-form-label"><spring:message code="numNets" />:</label>
-		                      <div class="col-md-6">
-		                        <p class="form-control-static"><strong><c:out value="${vivienda.numNets}" /></strong></p>
-		                      </div>
-		                    </div>
+
 		                    <div class="form-group row">
 		                      <label class="col-md-6 col-form-label"><spring:message code="personasCharlas" />:</label>
 		                      <div class="col-md-6">
@@ -192,6 +187,80 @@
 		                        <p class="form-control-static"><strong><c:out value="${vivienda.verified}" /></strong></p>
 		                      </div>
 		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="masculinos" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.masculinos}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="femeninos" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.femeninos}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="menores5" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.menores5}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="menores5masc" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.menores5masc}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="menores5fem" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.menores5fem}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="embarazadas" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.embarazadas}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="sitiosDormirCama" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.sitiosDormirCama}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="sitiosDormirHamaca" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.sitiosDormirHamaca}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="sitiosDormirSuelo" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.sitiosDormirSuelo}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="sitiosDormirOtro" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.sitiosDormirOtro}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="mtildExistentes" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.mtildExistentes}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    <div class="form-group row">
+		                      <label class="col-md-6 col-form-label"><spring:message code="mosqSinInsecticida" />:</label>
+		                      <div class="col-md-6">
+		                        <p class="form-control-static"><strong><c:out value="${vivienda.mosqSinInsecticida}" /></strong></p>
+		                      </div>
+		                    </div>
+		                    		                    
 		                    <div class="form-group row">
 		                      <label class="col-md-6 col-form-label"><spring:message code="enabled" />:</label>
 		                      <div class="col-md-6">

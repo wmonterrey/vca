@@ -79,5 +79,23 @@ public class CatalogosController {
         catalogos.setBrigadas(brigadas);
         return  catalogos;
     }
+    
+    /**
+     * Retorna catalogos. Acepta una solicitud GET para JSON
+     * @return Catalogo JSON
+     */
+    @RequestMapping(value = "catalogosmapeo", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody
+    CatalogosMapeo getCatalogosMapeo(){
+        logger.info("Descargando toda la informacion de los datos de los catalogos");
+        List<MessageResource> messages = messageResourceService.getCatalogos();
+        if (messages == null){
+        	logger.debug(new Date() + " - Mensajes - Nulo");
+        }
+        
+        CatalogosMapeo catalogos = new CatalogosMapeo();
+        catalogos.setCatalogos(messages);
+        return  catalogos;
+    }
 
 }
