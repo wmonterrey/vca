@@ -41,7 +41,7 @@
     <main class="main">
 
       <spring:url value="/irs/season/targets/saveUpdateTarget/" var="saveUrl"></spring:url>
-  	  <spring:url value="/irs/targets/" var="targetUrl"></spring:url>
+  	  <spring:url value="/irs/season/targets/" var="targetUrl"></spring:url>
 
       <!-- Breadcrumb -->
       <ol class="breadcrumb">
@@ -68,46 +68,44 @@
                       <div class="col-md-12">
                         <form action="#" autocomplete="off" id="update-form">
                           <div class="form-group row">
-                              <div class="col-sm-4">
-                              <label><spring:message code="season" /></label>
-                              <select id="irsSeason" name="irsSeason" class="form-control select2-single">
-                                <c:forEach items="${temporadas}" var="temporada">
-                                    <option value="${temporada.ident}">${temporada.name}</option>
-                                </c:forEach>
+                            <div class="col-sm-6">
+                                <label><spring:message code="season" /></label>
+                                <select id="irsSeason" name="irsSeason" class="form-control select2-single">
+                                    <c:forEach items="${temporadas}" var="temporada">
+                                        <option value="${temporada.ident}">${temporada.name}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                              <label><spring:message code="locality" /></label>
+                              <select id="localidad" name="localidad" class="form-control select2-single" >
+                                  <!-- Options will be populated dynamically using JavaScript -->
                               </select>
                             </div>
-                          <div class="col-sm-4">
-                            <label><spring:message code="locality" /></label>
-                            <select id="localidad" name="localidad" class="form-control select2-single" >
-                                <!-- Options will be populated dynamically using JavaScript -->
-                            </select>
                           </div>
-
                           <div class="form-group">
                             <button type="submit" class="btn btn-primary" id="guardar"><i class="fa fa-save"></i>&nbsp;<spring:message code="save" /></button>
+                            <spring:url value="/irs/season/targets/" var="targetUrl"></spring:url>	
                             <a href="${fn:escapeXml(targetUrl)}" class="btn btn-danger"><i class="fa fa-undo"></i>&nbsp;<spring:message code="cancel" /></a>
                           </div>
-
                         </form>
-
                         <div style="display: none;">
-                            <select id="meta0" name="meta0" class="form-control select2-single">
-                              <c:forEach items="${metas}" var="meta">
-                                <option value="${meta[0]}"></option>
-                              </c:forEach>
-                            </select>
-                            <select id="meta1" name="meta1" class="form-control select2-single">
-                              <c:forEach items="${metas}" var="meta">
-                                <option value="${meta[1]}"></option>
-                              </c:forEach>
-                            </select>
-                            <select id="meta2" name="meta2" class="form-control select2-single">
-                              <c:forEach items="${metas}" var="meta">
-                                <option value="${meta[2]}"></option>
-                              </c:forEach>
-                            </select>
-                          </div>
-
+                          <select id="meta0" name="meta0" class="form-control select2-single">
+                            <c:forEach items="${metas}" var="meta">
+                              <option value="${meta[0]}"></option>
+                            </c:forEach>
+                          </select>
+                          <select id="meta1" name="meta1" class="form-control select2-single">
+                            <c:forEach items="${metas}" var="meta">
+                              <option value="${meta[1]}"></option>
+                            </c:forEach>
+                          </select>
+                          <select id="meta2" name="meta2" class="form-control select2-single">
+                            <c:forEach items="${metas}" var="meta">
+                              <option value="${meta[2]}"></option>
+                            </c:forEach>
+                          </select>
+                        </div>
                       </div>
                     </div>
                   </div>
