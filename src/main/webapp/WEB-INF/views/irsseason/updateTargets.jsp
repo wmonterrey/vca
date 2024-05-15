@@ -9,14 +9,6 @@
 <!-- Styles required by this views -->
 <spring:url value="/resources/vendors/css/select2.min.css" var="select2css" />
 <link href="${select2css}" rel="stylesheet" type="text/css"/>
-<spring:url value="/resources/vendors/css/daterangepicker.css" var="dtrpcss" />
-<link href="${dtrpcss}" rel="stylesheet" type="text/css"/>
-<spring:url value="/resources/vendors/css/dataTables.bootstrap4.min.css" var="dataTablesCSS" />
-<link href="${dataTablesCSS}" rel="stylesheet" type="text/css"/>
-<spring:url value="/resources/vendors/css/responsive.dataTables.min.css" var="dataTablesResponsiveCSS" />
-<link href="${dataTablesResponsiveCSS}" rel="stylesheet" type="text/css"/>
-<spring:url value="/resources/vendors/css/buttons.dataTables.min.css" var="dataTablesButtonCSS" />
-<link href="${dataTablesButtonCSS}" rel="stylesheet" type="text/css"/>
 
 </head>
 <!-- BODY options, add following classes to body to change options
@@ -48,14 +40,14 @@
     <!-- Main content -->
     <main class="main">
 
-      <spring:url value="/irs/season/updateTarget/" var="updateTarget"></spring:url>
-  	  <spring:url value="/irs/targets" var="targetUrl"></spring:url>	
+      <spring:url value="/irs/season/targets/saveUpdateTarget/" var="saveUrl"></spring:url>
+  	  <spring:url value="/irs/targets/" var="targetUrl"></spring:url>
 
       <!-- Breadcrumb -->
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<spring:url value="/" htmlEscape="true "/>"><spring:message code="home" /></a></li>
         <li class="breadcrumb-item active"><a href="<spring:url value="/irs/dashboard/" htmlEscape="true "/>"><spring:message code="irs" /></a></li>
-        <li class="breadcrumb-item"><a href="<spring:url value="/irs/targets/" htmlEscape="true "/>"><spring:message code="targets" /></a></li>
+        <li class="breadcrumb-item"><a href="<spring:url value="/irs/season/targets/" htmlEscape="true "/>"><spring:message code="targets" /></a></li>
         <li class="breadcrumb-item active"><spring:message code="update" /></li>
 
       </ol>
@@ -86,11 +78,8 @@
                             </div>
                           <div class="col-sm-4">
                             <label><spring:message code="locality" /></label>
-                            <select id="local" name="local" class="form-control select2-single">
-                              <option value="ALL"><spring:message code="all"/></option>
-                              <c:forEach items="${localidades}" var="localidad">
-                                <option value="${localidad.ident}"><spring:message code="${localidad.name}" /></option>
-                              </c:forEach>
+                            <select id="localidad" name="localidad" class="form-control select2-single" >
+                                <!-- Options will be populated dynamically using JavaScript -->
                             </select>
                           </div>
 
@@ -100,6 +89,25 @@
                           </div>
 
                         </form>
+
+                        <div style="display: none;">
+                            <select id="meta0" name="meta0" class="form-control select2-single">
+                              <c:forEach items="${metas}" var="meta">
+                                <option value="${meta[0]}"></option>
+                              </c:forEach>
+                            </select>
+                            <select id="meta1" name="meta1" class="form-control select2-single">
+                              <c:forEach items="${metas}" var="meta">
+                                <option value="${meta[1]}"></option>
+                              </c:forEach>
+                            </select>
+                            <select id="meta2" name="meta2" class="form-control select2-single">
+                              <c:forEach items="${metas}" var="meta">
+                                <option value="${meta[2]}"></option>
+                              </c:forEach>
+                            </select>
+                          </div>
+
                       </div>
                     </div>
                   </div>
@@ -154,16 +162,20 @@
  <spring:url value="/irs/season/targets/updateTargets" var="updateTargetUrl"/>
 
  <!-- Custom scripts required by this view -->
- <spring:url value="/resources/js/views/ActualizarMetas.js" var="processSearch" />
- <script src="${processSearch}"></script>
+ <spring:url value="/resources/js/views/ActualizarMetas.js" var="ProcessEntity" />
+ <script src="${ProcessEntity}"></script>
 
 
  <script>
   jQuery(document).ready(function() {
-    var parametros = {targetUrl: "${targetUrl}",searchUrl: "${searchUrl}", updateTargetUrl: "${updateTargetUrl}",
-        successmessage: "${successmessage}",
-        errormessage: "${errormessage}",waitmessage: "${waitmessage}" ,dataTablesLang: "${dataTablesLang}",noResults: "${noResults}"};
-    ProcessSearch.init(parametros);
+    var parametros = {saveUrl: "${saveUrl}", targetUrl: "${targetUrl}",
+        successmessage: "${successmessage}", 
+        errormessage: "${errormessage}",
+        waitmessage: "${waitmessage}" ,
+        dataTablesLang: "${dataTablesLang}",
+        noResults: "${noResults}"
+      };
+      ProcessEntity.init(parametros);
   });
 </script>
 </body>
