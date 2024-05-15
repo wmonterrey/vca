@@ -186,5 +186,19 @@ public class TargetService {
 		return  query.list();
 	}
 	
+	/**
+	 * Regresa las temporadas y localidades unicas en metas
+	 * 
+	 * @return una lista de objetos
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Object[]> getSeasonLocal() {
+		// Retrieve session from Hibernate
+		Session session = sessionFactory.getCurrentSession();
+		// Create a Hibernate query (HQL)
+		Query query = session.createQuery("SELECT DISTINCT target.irsSeason.ident, target.household.local.ident, target.household.local.name FROM Target target ORDER BY target.household.local.name ASC");
+		// Retrieve all
+		return query.list();
+	}
 
 }
