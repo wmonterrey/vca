@@ -1,5 +1,7 @@
 package org.clintonhealthaccess.vca.domain;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,6 +12,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.clintonhealthaccess.vca.domain.audit.Auditable;
 import org.hibernate.annotations.ForeignKey;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 
@@ -37,6 +40,9 @@ public class PuntoDiagnostico extends BaseMetaData implements Auditable{
 	private Double latitude;
 	private Double longitude;
 	private Integer zoom;
+	private String nameColVol;
+	private String telephoneColVol;
+	private Date fechaUltimaMuestra;
 	
 	
 	public PuntoDiagnostico() {
@@ -146,6 +152,49 @@ public class PuntoDiagnostico extends BaseMetaData implements Auditable{
 	public void setZoom(Integer zoom) {
 		this.zoom = zoom;
 	}
+	
+	
+	@Column(name = "nombreColVol", nullable = true)
+	public String getNameColVol() {
+		return nameColVol;
+	}
+
+
+
+	public void setNameColVol(String nameColVol) {
+		this.nameColVol = nameColVol;
+	}
+	
+
+	@Column(name = "telefonoColVol", nullable = true)
+	public String getTelephoneColVol() {
+		return telephoneColVol;
+	}
+
+
+
+	public void setTelephoneColVol(String telephoneColVol) {
+		this.telephoneColVol = telephoneColVol;
+	}
+
+	
+	@Column(name = "fechaUltimaMuestra", nullable = true)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	public Date getFechaUltimaMuestra() {
+		return fechaUltimaMuestra;
+	}
+
+
+
+	
+
+
+
+	public void setFechaUltimaMuestra(Date fechaUltimaMuestra) {
+		this.fechaUltimaMuestra = fechaUltimaMuestra;
+	}
+
+
 
 	@Override
 	public boolean isFieldAuditable(String fieldname) {

@@ -550,6 +550,21 @@ public class IrsSeasonController {
     	}
     	return redirecTo;	
     }
+    
+    
+	/**
+     * Custom handler for adding.
+     * @param model Modelo enlazado a la vista
+     * @return a ModelMap with the model attributes for the view
+     */
+    @RequestMapping(value = "/targets/addTarget/", method = RequestMethod.GET)
+	public String addTarget(Model model) {
+    	List<IrsSeason> temporadas = temporadaService.getActiveIrsSeasons();
+    	model.addAttribute("temporadas", temporadas);
+    	List<Localidad> localidades = localidadService.getActiveLocalitiesUsuario(SecurityContextHolder.getContext().getAuthentication().getName());
+    	model.addAttribute("localidades", localidades);
+    	return "irsseason/addTargetForm";
+	}
 	
 	/**
      * Custom handler for adding.

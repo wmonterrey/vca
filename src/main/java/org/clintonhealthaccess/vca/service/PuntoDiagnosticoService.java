@@ -55,7 +55,7 @@ public class PuntoDiagnosticoService {
 		// Retrieve session from Hibernate
 		Session session = sessionFactory.getCurrentSession();
 		// Create a Hibernate query (HQL)
-		Query query = session.createQuery("FROM PuntoDiagnostico pd where pd.pasive ='0'");
+		Query query = session.createQuery("FROM PuntoDiagnostico pd where pd.pasive ='0' and pd.latitude is not null and pd.longitude is not null and pd.latitude <> 0 and pd.longitude <> 0");
 		// Retrieve all
 		return  query.list();
 	}

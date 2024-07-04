@@ -96,6 +96,9 @@ public class Caso extends BaseMetaData implements Auditable{
 	private Integer zoomOrigin=10;
 	
 	
+	private String lugarInfeccion;
+	
+	
 	public Caso() {
 		super();
 	}
@@ -869,6 +872,18 @@ public class Caso extends BaseMetaData implements Auditable{
 
 	public void setAltitud(Double altitud) {
 		this.altitud = altitud;
+	}
+
+
+
+	public String getLugarInfeccion() {
+		return lugarInfeccion;
+	}
+
+
+
+	public void setLugarInfeccion(String lugarInfeccion) {
+		this.lugarInfeccion = lugarInfeccion;
 	}
 
 

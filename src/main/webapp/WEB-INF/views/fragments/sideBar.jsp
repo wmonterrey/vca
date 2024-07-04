@@ -27,6 +27,9 @@
 	                <li class="nav-item">
 	                    <a class="nav-link" href="<spring:url value="/irs/season/targets/" htmlEscape="true "/>"><i class="fa fa-calendar-times-o"></i><spring:message code="targets" /></a>
 	                </li>
+	                <li class="nav-item">
+	                    <a class="nav-link" href="<spring:url value="/irs/season/targets/addTarget/" htmlEscape="true "/>"><i class="fa fa-time"></i><spring:message code="addTargets" /></a>
+	                </li>
 	                </sec:authorize>
 	                <sec:authorize url="/irs/spray/">
 	                <li class="nav-item">
