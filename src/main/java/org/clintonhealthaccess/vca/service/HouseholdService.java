@@ -233,5 +233,21 @@ public class HouseholdService {
 		return  query.list();
 	}
 	
+	/**
+	 * Regresa todos las viviendas que no estan en Target
+	 * 
+	 * @return una lista de <code>Household</code>(s)
+	 */
+
+	@SuppressWarnings("unchecked")
+	public List<Household> getNewHouses(String temporada, String local, String username) {
+		// Retrieve session from Hibernate
+		Session session = sessionFactory.getCurrentSession();
+		// Create a Hibernate query (HQL)
+		Query query = session.createQuery("FROM Household viv WHERE viv.local.ident=:local AND viv.ident NOT IN (SELECT target.household.ident FROM Target target WHERE target.irsSeason.ident=:temporada AND target.household.local.ident=:local)");
+		query.setParameter("temporada",temporada);
+		query.setParameter("local",local);
+		return  query.list();
+	}
 
 }

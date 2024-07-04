@@ -74,6 +74,10 @@
                   </div>
                 </div>
                 <div class="card-body">
+
+				  <spring:url value="/irs/season/targets/updateTarget/" var="updateTarget"/>
+            	  <button id="actualizarMetas" onclick="location.href='${fn:escapeXml(updateTarget)}'" type="button" class="btn btn-outline-primary"><i class="fa fa-plus"></i>&nbsp; <spring:message code="update" /></button><br><br>
+
                   <div class="row">
                   	<div class="col-md-12">
 	                  	<form action="#" autocomplete="off" id="metas-form">
