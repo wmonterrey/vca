@@ -1,5 +1,6 @@
 package org.clintonhealthaccess.vca.service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -75,6 +76,19 @@ public class IrsSeasonService {
 		query.setParameter("ident",ident);
 		IrsSeason temporada = (IrsSeason) query.uniqueResult();
 		return temporada;
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public List<IrsSeason> getTemporadasFiltrado(Long fecAct) {
+		// Retrieve session from Hibernate
+		Session session = sessionFactory.getCurrentSession();
+		// Create a Hibernate query (HQL)
+		Timestamp timeStampFecAct = new Timestamp(fecAct);
+		Query query = session.createQuery("FROM IrsSeason season where season.lastUpdated >=:fechaUltAct ");
+		query.setTimestamp("fechaUltAct", timeStampFecAct);
+		// Retrieve all
+		return  query.list();
 	}
 	
 	

@@ -110,5 +110,21 @@ public class UsuariosMovilController {
         
         return localidades;	
     }
+    
+    
+    /**
+     * Retorna localidades. Acepta una solicitud GET para JSON
+     * @param username Nombre del usuario.
+     * @return roles JSON
+     */
+    @RequestMapping(value = "localidades2/{username}", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody List<Localidad> descargarLocalidadesUsuarioMovil(@PathVariable String username) {
+        logger.info("Descargando toda la informacion de los datos de las localidades para el usuario "+username);
+        List<Localidad> localidades = usuarioService.getLocalidadesUsuario(username);
+        if (localidades == null){
+        	logger.debug(new Date() + " - Nulo");
+        }
+        return localidades;	
+    }
        
 }

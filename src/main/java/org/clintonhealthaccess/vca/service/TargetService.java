@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+
 import org.clintonhealthaccess.vca.domain.irs.Target;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -199,6 +200,26 @@ public class TargetService {
 		Query query = session.createQuery("SELECT DISTINCT target.irsSeason.ident, target.household.local.ident, target.household.local.name FROM Target target ORDER BY target.household.local.name ASC");
 		// Retrieve all
 		return query.list();
+	}
+	
+	/**
+	 * Regresa todos los viviendas activos
+	 * 
+	 * @return una lista de <code>Household</code>(s)
+	 */
+
+	@SuppressWarnings("unchecked")
+	public List<Target> getMetasFiltrado(Long fecAct, String username) {
+		// Retrieve session from Hibernate
+		Session session = sessionFactory.getCurrentSession();
+		Timestamp timeStampFecAct = new Timestamp(fecAct);
+		// Create a Hibernate query (HQL)
+		Query query = session.createQuery("FROM Target target where (target.lastUpdated >=:fechaUltAct or target.household.lastUpdated >=:fechaUltAct) "
+				+ "and target.household.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0')");
+		query.setTimestamp("fechaUltAct", timeStampFecAct);
+		query.setParameter("username",username);
+		// Retrieve all
+		return  query.list();
 	}
 
 }

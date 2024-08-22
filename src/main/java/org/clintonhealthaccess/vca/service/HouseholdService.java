@@ -249,5 +249,25 @@ public class HouseholdService {
 		query.setParameter("local",local);
 		return  query.list();
 	}
+	
+	
+	/**
+	 * Regresa todos los viviendas activos
+	 * 
+	 * @return una lista de <code>Household</code>(s)
+	 */
+
+	@SuppressWarnings("unchecked")
+	public List<Household> getViviendasFiltrado(Long fecAct, String username) {
+		// Retrieve session from Hibernate
+		Session session = sessionFactory.getCurrentSession();
+		Timestamp timeStampFecAct = new Timestamp(fecAct);
+		// Create a Hibernate query (HQL)
+		Query query = session.createQuery("FROM Household house where house.lastUpdated >=:fechaUltAct and house.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0') and house.ident in (select tar.household.ident FROM Target tar)");
+		query.setTimestamp("fechaUltAct", timeStampFecAct);
+		query.setParameter("username",username);
+		// Retrieve all
+		return  query.list();
+	}
 
 }

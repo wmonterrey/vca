@@ -34,6 +34,7 @@ public class BaseMetaData implements Serializable
 
 	private static final long serialVersionUID = 1L;
 	private Date recordDate;
+	private Date lastUpdated;
 	private String recordUser;
 	private char estado='0';
 	private char pasive = '0';
@@ -96,6 +97,14 @@ public class BaseMetaData implements Serializable
 		this.deviceid = deviceid;
 	}
 	
-	
+	@Temporal( TemporalType.TIMESTAMP)
+	@Column(name="lastUpdated")
+	public Date getLastUpdated() {
+		return lastUpdated;
+	}
+
+	public void setLastUpdated(Date lastUpdated) {
+		this.lastUpdated = lastUpdated;
+	}
 
 }  
