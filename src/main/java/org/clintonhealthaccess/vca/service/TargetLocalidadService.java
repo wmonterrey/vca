@@ -1,13 +1,12 @@
 package org.clintonhealthaccess.vca.service;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 
-import org.clintonhealthaccess.vca.domain.irs.Target;
+import org.clintonhealthaccess.vca.domain.irs.TargetLocalidad;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -17,15 +16,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 /**
- * Servicio para el objeto Target
+ * Servicio para el objeto TargetLocalidad
  * 
  * @author William Aviles
  * 
  **/
 
-@Service("targetService")
+@Service("targetLocalidadService")
 @Transactional
-public class TargetService {
+public class TargetLocalidadService {
 	
 	@Resource(name="sessionFactory")
 	private SessionFactory sessionFactory;
@@ -34,15 +33,15 @@ public class TargetService {
 	/**
 	 * Regresa todos los metas
 	 * 
-	 * @return una lista de <code>Target</code>(s)
+	 * @return una lista de <code>TargetLocalidad</code>(s)
 	 */
 
 	@SuppressWarnings("unchecked")
-	public List<Target> getMetas() {
+	public List<TargetLocalidad> getMetas() {
 		// Retrieve session from Hibernate
 		Session session = sessionFactory.getCurrentSession();
 		// Create a Hibernate query (HQL)
-		Query query = session.createQuery("FROM Target");
+		Query query = session.createQuery("FROM TargetLocalidad");
 		// Retrieve all
 		return  query.list();
 	}
@@ -50,50 +49,50 @@ public class TargetService {
 	/**
 	 * Regresa todos los metas activos
 	 * 
-	 * @return una lista de <code>Target</code>(s)
+	 * @return una lista de <code>TargetLocalidad</code>(s)
 	 */
 
 	@SuppressWarnings("unchecked")
-	public List<Target> getActiveMetas() {
+	public List<TargetLocalidad> getActiveMetas() {
 		// Retrieve session from Hibernate
 		Session session = sessionFactory.getCurrentSession();
 		// Create a Hibernate query (HQL)
-		Query query = session.createQuery("FROM Target target where target.pasive ='0'");
+		Query query = session.createQuery("FROM TargetLocalidad target where target.pasive ='0' and target.irsSeason.pasive ='0'");
 		// Retrieve all
 		return  query.list();
 	}
 	
 	
 	/**
-	 * Regresa una Target
+	 * Regresa una TargetLocalidad
 	 * @param id Identificador del target 
-	 * @return un <code>Target</code>
+	 * @return un <code>TargetLocalidad</code>
 	 */
 
-	public Target getMeta(String ident) {
+	public TargetLocalidad getMeta(String ident) {
 		// Retrieve session from Hibernate
 		Session session = sessionFactory.getCurrentSession();
-		Query query = session.createQuery("FROM Target target where " +
+		Query query = session.createQuery("FROM TargetLocalidad target where " +
 				"target.ident =:ident");
 		query.setParameter("ident",ident);
-		Target district = (Target) query.uniqueResult();
+		TargetLocalidad district = (TargetLocalidad) query.uniqueResult();
 		return district;
 	}
 	
 	/**
-	 * Regresa una Target
+	 * Regresa una TargetLocalidad
 	 * @param id Identificador del target 
-	 * @return un <code>Target</code>
+	 * @return un <code>TargetLocalidad</code>
 	 */
 
-	public Target getMeta(String ident, String username) {
+	public TargetLocalidad getMeta(String ident, String username) {
 		// Retrieve session from Hibernate
 		Session session = sessionFactory.getCurrentSession();
-		Query query = session.createQuery("FROM Target target where " +
+		Query query = session.createQuery("FROM TargetLocalidad target where " +
 				"target.ident =:ident and target.household.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0')");
 		query.setParameter("ident",ident);
 		query.setParameter("username",username);
-		Target district = (Target) query.uniqueResult();
+		TargetLocalidad district = (TargetLocalidad) query.uniqueResult();
 		return district;
 	}
 	
@@ -103,18 +102,17 @@ public class TargetService {
 	 * @param target 
 	 * 
 	 */
-	public void saveMeta(Target target) {
+	public void saveMeta(TargetLocalidad target) {
 		Session session = sessionFactory.getCurrentSession();
-		target.setLastUpdated(new Date());
 		session.saveOrUpdate(target);
 	}
 	
 	
 	@SuppressWarnings("unchecked")
-	public List<Target> getMetasFiltro(String codeMeta, String ownerName,
+	public List<TargetLocalidad> getMetasFiltro(String codeMeta, String ownerName,
 			Long desde, Long hasta, String local, String irsSeason, String sprayStatus, String username, String pasivo) {
 		//Set the SQL Query initially
-		String sqlQuery = "from Target tar where tar.household.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0') ";
+		String sqlQuery = "from TargetLocalidad tar where tar.household.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0') ";
 		// if not null set time parameters
 		if(!(desde==null)) {
 			sqlQuery = sqlQuery + " and tar.lastModified between :fechaInicio and :fechaFinal";
@@ -173,11 +171,11 @@ public class TargetService {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Target> getMetasMovil(String username) {
+	public List<TargetLocalidad> getMetasMovil(String username) {
 		// Retrieve session from Hibernate
 		
 		//Set the SQL Query initially
-		String sqlQuery = "from Target tar where tar.pasive ='0' "
+		String sqlQuery = "from TargetLocalidad tar where tar.pasive ='0' "
 				+ "and tar.household.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0') "
 				+ "and tar.irsSeason.pasive ='0'";
 				
@@ -199,7 +197,7 @@ public class TargetService {
 		// Retrieve session from Hibernate
 		Session session = sessionFactory.getCurrentSession();
 		// Create a Hibernate query (HQL)
-		Query query = session.createQuery("SELECT DISTINCT target.irsSeason.ident, target.household.local.ident, target.household.local.name FROM Target target ORDER BY target.household.local.name ASC");
+		Query query = session.createQuery("SELECT DISTINCT target.irsSeason.ident, target.household.local.ident, target.household.local.name FROM TargetLocalidad target ORDER BY target.household.local.name ASC");
 		// Retrieve all
 		return query.list();
 	}
@@ -211,14 +209,13 @@ public class TargetService {
 	 */
 
 	@SuppressWarnings("unchecked")
-	public List<Target> getMetasFiltrado(Long fecAct, String username) {
+	public List<TargetLocalidad> getMetasFiltrado(Long fecAct, String username) {
 		// Retrieve session from Hibernate
 		Session session = sessionFactory.getCurrentSession();
 		Timestamp timeStampFecAct = new Timestamp(fecAct);
 		// Create a Hibernate query (HQL)
-		Query query = session.createQuery("FROM Target target where (target.lastUpdated >=:fechaUltAct or target.household.lastUpdated >=:fechaUltAct) "
-				+ " and target.household.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0')"
-				+ " and target.irsSeason.pasive ='0'");
+		Query query = session.createQuery("FROM TargetLocalidad target where (target.lastUpdated >=:fechaUltAct or target.household.lastUpdated >=:fechaUltAct) "
+				+ "and target.household.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0')");
 		query.setTimestamp("fechaUltAct", timeStampFecAct);
 		query.setParameter("username",username);
 		// Retrieve all

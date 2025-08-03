@@ -1,6 +1,7 @@
 package org.clintonhealthaccess.vca.service;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -102,6 +103,7 @@ public class SupervisionService {
 	 */
 	public void saveSupervision(Supervision supervision) {
 		Session session = sessionFactory.getCurrentSession();
+		supervision.setLastUpdated(new Date());
 		session.saveOrUpdate(supervision);
 	}
 	
@@ -188,5 +190,27 @@ public class SupervisionService {
 		// Retrieve all
 		return  query.list();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Supervision> getSupervisionesFiltrado(Long fecAct,String username) {
+		//Set the SQL Query initially
+		
+		Timestamp timeStampFecAct = new Timestamp(fecAct);
+		
+		String sqlQuery = "from Supervision supervision where supervision.pasive ='0' and supervision.lastUpdated >=:fechaUltAct and "
+				+ "supervision.target.household.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0') "
+				+ "and supervision.target.irsSeason.pasive ='0'";
+				
+		// Retrieve session from Hibernate
+		Session session = sessionFactory.getCurrentSession();
+		// Create a Hibernate query (HQL)
+		Query query = session.createQuery(sqlQuery);
+		query.setTimestamp("fechaUltAct", timeStampFecAct);
+		query.setParameter("username",username);
+		// Retrieve all
+		return  query.list();
+	}
+	
+	
 
 }

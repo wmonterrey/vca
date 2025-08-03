@@ -8,6 +8,8 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 /**
  * BaseMetaData es la clase que almacena la información de referencia acerca de los objetos.
  * 
@@ -97,6 +99,7 @@ public class BaseMetaData implements Serializable
 		this.deviceid = deviceid;
 	}
 	
+	@JsonIgnore
 	@Temporal( TemporalType.TIMESTAMP)
 	@Column(name="lastUpdated")
 	public Date getLastUpdated() {

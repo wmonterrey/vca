@@ -2,6 +2,7 @@ package org.clintonhealthaccess.vca.web.controller;
 
 import org.clintonhealthaccess.vca.domain.irs.IrsSeason;
 import org.clintonhealthaccess.vca.domain.irs.Target;
+import org.clintonhealthaccess.vca.domain.irs.TargetLocalidad;
 import org.clintonhealthaccess.vca.domain.irs.Visit;
 import org.clintonhealthaccess.vca.language.MessageResource;
 import org.clintonhealthaccess.vca.domain.Household;
@@ -13,6 +14,7 @@ import org.clintonhealthaccess.vca.service.AuditTrailService;
 import org.clintonhealthaccess.vca.service.HouseholdService;
 import org.clintonhealthaccess.vca.service.MessageResourceService;
 import org.clintonhealthaccess.vca.service.ParametroService;
+import org.clintonhealthaccess.vca.service.TargetLocalidadService;
 import org.clintonhealthaccess.vca.service.TargetService;
 import org.clintonhealthaccess.vca.service.VisitService;
 import org.slf4j.Logger;
@@ -63,6 +65,8 @@ public class IrsSeasonController {
 	private HouseholdService householdService;
 	@Resource(name="targetService")
 	private TargetService targetService;
+	@Resource(name="targetLocalidadService")
+	private TargetLocalidadService targetLocalidadService;
 	@Resource(name="parametroService")
 	private ParametroService parametroService;
 	@Resource(name="visitService")
@@ -178,6 +182,7 @@ public class IrsSeasonController {
 				temporada.setName(name);
 				temporada.setRecordUser(usuarioActual);
 				temporada.setRecordDate(new Date());
+				temporada.setLastUpdated(new Date());
 				temporada.setStartDate(fechaInicio);
 				temporada.setEndDate(fechaFin);
 				temporada.setNumberDays(numberDays);
@@ -187,6 +192,15 @@ public class IrsSeasonController {
 				this.temporadaService.saveIrsSeason(temporada);
 				Integer counter = 0;
 				for(String l:localidades){
+					TargetLocalidad tl = new TargetLocalidad();
+					tl.setIdent(new UUID(counter.hashCode(),new Date().hashCode()).toString());
+					tl.setIrsSeason(temporada);
+					tl.setLocalidad(this.localidadService.getLocal(l));
+					tl.setRecordUser(usuarioActual);
+					tl.setRecordDate(new Date());
+					tl.setLastUpdated(new Date());
+					this.targetLocalidadService.saveMeta(tl);
+					
 					List<Household> casasEnLocalidad = this.householdService.getHousesFiltro(null, null, null, null, l, "ALL", "ALL", 
 							usuarioActual,"0");
 					for(Household casa:casasEnLocalidad){
@@ -211,6 +225,15 @@ public class IrsSeasonController {
 							newTarget.setRecordUser(usuarioActual);
 							newTarget.setRecordDate(new Date());
 							newTarget.setEstado('2');
+							newTarget.setLastUpdated(new Date());
+							newTarget.setHabitants(casa.getHabitants()!=null?casa.getHabitants():0);
+							newTarget.setSprRooms(casa.getSprRooms()!=null?casa.getSprRooms():0);
+							newTarget.setMasculinos(casa.getMasculinos()!=null?casa.getMasculinos():0);
+							newTarget.setFemeninos(casa.getFemeninos()!=null?casa.getFemeninos():0);
+							newTarget.setMenores5(casa.getMenores5()!=null?casa.getMenores5():0);
+							newTarget.setMenores5fem(casa.getMenores5fem()!=null?casa.getMenores5fem():0);
+							newTarget.setMenores5masc(casa.getMenores5masc()!=null?casa.getMenores5masc():0);
+							newTarget.setEmbarazadas(casa.getEmbarazadas()!=null?casa.getEmbarazadas():0);
 							this.temporadaService.saveTarget(newTarget);
 					}
 				}
@@ -225,6 +248,7 @@ public class IrsSeasonController {
 				temporada.setEndDate(fechaFin);
 				temporada.setNumberDays(numberDays);
 				temporada.setObs(obs);
+				temporada.setLastUpdated(new Date());
 				//Actualiza
 				this.temporadaService.saveIrsSeason(temporada);
 			}

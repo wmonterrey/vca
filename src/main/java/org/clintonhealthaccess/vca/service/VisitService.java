@@ -1,6 +1,7 @@
 package org.clintonhealthaccess.vca.service;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -102,6 +103,7 @@ public class VisitService {
 	 */
 	public void saveVisit(Visit visit) {
 		Session session = sessionFactory.getCurrentSession();
+		visit.setLastUpdated(new Date());
 		session.saveOrUpdate(visit);
 	}
 	
@@ -192,6 +194,27 @@ public class VisitService {
 		return  query.list();
 	}
 	
+	/**
+	 * Regresa todos los viviendas activos
+	 * 
+	 * @return una lista de <code>Household</code>(s)
+	 */
+
+	@SuppressWarnings("unchecked")
+	public List<Visit> getVisitasFiltrado(Long fecAct, String username) {
+		// Retrieve session from Hibernate
+		Session session = sessionFactory.getCurrentSession();
+		Timestamp timeStampFecAct = new Timestamp(fecAct);
+		// Create a Hibernate query (HQL)
+		Query query = session.createQuery("FROM Visit visit where (visit.lastUpdated >=:fechaUltAct) "
+				+ " and visit.target.household.local.ident in (Select uloc.usuarioLocalidadId.localidad from UsuarioLocalidad uloc where uloc.usuarioLocalidadId.usuario =:username and uloc.pasive ='0')"
+				+ " and visit.target.irsSeason.pasive ='0'"
+				+ " and visit.pasive ='0'");
+		query.setTimestamp("fechaUltAct", timeStampFecAct);
+		query.setParameter("username",username);
+		// Retrieve all
+		return  query.list();
+	}
 	
 
 }

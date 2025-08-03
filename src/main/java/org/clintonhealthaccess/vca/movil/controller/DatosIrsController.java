@@ -2,9 +2,14 @@ package org.clintonhealthaccess.vca.movil.controller;
 
 
 import org.clintonhealthaccess.vca.domain.irs.IrsSeason;
+import org.clintonhealthaccess.vca.domain.irs.Supervision;
 import org.clintonhealthaccess.vca.domain.irs.Target;
+import org.clintonhealthaccess.vca.domain.irs.TargetLocalidad;
+import org.clintonhealthaccess.vca.domain.irs.Visit;
+import org.clintonhealthaccess.vca.service.HouseholdService;
 import org.clintonhealthaccess.vca.service.IrsSeasonService;
 import org.clintonhealthaccess.vca.service.SupervisionService;
+import org.clintonhealthaccess.vca.service.TargetLocalidadService;
 import org.clintonhealthaccess.vca.service.TargetService;
 import org.clintonhealthaccess.vca.service.VisitService;
 import org.slf4j.Logger;
@@ -40,6 +45,10 @@ public class DatosIrsController {
     private IrsSeasonService temporadaService;
     @Resource(name = "targetService")
     private TargetService targetService;
+    @Resource(name = "targetLocalidadService")
+    private TargetLocalidadService targetLocalidadService;
+    @Resource(name = "householdService")
+    private HouseholdService householdService;
     @Resource(name = "visitService")
     private VisitService visitService;
     @Resource(name = "supervisionService")
@@ -63,7 +72,13 @@ public class DatosIrsController {
         }
         
         logger.info("Descargando toda la informacion de los datos temporadas");
-        List<IrsSeason> temporadas = temporadaService.getTemporadasFiltrado(fecAct);
+        List<IrsSeason> temporadas = temporadaService.getActiveIrsSeasons();
+        if (temporadas == null){
+        	logger.debug(new Date() + " - Temporadas - Nulo");
+        }
+        
+        logger.info("Descargando toda la informacion de los datos de localidades en las temporadas");
+        List<TargetLocalidad> localidadestemporadas = targetLocalidadService.getActiveMetas();
         if (temporadas == null){
         	logger.debug(new Date() + " - Temporadas - Nulo");
         }
@@ -74,12 +89,26 @@ public class DatosIrsController {
         	logger.debug(new Date() + " - Metas - Nulo");
         }
         
+        logger.info("Descargando toda la informacion de los datos visitas");
+        List<Visit> visitas = visitService.getVisitasFiltrado(fecAct,SecurityContextHolder.getContext().getAuthentication().getName());
+        if (metas == null){
+        	logger.debug(new Date() + " - Metas - Nulo");
+        }
+        
+        logger.info("Descargando toda la informacion de los datos supervisiones");
+        List<Supervision> supervisiones = supervisionService.getSupervisionesFiltrado(fecAct,SecurityContextHolder.getContext().getAuthentication().getName());
+        if (metas == null){
+        	logger.debug(new Date() + " - Metas - Nulo");
+        }
+        
         
         //Crea la clase DatosMtild
         DatosIrs datos = new DatosIrs();
         datos.setTemporadas(temporadas);
+        datos.setTargetlocals(localidadestemporadas);
         datos.setTargets(metas);
-
+        datos.setVisits(visitas);
+        datos.setSupervisions(supervisiones);
         return  datos;
     }    
     
@@ -89,7 +118,7 @@ public class DatosIrsController {
      * @return String con el resultado
      */
     @RequestMapping(value = "datosirs", method = RequestMethod.POST, consumes = "application/json")
-    public @ResponseBody String saveDatosMtild(@RequestBody DatosMtild envio) {
+    public @ResponseBody String saveDatosIrs(@RequestBody DatosIrs envio) {
         logger.debug("Insertando/Actualizando formularios");
         try{
 	        if (envio == null){
@@ -97,11 +126,22 @@ public class DatosIrsController {
 	            return "No recibi nada!";
 	        }
 	        else{
-	        	/*if (envio.getViviendas() != null){
-		            for (Household vivienda : envio.getViviendas()){
-		            	householdService.saveVivienda(vivienda);
+	        	if (envio.getTargets() != null){
+		            for (Target target : envio.getTargets()){
+		            	householdService.saveVivienda(target.getHousehold());
+		            	targetService.saveMeta(target);
 		            }
-	        	}*/
+	        	}
+	        	if (envio.getVisits() != null){
+		            for (Visit visit : envio.getVisits()){
+		            	visitService.saveVisit(visit);
+		            }
+	        	}
+	        	if (envio.getSupervisions() != null){
+		            for (Supervision sup : envio.getSupervisions()){
+		            	supervisionService.saveSupervision(sup);
+		            }
+	        	}
 	        }
 	        return "Datos recibidos!";
         }

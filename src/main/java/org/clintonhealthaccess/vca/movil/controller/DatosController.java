@@ -3,10 +3,6 @@ package org.clintonhealthaccess.vca.movil.controller;
 import org.clintonhealthaccess.vca.domain.Household;
 import org.clintonhealthaccess.vca.domain.OldHousehold;
 import org.clintonhealthaccess.vca.domain.Person;
-import org.clintonhealthaccess.vca.domain.irs.IrsSeason;
-import org.clintonhealthaccess.vca.domain.irs.Supervision;
-import org.clintonhealthaccess.vca.domain.irs.Target;
-import org.clintonhealthaccess.vca.domain.irs.Visit;
 import org.clintonhealthaccess.vca.service.HouseholdService;
 import org.clintonhealthaccess.vca.service.IrsSeasonService;
 import org.clintonhealthaccess.vca.service.OldHouseholdService;
@@ -68,7 +64,7 @@ public class DatosController {
         if (viviendas == null){
         	logger.debug(new Date() + " - Viviendas - Nulo");
         }
-        logger.info("Descargando toda la informacion de los datos persona");
+        /*logger.info("Descargando toda la informacion de los datos persona");
         List<Person> personas = personService.getPersonasMovil(SecurityContextHolder.getContext().getAuthentication().getName());
         if (personas == null){
         	logger.debug(new Date() + " - Personas - Nulo");
@@ -92,15 +88,15 @@ public class DatosController {
         List<Supervision> supervisiones = supervisionService.getSupervisionsMovil(SecurityContextHolder.getContext().getAuthentication().getName());
         if (supervisiones == null){ 
         	logger.debug(new Date() + " - Supervisiones - Nulo");
-        }
+        }*/
         //Crea la clase Datos
         Datos datos = new Datos();
         datos.setViviendas(viviendas);
-        datos.setPersonas(personas);
+        /*datos.setPersonas(personas);
         datos.setTemporadas(temporadas);
         datos.setMetas(metas);
         datos.setVisitas(visitas);
-        datos.setSupervisiones(supervisiones);
+        datos.setSupervisiones(supervisiones);*/
         return  datos;
     }
     

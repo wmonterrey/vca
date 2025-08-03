@@ -37,6 +37,14 @@ public class Target extends BaseMetaData implements Auditable{
 	private String ident;
 	private IrsSeason irsSeason;
 	private Household household;
+	private Integer sprRooms;
+	private Integer habitants;
+	private Integer masculinos;
+	private Integer femeninos;
+	private Integer menores5;
+	private Integer menores5masc;
+	private Integer menores5fem;
+	private Integer embarazadas;
 	private String sprayStatus;
 	private Date lastModified;
 	private Personal assignedTo;
@@ -128,6 +136,78 @@ public class Target extends BaseMetaData implements Auditable{
 	
 	
 
+	@Column(name = "sprRooms", nullable = true)
+	public Integer getSprRooms() {
+		return sprRooms;
+	}
+
+	public void setSprRooms(Integer sprRooms) {
+		this.sprRooms = sprRooms;
+	}
+
+	@Column(name = "habitants", nullable = true)
+	public Integer getHabitants() {
+		return habitants;
+	}
+
+	public void setHabitants(Integer habitants) {
+		this.habitants = habitants;
+	}
+	
+	
+	@Column(name = "masculinos", nullable = true)
+	public Integer getMasculinos() {
+		return masculinos;
+	}
+
+	public void setMasculinos(Integer masculinos) {
+		this.masculinos = masculinos;
+	}
+	
+	@Column(name = "femeninos", nullable = true)
+	public Integer getFemeninos() {
+		return femeninos;
+	}
+
+	public void setFemeninos(Integer femeninos) {
+		this.femeninos = femeninos;
+	}
+
+	@Column(name = "menores5", nullable = true)
+	public Integer getMenores5() {
+		return menores5;
+	}
+
+	public void setMenores5(Integer menores5) {
+		this.menores5 = menores5;
+	}
+
+	@Column(name = "menores5masc", nullable = true)
+	public Integer getMenores5masc() {
+		return menores5masc;
+	}
+
+	public void setMenores5masc(Integer menores5masc) {
+		this.menores5masc = menores5masc;
+	}
+
+	@Column(name = "menores5fem", nullable = true)
+	public Integer getMenores5fem() {
+		return menores5fem;
+	}
+
+	public void setMenores5fem(Integer menores5fem) {
+		this.menores5fem = menores5fem;
+	}
+
+	@Column(name = "embarazadas", nullable = true)
+	public Integer getEmbarazadas() {
+		return embarazadas;
+	}
+
+	public void setEmbarazadas(Integer embarazadas) {
+		this.embarazadas = embarazadas;
+	}
 
 	@ManyToOne(optional=true)
 	@JoinColumn(name="assignedto")

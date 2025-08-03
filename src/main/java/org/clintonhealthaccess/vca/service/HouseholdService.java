@@ -1,6 +1,7 @@
 package org.clintonhealthaccess.vca.service;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -103,6 +104,7 @@ public class HouseholdService {
 	 */
 	public void saveVivienda(Household household) {
 		Session session = sessionFactory.getCurrentSession();
+		household.setLastUpdated(new Date());
 		session.saveOrUpdate(household);
 	}
 	
